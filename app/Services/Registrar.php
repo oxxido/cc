@@ -29,11 +29,22 @@ class Registrar implements RegistrarContract {
 	 */
 	public function create(array $data)
 	{
-		return User::create([
+		$user = User::create([
 			'name' => $data['name'],
 			'email' => $data['email'],
 			'password' => bcrypt($data['password']),
 		]);
+		/*$data['verification_code']  = $user->verification_code;
+
+            Mail::send('emails.welcome', $data, function($message) use ($data)
+            {
+                $message->from('no-reply@site.com', "Site name");
+                $message->subject("Welcome to site name");
+                $message->to($data['email']);
+            });*/
+
+
+        return $user;
 	}
 
 }
