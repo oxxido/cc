@@ -5,7 +5,9 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use App\User;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades;
+use Validator;
 class AuthController extends Controller {
 
 	/*
@@ -33,8 +35,9 @@ class AuthController extends Controller {
 		$this->auth = $auth;
 		$this->registrar = $registrar;
 
-		$this->middleware('guest', ['except' => 'getLogout']);
+		$this->middleware('guest', ['except' => ['getLogout', 'resendEmail', 'activateAccount']]);
 	}
+
 	/**
 	 * Handle a registration request for the application.
 	 *
@@ -43,6 +46,7 @@ class AuthController extends Controller {
 	 */
 	public function postRegister(Request $request)
 	{
+
 		$validator = $this->registrar->validator($request->all());
 	
 		if ($validator->fails())
@@ -60,41 +64,65 @@ class AuthController extends Controller {
 		$user->activation_code = $activation_code;
 		
 		if ($user->save()) {
-			
-			$data = array(
-				'name' => $user->name,
-				'code' => $activation_code,
-			);
-			
-			\Mail::queue('emails.activateAccount', $data, function($message) use ($user) {
-				$message->from('oxxido@gmail.com');
-				$message->subject('Please activate your account.');
-				$message->to($user->email);
-			});
-			
+
+			$this->sendEmail($user);
+
 			return view('auth.activateAccount')
 				->with('email', $request->input('email'));
 		
 		} else {
 			
-			\Session::flash('message', 'Your account could not be create please try again');
+			\Session::flash('message', \Lang::get('notCreated') );
 			return redirect()->back()->withInput();
 			
 		}
 		
 	}
 	
+	public function sendEmail(User $user)
+	{
+
+		$data = array(
+				'name' => $user->name,
+				'code' => $user->activation_code,
+		);
+		
+		\Mail::queue('emails.activateAccount', $data, function($message) use ($user) {
+			$message->from("gerardo@rosciano.com.ar");
+			$message->subject( \Lang::get('auth.pleaseActivate') );
+			$message->to($user->email);
+		});
+	}
+	
+	public function resendEmail()
+	{
+		$user = \Auth::user();
+		if( $user->resent >= 3 )
+		{
+			return view('auth.tooManyEmails')
+				->with('email', $user->email);
+		} else {
+			$user->resent = $user->resent + 1;
+			$user->save();
+			$this->sendEmail($user);
+			return view('auth.activateAccount')
+				->with('email', $user->email);
+		}
+	}
+	
 	public function activateAccount($code, User $user)
 	{
-	
+
 		if($user->accountIsActive($code)) {
-			\Session::flash('message', 'Success, your account has been activated.');
+			\Session::flash('message', \Lang::get('auth.successActivated') );
 			return redirect('home');
 		}
 	
-		\Session::flash('message', 'Your account could not be activated; please try again.');
+		\Session::flash('message', \Lang::get('auth.unsuccessful') );
 		return redirect('home');
 	
 	}
+	
+
 
 }
