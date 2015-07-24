@@ -5,6 +5,5 @@
 </head>
 <body>
   @yield('body')
-  @include('includes.analytics')
 </body>
 </html>

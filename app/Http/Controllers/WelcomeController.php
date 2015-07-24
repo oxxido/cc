@@ -33,7 +33,7 @@ class WelcomeController extends Controller {
 		//return view('welcome');
 		$data = [];
 		$data['laravelEnabled'] = "Laravel Ok";
-		return view('home-ng', $data);
+		return view('home', $data);
 	}
 	/**
 	 * Second template demo
