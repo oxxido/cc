@@ -1,61 +1,46 @@
-@extends('app')
+@extends('layouts.main')
 
-@section('content')
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Login</div>
-				<div class="panel-body">
-					@if (count($errors) > 0)
-						<div class="alert alert-danger">
-							<strong>Whoops!</strong> There were some problems with your input.<br><br>
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
+@section('body')
+<div id="header">
+<div class="wrapper">
+<div id="logo"><a href="/home"><img src="/images/logo.png" width="265" height="70"></a></div>
 
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-						<div class="form-group">
-							<label class="col-md-4 control-label">E-Mail Address</label>
-							<div class="col-md-6">
-								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-md-4 control-label">Password</label>
-							<div class="col-md-6">
-								<input type="password" class="form-control" name="password">
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<div class="checkbox">
-									<label>
-										<input type="checkbox" name="remember"> Remember Me
-									</label>
-								</div>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">Login</button>
-
-								<a class="btn btn-link" href="{{ url('/password/email') }}">Forgot Your Password?</a>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
+</div>
+<div id="loginbanner">
+
+</div>
+<div class="wrapper">
+  <div id="loginwrapper">
+  <img width="256" vspace="20" height="256" src="/images/loginicon.png">
+<h2>Welcome back</h2>
+    @if (count($errors) > 0)
+		<div class="alert alert-danger">
+			<strong>Whoops!</strong> There were some problems with your input.<br><br>
+			<ul>
+				@foreach ($errors->all() as $error)
+					<li>{{ $error }}</li>
+				@endforeach
+			</ul>
+		</div>
+	@endif
+    <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+      <input type="text" value="" placeholder="Your Email" id="email" class="loginformfield" name="email">
+      
+      <input type="password" value="" placeholder="Your Passowrd" id="password" class="loginformfield" name="password" kl_virtual_keyboard_secure_input="on">
+      <!-- <div class="checkbox">
+			<label>
+				<input type="checkbox" name="remember"> Remember Me
+			</label>
+		</div>-->
+      <input type="image" src="/images/btn_login.png" id="imageField" name="imageField">
+    </form>
+    <br>
+    <a href="{{ url('/password/email') }}">Forgot Password</a><br>
+<br>
+<b><a href="http://www.certifiedcomments.com/requestform.htm">New? Signup Today</a></b><a href="http://www.certifiedcomments.com/requestform.htm"></a></div>
+</div>
+
+
 @endsection

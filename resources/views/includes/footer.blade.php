@@ -1,6 +1,8 @@
-      <ul class="footer_menu">
-
-      </ul>
+        <div id="footer">
+            <div class="wrapper">
+            &copy; 2014 CertifiedComments.com. Unlawful duplication prohibited by Law.
+            </div>
+        </div>
   <!-- scripts  -->
  
   <script type="text/javascript" src="{{ asset('vendor/angular/angular.min.js') }}"></script>
