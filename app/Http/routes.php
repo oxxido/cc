@@ -11,13 +11,21 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+Route::get('/', function() {
+    return redirect('/auth/login');
+});
 
 Route::get('creative', 'WelcomeController@creative');
 
 Route::get('home', 'HomeController@index');
 
+Route::get('request', 'HomeController@request');
+
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
+Route::get('/resendEmail', 'Auth\AuthController@resendEmail');
+
+Route::get('/activate/{code}', 'Auth\AuthController@activateAccount');
