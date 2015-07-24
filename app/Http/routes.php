@@ -29,4 +29,3 @@ Route::controllers([
 Route::get('/resendEmail', 'Auth\AuthController@resendEmail');
 
 Route::get('/activate/{code}', 'Auth\AuthController@activateAccount');
-
