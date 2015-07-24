@@ -1,0 +1,271 @@
+body, td, th {
+  font-family:Tahoma, Geneva, sans-serif;
+  font-size: 15px;
+  color: #444;
+}
+body {
+  margin-left: 0px;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  background: #fff;
+}
+.clear {
+  clear:both;
+}
+a {
+  color: #64A500;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+  color: #000;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family:Tahoma, Geneva, sans-serif;
+  margin:0px 0px 0px 0px;
+  padding:0px 0px 20px 0px;
+  line-height:1.3em;
+  font-weight:normal;
+}
+h1 {
+  font-size: 30px;
+  color: #000;
+}
+h2 {
+  font-size: 24px;
+  color: #000;
+}
+h3 {
+  font-size: 22px;
+  color: #000;
+}
+h4 {
+  font-size: 18px;
+  color: #fff;
+}
+h5 {
+  font-size: 16px;
+  color: #000;
+}
+h6 {
+  font-size: 14px;
+  color: #000;
+}
+form {
+  border:0px;
+  margin:0px;
+  padding:0px;
+}
+img {
+  border:0px;
+}
+
+.borderbar {
+  border-bottom:dashed 1px #ccc;
+  padding-bottom:25px;
+  margin-bottom:25px;
+}
+
+
+.wrapper {
+  margin:0px auto 0px auto;
+  padding:0px 0px 0px 0px;
+  width:1000px;
+  position:relative;
+}
+.clientmarginwrapper {
+  margin:0px auto 0px auto;
+  padding:0px 0px 0px 0px;
+  width:1000px;
+  position:left;
+}
+#header {
+  margin:0px 0px 0px 0px;
+  padding:0px 0px 0px 0px;
+  height:100px;
+  position:relative;
+  background:url(/images/header.png) left top repeat-x;
+}
+#logo {
+  margin:0px 0px 0px 10px;
+  padding:15px 0px 15px 0px;
+  width:270px;
+  height:70px;
+  float:left;
+}
+
+.login {
+  margin:0px 0px 0px 0px;
+  padding:0px 0px 0px 0px;
+  float:right;
+  width:120px;
+  height:40px;
+}
+
+
+.login a {
+  color:#fff;
+  font-size:16px;
+  text-decoration:none;
+  text-align:center;
+  line-height:40px;
+  margin:0px 0px 0px 0px;
+  padding:0px 0px 0px 0px;
+  display:block;
+  width:120px;
+  height:40px;
+  background-color:#68AE00;
+  -webkit-border-radius: 0px 0px 6px 6px;
+  -moz-border-radius: 0px 0px 6px 6px;
+  border-radius: 0px 0px 6px 6px;
+}
+.login a:hover {
+  background-color:#000;
+}
+
+#homebanner {
+  background:url(/images/homebanner.png) left top repeat-x;
+  height:320px;
+  margin:0px 0px 25px 0px;
+  padding:0px 0px 0px 0px;
+}
+
+#homebanner .image {
+  height:291px;
+  width:361px;
+  float:left;
+  margin:15px 0px 0px 40px;
+  padding:0px 0px 0px 0px;
+}
+
+#homebanner .description {
+  width:550px;
+  float:right;
+  margin:30px 30px 0px 0px;
+  padding:0px 0px 0px 0px;
+}
+
+#containerleft {
+  margin:0px 0px 0px 0px;
+  padding:0px 0px 0px 0px;
+  width:410px;
+  float:left;
+  position:relative;
+}
+
+#containerleftbox {
+  background:url(/images/boxgrad.png) left top repeat-x;
+  margin:0px 0px 0px 0px;
+  padding:15px 15px 15px 15px;
+  width:378px;
+  position:relative;
+  border:solid 1px #ccc;
+}
+
+#testimonial {
+  margin:0px 0px 0px 0px;
+  padding:0px 0px 0px 0px;
+  width:378px;
+  position:relative;
+}
+
+#testimonial .picture {
+  margin:0px 0px 0px 0px;
+  padding:4px 4px 4px 4px;
+  width:100px;
+  position:relative;
+  border:solid 1px #ccc;
+  float:left;
+}
+
+#testimonial .testimonialtxt {
+  margin:0px 0px 0px 0px;
+  padding:0px 0px 0px 0px;
+  width:250px;
+  position:relative;
+  color:#999;
+  float:right;
+}
+
+#testimonial .testimonialtxt span {
+  color:#000;
+}
+
+
+#containerright {
+  margin:0px 0px 0px 0px;
+  padding:0px 0px 0px 0px;
+  width:540px;
+  float:right;
+  position:relative;
+}
+
+.benefitlisting {
+  margin:0px 0px 15px 0px;
+  padding:10px 10px 10px 10px;
+  width:518px;
+  border:solid 1px #ccc;
+  position:relative;
+}
+
+.benefitlisting img {
+  margin:0px 15px 0px 0px;
+  padding:0px 0px 0px 0px;
+  position:relative;
+  float:left;
+}
+.seperator {
+  clear:both;
+  background:url(/images/seperator.png) center top no-repeat;
+  height:26px;
+  width:1000px;
+  margin:0px 0 35px 0px;
+  padding:0px 0px 0px 0px;
+}
+
+
+#footer {
+  background:#444;
+  height:60px;
+  margin:30px 0px 0px 0px;
+  padding:0px 0px 0px 0px;
+  color:#fff;
+  font-size:14px;
+  line-height:60px;
+}
+#loginbanner {
+  background:url(/images/homebanner.png) left top repeat-x;
+  height:50px;
+  margin:0px 0px 5px 0px;
+  padding:0px 0px 0px 0px;
+}
+
+#loginwrapper {
+  margin:0px auto 25px auto;
+  padding:0px 0px 0px 0px;
+  width:356px;
+  text-align:center;
+}
+#clientwrapper {
+  margin:0px auto 25px auto;
+  padding:0px 0px 0px 0px;
+  width:800px;
+  text-align:center;
+}
+
+.loginformfield {
+  color:#999;
+  font-size:18px;
+  line-height:48px;
+  margin:0px 0px 20px 0px;
+  padding:0px 5px 0px 5px;
+  display:block;
+  width:344px;
+  height:48px;
+  background:#fff url(/images/formfieldbg.png) left top repeat-x;
+  -webkit-border-radius: 6px 6px 6px 6px;
+  -moz-border-radius: 6px 6px 6px 6px;
+  border-radius: 6px 6px 6px 6px;
+  border:solid 1px #ccc;
+}
