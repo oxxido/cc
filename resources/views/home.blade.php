@@ -2,10 +2,22 @@
 
 @section('body')
 <div id="header">
-<div class="wrapper">
-<div id="logo"><a href="/home"><img src="images/logo.png" width="265" height="70"></a></div>
-<div class="login"><a href="auth/login">Client Login</a></div>
-</div>
+	<div class="wrapper">
+		<div id="logo"><a href="{{ url('home') }}"><img src="images/logo.png" width="265" height="70"></a></div>
+		<div class="login">
+			@if (Auth::guest())
+			<a href="{{ url('auth/login') }}">Client Login</a>
+			@else
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ str_limit(Auth::user()->name,10) }} <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="{{ url('auth/logout') }}">Logout</a></li>
+                </ul>
+            </li>
+            @endif
+
+		</div>
+	</div>
 </div>
 <div id="homebanner">
 <div class="wrapper">
@@ -13,7 +25,7 @@
 <div class="description">
   <img src="images/homebannertxt.png" width="543" height="109"><br>
    <h4>Take the time to prove to your new clients that the comments displayed on your website are 100% authentic.</h4>
-   <a href="requestform.htm"><img src="images/btn_req_black.png" width="240" height="60"></a> </div>
+   <a href="{{ url('request') }}"><img src="images/btn_req_black.png" width="240" height="60"></a> </div>
 </div>
 </div>
 
@@ -41,17 +53,7 @@
 </div>
 </div>
 <div id="containerright">
-@if (Auth::guest())
-                        <li><a href="/auth/login">Login</a></li>
-                        <li><a href="/auth/register">Register</a></li>
-                    @else
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="/auth/logout">Logout</a></li>
-                            </ul>
-                        </li>
-                    @endif
+
   <h3>Benefits of using CerifiedComments.com to validate your customer’s testimonials include:</h3>
 <div class="benefitlisting"><img src="images/ico1.png" width="59" height="59"> <b>Testimonials listed in Google, Yahoo & Bing:</b>  Display Noteworthy comments from your clients online and boost your search rankings.</div>  
   
@@ -68,19 +70,20 @@
 <div class="seperator"></div>
 <div style="text-align:center;">
 <h2>Sign up for Certified Comments and start showing all your loyal comments today! </h2>
-<a href="requestform.htm"><img src="images/btn_req_green.png" width="242" height="63"></a> </div>
+<a href="{{ url('request') }}"><img src="images/btn_req_green.png" width="242" height="63"></a> </div>
 </div>
 
 
 
 <script>
+/*
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
   ga('create', 'UA-42842708-1', 'certifiedcomments.com');
-  ga('send', 'pageview');
+  ga('send', 'pageview');*/
 
 </script>
 
