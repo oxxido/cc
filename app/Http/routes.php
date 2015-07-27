@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function() {
-    return redirect('/auth/login');
+    return redirect('/home');
 });
 
 Route::get('creative', 'WelcomeController@creative');
@@ -29,3 +29,6 @@ Route::controllers([
 Route::get('/resendEmail', 'Auth\AuthController@resendEmail');
 
 Route::get('/activate/{code}', 'Auth\AuthController@activateAccount');
+
+// Dashboard
+Route::get('/dashboard', 'DashboardController@index');
