@@ -32,11 +32,7 @@ class Authenticate {
 	 */
 	public function handle($request, Closure $next)
 	{
-		/*if (!\Auth::user()->active) {
-				return view('auth.guest_activate')
-				->with( 'email', \Auth::user()->email )
-				->with( 'date', \Auth::user()->created_at->format('Y-m-d') );
-		}*/
+		
 		if ($this->auth->guest())
 		{
 			if ($request->ajax())
@@ -47,6 +43,10 @@ class Authenticate {
 			{
 				return redirect()->guest('auth/login');
 			}
+		} elseif (!\Auth::user()->active) {
+				return view('auth.guest_activate')
+				->with( 'email', \Auth::user()->email )
+				->with( 'date', \Auth::user()->created_at->format('Y-m-d') );
 		}
 
 		return $next($request);

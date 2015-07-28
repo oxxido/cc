@@ -58,11 +58,13 @@
 
         <!-- Main content -->
         <section class="content">
-          <!-- TIP
-          <div class="callout callout-info">
-            <h4>Tip!</h4>
-            <p>Add the fixed class to the body tag to get this layout. The fixed layout is your best option if your sidebar is bigger than your content because it prevents extra unwanted scrolling.</p>
-          </div> -->
+          <!-- TIP -->
+          @if(\Session::has('message'))
+              <div class="callout callout-info">
+                  <p>{{ Session::get('message') }}</p>
+              </div>
+          @endif
+
           <!-- Default box -->
           <div class="box">
             <div class="box-header with-border">

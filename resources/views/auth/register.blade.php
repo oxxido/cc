@@ -30,10 +30,10 @@
     <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/register') }}">
 	  <input type="hidden" name="_token" value="{{ csrf_token() }}">
     
-      <input type="text"  class="loginformfield" value="" placeholder="Your Name" id="name"  name="name" required>
-      <input type="email" class="loginformfield" value="" placeholder="Your Email" id="email"  name="email" required > 
-      <input type="text"  class="loginformfield" value="" placeholder="Your Password" id="password"  name="password" required>
-      <input type="url"   class="loginformfield" value="" placeholder="Confirm Password"   name="password_confirmation" required>
+      <input type="text"     class="loginformfield" value="" placeholder="Your Name" id="name"  name="name" required>
+      <input type="email"    class="loginformfield" value="" placeholder="Your Email" id="email"  name="email" required > 
+      <input type="password" class="loginformfield" value="" placeholder="Your Password" id="password"  name="password" required>
+      <input type="password" class="loginformfield" value="" placeholder="Confirm Password"   name="password_confirmation" required>
       
       <input type="image" src="/images/btn_invite.png" id="imageField" name="submit">
     </form>

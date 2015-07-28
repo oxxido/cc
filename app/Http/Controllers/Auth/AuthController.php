@@ -89,7 +89,7 @@ class AuthController extends Controller {
 		
 		\Mail::queue('emails.activateAccount', $data, function($message) use ($user) {
 			$message->from("gerardo@rosciano.com.ar");
-			$message->subject( \Lang::get('auth.pleaseActivate') );
+			$message->subject( \Lang::get('auth.activateEmailSubject') );
 			$message->to($user->email);
 		});
 	}
@@ -115,7 +115,7 @@ class AuthController extends Controller {
 
 		if($user->accountIsActive($code)) {
 			\Session::flash('message', \Lang::get('auth.successActivated') );
-			return redirect('home');
+			return redirect('/dashboard');
 		}
 	
 		\Session::flash('message', \Lang::get('auth.unsuccessful') );

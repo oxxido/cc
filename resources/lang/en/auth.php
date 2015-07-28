@@ -32,6 +32,7 @@ return [
 	
 	//emails
 	'pleaseActivate'	=> 'Please activate your account.',
+	'activateEmailSubject' => 'Account Verification Email',
 	'clickHereReset'	=> 'Click here to reset your password: ',
 	'clickHereActivate'	=> 'Click here to activate your account: ',
 	

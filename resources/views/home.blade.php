@@ -6,7 +6,7 @@
 		<div id="logo"><a href="{{ url('home') }}"><img src="images/logo.png" width="265" height="70"></a></div>
 		<div class="login">
 			@if (Auth::guest())
-			<a href="{{ url('auth/login') }}">Client Login</a>
+			<a href="{{ url('/dashboard') }}">Client Login</a>
 			@else
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ str_limit(Auth::user()->name,10) }} <span class="caret"></span></a>
