@@ -15,6 +15,7 @@
     <!-- CSS -->
     <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" >
     <link href="{{ asset('vendor/bootstrap/dist/css/bootstrap-theme.min.css') }}" rel="stylesheet" type="text/css" >
+    <link href="{{ asset('vendor/datatables/media/css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" >
     <link href="{{ asset('css/cc.css') }}" rel="stylesheet" type="text/css" >
     
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
