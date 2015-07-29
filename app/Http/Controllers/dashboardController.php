@@ -1,5 +1,8 @@
 <?php namespace App\Http\Controllers;
 
+Use App\Users;
+Use App\Business;
+
 class DashboardController extends Controller {
 
 
@@ -20,7 +23,9 @@ class DashboardController extends Controller {
 	 */
 	public function index()
 	{
-		return view('dashboard');
+		$data = [];
+		$data['user'] = \Auth::user();
+		return view('dashboard', $data);
 	}
 
 

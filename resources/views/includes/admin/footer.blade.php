@@ -19,6 +19,8 @@
     <script type="text/javascript" src="{{ asset('vendor/datatables/media/js/jquery.dataTables.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="vendor/adminLTE/js/app.min.js" type="text/javascript"></script>
+
+    <script src="js/dashboard.js" type="text/javascript"></script>
 <script type="text/javascript">
       $(function () {
         $('#businessTable').DataTable({
@@ -29,5 +31,6 @@
           "info": true,
           "autoWidth": false
         });
+        cc.business.init();
       });
     </script>

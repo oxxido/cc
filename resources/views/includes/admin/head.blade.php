@@ -10,6 +10,9 @@
     <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" >
     <!-- Ionicons 2.0.0 -->
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <!-- Datatables -->
+    <link href="{{ asset('vendor/datatables/media/css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" >
+
     <!-- Theme style -->
     <link href="{{ asset('vendor/adminLTE/css/AdminLTE.css') }}" rel="stylesheet" type="text/css" >
 
