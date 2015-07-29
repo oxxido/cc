@@ -10,6 +10,12 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+use App\Business;
+
+Route::get('/test', function() {
+    $users = Business::all();
+    print_r($users);
+});
 
 Route::get('/', function() {
     return redirect('/home');
@@ -34,3 +40,6 @@ Route::get('/activate/{code}', 'Auth\AuthController@activateAccount');
 
 // Dashboard
 Route::get('/dashboard', 'DashboardController@index');
+
+//resourse business
+Route::resource('business', 'businessController');
