@@ -28,13 +28,17 @@ cc.business = {
         })
         .done(function(data) {
             if (data.success) {
+                    tools.formMessages("Business id:"+data.business.id+" Added", 'success');
+                    $("#userAdd").collapse("hide");
+                    $form.trigger("reset");
+                    cc.that.get();
                 } else {
-                    formMessages(data.errors);
+                    tools.formMessages(data.errors, 'error');
                     //console.log("error!")
                 }
         })
         .fail(function(x, status, error) {
-            formMessages("There was an error in our system:, please try again (Error " + x.status + ": " + error +")");
+            tools.formMessages("There was an error in our system:, please try again (Error " + x.status + ": " + error +")", 'error');
             console.log(x);
         })
         .always(function () {
@@ -42,8 +46,42 @@ cc.business = {
         });
         return false;
     },
+    get: function(page) {
+
+        console.log("entrando a get");
+        // Get every form element value in an object
+        $.ajax({
+            url : cc.baseUrl + 'business',
+            dataType : 'json',
+            type: "GET"
+        })
+        .done(function(data) {
+            if (data.success) {
+                    //$("#businessesTableDiv").text(data.businesses);
+                    //ready to start templating
+                    var businessesTmpl = $("#businessesTemplate").html();
+                    // Compile the template
+                    var businessesHB = Handlebars.compile(businessesTmpl);
+                    // Pass our data to the template
+                    var businessesHtml = businessesHB(data);
+                    //render
+                    $("#businessesTableDiv").html(businessesHtml);
+                } else {
+                    tools.formMessages(data.errors);
+                }
+        })
+        .fail(function(x, status, error) {
+            tools.formMessages("There was an error in our system:, please try again (Error " + x.status + ": " + error +")");
+            console.log(x);
+        })
+        .always(function () {
+            //$form.find("button[type='submit']").attr('disabled', false);
+        });
+        
+    },
     init: function() {
-        that = this;
+        cc.that = this;
         $("#userAddForm").bind('submit', this.send);
+        this.get();
     }
 }

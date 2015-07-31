@@ -15,22 +15,20 @@
     <script type="text/javascript" src="{{ asset('vendor/momentjs/moment.js') }}"></script>
     <!-- SlimScroll 1.3.6 -->
     <script type="text/javascript" src="{{ asset('vendor/slimScroll/jquery.slimscroll.min.js') }}"></script>
-     <!-- SlimScroll 1.3.6 -->
+    <!-- SlimScroll 1.3.6 -->
     <script type="text/javascript" src="{{ asset('vendor/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+    <!-- Handlebars  -->
+    <script type="text/javascript" src="{{ asset('vendor/handlebars/handlebars.min.js') }}"></script>
+    
     <!-- AdminLTE App -->
     <script src="vendor/adminLTE/js/app.min.js" type="text/javascript"></script>
+    <!-- Tools -->
+    <script src="js/tools.js" type="text/javascript"></script>
 
     <script src="js/dashboard.js" type="text/javascript"></script>
 <script type="text/javascript">
       $(function () {
-        $('#businessTable').DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": false,
-          "ordering": true,
-          "info": true,
-          "autoWidth": false
-        });
+        
         cc.business.init();
       });
     </script>

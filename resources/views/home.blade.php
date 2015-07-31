@@ -4,7 +4,16 @@
 <div id="header">
 	<div class="wrapper">
 		<div id="logo"><a href="{{ url('home') }}"><img src="images/logo.png" width="265" height="70"></a></div>
-		<div class="login">
+    <!-- 
+How It Works 
+Pricing 
+FAQs 
+Login 
+Buy Now (Button) 
+Free 15 Day Trial (Button) 
+    -->
+    
+    <div class="login">
 			@if (Auth::guest())
 			<a href="{{ url('/dashboard') }}">Client Login</a>
 			@else
@@ -17,6 +26,15 @@
             @endif
 
 		</div>
+    <div class="login s80">
+      <a href="#" class="">FAQs</a>
+    </div>
+    <div class="login s80">
+      <a href="#" class="">Pricing</a>
+    </div>
+    <div class="login">
+      <a href="#">How it works</a>
+    </div>
 	</div>
 </div>
 <div id="homebanner">

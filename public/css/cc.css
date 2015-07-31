@@ -96,14 +96,15 @@ img {
 }
 
 .login {
-  margin:0px 0px 0px 0px;
+  margin:0px 5px 0px 0px;
   padding:0px 0px 0px 0px;
   float:right;
-  width:120px;
   height:40px;
 }
 
-
+.login.s80 a {
+  width:80px;
+}
 .login a {
   color:#fff;
   font-size:16px;
@@ -120,6 +121,7 @@ img {
   -moz-border-radius: 0px 0px 6px 6px;
   border-radius: 0px 0px 6px 6px;
 }
+
 .login a:hover {
   background-color:#000;
 }
@@ -240,7 +242,20 @@ img {
   margin:0px 0px 5px 0px;
   padding:0px 0px 0px 0px;
 }
-
+#menu {
+  background:url(/images/homebanner.png) left top repeat-x;
+  height:30px;
+  margin:0px 0px 0px 0px;
+  padding:0px 0px 0px 0px;
+  text-align:center;
+  font-family: Tahoma,Geneva,sans-serif;
+  font-weight: normal;
+  line-height: 1.3em;
+  margin: 0;
+  color: #FFFFFF;
+  padding: 0 0 20px;
+  font-weight: 800;
+}
 #loginwrapper {
   margin:0px auto 25px auto;
   padding:0px 0px 0px 0px;
@@ -269,3 +284,4 @@ img {
   border-radius: 6px 6px 6px 6px;
   border:solid 1px #ccc;
 }
+

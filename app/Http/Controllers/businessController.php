@@ -17,7 +17,7 @@ class businessController extends Controller {
     {
         // Define objet to be returned as a json string
         $data = new \stdClass();
-        $data->success = false;
+        $data->success = true;
         // get all the businesses
         $data->businesses = Business::all();
 
@@ -63,7 +63,7 @@ class businessController extends Controller {
           'description' => $request->input('description'),
           'telephone'   => $request->input('phone'),
           'address'     => $request->input('address'),
-          'url'         => $request->input('url')
+          'link'        => $request->input('url')
         );
 
         // Validation rules to aply to fields

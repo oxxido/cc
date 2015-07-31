@@ -18,7 +18,10 @@
 
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link href="vendor/adminLTE/css/skin-green.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('vendor/adminLTE/css//skin-green.css') }}" rel="stylesheet" type="text/css" />
+
+    <!-- Dashboard css-->
+    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
