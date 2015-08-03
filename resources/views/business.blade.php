@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
 @section('body')
-	@if (Auth::guest())
-		<a href="{{ url('auth/login') }}">Client Login</a>
+    @if (Auth::guest())
+        <a href="{{ url('auth/login') }}">Client Login</a>
 
 
     <li class="dropdown">
@@ -11,7 +11,7 @@
             <li><a href="{{ url('auth/logout') }}">Logout</a></li>
         </ul>
     </li>
-	@else
+    @else
     
 
     <!-- Site wrapper -->

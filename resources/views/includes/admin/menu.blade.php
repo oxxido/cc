@@ -21,17 +21,17 @@
             </li>
             <li>
               <a href="/dashboard/widgets">
-                <i class="fa fa-briefcase"></i> <span>Widgets</span>
+                <i class="fa fa-cloud"></i> <span>Widgets</span>
               </a>
             </li>
             <li>
               <a href="/dashboard/reports">
-                <i class="fa fa-table"></i> <span>Reports</span>
+                <i class="fa fa-bar-chart"></i> <span>Reports</span>
               </a>
             </li>
             <li>
               <a href="/dashboard/help">
-                <i class="fa fa-table"></i> <span>Help</span>
+                <i class="fa fa-question-circle"></i> <span>Help</span>
               </a>
             </li>
             <!-- 
