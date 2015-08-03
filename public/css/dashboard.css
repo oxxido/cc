@@ -1,0 +1,3 @@
+.alert-warning, .alert-success, .label-success, .label-warning, .alert-danger, .label-danger, .alert-info, .label-info {
+    background-image: none !important;
+}

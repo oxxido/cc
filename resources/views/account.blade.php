@@ -45,8 +45,8 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Business Dashboard
-            <small>This is the landing page of the business dashboard</small>
+            Account Dashboard
+            <small>This is the landing page of the account dashboard</small>
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -70,56 +70,20 @@
             <h4><i class="icon fa" id="errorIcon"></i><span id="errorTitle"> Warning!</span></h4>
             <p></p>
           </div>
-          <div class="box box-primary collapse" id="userAdd">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Add business</h3>
-                </div><!-- /.box-header -->
-                <!-- form start -->
-                {!! Form::open(array('url' => 'user', 'method' => 'post', 'role' => 'form', 'name' => 'userAddForm', 'id' => 'userAddForm')) !!}
-                {!! Form::token() !!}
-                {!! Form::hidden('user_id',$user->id) !!}
-                  <div class="box-body">
-                    <div class="form-group">
-                      <label for="name">Business Name</label>
-                      <input type="text" name="name" placeholder="Enter Business Name" id="name" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                      <label>Business Description</label>
-                      <textarea name="description" placeholder="Enter Business Description" rows="3" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group">
-                      <label for="phone">Business Phone</label>
-                      <input type="text" name="phone" placeholder="Enter Business Phone" id="phone" class="form-control">
-                    </div>
-                    <div class="form-group">
-                      <label for="address">Business Address</label>
-                      <input type="text" name="address" placeholder="Enter Business Address" id="address" class="form-control" >
-                    </div>
-                    <div class="form-group">
-                      <label for="url">Business Website</label>
-                      <input type="url" name="url" placeholder="Enter Business Website" id="url" class="form-control" required>
-                    </div>
-                  </div><!-- /.box-body -->
-
-                  <div class="box-footer">
-                    <button class="btn btn-primary" type="submit" id="userAddSubmit" >Submit</button> 
-                    <button data-toggle="collapse" data-target="#userAdd" class="btn btn-primary" type="button">Cancel</button>
-                  </div>
-                {!! Form::close() !!}
-              </div>
+          
           <!-- Default box -->
           <div class="box">
-            <div class="box-header with-border">
+            <!--<div class="box-header with-border">
               <a data-toggle="collapse" href="#userAdd" aria-expanded="false" aria-controls="userAdd" class="btn btn-app">
                 <i class="fa fa-plus"></i> Add Business
               </a>
               <a class="btn btn-app">
                 <i class="fa fa-plus"></i> Add Link
               </a>
-            </div>
+            </div> -->
             <div class="box-body">
-              <div id="businessesTableDiv">
-                
+              <div id="accountdiv">
+                account div
               </div>
             </div><!-- /.box-body -->
            
@@ -140,18 +104,5 @@
 
     </div><!-- ./wrapper -->
 
-
-<!-- Adding templates -->
-    @include('handlebars.dashboard-business-table') 
-
     @endif
-@endsection
-
-@section('footer')
-<script type="text/javascript">
-  $(function () {
-    
-    cc.business.init();
-  });
-</script>
 @endsection

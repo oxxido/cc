@@ -4,7 +4,8 @@
     @include('includes.admin.head')
 </head>
 <body class="skin-green fixed sidebar-mini">
-  @yield('body')
-   @include('includes.admin.footer')
+    @yield('body')
+    @include('includes.admin.footer')
+    @yield('footer')
 </body>
 </html>

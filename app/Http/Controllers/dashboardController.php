@@ -28,5 +28,16 @@ class DashboardController extends Controller {
 		return view('dashboard', $data);
 	}
 
+	/**
+	 * 
+	 *
+	 * @return Response
+	 */
+	public function account()
+	{
+		$data = [];
+		$data['user'] = \Auth::user();
+		return view('account', $data);
+	}
 
 }

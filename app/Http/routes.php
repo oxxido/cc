@@ -41,5 +41,7 @@ Route::get('/activate/{code}', 'Auth\AuthController@activateAccount');
 // Dashboard
 Route::get('/dashboard', 'DashboardController@index');
 
+// Dashboard account
+Route::get('/dashboard/account', 'DashboardController@account');
 //resourse business
 Route::resource('business', 'businessController');
