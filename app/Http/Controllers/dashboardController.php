@@ -29,6 +29,18 @@ class DashboardController extends Controller {
 	}
 
 	/**
+	 * Businesses page in dashboard.
+	 *
+	 * @return Response
+	 */
+	public function business()
+	{
+		$data = [];
+		$data['user'] = \Auth::user();
+		return view('business', $data);
+	}
+
+	/**
 	 * 
 	 *
 	 * @return Response
@@ -38,6 +50,40 @@ class DashboardController extends Controller {
 		$data = [];
 		$data['user'] = \Auth::user();
 		return view('account', $data);
+	}
+
+	/**
+	 * 
+	 *
+	 * @return Response
+	 */
+	public function widgets()
+	{
+		$data = [];
+		$data['user'] = \Auth::user();
+		return view('widgets', $data);
+	}
+	/**
+	 * 
+	 *
+	 * @return Response
+	 */
+	public function reports()
+	{
+		$data = [];
+		$data['user'] = \Auth::user();
+		return view('reports', $data);
+	}
+	/**
+	 * 
+	 *
+	 * @return Response
+	 */
+	public function help()
+	{
+		$data = [];
+		$data['user'] = \Auth::user();
+		return view('help', $data);
 	}
 
 }

@@ -45,13 +45,13 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Account Dashboard
-            <small>This is the landing page of the account dashboard</small>
+            Account Owner Details
+            
           </h1>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="#">Layout</a></li>
-            <li class="active">Fixed</li>
+            <li><a href="#">Dashboard</a></li>
+            <li class="active">Account</li>
           </ol>
         </section>
         
@@ -83,13 +83,44 @@
             </div> -->
             <div class="box-body">
               <div id="accountdiv">
-                account div
+                {!! Form::model($user, array('route' => array('user.update', $user->id))) !!}
+                {!! Form::token() !!}
+                {!! Form::hidden('user_id',$user->id) !!}
+
+                <div class="box-body">
+                    <div class="form-group">
+                      {!! Form::label('name', 'User Name') !!}
+                      {!! Form::text('name', null,array('class' => 'form-control')) !!}
+                    </div>
+                    <div class="form-group">
+                      {!! Form::label('email', 'E-Mail Address') !!}
+                      {!! Form::text('email', null,array('class' => 'form-control')) !!}
+                    </div>
+                    <div class="form-group">
+                      {!! Form::label('password', 'Update Password') !!}
+                      {!! Form::text('password', "", array('class' => 'form-control', 'id'=>'password')) !!}
+                    </div>
+                    <div class="form-group">
+                      {!! Form::label('password_confirmation', 'Re-enter Password') !!}
+                      {!! Form::text('password_confirmation', "", array('class' => 'form-control')) !!}
+                    </div>
+
+                  </div><!-- /.box-body -->
+
+                  <div class="box-footer">
+                    <button class="btn btn-primary" type="submit" id="userAddSubmit" >Update Account</button> 
+                    
+                  </div>
+
+
+
+                {!! Form::close() !!}
               </div>
             </div><!-- /.box-body -->
            
-            <div class="box-footer">
+            <!--<div class="box-footer">
               Footer
-            </div><!-- /.box-footer-->
+            </div> /.box-footer-->
           </div><!-- /.box -->
 
         </section><!-- /.content -->
@@ -105,4 +136,17 @@
     </div><!-- ./wrapper -->
 
     @endif
+@endsection
+
+@section('footer')
+<script type="text/javascript" src="{{ asset('/vendor/pwstrength-bootstrap/dist/pwstrength-bootstrap-1.2.7.min.js') }}"></script>
+<script type="text/javascript">
+  $(function () {
+    
+    $('#password').pwstrength({ui: {
+        showVerdictsInsideProgressBar: true
+        
+      } });
+  });
+</script>
 @endsection
