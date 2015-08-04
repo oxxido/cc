@@ -30,9 +30,10 @@
     <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/register') }}">
 	  <input type="hidden" name="_token" value="{{ csrf_token() }}">
     
-      <input type="text"     class="loginformfield" value="" placeholder="Your Name" id="name"  name="name" required>
-      <input type="email"    class="loginformfield" value="" placeholder="Your Email" id="email"  name="email" required > 
+      <input type="text"     class="loginformfield" value="{{ old('name') }}" placeholder="Your Name" id="name"  name="name" required>
+      <input type="email"    class="loginformfield" value="{{ old('email') }}" placeholder="Your Email" id="email"  name="email" required > 
       <input type="password" class="loginformfield" value="" placeholder="Your Password" id="password"  name="password" required>
+
       <input type="password" class="loginformfield" value="" placeholder="Confirm Password"   name="password_confirmation" required>
       
       <input type="image" src="/images/btn_invite.png" id="imageField" name="submit">
@@ -42,4 +43,17 @@
 </div>
 
 
+@endsection
+
+@section('footer')
+<script type="text/javascript" src="{{ asset('/vendor/pwstrength-bootstrap/dist/pwstrength-bootstrap-1.2.7.min.js') }}"></script>
+<script type="text/javascript">
+  $(function () {
+    
+    $('#password').pwstrength({ui: {
+        showVerdictsInsideProgressBar: true
+        
+      } });
+  });
+</script>
 @endsection

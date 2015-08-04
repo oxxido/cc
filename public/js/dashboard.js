@@ -14,7 +14,7 @@ cc.business = {
 
         //first, disable button to avoid double click
         $form.find("button[type='submit']").attr('disabled', true);
-        console.log("entrando a js");
+        //console.log("entrando a js");
         // Get every form element value in an object
         var form_data = {};
         $.each($form.serializeArray(), function(i, field) {

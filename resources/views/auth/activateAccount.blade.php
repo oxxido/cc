@@ -21,7 +21,7 @@
     you used to sign up, check your spam folder in your email account, or press the button
      below to Resend the Verification Email</p>
 
-    <a href='/resendEmail'>{{ Lang::get('auth.clickHereResend') }}</a>
+    <a href='#'>{{ Lang::get('auth.clickHereResend') }}</a>
    </div>
 </div>
 @endsection

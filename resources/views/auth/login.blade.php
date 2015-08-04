@@ -28,7 +28,7 @@
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
       <input type="text" value="" placeholder="Your Email" id="email" class="loginformfield" name="email">
       
-      <input type="password" value="" placeholder="Your Passowrd" id="password" class="loginformfield" name="password" kl_virtual_keyboard_secure_input="on">
+      <input type="password" value="" placeholder="Your Password" id="password" class="loginformfield" name="password" kl_virtual_keyboard_secure_input="on">
       <!-- <div class="checkbox">
 			<label>
 				<input type="checkbox" name="remember"> Remember Me
@@ -39,7 +39,7 @@
     <br>
     <a href="{{ url('/password/email') }}">Forgot Password</a><br>
 <br>
-<b><a href="http://www.certifiedcomments.com/requestform.htm">New? Signup Today</a></b><a href="http://www.certifiedcomments.com/requestform.htm"></a></div>
+<b><a href="{{ url('/request') }}">New? Signup Today</a></b></div>
 </div>
 
 

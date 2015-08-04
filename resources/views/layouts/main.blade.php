@@ -4,7 +4,8 @@
     @include('includes.head')
 </head>
 <body>
-  @yield('body')
-   @include('includes.footer')
+    @yield('body')
+    @include('includes.footer')
+    @yield('footer')
 </body>
 </html>
