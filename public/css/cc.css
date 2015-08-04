@@ -74,6 +74,24 @@ img {
   width:1000px;
   position:relative;
 }
+.footerwrapper {
+  margin:auto;
+  padding:0px 0px 0px 0px;
+  text-align: center;
+  position:relative;
+  background-color: #444444;
+  letter-spacing: 1px;
+}
+
+.footerwrapper a {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+.footerwrapper a:hover {
+  text-decoration: none;
+  color: #64A500;
+}
+
 .clientmarginwrapper {
   margin:0px auto 0px auto;
   padding:0px 0px 0px 0px;

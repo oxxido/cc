@@ -3,6 +3,7 @@
             &copy; 2014 CertifiedComments.com. Unlawful duplication prohibited by Law.
             </div>
         </div>
+        
   <!-- scripts  -->
  
     <!-- jQuery 2.1.4 -->
