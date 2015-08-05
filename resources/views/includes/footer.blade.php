@@ -7,12 +7,12 @@
 
             </div>
             <div class="footerwrapper">
-              <a href="#"> Pricing</a>      &nbsp; | &nbsp;
-              <a href="#"> FAQs</a>         &nbsp; | &nbsp;
-              <a href="#"> Contact</a>      &nbsp; | &nbsp;
-              <a href="#"> Testimonials</a> &nbsp; | &nbsp;
-              <a href="#"> User Guide</a>   &nbsp; | &nbsp;
-              <a href="#"> Terms of Use</a>
+              <a href="{{url('/pricing')}}"     > Pricing</a>      &nbsp; | &nbsp;
+              <a href="{{url('/faqs')}}"        > FAQs</a>         &nbsp; | &nbsp;
+              <a href="{{url('/contact')}}"     > Contact</a>      &nbsp; | &nbsp;
+              <a href="{{url('/testimonials')}}"> Testimonials</a> &nbsp; | &nbsp;
+              <a href="{{url('/userguide')}}"   > User Guide</a>   &nbsp; | &nbsp;
+              <a href="{{url('/terms')}}"       > Terms of Use</a>
             </div>
             <div class="footerwrapper">
               &nbsp;

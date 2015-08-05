@@ -27,13 +27,13 @@ Free 15 Day Trial (Button)
 
 		</div>
     <div class="login s80">
-      <a href="#" class="">FAQs</a>
+      <a href="{{url('/faqs')}}" class="">FAQs</a>
     </div>
     <div class="login s80">
-      <a href="#" class="">Pricing</a>
+      <a href="{{url('/pricing')}}" class="">Pricing</a>
     </div>
     <div class="login">
-      <a href="#">How it works</a>
+      <a href="{{url('/howitworks')}}">How it works</a>
     </div>
 	</div>
 </div>

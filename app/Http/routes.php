@@ -25,6 +25,12 @@ Route::get('creative', 'WelcomeController@creative');
 
 Route::get('home', 'HomeController@index');
 
+Route::get('howitworks', 'HomeController@howitworks');
+
+Route::get('pricing', 'HomeController@pricing');
+
+Route::get('faqs', 'HomeController@faqs');
+
 Route::get('request', 'HomeController@request');
 
 Route::post('request', 'HomeController@post_request');

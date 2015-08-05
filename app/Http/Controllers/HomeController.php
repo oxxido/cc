@@ -34,6 +34,21 @@ class HomeController extends Controller {
   {
     return view('home');
   }
+
+  public function howitworks()
+  {
+    return view('howitworks');
+  }
+
+  public function pricing()
+  {
+    return view('pricing');
+  }
+
+  public function faqs()
+  {
+    return view('faqs');
+  }
   /**
    * show the invite request to the user
    *

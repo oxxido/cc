@@ -303,3 +303,7 @@ img {
   border:solid 1px #ccc;
 }
 
+.hc_btns{
+  text-align: right;
+  padding: 29px 0 0;
+}
