@@ -1031,7 +1031,7 @@ INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (86442, 'AZ', 'Bullhead City', 35.106001, -114.594737),
 (86444, 'AZ', 'Meadview', 35.813733, -114.327696),
 (86502, 'AZ', 'Chambers', 35.143044, -109.373890);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (86503, 'AZ', 'Chinle', 36.130367, -109.603693),
 (86505, 'AZ', 'Ganado', 35.651844, -109.283168),
 (86507, 'AZ', 'Lukachukai', 36.418111, -109.244614),
@@ -2047,7 +2047,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (92316, 'CA', 'Bloomington', 34.066198, -117.399295),
 (92320, 'CA', 'Calimesa', 33.994586, -117.043040),
 (92324, 'CA', 'Grand Terrace', 34.057964, -117.318577);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (92327, 'CA', 'Daggett', 34.866770, -116.887555),
 (92328, 'CA', 'Death Valley', 36.467165, -116.893682),
 (92332, 'CA', 'Essex', 34.560626, -115.280344),
@@ -3043,7 +3043,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (95987, 'CA', 'Williams', 39.148855, -122.162375),
 (95988, 'CA', 'Willows', 39.523751, -122.199204),
 (95991, 'CA', 'Yuba City', 39.128619, -121.621599);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (95993, 'CA', 'Yuba City', 39.128193, -121.655168),
 (96001, 'CA', 'Redding', 40.560493, -122.411627),
 (96002, 'CA', 'Redding', 40.548586, -122.333932),
@@ -4061,7 +4061,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (32449, 'FL', 'Kinard', 30.263241, -85.206467),
 (32455, 'FL', 'Ponce De Leon', 30.704146, -85.954633),
 (32456, 'FL', 'Port Saint Joe', 29.835390, -85.298787);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (32459, 'FL', 'Santa Rosa Beach', 30.365883, -86.245809),
 (32460, 'FL', 'Sneads', 30.727619, -84.933655),
 (32462, 'FL', 'Vernon', 30.626680, -85.755286),
@@ -5078,7 +5078,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (30824, 'GA', 'Thomson', 33.477363, -82.494204),
 (30828, 'GA', 'Warrenton', 33.409140, -82.635680),
 (30830, 'GA', 'Waynesboro', 33.101254, -81.990797);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (30833, 'GA', 'Wrens', 33.210397, -82.380962),
 (30901, 'GA', 'Augusta', 33.460084, -81.972959),
 (30904, 'GA', 'Augusta', 33.473740, -82.013078),
@@ -6108,7 +6108,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (61230, 'IL', 'Albany', 41.765874, -90.208051),
 (61231, 'IL', 'Aledo', 41.200780, -90.741629),
 (61232, 'IL', 'Andalusia', 41.435324, -90.728385);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (61234, 'IL', 'Annawan', 41.398022, -89.912949),
 (61235, 'IL', 'Atkinson', 41.416190, -90.022482),
 (61238, 'IL', 'Cambridge', 41.311379, -90.180480),
@@ -7146,7 +7146,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (46619, 'IN', 'South Bend', 41.667397, -86.315266),
 (46628, 'IN', 'South Bend', 41.701525, -86.294929),
 (46635, 'IN', 'South Bend', 41.716768, -86.207806);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (46637, 'IN', 'South Bend', 41.729936, -86.240694),
 (46701, 'IN', 'Albion', 41.348217, -85.414183),
 (46702, 'IN', 'Andrews', 40.861792, -85.606726),
@@ -8184,7 +8184,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (51542, 'IA', 'Honey Creek', 41.463045, -95.880200),
 (51543, 'IA', 'Kimballton', 41.635214, -95.055324),
 (51544, 'IA', 'Lewis', 41.296289, -95.062024);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (51545, 'IA', 'Little Sioux', 41.808267, -96.031357),
 (51546, 'IA', 'Logan', 41.624345, -95.752478),
 (51548, 'IA', 'Mc Clelland', 41.293168, -95.681278),
@@ -9227,7 +9227,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (67851, 'KS', 'Holcomb', 37.993105, -100.989323),
 (67853, 'KS', 'Ingalls', 37.829339, -100.514253),
 (67854, 'KS', 'Jetmore', 38.073829, -99.932668);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (67855, 'KS', 'Johnson', 37.569424, -101.719354),
 (67856, 'KS', 'Kalvesta', 38.102796, -100.443095),
 (67857, 'KS', 'Kendall', 37.963657, -101.596883),
@@ -10265,7 +10265,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (70648, 'LA', 'Kinder', 30.460653, -92.869332),
 (70650, 'LA', 'Lacassine', 30.145587, -92.829262),
 (70652, 'LA', 'Longville', 30.579992, -93.254806);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (70653, 'LA', 'Fields', 30.770145, -93.530734),
 (70654, 'LA', 'Mittie', 30.678812, -92.932056),
 (70655, 'LA', 'Oberlin', 30.616200, -92.752672),
@@ -11293,7 +11293,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (21677, 'MD', 'Woolford', 38.506600, -76.204057),
 (21678, 'MD', 'Worton', 39.296346, -76.100780),
 (21679, 'MD', 'Wye Mills', 38.928114, -76.081366);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (21701, 'MD', 'Lewistown', 39.408235, -77.400875),
 (21702, 'MD', 'Fort Detrick', 39.436532, -77.447369),
 (21710, 'MD', 'Doubs', 39.306452, -77.447693),
@@ -12326,7 +12326,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (49042, 'MI', 'Constantine', 41.846029, -85.657094),
 (49043, 'MI', 'Covert', 42.291074, -86.274294),
 (49045, 'MI', 'Decatur', 42.101219, -86.033808);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (49046, 'MI', 'Delton', 42.514102, -85.406706),
 (49047, 'MI', 'Dowagiac', 41.990965, -86.116766),
 (49050, 'MI', 'Dowling', 42.501478, -85.249452),
@@ -13360,7 +13360,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (56307, 'MN', 'Albany', 45.615114, -94.574022),
 (56308, 'MN', 'Alexandria', 45.881747, -95.381994),
 (56309, 'MN', 'Ashby', 46.078066, -95.821417);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (56310, 'MN', 'Avon', 45.612168, -94.436029),
 (56311, 'MN', 'Barrett', 45.899555, -95.875391),
 (56312, 'MN', 'Belgrade', 45.486522, -94.969877),
@@ -14396,7 +14396,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (64110, 'MO', 'Kansas City', 39.036088, -94.572206),
 (64111, 'MO', 'Kansas City', 39.056483, -94.592942),
 (64112, 'MO', 'Kansas City', 39.038191, -94.592873);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (64113, 'MO', 'Kansas City', 39.012340, -94.593828),
 (64114, 'MO', 'Kansas City', 38.962147, -94.595941),
 (64116, 'MO', 'North Kansas Cit', 39.163189, -94.569882),
@@ -15430,7 +15430,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (68345, 'NE', 'Du Bois', 40.037486, -96.057477),
 (68346, 'NE', 'Dunbar', 40.659156, -96.013575),
 (68347, 'NE', 'Eagle', 40.816909, -96.428965);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (68348, 'NE', 'Elk Creek', 40.297700, -96.142128),
 (68349, 'NE', 'Elmwood', 40.837811, -96.294395),
 (68350, 'NE', 'Endicott', 40.073407, -97.093787),
@@ -16471,7 +16471,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (7901, 'NJ', 'Summit', 40.714940, -74.364159),
 (7920, 'NJ', 'Basking Ridge', 40.678937, -74.560463),
 (7921, 'NJ', 'Bedminster', 40.657109, -74.643236);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (7922, 'NJ', 'Berkeley Heights', 40.675220, -74.434599),
 (7924, 'NJ', 'Bernardsville', 40.722510, -74.577812),
 (7927, 'NJ', 'Cedar Knolls', 40.822335, -74.456861),
@@ -17485,7 +17485,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (12017, 'NY', 'Austerlitz', 42.322272, -73.454965),
 (12018, 'NY', 'Averill Park', 42.636511, -73.550437),
 (12019, 'NY', 'Ballston Lake', 42.919176, -73.855171);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (12020, 'NY', 'Ballston Spa', 43.004956, -73.848580),
 (12022, 'NY', 'Berlin', 42.691893, -73.370186),
 (12023, 'NY', 'Berne', 42.610848, -74.146577),
@@ -18499,7 +18499,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (14708, 'NY', 'Alma', 42.016859, -78.040012),
 (14709, 'NY', 'Angelica', 42.326339, -77.994671),
 (14710, 'NY', 'Ashville', 42.108376, -79.405624);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (14711, 'NY', 'Belfast', 42.320013, -78.094281),
 (14712, 'NY', 'Bemus Point', 42.151346, -79.358080),
 (14714, 'NY', 'Black Creek', 42.285528, -78.231249),
@@ -19530,7 +19530,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (58445, 'ND', 'Grace City', 47.553580, -98.809465),
 (58448, 'ND', 'Walum', 47.299693, -98.157180),
 (58450, 'ND', 'Heaton', 47.462249, -99.578482);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (58451, 'ND', 'Hurdsfield', 47.438733, -99.941650),
 (58454, 'ND', 'Nortonville', 46.500996, -98.807661),
 (58455, 'ND', 'Kensal', 47.272609, -98.720579),
@@ -20555,7 +20555,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (45415, 'OH', 'Dayton', 39.835488, -84.261328),
 (45416, 'OH', 'Trotwood', 39.805541, -84.259824),
 (45417, 'OH', 'Dayton', 39.752812, -84.246961);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (45418, 'OH', 'Dayton', 39.716251, -84.267696),
 (45419, 'OH', 'Dayton', 39.715486, -84.163656),
 (45420, 'OH', 'Kettering', 39.721286, -84.133892),
@@ -21595,7 +21595,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (97544, 'OR', 'Williams', 42.223049, -123.282877),
 (97601, 'OR', 'Oretech', 42.229601, -121.786969),
 (97603, 'OR', 'Klamath Falls', 42.191915, -121.724124);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (97620, 'OR', 'Adel', 42.148697, -119.883291),
 (97621, 'OR', 'Beatty', 42.436942, -121.219962),
 (97623, 'OR', 'Bonanza', 42.246268, -121.333558),
@@ -22613,7 +22613,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (17751, 'PA', 'Mill Hall', 41.086688, -77.483609),
 (17752, 'PA', 'Montgomery', 41.178778, -76.883933),
 (17754, 'PA', 'Montoursville', 41.266252, -76.903035);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (17756, 'PA', 'Muncy', 41.213715, -76.763258),
 (17758, 'PA', 'Muncy Valley', 41.381206, -76.541518),
 (17763, 'PA', 'Ralston', 41.503817, -76.958350),
@@ -23631,7 +23631,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (57057, 'SD', 'Rutland', 44.068282, -96.951856),
 (57058, 'SD', 'Salem', 43.735583, -97.379695),
 (57059, 'SD', 'Scotland', 43.121208, -97.729596);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (57060, 'SD', 'Sherman', 43.798677, -96.544396),
 (57061, 'SD', 'Sinai', 44.239745, -97.054332),
 (57062, 'SD', 'Springfield', 42.868694, -97.928825),
@@ -24662,7 +24662,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (75218, 'TX', 'Dallas', 32.846335, -96.697212),
 (75219, 'TX', 'Dallas', 32.813245, -96.814166),
 (75220, 'TX', 'Dallas', 32.868131, -96.862202);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (75223, 'TX', 'Dallas', 32.794173, -96.747475),
 (75224, 'TX', 'Dallas', 32.711415, -96.838711),
 (75225, 'TX', 'Dallas', 32.862808, -96.791753),
@@ -25703,7 +25703,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (78253, 'TX', 'San Antonio', 29.459923, -98.747931),
 (78254, 'TX', 'San Antonio', 29.540910, -98.724841),
 (78255, 'TX', 'San Antonio', 29.636875, -98.655572);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (78256, 'TX', 'San Antonio', 29.616946, -98.625215),
 (78257, 'TX', 'San Antonio', 29.649530, -98.613701),
 (78258, 'TX', 'San Antonio', 29.656240, -98.496699),
@@ -26728,7 +26728,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (22129, 'VA', 'Paeonian Springs', 39.159792, -77.619845),
 (22130, 'VA', 'Paris', 38.989926, -77.893855),
 (22132, 'VA', 'Hillsboro', 39.150484, -77.721305);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (22134, 'VA', 'Quantico', 38.531039, -77.335819),
 (22141, 'VA', 'Round Hill', 39.113378, -77.783305),
 (22150, 'VA', 'Springfield', 38.779718, -77.186582),
@@ -27749,7 +27749,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (98585, 'WA', 'Silver Creek', 46.549077, -122.475716),
 (98586, 'WA', 'South Bend', 46.654400, -123.820315),
 (98587, 'WA', 'Taholah', 47.340711, -124.282700);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (98588, 'WA', 'Tahuya', 47.435618, -122.921126),
 (98589, 'WA', 'Tenino', 46.864119, -122.849269),
 (98590, 'WA', 'Tokeland', 46.746874, -124.046008),
@@ -28783,7 +28783,7 @@ INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (53224, 'WI', 'Milwaukee', 43.159415, -88.032744),
 (53225, 'WI', 'Milwaukee', 43.115416, -88.034640),
 (53226, 'WI', 'Wauwatosa', 43.050006, -88.041386);
-INSERT INTO `zips` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
+INSERT INTO `zipcodes` (`zip`, `state`, `city`, `lat`, `lng`) VALUES
 (53227, 'WI', 'Milwaukee', 42.994919, -88.036384),
 (53228, 'WI', 'Greenfield', 42.970251, -88.034638),
 (53233, 'WI', 'Milwaukee', 43.040738, -87.935660),

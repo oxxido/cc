@@ -99,6 +99,22 @@
                       <label for="url">Business Website</label>
                       <input type="url" name="url" placeholder="Enter Business Website" id="url" class="form-control" required>
                     </div>
+                    <div class="form-group">
+                      <label for="url">Organization Type</label>
+                      <select class="form-control" name="organization" placeholder="Enter Organization Type" id="organization">
+                        @foreach ($organizations as $organization)
+                          <option value="{{ $organization->id }}">{{ $organization->name }}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="url">Business Type</label>
+                      <select class="form-control" name="type" placeholder="Enter Business Type" id="type">
+                        @foreach ($types as $type)
+                          <option value="{{ $type->id }}">{{ $type->name }}</option>
+                        @endforeach
+                      </select>
+                    </div>
                   </div><!-- /.box-body -->
 
                   <div class="box-footer">

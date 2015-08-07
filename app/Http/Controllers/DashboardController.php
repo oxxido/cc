@@ -2,6 +2,9 @@
 
 Use App\Users;
 Use App\Business;
+Use App\Organizations;
+Use App\Types;
+
 
 class DashboardController extends Controller {
 
@@ -37,6 +40,9 @@ class DashboardController extends Controller {
 	{
 		$data = [];
 		$data['user'] = \Auth::user();
+		$data['organizations'] = Organizations::all();
+		$data['types'] = Types::all();
+
 		return view('business', $data);
 	}
 
