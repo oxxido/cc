@@ -3,9 +3,6 @@ if (!cc) {
     var cc = {};
 }
 
-/*set variables and "constants"*/
-cc.ver = "0.0.1";
-cc.baseUrl = "http://cc.xeedlabs.com/";
 /* start fuctions and methods */
 cc.business = {
     that: false,

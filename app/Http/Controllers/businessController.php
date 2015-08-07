@@ -2,11 +2,11 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Business;
-use App\User;
+use App\Models\Business;
+use App\Models\Models\User;
 use Illuminate\Http\Request;
 
-class businessController extends Controller {
+class BusinessController extends Controller {
 
     /**
      * Display a listing of the resource.

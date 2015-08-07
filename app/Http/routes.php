@@ -22,17 +22,11 @@ Route::get('/', function() {
 });
 
 Route::get('creative', 'WelcomeController@creative');
-
 Route::get('home', 'HomeController@index');
-
 Route::get('howitworks', 'HomeController@howitworks');
-
 Route::get('pricing', 'HomeController@pricing');
-
 Route::get('faqs', 'HomeController@faqs');
-
 Route::get('request', 'HomeController@request');
-
 Route::post('request', 'HomeController@post_request');
 
 Route::controllers([
@@ -48,11 +42,12 @@ Route::get('/activate/{code}', 'Auth\AuthController@activateAccount');
 Route::get('/dashboard', function() {
     return redirect('/dashboard/business');
 });
-    Route::get('/dashboard/business','DashboardController@business');
-    Route::get('/dashboard/account', 'DashboardController@account');
-    Route::get('/dashboard/widgets', 'DashboardController@widgets');
-    Route::get('/dashboard/reports', 'DashboardController@reports');
-    Route::get('/dashboard/help',    'DashboardController@help');
+
+Route::get('/dashboard/business','DashboardController@business');
+Route::get('/dashboard/account', 'DashboardController@account');
+Route::get('/dashboard/widgets', 'DashboardController@widgets');
+Route::get('/dashboard/reports', 'DashboardController@reports');
+Route::get('/dashboard/help',    'DashboardController@help');
 
 
 //resourse business

@@ -1,9 +1,9 @@
 <?php namespace App\Http\Controllers;
 
-Use App\Users;
-Use App\Business;
-Use App\Organizations;
-Use App\Types;
+Use App\Models\Users;
+Use App\Models\Business;
+Use App\Models\Organizations;
+Use App\Models\Types;
 
 
 class DashboardController extends Controller {

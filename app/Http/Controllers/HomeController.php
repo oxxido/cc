@@ -1,7 +1,7 @@
-<?php 
+<?php namespace App\Http\Controllers;
 
-namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+
 class HomeController extends Controller {
 
   /*
@@ -103,12 +103,13 @@ class HomeController extends Controller {
       return redirect()->back()->withInput()->withErrors($validation->getMessageBag()->toArray());
     } else {
       //send email
-      
+      /*
       \Mail::queue('emails.requestAnInvite', $user_data, function($message) {
         $message->from("gerardo@rosciano.com.ar");
         $message->subject( "Request an invite" );
         $message->to("oxxido@gmail.com");
       });
+      */
     }
 
     

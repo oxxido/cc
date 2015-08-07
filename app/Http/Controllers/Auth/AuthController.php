@@ -4,10 +4,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades;
 use Validator;
+
 class AuthController extends Controller {
 
 	/*
@@ -86,12 +87,13 @@ class AuthController extends Controller {
 				'name' => $user->name,
 				'code' => $user->activation_code,
 		);
-		
+		/*
 		\Mail::queue('emails.activateAccount', $data, function($message) use ($user) {
 			$message->from("gerardo@rosciano.com.ar");
 			$message->subject( \Lang::get('auth.activateEmailSubject') );
 			$message->to($user->email);
 		});
+		*/
 	}
 	
 	public function resendEmail()
