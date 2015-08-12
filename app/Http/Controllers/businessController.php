@@ -4,9 +4,18 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Business;
 use App\Models\Models\User;
-use Illuminate\Http\Request;
 
 class BusinessController extends Controller {
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -15,13 +24,10 @@ class BusinessController extends Controller {
      */
     public function index()
     {
-        // Define objet to be returned as a json string
-        $data = new \stdClass();
-        $data->success = true;
-        // get all the businesses
-        $data->businesses = Business::all();
+        $this->data->success = true;
+        $this->data->businesses = Business::all();
 
-        return \Response::json($data);
+        return $this->json();
     }
 
     /**
@@ -31,12 +37,10 @@ class BusinessController extends Controller {
      */
     public function create()
     {
-        // Define objet to be returned as a json string
-        $data = new \stdClass();
-        $data->success = false;
-        $data->error = "Not allowed";
+        $this->data->success = false;
+        $this->data->error = "Not allowed";
 
-        return \Response::json($data);
+        return $this->json();
     }
 
     /**
@@ -53,9 +57,8 @@ class BusinessController extends Controller {
         */
 
         // Define objet to be returned as a json string
-        $data = new \stdClass();
-        $data->success = false;
-        $data->errors = array();
+        $this->data->success = false;
+        $this->data->errors = array();
         $user = User::find($request->input('user_id'));
         // Fields to get from form
         $business_data = array(
@@ -75,18 +78,21 @@ class BusinessController extends Controller {
         // Instantiate validator using received post parameters and setted rules
         $validation = \Validator::make(\Request::all(), $rules);
 
-        if ($validation->fails()) {
-          $data->errors = $validation->getMessageBag()->toArray();
-        } else {
+        if ($validation->fails())
+        {
+          $this->data->errors = $validation->getMessageBag()->toArray();
+        }
+        else
+        {
           // store new biz
             $business = new Business($business_data);
             $business->users_id = $user->id;
             $business->save();
             //Session::flash('message', 'Successfully created!');
-            $data->success = true;
-            $data->business = $business->toArray();
+            $this->data->success = true;
+            $this->data->business = $business->toArray();
         }
-        return \Response::json($data);
+        return $this->json();
     }
 
     /**
@@ -97,10 +103,9 @@ class BusinessController extends Controller {
      */
     public function show($id)
     {
-        $data = new \stdClass();
-        $data->business = Business::find($id);
+        $this->data->business = Business::find($id);
 
-        return \Response::json($data);
+        return $this->json();
     }
 
     /**

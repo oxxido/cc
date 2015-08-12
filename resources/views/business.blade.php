@@ -79,41 +79,111 @@
                 {!! Form::token() !!}
                 {!! Form::hidden('user_id',$user->id) !!}
                   <div class="box-body">
-                    <div class="form-group">
-                      <label for="name">Business Name</label>
-                      <input type="text" name="name" placeholder="Enter Business Name" id="name" class="form-control" required>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Business Data</h3>
+                      </div>
+                      <div class="panel-body">
+                        <div class="form-group">
+                          <label for="name">Business Name</label>
+                          <input type="text" name="name" placeholder="Enter Business Name" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                          <label for="description">Description</label>
+                          <textarea name="description" placeholder="Enter Business Description" rows="3" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label for="phone">Phone</label>
+                          <input type="text" name="phone" placeholder="Enter Business Phone" id="phone" class="form-control">
+                        </div>
+                        <div class="form-group">
+                          <label for="url">Website</label>
+                          <input type="url" name="url" placeholder="Enter Business Website" id="url" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                          <label for="organization_type_id">Organization Type</label>
+                          <select class="form-control" name="organization_type_id" placeholder="Enter Organization Type" id="organization_type_id">
+                            @foreach ($organization_types as $organization_type)
+                              <option value="{{ $organization_type->id }}">{{ $organization_type->name }}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="business_type_id">Business Type</label>
+                          <select class="form-control" name="business_type_id" placeholder="Enter Business Type" id="business_type_id">
+                            @foreach ($business_types as $business_type)
+                              <option value="{{ $business_type->id }}">{{ $business_type->name }}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                      </div>
                     </div>
-                    <div class="form-group">
-                      <label>Business Description</label>
-                      <textarea name="description" placeholder="Enter Business Description" rows="3" class="form-control"></textarea>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Business Owner</h3>
+                      </div>
+                      <div class="panel-body">
+                        <div class="form-group">
+                          <label for="bo_first_name">First Name</label>
+                          <input type="text" name="bo_first_name" placeholder="Enter Business Owner First Name" id="bo_first_name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                          <label for="bo_last_name">Last Name</label>
+                          <input type="text" name="bo_last_name" placeholder="Enter Business Owner Last Name" id="bo_last_name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                          <label for="bo_email">Email</label>
+                          <input type="text" name="bo_email" placeholder="Enter Business Owner Email" id="bo_email" class="form-control">
+                        </div>
+                      </div>
                     </div>
-                    <div class="form-group">
-                      <label for="phone">Business Phone</label>
-                      <input type="text" name="phone" placeholder="Enter Business Phone" id="phone" class="form-control">
-                    </div>
-                    <div class="form-group">
-                      <label for="address">Business Address</label>
-                      <input type="text" name="address" placeholder="Enter Business Address" id="address" class="form-control" >
-                    </div>
-                    <div class="form-group">
-                      <label for="url">Business Website</label>
-                      <input type="url" name="url" placeholder="Enter Business Website" id="url" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                      <label for="url">Organization Type</label>
-                      <select class="form-control" name="organization" placeholder="Enter Organization Type" id="organization">
-                        @foreach ($organizations as $organization)
-                          <option value="{{ $organization->id }}">{{ $organization->name }}</option>
-                        @endforeach
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="url">Business Type</label>
-                      <select class="form-control" name="type" placeholder="Enter Business Type" id="type">
-                        @foreach ($types as $type)
-                          <option value="{{ $type->id }}">{{ $type->name }}</option>
-                        @endforeach
-                      </select>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Business Location</h3>
+                      </div>
+                      <div class="panel-body">
+                        <div class="form-group">
+                          <label for="country_code">Country</label>
+                          <select class="form-control" name="country_code" placeholder="Enter Business Type" id="country_code" onchange="cc.location.country()">
+                            @foreach ($countries as $country)
+                              @if ($country->code == "US")
+                                <option value="{{ $country->code }}" selected="selected">{{ $country->name }}</option>
+                              @else
+                                <option value="{{ $country->code }}">{{ $country->name }}</option>
+                              @endif
+                            @endforeach
+                          </select>
+                        </div>
+                        <div id="location_auto">
+                          <div class="form-group">
+                            <label for="city_zipcode">Zip Code</label>
+                            <input type="text" name="city_zipcode" placeholder="Enter Business Zip Code" id="city_zipcode" class="form-control" onchange="cc.location.zipcode()">
+                          </div>
+                          <div class="form-group">
+                            <label>City - State - Zip Code</label>
+                            <input type="text" id="city_text" class="form-control" onchange="cc.location.zipcode()" disabled="disabled">
+                            <input type="hidden" id="city_id" name="city_id">
+                          </div>
+                        </div>
+                        <div id="location_manual" style="display:none">
+                          <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" name="city" placeholder="Enter Business City" id="city" class="form-control">
+                          </div>
+                          <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" name="state" placeholder="Enter Business State" id="state" class="form-control">
+                          </div>
+                          <div class="form-group">
+                            <label for="zipcode">Zip Code</label>
+                            <input type="text" name="zipcode" placeholder="Enter Business Zip Code" id="zipcode" class="form-control">
+                          </div>
+                        </div>                        
+                        <div class="form-group">
+                          <label for="address">Street Address</label>
+                          <input type="text" name="address" placeholder="Enter Business Street Address" id="address" class="form-control">
+                        </div>
+                      </div>
                     </div>
                   </div><!-- /.box-body -->
 
@@ -156,6 +226,22 @@
 
     </div><!-- ./wrapper -->
 
+<div class="modal fade" id="citiesModal">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Select Location</h4>
+      </div>
+      <div class="modal-body">
+        <div class="list-group" id="cities"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <!-- Adding templates -->
     @include('handlebars.dashboard-business-table') 

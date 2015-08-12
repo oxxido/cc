@@ -22,7 +22,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'email', 'password'];
+	protected $fillable = ['fist_name', 'last_name', 'email', 'password'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -31,18 +31,42 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 	
-	public function accountIsActive($code) {
+	public function accountIsActive($code)
+	{
 		$user = User::where('activation_code', '=', $code)->first();
 		$user->active = 1;
 		$user->activation_code = '';
-		if($user->save()) {
+		if($user->save())
+		{
 			\Auth::login($user);
 		}
 		return true;
 	}
 
-	public function businesses() {
-		return $this->hasMany('App\Models\Business');
-	}
+    /**
+     * Get the Billings records associated with the User.
+     */
+    public function billings()
+    {
+        return $this->hasMany('App\Models\Billing', 'user_id', 'id');
+    }
 
+    /**
+     * Get the Businesses records associated with the User.
+     */
+    public function businesses()
+    {
+        return $this->hasMany('App\Models\Business', 'user_id', 'id');
+    }
+
+    /**
+     * Mutator to get the user's full name.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+		return $this->first_name . ' ' . $this->last_name;
+	}
 }

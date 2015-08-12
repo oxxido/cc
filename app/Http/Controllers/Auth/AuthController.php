@@ -59,7 +59,8 @@ class AuthController extends Controller {
 
 		$activation_code = str_random(60) . $request->input('email');
 		$user = new User;
-		$user->name = $request->input('name');
+		$user->first_name = $request->input('first_name');
+		$user->last_name = $request->input('last_name');
 		$user->email = $request->input('email');
 		$user->password = bcrypt($request->input('password'));
 		$user->activation_code = $activation_code;
@@ -87,13 +88,15 @@ class AuthController extends Controller {
 				'name' => $user->name,
 				'code' => $user->activation_code,
 		);
-		/*
-		\Mail::queue('emails.activateAccount', $data, function($message) use ($user) {
-			$message->from("gerardo@rosciano.com.ar");
-			$message->subject( \Lang::get('auth.activateEmailSubject') );
-			$message->to($user->email);
-		});
-		*/
+
+        if(strpos(url(), "localhost") === false)
+        {
+			\Mail::queue('emails.activateAccount', $data, function($message) use ($user) {
+				$message->from("gerardo@rosciano.com.ar");
+				$message->subject( \Lang::get('auth.activateEmailSubject') );
+				$message->to($user->email);
+			});
+		}
 	}
 	
 	public function resendEmail()

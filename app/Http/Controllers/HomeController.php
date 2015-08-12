@@ -71,12 +71,6 @@ class HomeController extends Controller {
       3. Respond with view or redirect
     */
 
-    // Define objet to be returned as a json string
-    $data = new \stdClass();
-    $data->success = false;
-    //$data->id = null;
-    $data->errors = array();
-
     // Fields to get from form
     $user_data = array(
       'name'    => $request->input('name'),
@@ -96,20 +90,24 @@ class HomeController extends Controller {
     // Instantiate validator using received post parameters and setted rules
     $validation = \Validator::make(\Request::all(), $rules);
 
-    if ($validation->fails()) {
+    if ($validation->fails())
+    {
 
       //\Session::flash('messages', $validation->getMessageBag()->toArray() );
       //exit(print_r($validation->getMessageBag()->toArray(),true));
       return redirect()->back()->withInput()->withErrors($validation->getMessageBag()->toArray());
-    } else {
+    }
+    else
+    {
       //send email
-      /*
-      \Mail::queue('emails.requestAnInvite', $user_data, function($message) {
-        $message->from("gerardo@rosciano.com.ar");
-        $message->subject( "Request an invite" );
-        $message->to("oxxido@gmail.com");
-      });
-      */
+      if(strpos(url(), "localhost") === false)
+      {
+        \Mail::queue('emails.requestAnInvite', $user_data, function($message) {
+          $message->from("gerardo@rosciano.com.ar");
+          $message->subject( "Request an invite" );
+          $message->to("oxxido@gmail.com");
+        });
+      }
     }
 
     
