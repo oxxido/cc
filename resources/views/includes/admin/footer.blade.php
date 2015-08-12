@@ -22,7 +22,7 @@
     <script type="text/javascript" src="{{ asset('/vendor/handlebars/handlebars.min.js') }}"></script>
     
     <!-- AdminLTE App -->
-    <script src="/vendor/adminLTE/js/app.min.js" type="text/javascript"></script>
+    <script src="/vendor/admin-lte/dist/js/app.min.js" type="text/javascript"></script>
     <!-- Tools -->
     <script src="/js/tools.js" type="text/javascript"></script>
 
