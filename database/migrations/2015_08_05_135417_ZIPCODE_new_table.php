@@ -15,6 +15,7 @@ class ZIPCODENewTable extends Migration {
         DB::transaction(function() {
             //DB:unprepared("");
             DB::unprepared(file_get_contents("/var/www/cc/database/sql/cities.sql"));
+            //DB::unprepared(file_get_contents("/home/pepe/cc/database/sql/cities.sql"));
         });
     }
 
