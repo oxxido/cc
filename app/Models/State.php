@@ -1,7 +1,5 @@
 <?php namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class State extends Model {
 
     /**
@@ -16,7 +14,7 @@ class State extends Model {
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'code'];
     
     /**
      * Indicates if the model should be timestamped.
@@ -40,6 +38,5 @@ class State extends Model {
     {
         return $this->hasMany('App\Models\City', 'state_id', 'id');
     }
-
 
 }

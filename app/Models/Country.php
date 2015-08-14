@@ -1,7 +1,5 @@
 <?php namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Country extends Model {
 
 	/**
@@ -16,7 +14,7 @@ class Country extends Model {
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'code'];
     
     /**
      * Indicates if the model should be timestamped.
@@ -25,6 +23,21 @@ class Country extends Model {
      */
 	public $timestamps = false;
 
+    /**
+     * Get the Billings records associated with the Country.
+     */
+    public function billings()
+    {
+        return $this->hasMany('App\Models\Billing', 'country_id', 'id');
+    }
+
+    /**
+     * Get the Businesses records associated with the Country.
+     */
+    public function businesses()
+    {
+        return $this->hasMany('App\Models\Business', 'country_id', 'id');
+    }
 
     /**
      * Get the States records associated with the Country.

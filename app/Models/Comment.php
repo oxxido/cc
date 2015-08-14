@@ -32,7 +32,7 @@ class Comment extends Model {
      */
     public function product()
     {
-        return $this->belongsTo('App\Models\Product', 'services_id', 'id');
+        return $this->belongsTo('App\Models\Product', 'product_id', 'id');
     }
 
 }

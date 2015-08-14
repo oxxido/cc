@@ -1,7 +1,5 @@
 <?php namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Customer extends Model {
 
     /**
@@ -16,15 +14,14 @@ class Customer extends Model {
      *
      * @var array
      */
-    protected $fillable = ['first_name', 'last_name', 'email', 'phone', 'customer_note'];
-
+    protected $fillable = ['first_name', 'last_name', 'email', 'phone', 'note'];
 
     /**
      * The Products records associated with the Customer.
      */
     public function products()
     {
-        return $this->belongsToMany('App\Models\Product', 'comments', 'customer_id', 'services_id');
+        return $this->belongsToMany('App\Models\Product', 'comments', 'customer_id', 'product_id');
     }
 
     /**

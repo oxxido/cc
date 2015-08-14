@@ -22,17 +22,17 @@ class LocationController extends Controller {
 	            $join->on('states.country_id', '=', 'countries.id')
                 	 ->where('countries.code', '=', $country_code);
 	        })
-	        ->where('cities.zip_code', '=', $zipcode)
+	        ->where('cities.zipcode', '=', $zipcode)
 	        ->select('cities.*')
 	        ->get();
 
-	    $cities = Models\City::collectionFromResultset($resultset);
+	    $cities = Models\City::collectionFromArray($resultset);
 		$this->data->count = $cities->count();
 		if($this->data->count == 1)
 		{
 			$city = $cities->first();
 			$this->data->city_id = $city->id;
-			$this->data->text = $city->name . " - " . $city->state->code . " - " . $city->zip_code;
+			$this->data->text = $city->name . " - " . $city->state->code . " - " . $city->zipcode;
 		}
 		else
 		{
@@ -41,7 +41,7 @@ class LocationController extends Controller {
 			{
 				$row = new \stdClass();
 				$row->city_id = $city->id;
-				$row->text = $city->name . " - " . $city->state->code . " - " . $city->zip_code;
+				$row->text = $city->name . " - " . $city->state->code . " - " . $city->zipcode;
 				$rows[] = $row;
 			}
 			$this->data->rows = $rows;

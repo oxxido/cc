@@ -1,7 +1,5 @@
 <?php namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Product extends Model {
 
     /**
@@ -16,15 +14,14 @@ class Product extends Model {
      *
      * @var array
      */
-    protected $fillable = ['service', 'url'];
-
+    protected $fillable = ['product', 'url'];
 
     /**
      * Get the Business record associated with the Product.
      */
     public function business()
     {
-        return $this->belongsTo('App\Models\Business', 'businesses_id', 'id');
+        return $this->belongsTo('App\Models\Business', 'business_id', 'id');
     }
 
     /**
@@ -32,7 +29,7 @@ class Product extends Model {
      */
     public function customers()
     {
-        return $this->belongsToMany('App\Models\Customer', 'comments', 'services_id', 'customer_id');
+        return $this->belongsToMany('App\Models\Customer', 'comments', 'product_id', 'customer_id');
     }
 
     /**
@@ -40,7 +37,7 @@ class Product extends Model {
      */
     public function comments()
     {
-        return $this->hasMany('App\Models\Comment', 'services_id', 'id');
+        return $this->hasMany('App\Models\Comment', 'product_id', 'id');
     }
 
 }

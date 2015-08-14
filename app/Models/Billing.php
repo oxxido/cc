@@ -1,7 +1,5 @@
 <?php namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Billing extends Model {
 
     /**
@@ -16,7 +14,7 @@ class Billing extends Model {
      *
      * @var array
      */
-    protected $fillable = ['address', 'phone', 'price'];
+    protected $fillable = ['address', 'phone', 'price', 'cityname', 'state', 'zipcode'];
 
 
     /**
@@ -35,4 +33,11 @@ class Billing extends Model {
         return $this->belongsTo('App\Models\User', 'user_id', 'id');
     }
 
+    /**
+     * Get the Country record associated with the Billing.
+     */
+    public function country()
+    {
+        return $this->belongsTo('App\Models\Country', 'country_id', 'id');
+    }
 }

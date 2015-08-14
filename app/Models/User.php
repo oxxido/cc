@@ -1,7 +1,6 @@
 <?php namespace App\Models;
 
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
@@ -29,8 +28,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $hidden = ['password', 'remember_token'];
-	
+	protected $hidden = ['password', 'remember_token', 'activation_code', 'active', 'resent', 'created_at', 'updated_at'];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['name'];
+
+
 	public function accountIsActive($code)
 	{
 		$user = User::where('activation_code', '=', $code)->first();
@@ -44,6 +51,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	}
 
     /**
+     * Get the Admins records associated with the User.
+     */
+    public function admins()
+    {
+        return $this->hasMany('App\Models\Admin', 'user_id', 'id');
+    }
+
+    /**
      * Get the Billings records associated with the User.
      */
     public function billings()
@@ -52,11 +67,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Get the Businesses records associated with the User.
+     * Get the Owners records associated with the User.
      */
-    public function businesses()
+    public function owners()
     {
-        return $this->hasMany('App\Models\Business', 'user_id', 'id');
+        return $this->hasMany('App\Models\Owner', 'user_id', 'id');
     }
 
     /**
@@ -69,4 +84,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
 		return $this->first_name . ' ' . $this->last_name;
 	}
+
+    /**
+     * Mutator to get the user's full name.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getOwnerAttribute()
+    {
+        return $this->owners()->first();
+    }
 }
