@@ -75,20 +75,6 @@ class AlterBusinessTables extends Migration {
 	public function down()
 	{
 		DB::transaction(function() {
-			Schema::table('business_types', function(Blueprint $table)
-			{
-				$table->increments('id')->change();
-				$table->string('name', 64)->change();
-				$table->timestamps();
-			});
-
-			Schema::table('organization_types', function(Blueprint $table)
-			{
-				$table->increments('id')->change();
-				$table->string('name', 64)->change();
-				$table->timestamps();
-			});
-
 			Schema::table('businesses', function(Blueprint $table)
 			{
 				$table->renameColumn('phone', 'telephone');
@@ -96,6 +82,7 @@ class AlterBusinessTables extends Migration {
 				$table->renameColumn('zipcode', 'zip');
 				$table->renameColumn('cityname', 'city');
 			});
+			
 			Schema::table('businesses', function(Blueprint $table)
 			{
 				$table->integer('users_id')->unsigned();
@@ -124,6 +111,21 @@ class AlterBusinessTables extends Migration {
 				$table->dropColumn('admin_id');
 				$table->dropColumn('owner_id');
 			});
+
+			Schema::table('business_types', function(Blueprint $table)
+			{
+				$table->increments('id')->change();
+				$table->string('name', 64)->change();
+				$table->timestamps();
+			});
+
+			Schema::table('organization_types', function(Blueprint $table)
+			{
+				$table->increments('id')->change();
+				$table->string('name', 64)->change();
+				$table->timestamps();
+			});
+			
 		});
 	}
 

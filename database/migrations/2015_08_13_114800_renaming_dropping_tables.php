@@ -29,24 +29,33 @@ class RenamingDroppingTables extends Migration {
             {
                 $table->increments('id');
                 $table->integer('type_id')->unsigned();
-                $table->foreign('type_id')->references('id')->on('types')->onDelete('cascade')->onUpdate('cascade');
                 $table->integer('business_id')->unsigned();
-                $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade')->onUpdate('cascade');
                 $table->unique(['type_id', 'business_id']);
                 $table->timestamps();
-        });
+        });        
         Schema::create('business_organization', function(Blueprint $table)
             {
                 $table->increments('id');
                 $table->integer('organization_id')->unsigned();
-                $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade')->onUpdate('cascade');
                 $table->integer('business_id')->unsigned();
-                $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade')->onUpdate('cascade');
                 $table->unique(['organization_id', 'business_id']);
                 $table->timestamps();
         });
+
         Schema::rename('business_types', 'types');
 		Schema::rename('organization_types', 'organizations');
+
+        Schema::table('business_type', function(Blueprint $table)
+        {
+            $table->foreign('type_id')->references('id')->on('types')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade')->onUpdate('cascade');
+        });		
+		Schema::table('business_organization', function(Blueprint $table)
+            {
+                $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade')->onUpdate('cascade');
+                $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade')->onUpdate('cascade');
+        });
+        
 	}
 
 }
