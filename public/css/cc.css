@@ -140,10 +140,30 @@ img {
   border-radius: 0px 0px 6px 6px;
 }
 
-.login a:hover {
-  background-color:#000;
+.login a:hover, .login .dropdown-menu>li>a:hover {
+  background-color:#000 !important;
+  background-image: none;
+  color: #FFF;
 }
-
+.login .dropdown-menu>li>a {
+  width: 110px;
+  margin: auto 5px;
+}
+.login .dropdown {
+  list-style: none;
+}
+.login .dropdown-menu {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+}
+.login .dropdown-menu>li>a {
+    color: #FFF;
+}
 #homebanner {
   background:url(/images/homebanner.png) left top repeat-x;
   height:320px;

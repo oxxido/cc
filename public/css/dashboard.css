@@ -1,3 +1,16 @@
 .alert-warning, .alert-success, .label-success, .label-warning, .alert-danger, .label-danger, .alert-info, .label-info {
     background-image: none !important;
 }
+
+#businessAdd .panel {
+	border-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+#businessAdd .alert {
+	padding: 10px 15px;
+    opacity: 0.7;
+    color: #000 !important;
+    display: none;
+}

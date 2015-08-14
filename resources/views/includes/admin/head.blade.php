@@ -14,11 +14,11 @@
     <link href="{{ asset('vendor/datatables/media/css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" >
 
     <!-- Theme style -->
-    <link href="{{ asset('vendor/adminLTE/css/AdminLTE.css') }}" rel="stylesheet" type="text/css" >
+    <link href="{{ asset('vendor/admin-lte/dist/css/AdminLTE.css') }}" rel="stylesheet" type="text/css" >
 
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link href="{{ asset('vendor/adminLTE/css//skin-green.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('vendor/admin-lte/dist/css/skins/skin-green.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- Dashboard css-->
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet" type="text/css" />

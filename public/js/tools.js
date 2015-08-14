@@ -34,7 +34,18 @@ var tools = {
 
         $("#errorMessage").collapse("show");
 
-        $("#errorMessage p").html(str);
+        if(typeof str === 'string')
+        {
+            $("#errorMessage div").html(str);
+        }
+        else
+        {
+            $("#errorMessage div").html("<ul>");
+            $.each(str, function(i, row){
+                $("#errorMessage div").append('<li>'+ row +'</a>');
+            });
+            $("#errorMessage div").append("</ul>");
+        }
 
     }
 

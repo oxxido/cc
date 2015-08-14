@@ -22,6 +22,7 @@ Route::get('/', function() {
 });
 
 Route::get('creative', 'WelcomeController@creative');
+
 Route::get('home', 'HomeController@index');
 Route::get('howitworks', 'HomeController@howitworks');
 Route::get('pricing', 'HomeController@pricing');
@@ -32,6 +33,7 @@ Route::post('request', 'HomeController@post_request');
 Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
+	'location' => 'LocationController'
 ]);
 
 Route::get('/resendEmail', 'Auth\AuthController@resendEmail');
@@ -51,6 +53,7 @@ Route::get('/dashboard/help',    'DashboardController@help');
 
 
 //resourse business
+Route::get('business/search', 'businessController@search');
 Route::resource('business', 'businessController');
 
 Route::get('user/update', [

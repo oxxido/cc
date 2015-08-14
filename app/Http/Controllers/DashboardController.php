@@ -1,9 +1,6 @@
 <?php namespace App\Http\Controllers;
 
-Use App\Models\Users;
-Use App\Models\Business;
-Use App\Models\Organizations;
-Use App\Models\Types;
+Use App\Models;
 
 
 class DashboardController extends Controller {
@@ -17,6 +14,8 @@ class DashboardController extends Controller {
 	public function __construct()
 	{
 		$this->middleware('auth');
+
+		$this->data->user = \Auth::user();
 	}
 
 	/**
@@ -26,9 +25,7 @@ class DashboardController extends Controller {
 	 */
 	public function index()
 	{
-		$data = [];
-		$data['user'] = \Auth::user();
-		return view('dashboard', $data);
+		return $this->view('dashboard');
 	}
 
 	/**
@@ -38,12 +35,11 @@ class DashboardController extends Controller {
 	 */
 	public function business()
 	{
-		$data = [];
-		$data['user'] = \Auth::user();
-		$data['organizations'] = Organizations::all();
-		$data['types'] = Types::all();
+		$this->data->organization_types = Models\OrganizationType::all();
+		$this->data->business_types = Models\BusinessType::all();
+		$this->data->countries = Models\Country::all();
 
-		return view('business', $data);
+		return $this->view('business');
 	}
 
 	/**
@@ -53,9 +49,7 @@ class DashboardController extends Controller {
 	 */
 	public function account()
 	{
-		$data = [];
-		$data['user'] = \Auth::user();
-		return view('account', $data);
+		return $this->view('account');
 	}
 
 	/**
@@ -65,9 +59,7 @@ class DashboardController extends Controller {
 	 */
 	public function widgets()
 	{
-		$data = [];
-		$data['user'] = \Auth::user();
-		return view('widgets', $data);
+		return $this->view('widgets');
 	}
 	/**
 	 * 
@@ -76,9 +68,7 @@ class DashboardController extends Controller {
 	 */
 	public function reports()
 	{
-		$data = [];
-		$data['user'] = \Auth::user();
-		return view('reports', $data);
+		return $this->view('reports');
 	}
 	/**
 	 * 
@@ -87,9 +77,7 @@ class DashboardController extends Controller {
 	 */
 	public function help()
 	{
-		$data = [];
-		$data['user'] = \Auth::user();
-		return view('help', $data);
+		return $this->view('help');
 	}
 
 }
