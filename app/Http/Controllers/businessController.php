@@ -30,7 +30,7 @@ class BusinessController extends Controller {
     {
         $user = \Auth::user();
         $this->data->success = true;
-        $this->data->businesses = Business::where("owner_id", "=", $user->owner->id)->get()->toArray();
+        $this->data->businesses = Business::where("owner_id", "=", $user->id)->get()->toArray();
         return $this->json();
     }
 
@@ -41,8 +41,6 @@ class BusinessController extends Controller {
      */
     public function create()
     {
-        $this->data->_token = csrf_token();;
-
         return $this->json();
     }
 

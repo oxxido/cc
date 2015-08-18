@@ -14,19 +14,17 @@ class LocationController extends Controller {
 	public function getZipcode(Request $request)
 	{
 		$country_code = $request->input('country_code');
-		$zipcode = $request->input('zipcode');
+		$zip_code = $request->input('zip_code');
 
-		$resultset = DB::table('cities')
-	        ->join('states', 'cities.state_id', '=', 'states.id')
+		$cities = Models\City::join('states', 'cities.state_id', '=', 'states.id')
 	        ->join('countries', function ($join)  use ($country_code){
 	            $join->on('states.country_id', '=', 'countries.id')
                 	 ->where('countries.code', '=', $country_code);
 	        })
-	        ->where('cities.zipcode', '=', $zipcode)
+	        ->where('cities.zip_code', '=', $zip_code)
 	        ->select('cities.*')
 	        ->get();
 
-	    $cities = Models\City::collectionFromArray($resultset);
 		$this->data->count = $cities->count();
 		if($this->data->count == 1)
 		{
@@ -36,15 +34,7 @@ class LocationController extends Controller {
 		}
 		else
 		{
-			$rows = [];
-			foreach ($cities as $city)
-			{
-				$row = new \stdClass();
-				$row->city_id = $city->id;
-				$row->location = $city->location;
-				$rows[] = $row;
-			}
-			$this->data->rows = $rows;
+			$this->data->rows = $cities;
 		}
 
 		return $this->json();

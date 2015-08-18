@@ -43,8 +43,10 @@ class Authenticate {
 			{
 				return redirect()->guest('auth/login');
 			}
-		} elseif (!\Auth::user()->active) {
-				return view('auth.guest_activate')
+		}
+		elseif (!\Auth::user()->active)
+		{
+			return view('auth.guestActivate')
 				->with( 'email', \Auth::user()->email )
 				->with( 'date', \Auth::user()->created_at->format('Y-m-d') );
 		}

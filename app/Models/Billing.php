@@ -14,7 +14,7 @@ class Billing extends Model {
      *
      * @var array
      */
-    protected $fillable = ['address', 'phone', 'price', 'cityname', 'state', 'zipcode'];
+    protected $fillable = ['address', 'phone', 'price'];
 
 
     /**
@@ -33,11 +33,4 @@ class Billing extends Model {
         return $this->belongsTo('App\Models\User', 'user_id', 'id');
     }
 
-    /**
-     * Get the Country record associated with the Billing.
-     */
-    public function country()
-    {
-        return $this->belongsTo('App\Models\Country', 'country_id', 'id');
-    }
 }

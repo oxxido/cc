@@ -38,6 +38,11 @@ class City extends Model {
         return $this->belongsTo('App\Models\State', 'state_id', 'id');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany('App\Models\Users', 'billings', 'city_id', 'user_id');
+    }
+
     /**
      * Get the Billings records associated with the City.
      */
@@ -62,7 +67,7 @@ class City extends Model {
      */
     public function getLocationAttribute()
     {
-        return "{$this->name} {$this->zipcode} {$this->state->name}, {$this->state->country->name}";
+        return "{$this->name} {$this->zip_code} {$this->state->name}, {$this->state->country->name}";
     }
 
 }

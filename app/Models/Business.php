@@ -90,16 +90,11 @@ class Business extends Model {
      */
     public function getLocationAttribute()
     {
-        if($this->city_id)
-        {
-            return "{$this->address}, {$this->city->location}";
-        }
-        return "{$this->address}, {$this->cityname} {$this->zipcode} {$this->state}, {$this->country->name}";
+        return "{$this->address}, {$this->city->location}";
     }
 
     public function toArray()
     {
-        $this->country;
         $this->owner;
         $this->admin;
         $this->businessType;

@@ -19,7 +19,7 @@
 
         <p>{{ Lang::get('auth.clickInEmail') }}</p>
         
-        <p><a href='/resendEmail'>{{ Lang::get('auth.clickHereResend') }}</a></p>
+        <p><a href='/auth/resendEmail'>{{ Lang::get('auth.clickHereResend') }}</a></p>
     </div>
   </div>
   </div>

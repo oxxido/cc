@@ -36,15 +36,15 @@ class Admin extends Model {
      */
     public function owner()
     {
-        return $this->belongsTo('App\Models\Owner', 'owner_id', 'id');
+        return $this->belongsTo('App\Models\Users', 'owner_id', 'id');
     }
 
     /**
      * Get the User record associated with the Admin.
      */
-    public function user()
+    public function admin()
     {
-        return $this->belongsTo('App\Models\User', 'user_id', 'id');
+        return $this->belongsTo('App\Models\User', 'admin_id', 'id');
     }
 
     /**

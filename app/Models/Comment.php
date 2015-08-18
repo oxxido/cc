@@ -19,12 +19,9 @@ class Comment extends Model {
     protected $fillable = ['comment', 'rating', 'score', 'status', 'show_on_website'];
 
 
-    /**
-     * Get the Customer record associated with the Comment.
-     */
-    public function customer()
+    public function businessCommenter()
     {
-        return $this->belongsTo('App\Models\Customer', 'customer_id', 'id');
+        return $this->belongsTo('App\businessCommenter', 'commenter_id', 'id');
     }
 
     /**

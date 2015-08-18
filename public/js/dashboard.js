@@ -40,7 +40,7 @@ cc.location = {
             dataType : 'json',
             data : {
                 country_code : country_code,
-                zipcode : zipcode
+                zip_code : zipcode
             }
         })
         .done(function(data) {

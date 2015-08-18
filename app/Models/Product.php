@@ -24,12 +24,9 @@ class Product extends Model {
         return $this->belongsTo('App\Models\Business', 'business_id', 'id');
     }
 
-    /**
-     * The Customers records associated with the Product.
-     */
-    public function customers()
+    public function businessCommenter()
     {
-        return $this->belongsToMany('App\Models\Customer', 'comments', 'product_id', 'customer_id');
+        return $this->belongsToMany('App\Models\BusinessCommenter', 'comments', 'product_id', 'commenter_id');
     }
 
     /**
