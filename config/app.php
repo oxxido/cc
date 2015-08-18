@@ -136,6 +136,9 @@ return [
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 
+		// Upgrade 5.0 to 5.1
+		'Illuminate\Broadcasting\BroadcastServiceProvider',
+
 		/*
 		 * Application Service Providers...
 		 */

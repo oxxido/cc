@@ -24,6 +24,13 @@ class City extends Model {
     public $timestamps = false;
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['location'];
+
+    /**
      * Get the State record associated with the City.
      */
     public function state()
@@ -46,4 +53,16 @@ class City extends Model {
     {
         return $this->hasMany('App\Models\Business', 'city_id', 'id');
     }
+
+    /**
+     * Mutator to get the location full text.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getLocationAttribute()
+    {
+        return "{$this->name} {$this->zipcode} {$this->state->name}, {$this->state->country->name}";
+    }
+
 }

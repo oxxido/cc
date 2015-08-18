@@ -1,7 +1,10 @@
 <?php namespace App\Http\Controllers;
 
-Use App\Models;
-
+use DB;
+use App\Models;
+use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Models\Admin;
 
 class DashboardController extends Controller {
 
@@ -79,5 +82,43 @@ class DashboardController extends Controller {
 	{
 		return $this->view('help');
 	}
+
+    /**
+     * Search Business Admin by keyword and Owner.
+     *
+     * @return Response
+     */
+    public function searchAdmin(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $owner_id = \Auth::user()->owner->id;
+
+        $resultset = DB::table('admins')
+            ->join('users', function ($join)  use ($owner_id){
+                $join->on('admins.user_id', '=', 'users.id')
+                     ->where('admins.owner_id', '=', $owner_id);
+            })
+            ->where('users.first_name', 'like', "$keyword%")
+            ->orwhere('users.first_name', 'like', "% $keyword%")
+            ->orWhere('users.last_name', 'like', "$keyword%")
+            ->orWhere('users.last_name', 'like', "% $keyword%")
+            ->orWhere('users.email', 'like', "%$keyword%")
+            ->select('admins.*')
+            ->get();
+
+        $users = Admin::collectionFromArray($resultset);
+        $this->data->count = $users->count();
+        if($this->data->count == 1)
+        {
+            $city = $users->first();
+            $this->data->admin = $users->first();
+        }
+        else
+        {
+            $this->data->admins = $users;
+        }
+		unset($this->data->user);
+        return $this->json();
+    }
 
 }

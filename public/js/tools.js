@@ -1,7 +1,17 @@
 /* does main namespace exists? */
 
 var tools = {
-    formMessages: function(str, msgType) {
+    handlebars : function(template, wrapper, data)
+    {
+        var hb_template = $(template).html();
+        var hb_compile = Handlebars.compile(hb_template);
+        var hb_html = hb_compile(data);
+        $(wrapper).html(hb_html);
+    },
+    fail : function(x, status, error) {
+        tools.messages("There was an error in our system:, please try again (Error " + x.status + ": " + error +")");   
+    },
+    messages: function(str, msgType) {
         //check msgType
         var cssClass = "alert-info";
         var errorIcon = "fa-info";

@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
@@ -40,14 +41,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 	public function accountIsActive($code)
 	{
-		$user = User::where('activation_code', '=', $code)->first();
-		$user->active = 1;
-		$user->activation_code = '';
-		if($user->save())
-		{
-			\Auth::login($user);
-		}
-		return true;
+		if($user = User::where('activation_code', '=', $code)->first())
+        {
+    		$user->active = 1;
+    		$user->activation_code = '';
+            $user->save();
+    		return $user;
+        }
+        return false;
 	}
 
     /**
@@ -86,13 +87,34 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	}
 
     /**
-     * Mutator to get the user's full name.
+     * Mutator to get the owner.
      *
      * @param  string  $value
      * @return string
      */
     public function getOwnerAttribute()
     {
-        return $this->owners()->first();
+        return $this->isOwner() ? $this->owners()->first() : false;
     }
+
+    /**
+     * Mutator to get the admin.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getAdminAttribute()
+    {
+        return $this->isAdmin() ? $this->admins()->first() : false;
+    }
+
+    public function isAdmin()
+    {
+        return $this->admins->first() ? true : false;
+    }    
+
+    public function isOwner()
+    {
+        return $this->owners->first() ? true : false;
+    }    
 }

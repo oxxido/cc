@@ -23,7 +23,8 @@ class Business extends Model {
      * @var array
      */
     protected $appends = ['location'];
-    protected $hidden = ['owner_id','admin_id','business_type_id','organization_type_id','country_id','city_id','created_at','updated_at'];
+
+    protected $hidden = ['created_at','updated_at'];
 
     /**
      * Get the City record associated with the Business.
@@ -91,13 +92,14 @@ class Business extends Model {
     {
         if($this->city_id)
         {
-            return "{$this->address}, {$this->city->name} {$this->city->zipcode} {$this->city->state->name}, {$this->city->state->country->name}";
+            return "{$this->address}, {$this->city->location}";
         }
-        return "{$this->address}, {$this->cityname} {$this->zipcode} {$this->state}, {$this->country}";
+        return "{$this->address}, {$this->cityname} {$this->zipcode} {$this->state}, {$this->country->name}";
     }
 
     public function toArray()
     {
+        $this->country;
         $this->owner;
         $this->admin;
         $this->businessType;

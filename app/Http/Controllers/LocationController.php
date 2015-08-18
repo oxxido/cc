@@ -32,7 +32,7 @@ class LocationController extends Controller {
 		{
 			$city = $cities->first();
 			$this->data->city_id = $city->id;
-			$this->data->text = $city->name . " - " . $city->state->code . " - " . $city->zipcode;
+			$this->data->location = $city->location;
 		}
 		else
 		{
@@ -41,7 +41,7 @@ class LocationController extends Controller {
 			{
 				$row = new \stdClass();
 				$row->city_id = $city->id;
-				$row->text = $city->name . " - " . $city->state->code . " - " . $city->zipcode;
+				$row->location = $city->location;
 				$rows[] = $row;
 			}
 			$this->data->rows = $rows;

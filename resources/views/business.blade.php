@@ -45,7 +45,7 @@
         </section>
 
         <!-- Main content -->
-        <section class="content">
+        <section class="content" id="content-dashboard">
           <!-- TIP -->
           @if(\Session::has('message'))
               <div class="callout callout-info">
@@ -59,12 +59,30 @@
             <div></div>
           </div>
 
-          @include('dashboard.businessAddForm')
+          <div class="box box-primary collapse" id="businessAdd">
+            <div class="box-header with-border">
+              <h3 class="box-title">Add Business</h3>
+            </div>
+            <div id="businessAddForm_HBW"></div>
+            <div class="overlay" id="businessAddLoading">
+              <i class="fa fa-refresh fa-spin"></i>
+            </div>
+          </div>
+
+          <div class="box box-primary collapse" id="businessEdit">
+            <div class="box-header with-border">
+              <h3 class="box-title">Edit Business</h3>
+            </div>
+            <div id="businessEditForm_HBW"></div>
+            <div class="overlay" id="businessEditLoading">
+              <i class="fa fa-refresh fa-spin"></i>
+            </div>
+          </div>
 
           <!-- Default box -->
-          <div class="box">
+          <div class="box collapse in" id="businessTable">
             <div class="box-header with-border">
-              <a data-toggle="collapse" href="#businessAdd" aria-expanded="false" aria-controls="businessAdd" class="btn btn-app">
+              <a class="btn btn-app" onclick="cc.business.add.create()">
                 <i class="fa fa-plus"></i> Add Business
               </a>
               <a class="btn btn-app">
@@ -72,9 +90,11 @@
               </a>
             </div>
             <div class="box-body">
-              <div id="businessesTableDiv"></div>
+              <div id="businessesTable_HBW"></div>
             </div><!-- /.box-body -->
-           
+            <div class="overlay" id="businessTableLoading">
+              <i class="fa fa-refresh fa-spin"></i>
+            </div>
             <div class="box-footer">
               Footer
             </div><!-- /.box-footer-->
@@ -93,7 +113,49 @@
     </div><!-- ./wrapper -->
 
     <!-- Adding templates -->
-    @include('dashboard.businessTable') 
+    <script id="businessEditForm_HBT" type="text/x-handlebars-template">
+      @include('dashboard.businessEditForm')
+    </script>
+    <script id="businessAddForm_HBT" type="text/x-handlebars-template">
+      @include('dashboard.businessAddForm')
+    </script>
+    <script id="businessesTable_HBT" type="text/x-handlebars-template">
+      @include('dashboard.businessTable')
+    </script>
+
+    <div class="modal fade" id="citiesModal">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Select Location</h4>
+          </div>
+          <div class="modal-body">
+            <div class="list-group" id="cities"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="boSearchModal">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Select Location</h4>
+          </div>
+          <div class="modal-body">
+            <div class="list-group result"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
   @endif
 @endsection

@@ -48,6 +48,14 @@ Free 15 Day Trial (Button)
 </div>
 
 <div class="wrapper">
+@if(\Session::has('message'))
+    <div class="alert alert-warning">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <p>{{ Session::get('message') }}</p>
+    </div>
+@endif
 <div id="containerleft">
   <h3>Add a CertifiedComments <a href="http://www.certifiedcomments.com/review/idivorceforms.php" target="_blank">Trust Seal</a> to your website (<a href="http://www.certifiedcomments.com/review/mydivorcepapers.php" target="_blank">Real Customer Reviews</a>)</h3>
  <div id="containerleftbox"> 

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Business;
+use App\Models\Country;
 
 class BusinessController extends Controller {
 
@@ -30,7 +31,6 @@ class BusinessController extends Controller {
         $user = \Auth::user();
         $this->data->success = true;
         $this->data->businesses = Business::where("owner_id", "=", $user->owner->id)->get()->toArray();
-        $this->data->owner = $user->owner;
         return $this->json();
     }
 
@@ -41,8 +41,7 @@ class BusinessController extends Controller {
      */
     public function create()
     {
-        $this->data->success = false;
-        $this->data->error = "Not allowed";
+        $this->data->_token = csrf_token();;
 
         return $this->json();
     }
@@ -98,18 +97,33 @@ class BusinessController extends Controller {
         {
             if($request->input('new_admin') == 1)
             {
-                $user_admin = new User;
-                $user_admin->first_name = $request->input('admin_first_name');
-                $user_admin->last_name = $request->input('admin_last_name');
-                $user_admin->email = $request->input('admin_email');
-                $user_admin->password = str_random(6);
-                $user_admin->activation_code = str_random(60);
-                $user_admin->save();
-
-                $admin = new Admin;
-                $admin->owner_id = $user->owner->id;
-                $admin->user_id = $user_admin->id;
-                $admin->save();
+                $user_admin_email = $request->input('admin_email');
+                if($users = User::where('email','=',$user_admin_email)->get())
+                {
+                    $user_admin = $users->first();
+                }
+                else
+                {
+                    $user_admin = new User;
+                    $user_admin->first_name = $request->input('admin_first_name');
+                    $user_admin->last_name = $request->input('admin_last_name');
+                    $user_admin->email = $user_admin_email;
+                    $user_admin->password = str_random(6);
+                    $user_admin->activation_code = str_random(60);
+                    $user_admin->save();
+                }
+    
+                if($user_admin->isAdmin())
+                {
+                    $admin = $user_admin->admin;
+                }
+                else
+                {
+                    $admin = new Admin;
+                    $admin->owner_id = $user->owner->id;
+                    $admin->user_id = $user_admin->id;
+                    $admin->save();
+                }
                 $admin_id = $admin->id;
             }
             else
@@ -117,7 +131,7 @@ class BusinessController extends Controller {
                 $admin_id = $request->input('admin_id');
             }
 
-            $business = new Business();
+            $business = new Business;
             $business->owner_id = $user->owner->id;
             $business->admin_id = $admin_id;
             $business->organization_type_id = $request->input('organization_type_id');
@@ -127,7 +141,8 @@ class BusinessController extends Controller {
             $business->phone = $request->input('phone');
             $business->url = $request->input('url');
 
-            $business->country_id = $request->input('country_id');
+            $country = Country::where("code","=",$request->input('country_code'))->get();
+            $business->country_id = $country->id;
 
             if($request->input('new_city') == 1)
             {
@@ -171,7 +186,17 @@ class BusinessController extends Controller {
      */
     public function edit($id)
     {
-        //
+        $success = false;
+        if($business = Business::find($id))
+        {
+            $success = true;
+        }
+
+        $this->data->success = $success;
+        $this->data->business = $business;
+        $this->data->_token = csrf_token();
+
+        return $this->json();
     }
 
     /**
@@ -180,9 +205,12 @@ class BusinessController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        //
+        $this->data->id = $id;
+        $this->data->business = $request;
+
+        return $this->json();
     }
 
     /**
@@ -194,44 +222,6 @@ class BusinessController extends Controller {
     public function destroy($id)
     {
         //
-    }
-
-    /**
-     * Search Business Admin by keyword and Owner.
-     *
-     * @return Response
-     */
-    public function search(Request $request)
-    {
-        $keyword = $request->input('keyword');
-        $owner_id = \Auth::user()->owner->id;
-
-        $resultset = DB::table('admins')
-            ->join('users', function ($join)  use ($owner_id){
-                $join->on('admins.user_id', '=', 'users.id')
-                     ->where('admins.owner_id', '=', $owner_id);
-            })
-            ->where('users.first_name', 'like', "$keyword%")
-            ->orwhere('users.first_name', 'like', "% $keyword%")
-            ->orWhere('users.last_name', 'like', "$keyword%")
-            ->orWhere('users.last_name', 'like', "% $keyword%")
-            ->orWhere('users.email', 'like', "%$keyword%")
-            ->select('admins.*')
-            ->get();
-
-        $users = Admin::collectionFromArray($resultset);
-        $this->data->count = $users->count();
-        if($this->data->count == 1)
-        {
-            $city = $users->first();
-            $this->data->admin = $users->first();
-        }
-        else
-        {
-            $this->data->admins = $users;
-        }
-
-        return $this->json();
     }
 
 }
