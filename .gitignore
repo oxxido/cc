@@ -5,3 +5,5 @@
 *.bak
 /public/vendor
 Thumbs.db
+.idea/
+storage/
