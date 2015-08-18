@@ -129,32 +129,32 @@
       </div>
       <div id="location_auto">
         <div class="form-group">
-          <label for="city_zipcode">Zip Code</label>
+          <label for="city_zip_code">Zip Code</label>
           <div class="input-group">
-            <input type="text" class="form-control" name="city_zipcode" id="city_zipcode" placeholder="Enter Business Zip Code" value="@{{city.zipcode}}">
+            <input type="text" class="form-control" name="city_zip_code" id="city_zip_code" placeholder="Enter Business Zip Code" value="@{{city.zip_code}}">
             <span class="input-group-btn">
-              <button class="btn btn-default" type="button" onclick="cc.location.zipcode()">Search</button>
+              <button class="btn btn-default" type="button" onclick="cc.location.zip_code()">Search</button>
             </span>
           </div>
         </div>
         <div class="form-group">
           <label>City - State - Zip Code</label>
-          <input type="text" id="city_location" class="form-control" onchange="cc.location.zipcode()" disabled="disabled" value="@{{city.location}}">
+          <input type="text" id="city_location" class="form-control" onchange="cc.location.zip_code()" disabled="disabled" value="@{{city.location}}">
           <input type="hidden" id="city_id" name="city_id" value="@{{city_id}}">
         </div>
       </div>
       <div id="location_manual" style="display:none">
         <div class="form-group">
           <label for="city">City</label>
-          <input type="text" name="cityname" placeholder="Enter Business City" id="city" class="form-control" value="@{{cityname}}">
+          <input type="text" name="city_name" placeholder="Enter Business City" id="city" class="form-control" value="@{{city_name}}">
         </div>
         <div class="form-group">
-          <label for="state">State</label>
-          <input type="text" name="state" placeholder="Enter Business State" id="state" class="form-control" value="@{{state}}">
+          <label for="state_name">State</label>
+          <input type="text" name="state_name" placeholder="Enter Business State" id="state_name" class="form-control" value="@{{state}}">
         </div>
         <div class="form-group">
-          <label for="zipcode">Zip Code</label>
-          <input type="text" name="zipcode" placeholder="Enter Business Zip Code" id="zipcode" class="form-control" value="@{{zipcode}}">
+          <label for="zip_code">Zip Code</label>
+          <input type="text" name="zip_code" placeholder="Enter Business Zip Code" id="zip_code" class="form-control" value="@{{zip_code}}">
         </div>
       </div>                        
       <div class="form-group">

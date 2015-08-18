@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades;
+use App\Services\UserService;
 
 class AuthController extends Controller {
 
@@ -42,7 +43,7 @@ class AuthController extends Controller {
 	public function postRegister(Request $request)
 	{
 
-		$validator = $this->validator($request->all());
+		$validator = UserService::validator($request->all());
 	
 		if ($validator->fails())
 		{
@@ -51,7 +52,7 @@ class AuthController extends Controller {
 			);
 		}
 
-		if ($user = $this->create($request->all()))
+		if ($user = UserService::create($request->all()))
 		{
 			$this->sendEmail($user);
 			return view('auth.activateAccount')
@@ -114,38 +115,5 @@ class AuthController extends Controller {
 		return redirect('home');
 	
 	}
-
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-			'first_name' => 'required|max:255',
-			'last_name' => 'required|max:255',
-			'email' => 'required|email|max:255|unique:users',
-			'password' => 'required|confirmed|min:6'
-        ]);
-    }
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-			'first_name' => $data['first_name'],
-			'last_name' => $data['last_name'],
-			'email' => $data['email'],
-			'password' => bcrypt($data['password']),
-			'activation_code' => str_random(60)
-		]);
-    }
 
 }

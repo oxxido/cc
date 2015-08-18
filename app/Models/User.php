@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use App\Models\Admin;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -52,15 +53,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	}
 
     /**
-     * Get the Admins records associated with the User.
+     * Get the Admins records associated with the User record.
      */
     public function admins()
     {
-        return $this->hasMany('App\Models\Admin', 'user_id', 'id');
+        return $this->hasMany('App\Models\Admin', 'admin_id', 'id');
     }
 
     /**
-     * Get the Billings records associated with the User.
+     * Get the Billings records associated with the User record.
      */
     public function billings()
     {
@@ -68,11 +69,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Get the Owners records associated with the User.
+     * Get the Owner record associated with the User record.
      */
-    public function owners()
+    public function user()
     {
-        return $this->hasMany('App\Models\Owner', 'user_id', 'id');
+        return $this->hasOne('App\Models\User', 'id', 'id');
     }
 
     /**
@@ -97,20 +98,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->isOwner() ? $this->owners()->first() : false;
     }
 
-    /**
-     * Mutator to get the admin.
-     *
-     * @param  string  $value
-     * @return string
-     */
-    public function getAdminAttribute()
+    public function isAdmin($id)
     {
-        return $this->isAdmin() ? $this->admins()->first() : false;
-    }
-
-    public function isAdmin()
-    {
-        return $this->admins->first() ? true : false;
+        return Admin::where('owner_id', $id)->where('admin_id', $this->id)->get()->first() ? true : false;
     }    
 
     public function isOwner()

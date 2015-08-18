@@ -8,9 +8,9 @@ class Commenters extends Model {
     protected $fillable = ['phone', 'note'];
 
 
-    public function users()
+    public function user()
     {
-        return $this->belongsTo('App\Models\User', 'id', 'id');
+        return $this->hasOne('App\Models\User', 'id', 'id');
     }
 
     public function businessCommenter()

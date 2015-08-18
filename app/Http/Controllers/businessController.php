@@ -9,6 +9,11 @@ use App\Models\Admin;
 use App\Models\Business;
 use App\Models\Country;
 
+use App\Services\UserService;
+use App\Services\AdminService;
+use App\Services\BusinessService;
+use App\Services\LocationService;
+
 class BusinessController extends Controller {
 
     /**
@@ -51,19 +56,11 @@ class BusinessController extends Controller {
      */
     public function store(Request $request)
     {
-        /*
-          1. Validate that the input is properly formed
-          2. Attempt to send email (and store data?)
-          3. Respond with view or redirect
-        */
-
-        // Define objet to be returned as a json string
         $this->data->success = false;
         $this->data->errors = array();
 
         $user = \Auth::user();
 
-        // Validation rules to aply to fields
         $rules = array(
             'name'                  => 'required',
             'url'                   => 'required|url',
@@ -77,50 +74,46 @@ class BusinessController extends Controller {
 
             'country_code'          => 'required',
             'city_id'               => 'required_if:new_city,0',
-            'cityname'              => 'required_if:new_city,1',
+            'city_name'              => 'required_if:new_city,1',
             'state'                 => 'required_if:new_city,1',
-            'zipcode'               => 'required_if:new_city,1',
-            'cityname'              => 'required_if:new_city,1',
+            'zip_code'               => 'required_if:new_city,1',
+            'city_name'              => 'required_if:new_city,1',
             'address'               => 'required'
         );
 
-        // Instantiate validator using received post parameters and setted rules
         $validation = \Validator::make(\Request::all(), $rules);
 
         if ($validation->fails())
         {
-          $this->data->errors = $validation->getMessageBag()->toArray();
+            $this->data->errors = $validation->getMessageBag()->toArray();
         }
         else
         {
             if($request->input('new_admin') == 1)
             {
                 $user_admin_email = $request->input('admin_email');
-                if($users = User::where('email','=',$user_admin_email)->get())
+                if(!($user_admin = UserService::find($user_admin_email)))
                 {
-                    $user_admin = $users->first();
+                    $password = str_random(8);
+                    $user_admin = UserService::create([
+                        'first_name' => $request->input('admin_first_name'),
+                        'last_name' => $request->input('admin_last_name'),
+                        'email' => $user_admin_email,
+                        'password' => $password,
+                        'password_confirmation' => $password
+                    ]);
                 }
-                else
-                {
-                    $user_admin = new User;
-                    $user_admin->first_name = $request->input('admin_first_name');
-                    $user_admin->last_name = $request->input('admin_last_name');
-                    $user_admin->email = $user_admin_email;
-                    $user_admin->password = str_random(6);
-                    $user_admin->activation_code = str_random(60);
-                    $user_admin->save();
-                }
-    
-                if($user_admin->isAdmin())
+
+                if($user_admin->isAdmin($user->id))
                 {
                     $admin = $user_admin->admin;
                 }
                 else
                 {
-                    $admin = new Admin;
-                    $admin->owner_id = $user->owner->id;
-                    $admin->user_id = $user_admin->id;
-                    $admin->save();
+                    $admin = AdminService::create([
+                        'owner_id' => $user->id,
+                        'admin_id' => $user_admin->id
+                    ]);
                 }
                 $admin_id = $admin->id;
             }
@@ -129,34 +122,32 @@ class BusinessController extends Controller {
                 $admin_id = $request->input('admin_id');
             }
 
-            $business = new Business;
-            $business->owner_id = $user->owner->id;
-            $business->admin_id = $admin_id;
-            $business->organization_type_id = $request->input('organization_type_id');
-            $business->business_type_id = $request->input('business_type_id');
-            $business->name = $request->input('name');
-            $business->description = $request->input('description');
-            $business->phone = $request->input('phone');
-            $business->url = $request->input('url');
-
-            $country = Country::where("code","=",$request->input('country_code'))->get();
-            $business->country_id = $country->id;
-
-            if($request->input('new_city') == 1)
+            $city_id = $request->input('city_id');
+            $country_code = $request->input('country_code');
+            $zip_code = $request->input('zip_code');
+            if(!($city = LocationService::find($city_id, $zip_code, $country_code)->first()))
             {
-                $business->cityname = $request->input('cityname');
-                $business->state = $request->input('state');
-                $business->zipcode = $request->input('zipcode');
+                $city = LocationService::create([
+                    'city_name'    => $request->input('city_name'),
+                    'state_name'   => $request->input('state_name'),
+                    'country_code' => $country_code,
+                    'zip_code'     => $zip_code
+                ]);
             }
-            else
-            {
-                $business->city_id = $request->input('city_id');
-            }
-            $business->address = $request->input('address');
 
-            // store new biz
-            $business->save();
-            //Session::flash('message', 'Successfully created!');
+            $business = BusinessService::create([
+                'business_type_id'     => $request->input('business_type_id'),
+                'organization_type_id' => $request->input('organization_type_id'),
+                'city_id'              => $city->id,
+                'owner_id'             => $user->id,
+                'admin_id'             => $admin_id,
+                'name'                 => $request->input('name'),
+                'description'          => $request->input('description'),
+                'phone'                => $request->input('phone'),
+                'url'                  => $request->input('url'),
+                'address'              => $request->input('address')
+            ]);
+
             $this->data->success = true;
             $this->data->business = $business->toArray();
         }

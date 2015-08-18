@@ -26,13 +26,13 @@ cc.location = {
         }
     },
 
-    zipcode : function()
+    zip_code : function()
     {
-        var city_zipcode = $("#city_zipcode");
-        var zipcode = city_zipcode.val();
+        var city_zip_code = $("#city_zip_code");
+        var zip_code = city_zip_code.val();
         var country_code = $("#country_code option:selected").val();
 
-        city_zipcode.attr('disabled', true);
+        city_zip_code.attr('disabled', true);
         cc.location.city("","");
 
         $.ajax({
@@ -40,7 +40,7 @@ cc.location = {
             dataType : 'json',
             data : {
                 country_code : country_code,
-                zip_code : zipcode
+                zip_code : zip_code
             }
         })
         .done(function(data) {
@@ -63,7 +63,7 @@ cc.location = {
         })
         .fail(tools.fail)
         .always(function () {
-            city_zipcode.attr('disabled', false);
+            city_zip_code.attr('disabled', false);
         });
     },
     city : function(city_id, text)
@@ -109,20 +109,10 @@ cc.business = {
     add : {
         create : function()
         {
-            cc.dashboard.panel.loading("#businessAddLoading","show");
-            $.ajax({
-                url : cc.baseUrl + 'business/create',
-                dataType : 'json'
-            })
-            .done(function(data) {
-                tools.handlebars("#businessAddForm_HBT", "#businessAddForm_HBW", {'_token':data._token});
-                cc.dashboard.panel.only("#businessAdd");
-                $("#businessAddForm").bind('submit', cc.business.add.store);
-            })
-            .fail(tools.fail)
-            .always(function () {
-                cc.dashboard.panel.loading("#businessAddLoading","hide");
-            });
+            tools.handlebars("#businessAddForm_HBT", "#businessAddForm_HBW", {});
+            cc.dashboard.panel.only("#businessAdd");
+            $("#businessAddForm").bind('submit', cc.business.add.store);
+            cc.business.admin.init();
         },
         store : function()
         {
@@ -132,13 +122,12 @@ cc.business = {
 
             form.find("button[type='submit']").attr('disabled', true);
 
-            $.each(form.serializeArray(), function(i, field) {
-                data[field.name] = field.value;
-            });
+            var data = form.serialize();
             $.ajax({
                 url : cc.baseUrl + 'business',
                 dataType : 'json',
                 type: "POST",
+                processData : false,
                 data : data
             })
             .done(function(data) {
@@ -190,6 +179,7 @@ cc.business = {
                     $("#country_code").val(data.business.country.code);
                     cc.location.country();
                     $("#businessEditForm").bind('submit', cc.business.edit.update);
+                    cc.business.admin.init();
                 }
                 else
                 {
@@ -344,6 +334,5 @@ cc.business = {
     init: function()
     {
         cc.business.table();
-        cc.business.admin.init();
     }
 }

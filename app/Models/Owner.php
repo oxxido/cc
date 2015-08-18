@@ -1,20 +1,20 @@
 <?php namespace App\Models;
 
-class Admin extends Model {
+class Owner extends Model {
 
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'admins';
+    protected $table = 'owners';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['admin_id','owner_id'];
+    protected $fillable = [];
 
     /**
      * The accessors to append to the model's array form.
@@ -22,7 +22,7 @@ class Admin extends Model {
      * @var array
      */
     protected $appends = ['name','email'];
-    protected $hidden = ['admin_id','owner_id','user'];
+    protected $hidden = ['user'];
 
     /**
      * Indicates if the model should be timestamped.
@@ -32,38 +32,30 @@ class Admin extends Model {
     public $timestamps = false;
 
     /**
-     * Get the Owner record associated with the Admin.
-     */
-    public function owner()
-    {
-        return $this->belongsTo('App\Models\User', 'owner_id', 'id');
-    }
-
-    /**
-     * Get the Owner record associated with the Admin.
+     * Get the User record associated with the Owner.
      */
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'admin_id', 'id');
+        return $this->belongsTo('App\Models\User', 'id', 'id');
     }
 
     /**
-     * Get the User record associated with the Admin.
+     * Get the Admins records associated with the Owner.
      */
-    public function admin()
+    public function admins()
     {
-        return $this->belongsTo('App\Models\User', 'admin_id', 'id');
+        return $this->hasMany('App\Models\Admin', 'owner_id', 'id');
     }
 
     /**
-     * Get the Businesses records associated with the Admin.
+     * Get the Businesses records associated with the Owner.
      */
     public function businesses()
     {
-        return $this->hasMany('App\Models\Business', 'admin_id', 'id');
+        return $this->hasMany('App\Models\Business', 'owner_id', 'id');
     }
 
-     /**
+	 /**
      * Mutator to get the user's full name.
      *
      * @param  string  $value
@@ -71,8 +63,8 @@ class Admin extends Model {
      */
     public function getNameAttribute()
     {
-        return $this->user->name;
-    }
+		return $this->user->name;
+	}
 
      /**
      * Mutator to get the user's email.
