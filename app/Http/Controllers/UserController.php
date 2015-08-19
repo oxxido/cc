@@ -18,7 +18,7 @@ class UserController extends Controller {
         $data = new \stdClass();
         $data->success = true;
         // get all the users
-        $data->users = Users::all();
+        $data->users = User::all();
 
         return \Response::json($data);
     }

@@ -30,7 +30,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="#">Manage Users</a></li>
+                <li><a href="/dashboard/manageUsers">Manage Users</a></li>
                 <li><a href="#">Account Owner Details</a></li>
                 <li><a href="#">Payment Information</a></li>
               </ul>

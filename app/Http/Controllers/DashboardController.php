@@ -60,6 +60,17 @@ class DashboardController extends Controller {
 	 *
 	 * @return Response
 	 */
+	public function manageUsers()
+	{
+        $this->data->countries = Models\Country::all();
+		return $this->view('manageUsers');
+	}
+
+	/**
+	 * 
+	 *
+	 * @return Response
+	 */
 	public function widgets()
 	{
 		return $this->view('widgets');

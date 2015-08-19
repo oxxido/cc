@@ -88,9 +88,13 @@
                 {!! Form::hidden('user_id',$user->id) !!}
 
                 <div class="box-body">
+                <div class="form-group">
+                      {!! Form::label('first_name', 'First Name') !!}
+                      {!! Form::text('first_name', null,array('class' => 'form-control')) !!}
+                    </div>
                     <div class="form-group">
-                      {!! Form::label('name', 'User Name') !!}
-                      {!! Form::text('name', null,array('class' => 'form-control')) !!}
+                      {!! Form::label('last_name', 'Last Name') !!}
+                      {!! Form::text('last_name', null,array('class' => 'form-control')) !!}
                     </div>
                     <div class="form-group">
                       {!! Form::label('email', 'E-Mail Address') !!}
