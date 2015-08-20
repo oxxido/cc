@@ -109,4 +109,15 @@ class BusinessService {
         $business->save();
         return $business;
     }
+
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array  $data
+     * @return Business
+     */
+    public static function create(array $data)
+    {
+        return Business::create($data);
+    }
 }

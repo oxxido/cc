@@ -10,11 +10,16 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-use App\Business;
+use App\Models;
 
 Route::get('/test', function() {
-    $users = Business::all();
-    print_r($users);
+    $data = array(
+                'name' => "ger",
+                'code' => "128",
+        );
+    $template = Models\Template::first();
+    $msg = DbView::make($template)->field('html')->with($data)->render();
+    print_r($msg);
 });
 
 Route::get('/', function() {
@@ -54,7 +59,7 @@ Route::get('/dashboard/help',    		'DashboardController@help');
 Route::get('/dashboard/manageUsers',    'DashboardController@manageUsers');
 
 //resourse business
-Route::resource('business', 'BusinessController');
+Route::resource('business', 'businessController');
 
 //resourse user
 Route::resource('user', 'UserController');

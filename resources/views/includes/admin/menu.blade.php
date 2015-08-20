@@ -72,7 +72,7 @@
               </a>
             </li>
 @else
-<!--
+
             <li class="treeview">
               <a href="/dashboard/account">
                 <i class="fa fa-user"></i> <span>Account</span>

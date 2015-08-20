@@ -71,7 +71,7 @@ class BusinessController extends Controller {
             $admin = BusinessService::getAdmin($request, $this->user);
             $city = BusinessService::getCity($request);
 
-            $business = BusinessService::update([
+            $business = BusinessService::create([
                 'business_type_id'     => $request->input('business_type_id'),
                 'organization_type_id' => $request->input('organization_type_id'),
                 'city_id'              => $city->id,
