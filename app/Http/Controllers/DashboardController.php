@@ -9,6 +9,8 @@ use App\Models\Admin;
 class DashboardController extends Controller {
 
 
+	public $user;
+
 	/**
 	 * Create a new controller instance.
 	 *
@@ -18,7 +20,8 @@ class DashboardController extends Controller {
 	{
 		$this->middleware('auth');
 
-		$this->data->user = \Auth::user();
+		$this->user = \Auth::user();
+		$this->data->user = $this->user;
 	}
 
 	/**
@@ -42,7 +45,7 @@ class DashboardController extends Controller {
 		$this->data->business_types = Models\BusinessType::all();
 		$this->data->countries = Models\Country::all();
 
-		return $this->view('business');
+		return $this->view('dashboard.business.index');
 	}
 
 	/**
@@ -102,18 +105,17 @@ class DashboardController extends Controller {
     public function searchAdmin(Request $request)
     {
         $keyword = $request->input('keyword');
-        $owner_id = \Auth::user()->owner->id;
 
         $resultset = DB::table('admins')
-            ->join('users', function ($join)  use ($owner_id){
-                $join->on('admins.user_id', '=', 'users.id')
-                     ->where('admins.owner_id', '=', $owner_id);
+        	->join('users', 'admins.admin_id', '=', 'users.id')
+        	->where('admins.owner_id', '=', $this->user->id)
+            ->where(function ($query) use ($keyword) {
+	            $query->where('users.first_name', 'like', "% $keyword%")
+	            	->orWhere('users.first_name', 'like', "$keyword%")
+	            	->orWhere('users.last_name', 'like', "$keyword%")
+	            	->orWhere('users.last_name', 'like', "% $keyword%")
+	            	->orWhere('users.email', 'like', "%$keyword%@%");
             })
-            ->where('users.first_name', 'like', "$keyword%")
-            ->orwhere('users.first_name', 'like', "% $keyword%")
-            ->orWhere('users.last_name', 'like', "$keyword%")
-            ->orWhere('users.last_name', 'like', "% $keyword%")
-            ->orWhere('users.email', 'like', "%$keyword%")
             ->select('admins.*')
             ->get();
 

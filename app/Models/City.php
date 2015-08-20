@@ -14,7 +14,7 @@ class City extends Model {
      *
      * @var array
      */
-    protected $fillable = ['name', 'zip_code'];
+    protected $fillable = ['name', 'zip_code', 'state_id'];
     
     /**
      * Indicates if the model should be timestamped.

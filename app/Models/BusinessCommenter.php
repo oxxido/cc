@@ -33,5 +33,4 @@ class BusinessCommenter extends Model {
         return $this->hasMany('App\Models\Comment', 'commenter_id', 'id');
     }
 
-
 }

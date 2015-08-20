@@ -2,6 +2,7 @@
 <html>
 <head>
     @include('includes.admin.head')
+    <meta name="_token" content="{{ csrf_token() }}">
 </head>
 <body class="skin-green fixed sidebar-mini">
     @yield('body')

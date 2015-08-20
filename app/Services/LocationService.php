@@ -33,7 +33,7 @@ class LocationService {
         $country = Country::where("code", "=", $data['country_code'])->get()->first();
         $state = State::create([
             'country_id' => $country->id,
-            'name'       =>$data['state_name']
+            'name'       => $data['state_name']
         ]);
         return City::create([
             'state_id' => $state->id,

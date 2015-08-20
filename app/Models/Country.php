@@ -31,4 +31,9 @@ class Country extends Model {
         return $this->hasMany('App\Models\State', 'country_id', 'id');
     }
 
+    public static function all($columns = array())
+    {
+        return parent::all()->sortBy('name');
+    }
+
 }

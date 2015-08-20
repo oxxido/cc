@@ -32,4 +32,8 @@ class BusinessType extends Model {
         return $this->hasMany('App\Models\Business', 'business_type_id', 'id');
     }
 
+    public static function all($columns = array())
+    {
+        return parent::all()->sortBy('name');
+    }
 }

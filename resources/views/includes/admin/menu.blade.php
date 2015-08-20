@@ -8,7 +8,7 @@
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
 
-@//if ($user->isAdmin)
+@if ($user->isOwner())
 
             <li class="treeview">
               <a href="/dashboard/account">
@@ -25,23 +25,23 @@
               </ul>
             </li>
             <li class="treeview">
-              <a href="/dashboard/account">
+              <a href="#">
                 <i class="fa fa-user"></i> <span>Account</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
                 <li><a href="/dashboard/manageUsers">Manage Users</a></li>
-                <li><a href="#">Account Owner Details</a></li>
+                <li><a href="/dashboard/account">Account Owner Details</a></li>
                 <li><a href="#">Payment Information</a></li>
               </ul>
             </li>
             <li class="treeview">
-              <a href="/dashboard/business">
+              <a href="#">
                 <i class="fa fa-briefcase"></i> <span>Businesses</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="#">Manage Businesses</a></li>
+                <li><a href="/dashboard/business">Manage Businesses</a></li>
               </ul>
             </li>
             <li  class="treeview">
@@ -71,8 +71,8 @@
                 <i class="fa fa-sign-out"></i> <span>Logout</span>
               </a>
             </li>
-@//else
-<!--
+@else
+
             <li class="treeview">
               <a href="/dashboard/account">
                 <i class="fa fa-user"></i> <span>Account</span>
@@ -116,7 +116,7 @@
             <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
             -->
-@//endif
+@endif
           </ul>
         </section>
         <!-- /.sidebar -->

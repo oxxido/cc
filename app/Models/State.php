@@ -14,7 +14,7 @@ class State extends Model {
      *
      * @var array
      */
-    protected $fillable = ['name', 'code'];
+    protected $fillable = ['name', 'code','country_id'];
     
     /**
      * Indicates if the model should be timestamped.
