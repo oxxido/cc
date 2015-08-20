@@ -52,6 +52,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return false;
 	}
 
+
+    public function owner()
+    {
+        return $this->hasOne('App\Models\Owner', 'id', 'id');
+    }
+
     /**
      * Get the Admins records associated with the User record.
      */
@@ -87,17 +93,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->first_name . ' ' . $this->last_name;
 	}
 
-    /**
-     * Mutator to get the owner.
-     *
-     * @param  string  $value
-     * @return string
-     */
-    public function getOwnerAttribute()
-    {
-        return $this->isOwner() ? $this->owners()->first() : false;
-    }
-
     public function isAdmin($id)
     {
         return Admin::where('owner_id', $id)->where('admin_id', $this->id)->get()->first() ? true : false;
@@ -105,6 +100,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function isOwner()
     {
-        return $this->owners->first() ? true : false;
+        return $this->owner ? true : false;
     }    
 }

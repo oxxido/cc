@@ -137,24 +137,29 @@
             </span>
           </div>
         </div>
+        <div class="alert alert-warning" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          Locations not matching or not found
+        </div>
         <div class="form-group">
           <label>City - State - Zip Code</label>
           <input type="text" id="city_location" class="form-control" onchange="cc.location.zip_code()" disabled="disabled" value="@{{city.location}}">
           <input type="hidden" id="city_id" name="city_id" value="@{{city_id}}">
         </div>
       </div>
+
       <div id="location_manual" style="display:none">
         <div class="form-group">
           <label for="city">City</label>
-          <input type="text" name="city_name" placeholder="Enter Business City" id="city" class="form-control" value="@{{city_name}}">
+          <input type="text" name="city_name" placeholder="Enter Business City" id="city" class="form-control" value="@{{city.name}}">
         </div>
         <div class="form-group">
           <label for="state_name">State</label>
-          <input type="text" name="state_name" placeholder="Enter Business State" id="state_name" class="form-control" value="@{{state}}">
+          <input type="text" name="state_name" placeholder="Enter Business State" id="state_name" class="form-control" value="@{{city.state.name}}">
         </div>
         <div class="form-group">
           <label for="zip_code">Zip Code</label>
-          <input type="text" name="zip_code" placeholder="Enter Business Zip Code" id="zip_code" class="form-control" value="@{{zip_code}}">
+          <input type="text" name="zip_code" placeholder="Enter Business Zip Code" id="zip_code" class="form-control" value="@{{city.zip_code}}">
         </div>
       </div>                        
       <div class="form-group">

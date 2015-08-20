@@ -4,6 +4,7 @@ use DB;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Business;
@@ -16,6 +17,8 @@ use App\Services\LocationService;
 
 class BusinessController extends Controller {
 
+    public $user;
+
     /**
      * Create a new controller instance.
      *
@@ -24,6 +27,7 @@ class BusinessController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->user = \Auth::user();
     }
 
     /**
@@ -33,9 +37,8 @@ class BusinessController extends Controller {
      */
     public function index()
     {
-        $user = \Auth::user();
         $this->data->success = true;
-        $this->data->businesses = Business::where("owner_id", "=", $user->id)->get()->toArray();
+        $this->data->businesses = Business::where("owner_id", "=", $this->user->id)->get()->toArray();
         return $this->json();
     }
 
@@ -46,7 +49,6 @@ class BusinessController extends Controller {
      */
     public function create()
     {
-        return $this->json();
     }
 
     /**
@@ -56,32 +58,9 @@ class BusinessController extends Controller {
      */
     public function store(Request $request)
     {
-        $this->data->success = false;
-        $this->data->errors = array();
+        $success = false;
 
-        $user = \Auth::user();
-
-        $rules = array(
-            'name'                  => 'required',
-            'url'                   => 'required|url',
-            'organization_type_id'  => 'required',
-            'business_type_id'      => 'required',
-
-            'admin_id'              => 'required_if:new_admin,0',
-            'admin_first_name'      => 'required_if:new_admin,1',
-            'admin_last_name'       => 'required_if:new_admin,1',
-            'admin_email'           => 'required_if:new_admin,1',
-
-            'country_code'          => 'required',
-            'city_id'               => 'required_if:new_city,0',
-            'city_name'              => 'required_if:new_city,1',
-            'state'                 => 'required_if:new_city,1',
-            'zip_code'               => 'required_if:new_city,1',
-            'city_name'              => 'required_if:new_city,1',
-            'address'               => 'required'
-        );
-
-        $validation = \Validator::make(\Request::all(), $rules);
+        $validation = BusinessService::validator(\Request::all());
 
         if ($validation->fails())
         {
@@ -89,58 +68,15 @@ class BusinessController extends Controller {
         }
         else
         {
-            if($request->input('new_admin') == 1)
-            {
-                $user_admin_email = $request->input('admin_email');
-                if(!($user_admin = UserService::find($user_admin_email)))
-                {
-                    $password = str_random(8);
-                    $user_admin = UserService::create([
-                        'first_name' => $request->input('admin_first_name'),
-                        'last_name' => $request->input('admin_last_name'),
-                        'email' => $user_admin_email,
-                        'password' => $password,
-                        'password_confirmation' => $password
-                    ]);
-                }
+            $admin = BusinessService::getAdmin($request, $this->user);
+            $city = BusinessService::getCity($request);
 
-                if($user_admin->isAdmin($user->id))
-                {
-                    $admin = $user_admin->admin;
-                }
-                else
-                {
-                    $admin = AdminService::create([
-                        'owner_id' => $user->id,
-                        'admin_id' => $user_admin->id
-                    ]);
-                }
-                $admin_id = $admin->id;
-            }
-            else
-            {
-                $admin_id = $request->input('admin_id');
-            }
-
-            $city_id = $request->input('city_id');
-            $country_code = $request->input('country_code');
-            $zip_code = $request->input('zip_code');
-            if(!($city = LocationService::find($city_id, $zip_code, $country_code)->first()))
-            {
-                $city = LocationService::create([
-                    'city_name'    => $request->input('city_name'),
-                    'state_name'   => $request->input('state_name'),
-                    'country_code' => $country_code,
-                    'zip_code'     => $zip_code
-                ]);
-            }
-
-            $business = BusinessService::create([
+            $business = BusinessService::update([
                 'business_type_id'     => $request->input('business_type_id'),
                 'organization_type_id' => $request->input('organization_type_id'),
                 'city_id'              => $city->id,
-                'owner_id'             => $user->id,
-                'admin_id'             => $admin_id,
+                'owner_id'             => $this->user->id,
+                'admin_id'             => $admin->id,
                 'name'                 => $request->input('name'),
                 'description'          => $request->input('description'),
                 'phone'                => $request->input('phone'),
@@ -148,9 +84,10 @@ class BusinessController extends Controller {
                 'address'              => $request->input('address')
             ]);
 
-            $this->data->success = true;
-            $this->data->business = $business->toArray();
+            $success = true;
+            $this->data->business = $business;
         }
+        $this->data->success = $success;
         return $this->json();
     }
 
@@ -162,7 +99,18 @@ class BusinessController extends Controller {
      */
     public function show($id)
     {
-        $this->data->business = Business::find($id);
+        if($business = Business::find($id))
+        {
+            $success = true;
+        }
+        else
+        {
+            $this->data->error = "Business not found";
+            $success = false;
+        }
+
+        $this->data->success = $success;
+        $this->data->business = $business;
 
         return $this->json();
     }
@@ -175,17 +123,7 @@ class BusinessController extends Controller {
      */
     public function edit($id)
     {
-        $success = false;
-        if($business = Business::find($id))
-        {
-            $success = true;
-        }
-
-        $this->data->success = $success;
-        $this->data->business = $business;
-        $this->data->_token = csrf_token();
-
-        return $this->json();
+        return $this->show($id);
     }
 
     /**
@@ -196,8 +134,38 @@ class BusinessController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $this->data->id = $id;
-        $this->data->business = $request;
+        $success = false;
+
+        $validation = BusinessService::validator(\Request::all());
+
+        if ($validation->fails())
+        {
+            $this->data->errors = $validation->getMessageBag()->toArray();
+        }
+        else
+        {
+            $business = Business::find($id);
+            $admin = BusinessService::getAdmin($request, $this->user);
+            $city = BusinessService::getCity($request);
+
+            $business = BusinessService::update($id, [
+                'business_type_id'     => $request->input('business_type_id'),
+                'organization_type_id' => $request->input('organization_type_id'),
+                'city_id'              => $city->id,
+                'owner_id'             => $this->user->id,
+                'admin_id'             => $admin->id,
+                'name'                 => $request->input('name'),
+                'description'          => $request->input('description'),
+                'phone'                => $request->input('phone'),
+                'url'                  => $request->input('url'),
+                'address'              => $request->input('address')
+            ]);
+
+            $success = true;
+            $this->data->business = $business;
+        }
+
+        $this->data->success = $success;
 
         return $this->json();
     }
@@ -210,7 +178,21 @@ class BusinessController extends Controller {
      */
     public function destroy($id)
     {
-        //
+        if($business = Business::find($id))
+        {
+            $this->data->business = $business->name;
+            $business->delete();
+            $success = true;
+        }
+        else
+        {
+            $this->data->error = "Business not found";
+            $success = false;
+        }
+
+        $this->data->success = $success;
+
+        return $this->json();
     }
 
 }

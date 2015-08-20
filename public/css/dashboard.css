@@ -2,19 +2,26 @@
     background-image: none !important;
 }
 
-#businessAdd .panel, #businessEdit .panel {
+#content-dashboard .panel {
 	border-top: 0;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
 
-#businessAdd .alert, #businessEdit .alert {
-	padding: 10px 15px;
+#content-dashboard form .alert {
+    padding: 10px 15px;
     opacity: 0.7;
     color: #000 !important;
     display: none;
 }
 
-.overlay {
+#content-dashboard .overlay {
 	display: none;
+}
+
+#content-dashboard .table th{
+	text-align: center;
+}
+#content-dashboard .table td.action{
+	text-align: center;
 }
