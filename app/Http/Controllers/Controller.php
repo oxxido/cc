@@ -4,6 +4,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use App\Models;
 
 abstract class Controller extends BaseController {
 
@@ -35,5 +36,12 @@ abstract class Controller extends BaseController {
 	{
 		$data = (array) ($data ? $data : $this->data);
         return \Response::json($data);
+	}
+
+	protected function dbView($data, $field = 'html')
+	{
+    	$template = Models\Template::first();
+    	$html = DbView::make($template)->field('html')->with($data)->render();
+    	return $html;
 	}
 }

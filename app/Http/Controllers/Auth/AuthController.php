@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\Template;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -75,11 +76,22 @@ class AuthController extends Controller {
 
         if(strpos(url(), "localhost") === false)
         {
+            /*
+            //get template from db
+            $template = Template::first();
+            $msg = \DbView::make($template)->with($data)->render();
+            \Mail::raw($msg, function($message) use ($user) {
+                $message->from("gerardo@rosciano.com.ar");
+                $message->subject( \Lang::get('auth.activateEmailSubject') );
+                $message->to($user->email);
+            });*/
+
 			\Mail::queue('emails.activateAccount', $data, function($message) use ($user) {
 				$message->from("gerardo@rosciano.com.ar");
 				$message->subject( \Lang::get('auth.activateEmailSubject') );
 				$message->to($user->email);
 			});
+            
 		}
 	}
 	
@@ -95,6 +107,7 @@ class AuthController extends Controller {
 		{
 			$user->resent = $user->resent + 1;
 			$user->save();
+
 			$this->sendEmail($user);
 			return view('auth.activateAccount')
 				->with('email', $user->email);

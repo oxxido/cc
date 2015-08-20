@@ -152,6 +152,8 @@ return [
 		'Way\Generators\GeneratorsServiceProvider',
 		'Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider',
 		'User11001\EloquentModelGenerator\EloquentModelGeneratorProvider',
+		//template compiler from db
+		'Flynsarmy\DbBladeCompiler\DbBladeCompilerServiceProvider',
 	],
 
 	/*
@@ -201,6 +203,7 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
 		'Form'      => 'Collective\Html\FormFacade',
       	'Html'      => 'Collective\Html\HtmlFacade',
+      	'DbView'    => 'Flynsarmy\DbBladeCompiler\Facades\DbView',
 
 	],
 
