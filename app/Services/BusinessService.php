@@ -45,7 +45,7 @@ class BusinessService {
         $city_id = $request->input('city_id');
         $country_code = $request->input('country_code');
         $zip_code = $request->input('zip_code');
-        if(!($city = LocationService::find($city_id, $zip_code, $country_code)->first()))
+        if(!($city = LocationService::find($city_id, $zip_code, $country_code)))
         {
             $city = LocationService::create([
                 'city_name'    => $request->input('city_name'),
