@@ -68,8 +68,21 @@ class BusinessController extends Controller {
         }
         else
         {
-            $admin = BusinessService::getAdmin($request, $this->user);
-            $city = BusinessService::getCity($request);
+            $admin = BusinessService::getAdmin([
+                'owner_id'   => $this->user->id,
+                'email'      => $request->input('admin_email'),
+                'first_name' => $request->input('admin_first_name'),
+                'last_name'  => $request->input('admin_last_name'),
+                'id'         => ($request->input('new_admin') ? false : $request->input('admin_id'))
+            ]);
+
+            $city = BusinessService::getCity([
+                'city_id'      => ($request->input('new_city') ? false : $request->input('city_id')),
+                'country_code' => $request->input('country_code'),
+                'zip_code'     => ($request->input('new_city') ? $request->input('zip_code') : $request->input('city_zip_code')),
+                'city_name'    => $request->input('city_name'),
+                'state_name'   => $request->input('state_name')
+            ]);
 
             $business = BusinessService::create([
                 'business_type_id'     => $request->input('business_type_id'),
@@ -145,8 +158,22 @@ class BusinessController extends Controller {
         else
         {
             $business = Business::find($id);
-            $admin = BusinessService::getAdmin($request, $this->user);
-            $city = BusinessService::getCity($request);
+
+            $admin = BusinessService::getAdmin([
+                'owner_id'   => $this->user->id,
+                'email'      => $request->input('admin_email'),
+                'first_name' => $request->input('admin_first_name'),
+                'last_name'  => $request->input('admin_last_name'),
+                'id'         => ($request->input('new_admin') ? false : $request->input('admin_id'))
+            ]);
+
+            $city = BusinessService::getCity([
+                'city_id'      => ($request->input('new_city') ? false : $request->input('city_id')),
+                'country_code' => $request->input('country_code'),
+                'zip_code'     => ($request->input('new_city') ? $request->input('zip_code') : $request->input('city_zip_code')),
+                'city_name'    => $request->input('city_name'),
+                'state_name'   => $request->input('state_name')
+            ]);
 
             $business = BusinessService::update($id, [
                 'business_type_id'     => $request->input('business_type_id'),

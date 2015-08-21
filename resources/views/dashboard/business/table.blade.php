@@ -5,7 +5,7 @@
       <th>Admin</th>
       <th>Address</th>
       <th>Website</th>
-      <th width="65">Action</th>
+      <th width="45">Action</th>
     </tr>
   </thead>
   <tbody>
@@ -16,9 +16,10 @@
         <td>@{{location}}</td>
         <td><a href="@{{url}}" target="_blank">@{{url}}</td>
         <td class="action">
-          <a onclick="cc.business.show(@{{id}})">
+          <!--<a onclick="cc.business.show(@{{id}})">
             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
           </a>
+          -->
           <a onclick="cc.business.edit.edit(@{{id}})">
             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
           </a>

@@ -10,7 +10,7 @@ class LocationService {
     {
         if($city_id)
         {
-            return City::find($city_id);
+            return City::where('id', '=', $city_id)->get();
         }
         return City::join('states', 'cities.state_id', '=', 'states.id')
             ->join('countries', function ($join)  use ($country_code){

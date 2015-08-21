@@ -25,13 +25,6 @@ class Owner extends Model {
     protected $hidden = ['user'];
 
     /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
      * Get the User record associated with the Owner.
      */
     public function user()

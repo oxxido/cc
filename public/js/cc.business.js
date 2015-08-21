@@ -70,8 +70,13 @@ cc.business = {
                     tools.handlebars("#businessEditForm_HBT", "#businessEditForm_HBW", data.business);
                     $("#business_type_id").val(data.business.business_type_id);
                     $("#organization_type_id").val(data.business.organization_type_id);
-                    $("#country_code").val(data.business.city.state.country.code);
+                    var country_code = data.business.city.state.country.code;
+                    $("#country_code").val(country_code);
                     cc.location.country();
+                    if(country_code == "US")
+                    {
+                        $("#city_name, #state_name, #zip_code").val("");
+                    }
                     $("#businessEditForm").bind('submit', cc.business.edit.update);
                     cc.business.admin.init();
                 }

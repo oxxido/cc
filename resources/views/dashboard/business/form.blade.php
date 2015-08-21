@@ -151,7 +151,7 @@
       <div id="location_manual" style="display:none">
         <div class="form-group">
           <label for="city">City</label>
-          <input type="text" name="city_name" placeholder="Enter Business City" id="city" class="form-control" value="@{{city.name}}">
+          <input type="text" name="city_name" placeholder="Enter Business City" id="city_name" class="form-control" value="@{{city.name}}">
         </div>
         <div class="form-group">
           <label for="state_name">State</label>

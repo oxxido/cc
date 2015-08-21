@@ -40,61 +40,52 @@ class BusinessService {
         ));
     }
 
-    public static function getCity(Request $request)
-    {        
-        $city_id = $request->input('city_id');
-        $country_code = $request->input('country_code');
-        $zip_code = $request->input('zip_code');
-        if(!($city = LocationService::find($city_id, $zip_code, $country_code)))
+    public static function getCity(array $data)
+    {
+        if(!($city = LocationService::find($data['city_id'], $data['zip_code'], $data['country_code'])->first()))
         {
             $city = LocationService::create([
-                'city_name'    => $request->input('city_name'),
-                'state_name'   => $request->input('state_name'),
-                'country_code' => $country_code,
-                'zip_code'     => $zip_code
+                'city_name'    => $data['city_name'],
+                'state_name'   => $data['state_name'],
+                'country_code' => $data['country_code'],
+                'zip_code'     => $data['zip_code']
             ]);
         }
         return $city;
     }
 
-    public static function getAdmin(Request $request, $user)
+    public static function getAdmin(array $data)
     {
-        if($request->input('new_admin') == 1)
+        if(!($data['id'] && $admin = Admin::find($data['id'])))
         {
-            $user_admin_email = $request->input('admin_email');
-            if(!($user_admin = UserService::find($user_admin_email)))
+            if(!($user_admin = UserService::find($data['email'])))
             {
                 $password = str_random(8);
                 $user_admin = UserService::create([
-                    'first_name' => $request->input('admin_first_name'),
-                    'last_name' => $request->input('admin_last_name'),
-                    'email' => $user_admin_email,
-                    'password' => $password,
-                    'password_confirmation' => $password
+                    'first_name' => $data['first_name'],
+                    'last_name'  => $data['last_name'],
+                    'email'      => $data['email'],
+                    'password'   => $password
                 ]);
             }
 
-            if($user_admin->isAdmin($user->id))
+            if($user_admin->isAdmin($data['owner_id']))
             {
                 $admin = $user_admin->admin;
             }
             else
             {
                 $admin = AdminService::create([
-                    'owner_id' => $user->id,
+                    'owner_id' => $data['owner_id'],
                     'admin_id' => $user_admin->id
                 ]);
             }
-        }
-        else
-        {
-            $admin = Admin::find($request->input('admin_id'));
         }
         return $admin;
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * Update user instance after a valid registration.
      *
      * @param  array  $data
      * @return Business
