@@ -49,6 +49,8 @@ class HomeController extends Controller {
   {
     return view('faqs');
   }
+
+
   /**
    * show the invite request to the user
    *
@@ -102,9 +104,17 @@ class HomeController extends Controller {
       //send email
       if(strpos(url(), "localhost") === false)
       {
-        \Mail::queue('emails.requestAnInvite', $user_data, function($message) {
+        if($request->input('source')=="contact") {
+          $emailTmpl = 'emails.contact';
+          $user_data['msg'] = $request->input('msg');
+          $emailSubject = 'Contact form';
+        } else {
+          $emailTmpl = 'emails.requestAnInvite';
+          $emailSubject = 'Request an invite';
+        }
+        \Mail::queue($emailTmpl, $user_data, function($message) {
           $message->from("gerardo@rosciano.com.ar");
-          $message->subject( "Request an invite" );
+          $message->subject( "Email from site" );
           $message->to("oxxido@gmail.com");
         });
       }
