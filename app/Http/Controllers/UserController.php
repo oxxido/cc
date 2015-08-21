@@ -45,12 +45,24 @@ class UserController extends Controller {
      */
     public function store(Request $request)
     {
-        // Define objet to be returned as a json string
-        $data = new \stdClass();
-        $data->success = false;
-        $data->error = "Not allowed";
+        $success = false;
 
-        return \Response::json($data);
+        $validation = BusinessService::validator(\Request::all());
+
+        if ($validation->fails())
+        {
+            $this->data->errors = $validation->getMessageBag()->toArray();
+        }
+        else
+        {
+            $user = UserService::getUser([
+                'first_name' => $request->input('user_first_name'),
+                'last_name'  => $request->input('user_last_name'),
+                'email'      => $request->input('user_email'),
+            ]);
+        }
+        $this->data->success = $success;
+        return $this->json();
     }
 
     /**
