@@ -83,7 +83,7 @@
               <div class="input-group">
                 <input type="text" class="form-control" name="admin_search" id="admin_search" placeholder="Enter Business Admin Name or Email">
                 <span class="input-group-btn">
-                  <button class="btn btn-default" type="button" onclick="cc.business.admin.search()">Search</button>
+                  <button class="btn btn-default" type="button" onclick="cc.crud.business.admin.search()">Search</button>
                 </span>
               </div>
               <input type="hidden" id="admin_id" name="admin_id" value="@{{admin.id}}">
@@ -126,6 +126,7 @@
           @endforeach
         </select>
         <input type="hidden" name="new_city" id="new_city" value="0">
+        <input type="hidden" id="city_id" name="city_id" value="@{{city_id}}">
       </div>
       <div id="location_auto">
         <div class="form-group">
@@ -144,7 +145,6 @@
         <div class="form-group">
           <label>City - State - Zip Code</label>
           <input type="text" id="city_location" class="form-control" onchange="cc.location.zip_code()" disabled="disabled" value="@{{city.location}}">
-          <input type="hidden" id="city_id" name="city_id" value="@{{city_id}}">
         </div>
       </div>
 

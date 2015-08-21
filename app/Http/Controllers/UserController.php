@@ -7,6 +7,19 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller {
 
+    public $user;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->user = \Auth::user();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,6 +27,10 @@ class UserController extends Controller {
      */
     public function index()
     {
+        $this->data->success = true;
+        $this->data->admins = $this->user->admins();
+        return $this->json();
+
         // Define objet to be returned as a json string
         $data = new \stdClass();
         $data->success = true;

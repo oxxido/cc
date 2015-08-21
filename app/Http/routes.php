@@ -58,11 +58,9 @@ Route::get('/dashboard/reports', 		'DashboardController@reports');
 Route::get('/dashboard/help',    		'DashboardController@help');
 Route::get('/dashboard/manageUsers',    'DashboardController@manageUsers');
 
-//resourse business
-Route::resource('business', 'businessController');
-
-//resourse user
-Route::resource('user', 'UserController');
+//REST Resourse
+Route::resource('crud/business', 'BusinessRestController');
+Route::resource('crud/admin', 'AdminRestController');
 
 Route::get('user/update', [
     'as' => 'user.update', 'uses' => 'UserController@update'

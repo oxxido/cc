@@ -151,7 +151,7 @@
 <script type="text/javascript">
   $(function () {
     
-    cc.business.init();
+    cc.crud.business.init();
   });
 </script>
 @endsection

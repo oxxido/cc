@@ -59,37 +59,37 @@
             <div></div>
           </div>
 
-          <div class="box box-primary collapse" id="userAdd">
+          <div class="box box-primary collapse" id="adminAdd">
             <div class="box-header with-border">
               <h3 class="box-title">Add User</h3>
             </div>
-            <div id="userAddForm_HBW"></div>
-            <div class="overlay" id="userAddLoading">
+            <div id="adminAddForm_HBW"></div>
+            <div class="overlay" id="adminAddLoading">
               <i class="fa fa-refresh fa-spin"></i>
             </div>
           </div>
 
-          <div class="box box-primary collapse" id="userEdit">
+          <div class="box box-primary collapse" id="adminEdit">
             <div class="box-header with-border">
               <h3 class="box-title">Edit User</h3>
             </div>
-            <div id="userEditForm_HBW"></div>
-            <div class="overlay" id="userEditLoading">
+            <div id="adminEditForm_HBW"></div>
+            <div class="overlay" id="adminEditLoading">
               <i class="fa fa-refresh fa-spin"></i>
             </div>
           </div>
 
           <!-- Default box -->
-          <div class="box collapse in" id="userTable">
+          <div class="box collapse in" id="adminTable">
             <div class="box-header with-border">
-              <a class="btn btn-app" onclick="cc.user.add.create();">
+              <a class="btn btn-app" onclick="cc.crud.admin.add.create();">
                 <i class="fa fa-plus"></i> Add User
               </a>
             </div>
             <div class="box-body">
-              <div id="usersTable_HBW"></div>
+              <div id="adminTable_HBW"></div>
             </div><!-- /.box-body -->
-            <div class="overlay" id="userTableLoading">
+            <div class="overlay" id="adminTableLoading">
               <i class="fa fa-refresh fa-spin"></i>
             </div>
             <div class="box-footer">
@@ -110,60 +110,42 @@
     </div><!-- ./wrapper -->
 
     <!-- Adding templates -->
-    <script id="userEditForm_HBT" type="text/x-handlebars-template">
-      @include('dashboard.usersEditForm')
+    <script id="adminEditForm_HBT" type="text/x-handlebars-template">
+      @include('dashboard.admin.editForm')
     </script>
-    <script id="userAddForm_HBT" type="text/x-handlebars-template">
-      @include('dashboard.usersAddForm')
+    <script id="adminAddForm_HBT" type="text/x-handlebars-template">
+      @include('dashboard.admin.addForm')
     </script>
-    <script id="usersTable_HBT" type="text/x-handlebars-template">
-      @include('dashboard.usersTable')
+    <script id="adminTable_HBT" type="text/x-handlebars-template">
+      @include('dashboard.admin.table')
     </script>
 
-    <div class="modal fade" id="citiesModal">
+    <div class="modal" id="dashboard-modal">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Select Location</h4>
+            <h4 class="modal-title"></h4>
           </div>
-          <div class="modal-body">
-            <div class="list-group" id="cities"></div>
-          </div>
+          <div class="modal-body"></div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary hide">Confirm</button>
           </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-    <div class="modal fade" id="boSearchModal">
-      <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Select Location</h4>
-          </div>
-          <div class="modal-body">
-            <div class="list-group result"></div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+        </div>
+      </div>
+    </div>
 
   @endif
 @endsection
 
 @section('footer')
 <!-- Users dashboard script  -->
-<script type="text/javascript" src="/js/account.js"></script>
+<script type="text/javascript" src="/js/cc.crud.admin.js"></script>
 
 <script type="text/javascript">
     $(function () {
-      cc.user.init();
+      cc.crud.admin.init();
     });
 </script>
 @endsection

@@ -22,7 +22,7 @@ class Admin extends Model {
      * @var array
      */
     protected $appends = ['name','email'];
-    protected $hidden = ['admin_id','owner_id','user'];
+    protected $hidden = ['admin_id','owner_id'];
 
     /**
      * Indicates if the model should be timestamped.
@@ -84,4 +84,11 @@ class Admin extends Model {
     {
         return $this->user->email;
     }
+
+    public function toArray()
+    {
+        $this->user;
+        return parent::toArray();
+    }
+
 }

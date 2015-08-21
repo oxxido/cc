@@ -15,7 +15,7 @@ use App\Services\AdminService;
 use App\Services\BusinessService;
 use App\Services\LocationService;
 
-class BusinessController extends Controller {
+class BusinessRestController extends Controller {
 
     public $user;
 
@@ -68,7 +68,7 @@ class BusinessController extends Controller {
         }
         else
         {
-            $admin = BusinessService::getAdmin([
+            $admin = AdminService::getAdmin([
                 'owner_id'   => $this->user->id,
                 'email'      => $request->input('admin_email'),
                 'first_name' => $request->input('admin_first_name'),
@@ -159,7 +159,7 @@ class BusinessController extends Controller {
         {
             $business = Business::find($id);
 
-            $admin = BusinessService::getAdmin([
+            $admin = AdminService::getAdmin([
                 'owner_id'   => $this->user->id,
                 'email'      => $request->input('admin_email'),
                 'first_name' => $request->input('admin_first_name'),

@@ -65,8 +65,7 @@ class DashboardController extends Controller {
 	 */
 	public function manageUsers()
 	{
-        $this->data->countries = Models\Country::all();
-		return $this->view('manageUsers');
+		return $this->view('dashboard.admin.index');
 	}
 
 	/**

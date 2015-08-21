@@ -82,7 +82,7 @@
           <!-- Default box -->
           <div class="box collapse in" id="businessTable">
             <div class="box-header with-border">
-              <a class="btn btn-app" onclick="cc.business.add.create()">
+              <a class="btn btn-app" onclick="cc.crud.business.add.create()">
                 <i class="fa fa-plus"></i> Add Business
               </a>
               <a class="btn btn-app">
@@ -150,7 +150,7 @@
     <script id="modalAdmins_HBT" type="text/x-handlebars-template">
       <div class="list-group">
         @{{#each admins}}
-          <a href="javascript:;" onclick="cc.business.admin.result('@{{id}}','@{{name}}','@{{email}}');cc.dashboard.modal.hide()" class="list-group-item">@{{name}} - @{{email}}</a>
+          <a href="javascript:;" onclick="cc.crud.business.admin.result('@{{id}}','@{{name}}','@{{email}}');cc.dashboard.modal.hide()" class="list-group-item">@{{name}} - @{{email}}</a>
         @{{/each}}
       </div>
     </script>
@@ -161,11 +161,11 @@
 @section('footer')
 
   <!-- Users dashboard script  -->
-  <script type="text/javascript" src="/js/cc.business.js"></script>
+  <script type="text/javascript" src="/js/cc.crud.business.js"></script>
 
   <script type="text/javascript">
     $(function () {
-      cc.business.init();
+      cc.crud.business.init();
     });
   </script>
 @endsection

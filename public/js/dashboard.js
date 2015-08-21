@@ -34,6 +34,7 @@ cc.location = {
 
         city_zip_code.attr("disabled", true);
         cc.location.clear();
+        $("#location_auto .alert").hide();
 
         $.ajax({
             url : cc.baseUrl + "location/zipcode",

@@ -95,11 +95,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function isAdmin($id)
     {
-        return Admin::where('owner_id', $id)->where('admin_id', $this->id)->get()->first() ? true : false;
+        return $this->admin($id) ? true : false;
     }    
 
     public function isOwner()
     {
         return $this->owner ? true : false;
     }    
+
+    public function admin($id)
+    {
+        return Admin::where('owner_id', $id)->where('admin_id', $this->id)->get()->first();
+    } 
+
 }

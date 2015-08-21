@@ -54,36 +54,6 @@ class BusinessService {
         return $city;
     }
 
-    public static function getAdmin(array $data)
-    {
-        if(!($data['id'] && $admin = Admin::find($data['id'])))
-        {
-            if(!($user_admin = UserService::find($data['email'])))
-            {
-                $password = str_random(8);
-                $user_admin = UserService::create([
-                    'first_name' => $data['first_name'],
-                    'last_name'  => $data['last_name'],
-                    'email'      => $data['email'],
-                    'password'   => $password
-                ]);
-            }
-
-            if($user_admin->isAdmin($data['owner_id']))
-            {
-                $admin = $user_admin->admin;
-            }
-            else
-            {
-                $admin = AdminService::create([
-                    'owner_id' => $data['owner_id'],
-                    'admin_id' => $user_admin->id
-                ]);
-            }
-        }
-        return $admin;
-    }
-
     /**
      * Update user instance after a valid registration.
      *
