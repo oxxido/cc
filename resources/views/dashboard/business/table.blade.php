@@ -31,3 +31,15 @@
     @{{/each}}
   </tbody>
 </table>
+
+<nav>
+  <ul id="paging" class="pagination">
+    <li>Prev</li>
+    <li>#n</li>
+    <li>#n</li>
+    <li>#c</li>
+    <li>#n</li>
+    <li>#n</li>
+    <li>Next</li>
+  </ul>
+</nav>

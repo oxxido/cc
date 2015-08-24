@@ -176,8 +176,11 @@ cc.crud.business = {
     {
         $("#businessShow").collapse('show');
     },
-    table : function(page)
+    table : function()
     {
+        var page = arguments.length ? arguments[0] : 1;
+        var perpage = 10;
+
         cc.dashboard.panel.loading("#businessTableLoading","show");
         $("#businessesTable_HBW").html("");
         cc.dashboard.panel.only("#businessTable");
@@ -185,13 +188,24 @@ cc.crud.business = {
             url : cc.baseUrl + 'crud/business',
             dataType : 'json',
             data : {
-                page : page
+                page : page,
+                perpage : perpage
             }
         })
         .done(function(data) {
             if (data.success)
             {
                 tools.handlebars("#businessesTable_HBT", "#businessesTable_HBW", data);
+                $("#paging").easyPaging({
+                    total: data.paging.total,
+                    perpage : perpage,
+                    page : data.paging.page,
+                    onSelect: function(page)
+                    {
+                        if(data.paging.page != page)
+                            cc.crud.business.table(page);
+                    }
+                });
             }
             else
             {

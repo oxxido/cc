@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Services\AdminService;
+use App\Services\PaginateService;
 
 class AdminRestController extends Controller {
 
@@ -29,8 +30,14 @@ class AdminRestController extends Controller {
      */
     public function index()
     {
+        $query = User::join('admins', 'users.id', '=', 'admins.admin_id')
+            ->where('admins.owner_id', $this->user->id);
+        $paginate = new PaginateService($query);
+
         $this->data->success = true;
-        $this->data->admins = $this->user->owner->admins;
+        $this->data->admins = $paginate->data();
+        $this->data->paging = $paginate->paging();
+
         return $this->json();
     }
 
