@@ -35,6 +35,7 @@ Route::get('faqs',          function(){return view('faqs');});
 Route::get('testimonials',  function(){return view('testimonials');});
 Route::get('userguide',     function(){return view('userguide');});
 Route::get('terms',         function(){return view('terms');});
+Route::get('landing',         function(){return view('landing');});
 Route::get('contact',       function(){return view('contact');});
 Route::post('contact',     'HomeController@post_contact');
 
@@ -63,6 +64,7 @@ Route::get('/dashboard/widgets', 		'DashboardController@widgets');
 Route::get('/dashboard/reports', 		'DashboardController@reports');
 Route::get('/dashboard/help',    		'DashboardController@help');
 Route::get('/dashboard/manageUsers',    'DashboardController@manageUsers');
+Route::get('/dashboard/links',          'DashboardController@links');
 
 //REST Resourse
 Route::resource('crud/business', 'BusinessRestController');
