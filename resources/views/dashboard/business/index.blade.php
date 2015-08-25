@@ -15,15 +15,7 @@
 @endsection
 
 @section('content')
-  <div class="box box-primary collapse" id="adminAdd">
-    <div class="box-header with-border">
-      <h3 class="box-title">Add User</h3>
-    </div>
-    <div id="adminAddForm_HBW"></div>
-    <div class="overlay" id="adminAddLoading">
-      <i class="fa fa-refresh fa-spin"></i>
-    </div>
-  </div>
+  <pre>{{ $business }}</pre>
 @endsection
 
 @section('foot')

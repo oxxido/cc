@@ -1,8 +1,10 @@
 <?php namespace App\Http\Controllers;
 
 use DB;
+use Auth;
 use App\Models;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests;
 use App\Models\Admin;
 
@@ -20,7 +22,7 @@ class DashboardController extends Controller {
 	{
 		$this->middleware('auth');
 
-		$this->user = \Auth::user();
+		$this->user = Auth::user();
 		$this->data->user = $this->user;
 	}
 
@@ -29,7 +31,7 @@ class DashboardController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function getIndex()
 	{
 		if($this->user->isOwner())
 		{
@@ -46,9 +48,9 @@ class DashboardController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function account()
+	public function getAccount()
 	{
-		return $this->view('account');
+		return $this->view('dashboard/account');
 	}
 
 	/**
@@ -56,9 +58,9 @@ class DashboardController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function widgets()
+	public function getWidgets()
 	{
-		return $this->view('widgets');
+		return $this->view('dashboard/widgets');
 	}
 
 	/**
@@ -66,9 +68,9 @@ class DashboardController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function reports()
+	public function getReports()
 	{
-		return $this->view('reports');
+		return $this->view('dashboard/reports');
 	}
 
 	/**
@@ -76,9 +78,9 @@ class DashboardController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function help()
+	public function getHelp()
 	{
-		return $this->view('help');
+		return $this->view('dashboard/help');
 	}
 
 }

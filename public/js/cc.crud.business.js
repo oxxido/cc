@@ -174,7 +174,7 @@ cc.crud.business = {
     },
     show : function(id)
     {
-        $("#businessShow").collapse('show');
+        location.href = cc.baseUrl + 'dashbiz/load/' + id;
     },
     table : function()
     {

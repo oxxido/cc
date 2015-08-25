@@ -49,17 +49,10 @@ Route::controllers([
     'auth'      => 'Auth\AuthController',
     'password'  => 'Auth\PasswordController',
     'location'  => 'LocationController',
+    'dashboard' => 'DashboardController',
     'dashbiz'   => 'DashboardBusinessController',
     'dashowner' => 'DashboardOwnerController'
 ]);
-
-// Dashboard
-
-Route::get('/dashboard',             'DashboardController@index');
-Route::get('/dashboard/account',     'DashboardController@account');
-Route::get('/dashboard/widgets',     'DashboardController@widgets');
-Route::get('/dashboard/reports',     'DashboardController@reports');
-Route::get('/dashboard/help',        'DashboardController@help');
 
 //REST Resourse
 Route::resource('crud/business', 'BusinessRestController');

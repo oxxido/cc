@@ -18,8 +18,9 @@ class DashboardOwnerController extends Controller {
 	public function __construct()
 	{
 		$this->middleware('auth');
+		$this->middleware('owner');
 
-		$this->user = Auth::user();
+		$this->user = Auth::user();;
 		$this->data->user = $this->user;
 	}
 

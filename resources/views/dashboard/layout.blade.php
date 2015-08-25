@@ -38,9 +38,9 @@
         <section class="content" id="content-dashboard">
           <!-- TIP -->
           @if(\Session::has('message'))
-              <div class="callout callout-info">
-                  <p>{{ Session::get('message') }}</p>
-              </div>
+            <div class="callout callout-info">
+                <p>{{ Session::get('message') }}</p>
+            </div>
           @endif
 
           <div class="alert alert-dismissable collapse" id="errorMessage">
