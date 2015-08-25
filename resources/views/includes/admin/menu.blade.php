@@ -8,7 +8,7 @@
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
 
-@if ($user->isOwner())
+@if (!$user->isOwner())
 
             <li class="treeview">
               <a href="/dashboard/account">
@@ -16,7 +16,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="#">Online Review Links</a></li>
+                <li><a href="/dashboard/links">Online Review Links</a></li>
                 <li><a href="#">Email Templates</a></li>
                 <li><a href="#">Feedback Settings</a></li>
                 <li><a href="#">Testimonials Widget</a></li>
@@ -35,14 +35,6 @@
                 <li><a href="#">Payment Information</a></li>
               </ul>
             </li>
-            <li class="treeview">
-              <a href="#">
-                <i class="fa fa-briefcase"></i> <span>Businesses</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="/dashboard/business">Manage Businesses</a></li>
-              </ul>
             </li>
             <li  class="treeview">
               <a href="/dashboard/reports">
@@ -79,12 +71,21 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
+                <li><a href="/dashowner/admins">Manage Users</a></li>
                 <li><a href="#">Default Configuration</a></li>
                 <li><a href="#">Manage Customers</a></li>
                 <li><a href="#">Account Owner Details</a></li>
                 <li><a href="#">Payment Information</a></li>
               </ul>
             </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-briefcase"></i> <span>Businesses</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="/dashowner/business">Manage Businesses</a></li>
+              </ul>
             <li  class="treeview">
               <a href="/dashboard/reports">
                 <i class="fa fa-bar-chart"></i> <span>Reports</span>

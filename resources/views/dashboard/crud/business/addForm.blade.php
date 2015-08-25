@@ -1,7 +1,7 @@
 <!-- form start -->
 {!! Form::open(array('role' => 'form', 'name' => 'businessAddForm', 'id' => 'businessAddForm')) !!}
 
-  @include('dashboard.business.form')
+  @include('dashboard.crud.business.form')
 
   <div class="box-footer">
     <button class="btn btn-primary" type="submit" id="businessAddSubmit">Submit</button> 

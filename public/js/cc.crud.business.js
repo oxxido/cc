@@ -232,7 +232,7 @@ cc.crud.business = {
             $("#admin_tab_search .alert").hide();
 
             $.ajax({
-                url : cc.baseUrl + 'dashboard/searchAdmin',
+                url : cc.baseUrl + 'dashowner/searchadmin',
                 dataType : 'json',
                 data : {
                     keyword : keyword

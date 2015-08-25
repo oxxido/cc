@@ -3,7 +3,7 @@
 
   <input type="hidden" name="id" id="id" value="@{{id}}">
   
-  @include('dashboard.admin.form')
+  @include('dashboard.crud.admin.form')
 
   <div class="box-footer">
     <button class="btn btn-primary" type="submit" id="adminEditSubmit">Submit</button> 
