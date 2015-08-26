@@ -23,7 +23,8 @@ class DashboardBusinessController extends Controller {
         $this->user = Auth::user();
         $this->data->user = $this->user;
 
-        $this->setBusiness();
+        if($this->user)
+            $this->setBusiness();
     }
 
     /**

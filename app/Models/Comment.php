@@ -1,6 +1,6 @@
 <?php namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 
 class Comment extends Model {
 
@@ -16,12 +16,12 @@ class Comment extends Model {
      *
      * @var array
      */
-    protected $fillable = ['comment', 'rating', 'score', 'status', 'show_on_website'];
+    protected $fillable = ['business_commenter_id', 'product_id', 'comment', 'rating', 'score', 'status', 'show_on_website'];
 
 
     public function businessCommenter()
     {
-        return $this->belongsTo('App\businessCommenter', 'commenter_id', 'id');
+        return $this->belongsTo('App\Models\BusinessCommenter', 'business_commenter_id', 'id');
     }
 
     /**

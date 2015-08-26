@@ -50,4 +50,9 @@ class UserService {
         $owner->id = $user->id;
         return $owner->save();
     }
+
+    public static function notifyCreation($type, $data)
+    {
+        // Send welcome email etc
+    }
 }

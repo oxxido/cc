@@ -8,7 +8,7 @@
     <meta name="robots" content="Index,Follow" />
     <title>Trust Seal | Website Trust Seal | CertifiedComments.com</title>
 
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
         <!-- ADD TAGS FOR FB, TWITTER, G+ -->
         

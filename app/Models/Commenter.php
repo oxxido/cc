@@ -1,11 +1,11 @@
-<?php namespace App;
+<?php namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 
-class Commenters extends Model {
+class Commenter extends Model {
 
     protected $table = 'commenters';
-    protected $fillable = ['phone', 'note'];
+    protected $fillable = ['id', 'phone', 'note'];
 
 
     public function user()
