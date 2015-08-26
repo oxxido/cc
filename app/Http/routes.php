@@ -29,6 +29,7 @@ Route::get('/', function() {
 Route::get('creative', 'WelcomeController@creative');
 
 Route::get('home',  'HomeController@index');
+
 Route::get('howitworks',    function(){return view('howitworks');});
 Route::get('pricing',       function(){return view('pricing');});
 Route::get('faqs',          function(){return view('faqs');});
@@ -37,34 +38,25 @@ Route::get('userguide',     function(){return view('userguide');});
 Route::get('terms',         function(){return view('terms');});
 Route::get('landing',         function(){return view('landing');});
 Route::get('contact',       function(){return view('contact');});
+Route::get('positiveFeedback',       function(){return view('positiveFeedback');});
+Route::get('negativeFeedback',       function(){return view('negativeFeedback');});
 Route::post('contact',     'HomeController@post_contact');
 
-Route::get('request', 	   function(){return view('requestAnInvite');});
-Route::post('request', 	   'HomeController@post_request');
+Route::get('request', function(){return view('requestAnInvite');});
+Route::post('request', 'HomeController@post_request');
 
 Route::get('/resendEmail', 'Auth\AuthController@resendEmail');
 Route::get('/activate/{code}', 'Auth\AuthController@activateAccount');
 
 Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-	'location' => 'LocationController'
+    'auth'      => 'Auth\AuthController',
+    'password'  => 'Auth\PasswordController',
+    'location'  => 'LocationController',
+    'dashboard' => 'DashboardController',
+    'dashbiz'   => 'DashboardBusinessController',
+    'dashowner' => 'DashboardOwnerController'
 ]);
 
-// Dashboard
-
-Route::get('/dashboard', function() {
-    return redirect('/dashboard/business');
-});
-
-Route::get('/dashboard/searchAdmin', 	'DashboardController@searchAdmin');
-Route::get('/dashboard/business',		'DashboardController@business');
-Route::get('/dashboard/account', 		'DashboardController@account');
-Route::get('/dashboard/widgets', 		'DashboardController@widgets');
-Route::get('/dashboard/reports', 		'DashboardController@reports');
-Route::get('/dashboard/help',    		'DashboardController@help');
-Route::get('/dashboard/manageUsers',    'DashboardController@manageUsers');
-Route::get('/dashboard/links',          'DashboardController@links');
 
 //REST Resourse
 Route::resource('crud/business', 'BusinessRestController');

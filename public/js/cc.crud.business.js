@@ -174,7 +174,7 @@ cc.crud.business = {
     },
     show : function(id)
     {
-        $("#businessShow").collapse('show');
+        location.href = cc.baseUrl + 'dashbiz/load/' + id;
     },
     table : function()
     {
@@ -232,7 +232,7 @@ cc.crud.business = {
             $("#admin_tab_search .alert").hide();
 
             $.ajax({
-                url : cc.baseUrl + 'dashboard/searchAdmin',
+                url : cc.baseUrl + 'dashowner/searchadmin',
                 dataType : 'json',
                 data : {
                     keyword : keyword
