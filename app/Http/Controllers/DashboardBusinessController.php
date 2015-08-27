@@ -3,6 +3,7 @@
 use Auth;
 use Illuminate\Http\Request;
 use App\Models\Business;
+use App\Models;
 
 class DashboardBusinessController extends Controller {
 
@@ -33,8 +34,24 @@ class DashboardBusinessController extends Controller {
      */
     public function getIndex()
     {
-        $this->data->business = print_r($this->business->toArray(), true);
-        return $this->view('dashboard.business.index');
+        //$this->data->business = print_r($this->business->toArray(), true);
+        //return $this->view('dashboard.business.index');
+        return redirect('/dashbiz/link');
+    }
+
+    /**
+     * Link page in dashboard business.
+     *
+     * @return Response
+     */
+    public function getLink()
+    {
+        //$this->data->organization_types = Models\OrganizationType::all();
+        //$this->data->business_types = Models\BusinessType::all();
+        //$this->data->countries = Models\Country::all();
+        $this->data->social_networks = Models\SocialNetwork::all();
+
+        return $this->view('dashboard.crud.link.index');
     }
 
     /**

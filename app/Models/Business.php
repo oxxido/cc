@@ -101,4 +101,13 @@ class Business extends Model {
         $this->organizationType;
         return parent::toArray();
     }
+
+    /**
+     * Get the SocialNetworks records associated with the Businesses.
+     */
+    public function socialNetworks()
+    {
+        return $this->belongsToMany('App\Models\SocialNetwork');
+    }
+
 }
