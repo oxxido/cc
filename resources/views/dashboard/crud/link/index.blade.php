@@ -18,7 +18,7 @@
 @section('content')
 
   <!-- Default box -->
-  <div class="box collapse in" id="businessTable">
+  <div class="box collapse in" id="linkTable">
     <div class="box-header with-border">
       Choose each review profile that you would like to display from the drop down and then press "Add rofile" button. You can drag to re-order them too!
       <p></p>
@@ -39,11 +39,12 @@
     </div>
 
     <div class="box-body">
-      <div id="businessesTable_HBW"></div>
+      <div id="linkTable_HBW"></div>
     </div><!-- /.box-body -->
-    <div class="overlay" id="businessTableLoading">
+    <div class="overlay" id="linkTableLoading">
       <i class="fa fa-refresh fa-spin"></i>
     </div>
+
 
     <div class="form-group">
         <img src="{{ $social_network->logo }}" width="50"> 
@@ -56,8 +57,8 @@
         
         <input type="button" value="Move Up" onclick="">
         <input type="button" value="Move Down" onclick="">
-        <input type="button" value="Move Delete" onclick="">
-        <input type="button" value="Move Visit URL" onclick="">
+        <input type="button" value="Delete" onclick="">
+        <input type="button" value="Visit URL" onclick="">
     </div>
 
   </div>
@@ -66,12 +67,16 @@
 @endsection
 
 @section('footer')
+  <script id="businessesTable_HBT" type="text/x-handlebars-template">
+    @include('dashboard.crud.link.table')
+  </script>
+
 <!-- Users dashboard script  -->
   <script type="text/javascript" src="/js/cc.crud.link.js"></script>
 
   <script type="text/javascript">
     $(function () {
-      //cc.crud.business.init();
+      cc.crud.link.init();
     });
   </script>
 @endsection

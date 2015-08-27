@@ -1,28 +1,24 @@
-<table id="businessesTable" class="table table-bordered table-hover">
+<table id="linkTable" class="table table-bordered table-hover">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Admin</th>
-      <th>Address</th>
+      <th>Logo</th>
+      <th>Social Network</th>
+      <th>Profile URL</th>
       <th>Website</th>
       <th width="65">Action</th>
     </tr>
   </thead>
   <tbody>
-    @{{#each businesses}}
+    @{{#each social_networks}}
       <tr>
+        <td>@{{logo}}</td>
         <td>@{{name}}</td>
-        <td>@{{admin.name}}</td>
-        <td>@{{location}}</td>
         <td><a href="@{{url}}" target="_blank">@{{url}}</td>
         <td class="action">
-          <a onclick="cc.crud.business.show(@{{id}})">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-          </a>
-          <a onclick="cc.crud.business.edit.edit(@{{id}})">
+          <a onclick="cc.crud.link.edit.edit(@{{id}})">
             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
           </a>
-          <a onclick="cc.crud.business.destroy(@{{id}})">
+          <a onclick="cc.crud.link.destroy(@{{id}})">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
           </a>
         </td>

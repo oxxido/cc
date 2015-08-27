@@ -1,7 +1,7 @@
 if (!cc) var cc = {};
 if (!cc.crud) cc.crud = {};
 
-cc.crud.business = {
+cc.crud.link = {
     add : {
         create : function()
         {
@@ -181,11 +181,11 @@ cc.crud.business = {
         var page = arguments.length ? arguments[0] : 1;
         var perpage = 10;
 
-        cc.dashboard.panel.loading("#businessTableLoading","show");
-        $("#businessesTable_HBW").html("");
-        cc.dashboard.panel.only("#businessTable");
+        cc.dashboard.panel.loading("#linkTableLoading","show");
+        $("#linkTable_HBW").html("");
+        cc.dashboard.panel.only("#linkTable");
         $.ajax({
-            url : cc.baseUrl + 'crud/business',
+            url : cc.baseUrl + 'crud/link',
             dataType : 'json',
             data : {
                 page : page,
@@ -195,7 +195,7 @@ cc.crud.business = {
         .done(function(data) {
             if (data.success)
             {
-                tools.handlebars("#businessesTable_HBT", "#businessesTable_HBW", data);
+                tools.handlebars("#linkTable_HBT", "#linkTable_HBW", data);
                 $("#paging").easyPaging({
                     total: data.paging.total,
                     perpage : perpage,
@@ -203,7 +203,7 @@ cc.crud.business = {
                     onSelect: function(page)
                     {
                         if(data.paging.page != page)
-                            cc.crud.business.table(page);
+                            cc.crud.link.table(page);
                     }
                 });
             }
@@ -214,7 +214,7 @@ cc.crud.business = {
         })
         .fail(tools.fail)
         .always(function(){
-            cc.dashboard.panel.loading("#businessTableLoading","hide");
+            cc.dashboard.panel.loading("#linkTableLoading","hide");
         });
     },
     admin : {
@@ -275,6 +275,6 @@ cc.crud.business = {
     },
     init: function()
     {
-        cc.crud.business.table();
+        cc.crud.link.table();
     }
 }

@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use DB;
 use Auth;
 use Illuminate\Http\Request;
 use App\Models\Business;
@@ -50,7 +51,7 @@ class DashboardBusinessController extends Controller {
         //$this->data->business_types = Models\BusinessType::all();
         //$this->data->countries = Models\Country::all();
         $this->data->social_networks = Models\SocialNetwork::all();
-
+        
         return $this->view('dashboard.crud.link.index');
     }
 
