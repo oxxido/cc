@@ -15,7 +15,7 @@
 @endsection
 
 @section('content')
-  <pre>{{ $business }}</pre>
+  <pre>{{ print_r($business) }}</pre>
 @endsection
 
 @section('foot')

@@ -24,6 +24,7 @@ class DashboardBusinessController extends Controller {
         $this->data->user = $this->user;
 
         $this->setBusiness();
+        $this->data->businessId = \Session::get('business_id');
     }
 
     /**
@@ -33,8 +34,19 @@ class DashboardBusinessController extends Controller {
      */
     public function getIndex()
     {
-        $this->data->business = print_r($this->business->toArray(), true);
+        $this->data->business = $this->business->toArray();
         return $this->view('dashboard.business.index');
+    }
+
+    /**
+     * 
+     *
+     * @return Response
+     */
+    public function getTestimonial()
+    {
+        $this->data->business = $this->business->toArray();
+        return $this->view('dashboard.business.testimonial');
     }
 
     /**
