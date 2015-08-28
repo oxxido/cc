@@ -15,7 +15,7 @@
           <ul class="treeview-menu">
             <li><a href="/dashboard/links">Online Review Links</a></li>
             <li><a href="#">Email Templates</a></li>
-            <li><a href="#">Feedback Settings</a></li>
+            <li><a href="/dashbiz/feedback">Feedback Settings</a></li>
             <li><a href="/dashbiz/testimonial">Testimonials Widget</a></li>
             <li><a href="#">Notification Settings</a></li>
             <li><a href="#">Kiosk Mode</a></li>

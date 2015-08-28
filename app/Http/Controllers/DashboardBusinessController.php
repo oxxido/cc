@@ -52,6 +52,17 @@ class DashboardBusinessController extends Controller {
     }
 
     /**
+     * 
+     *
+     * @return Response
+     */
+    public function getFeedback()
+    {
+        $this->data->business = $this->business->toArray();
+        return $this->view('dashboard.business.feedback');
+    }
+
+    /**
      * Show the application dashboard to the business admin.
      *
      * @return Response
