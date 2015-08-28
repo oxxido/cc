@@ -1,7 +1,7 @@
 <?php namespace App\Models;
 
+use App\Models\Model;
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
@@ -52,10 +52,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return false;
 	}
 
-
     public function owner()
     {
         return $this->hasOne('App\Models\Owner', 'id', 'id');
+    }
+
+    public function commenter()
+    {
+        return $this->hasOne('App\Models\Commenter', 'id', 'id');
     }
 
     /**
@@ -104,6 +108,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function isOwner()
     {
         return $this->owner ? true : false;
+    }    
+
+    public function isCommenter()
+    {
+        return $this->commenter ? true : false;
     }    
 
     public function admin($owner_id = false)

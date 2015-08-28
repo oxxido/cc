@@ -54,7 +54,8 @@ Route::controllers([
     'location'  => 'LocationController',
     'dashboard' => 'DashboardController',
     'dashbiz'   => 'DashboardBusinessController',
-    'dashowner' => 'DashboardOwnerController'
+    'dashowner' => 'DashboardOwnerController',
+    'widget'    => 'WidgetController'
 ]);
 
 
