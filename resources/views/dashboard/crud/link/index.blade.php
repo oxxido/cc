@@ -17,22 +17,30 @@
 
 @section('content')
 
+  <div class="box box-primary collapse" id="linkAdd">
+    <div class="box-header with-border">
+      <h3 class="box-title">Add Social Media Profile</h3>
+    </div>
+    <div id="linkAddForm_HBW"></div>
+    <div class="overlay" id="linkAddLoading">
+      <i class="fa fa-refresh fa-spin"></i>
+    </div>
+  </div>
+
+  <div class="box box-primary collapse" id="linkEdit">
+    <div class="box-header with-border">
+      <h3 class="box-title">Edit Social Media Profile</h3>
+    </div>
+    <div id="linkEditForm_HBW"></div>
+    <div class="overlay" id="linkEditLoading">
+      <i class="fa fa-refresh fa-spin"></i>
+    </div>
+  </div>
+
   <!-- Default box -->
   <div class="box collapse in" id="linkTable">
     <div class="box-header with-border">
-      Choose each review profile that you would like to display from the drop down and then press "Add rofile" button. You can drag to re-order them too!
-      <p></p>
-
-      <div class="form-group">
-        <label for="social_network_id">Social Network</label>
-        <select class="form-control" name="social_network_id" placeholder="Enter Social Network" id="social_network_id">
-          <option></option>
-          @foreach ($social_networks as $social_network)
-            <option value="{{ $social_network->id }}">{{ $social_network->name }}</option>
-          @endforeach
-        </select>
-      </div>
-
+      
       <a class="btn btn-app" onclick="cc.crud.link.add.create()">
         <i class="fa fa-plus"></i> Add Profile
       </a>
@@ -45,30 +53,29 @@
       <i class="fa fa-refresh fa-spin"></i>
     </div>
 
-
-    <div class="form-group">
-        <img src="{{ $social_network->logo }}" width="50"> 
-        <input type="checkbox">Show URL in Testimonials Widget and on thank-you page
-        <br>
-        
-        <label for="name"></label>
-        <input type="text" name="name" placeholder="Enter link to {{ $social_network->name }} profile page" id="name" class="form-control" value="" required>
-        <br>
-        
-        <input type="button" value="Move Up" onclick="">
-        <input type="button" value="Move Down" onclick="">
-        <input type="button" value="Delete" onclick="">
-        <input type="button" value="Visit URL" onclick="">
-    </div>
-
   </div>
   <!-- /.box -->
 
 @endsection
 
 @section('footer')
-  <script id="businessesTable_HBT" type="text/x-handlebars-template">
+  <!-- Adding templates -->
+  <script id="linkAddForm_HBT" type="text/x-handlebars-template">
+    @include('dashboard.crud.link.addForm')
+  </script>
+  <script id="linkEditForm_HBT" type="text/x-handlebars-template">
+    @include('dashboard.crud.link.editForm')
+  </script>
+  <script id="linkTable_HBT" type="text/x-handlebars-template">
     @include('dashboard.crud.link.table')
+  </script>
+
+  <script id="modalAdmins_HBT" type="text/x-handlebars-template">
+    <div class="list-group">
+      @{{#each admins}}
+        <a href="javascript:;" onclick="cc.crud.link.admin.result('@{{id}}','@{{name}}','@{{email}}');cc.dashboard.modal.hide()" class="list-group-item">@{{name}} - @{{email}}</a>
+      @{{/each}}
+    </div>
   </script>
 
 <!-- Users dashboard script  -->

@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Admin;
 use App\Models\Business;
 use App\Models\Country;
+use App\Models\SocialNetwork;
 
 use App\Services\PaginateService;
 use App\Services\UserService;
@@ -38,7 +39,7 @@ class BusinessRestController extends Controller {
      */
     public function index()
     {
-        $query = Business::where("owner_id", "=", $this->user->id);
+        $query = Business::find(1)->social_networks();
         $paginate = new PaginateService($query);
 
         $this->data->success = true;

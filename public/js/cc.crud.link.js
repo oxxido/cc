@@ -1,3 +1,9 @@
+$(document).ready(function(){
+   $("#social_network_id").change(function(){
+     $("img[name=logo]").attr("src",$(this).val());
+   });
+});
+
 if (!cc) var cc = {};
 if (!cc.crud) cc.crud = {};
 
@@ -5,22 +11,22 @@ cc.crud.link = {
     add : {
         create : function()
         {
-            tools.handlebars("#businessAddForm_HBT", "#businessAddForm_HBW", {});
-            cc.dashboard.panel.only("#businessAdd");
-            $("#businessAddForm").bind('submit', cc.crud.business.add.store);
-            cc.crud.business.admin.init();
+            tools.handlebars("#linkAddForm_HBT", "#linkAddForm_HBW", {});
+            cc.dashboard.panel.only("#linkAdd");
+            $("#linkAddForm").bind('submit', cc.crud.link.add.store);
+            cc.crud.link.admin.init();
         },
         store : function()
         {
-            cc.dashboard.panel.loading("#businessAddLoading","show");
-            var form = $("#businessAddForm");
+            cc.dashboard.panel.loading("#linkAddLoading","show");
+            var form = $("#linkAddForm");
             var data = [];
 
             form.find("button[type='submit']").attr('disabled', true);
 
             var data = form.serialize();
             $.ajax({
-                url : cc.baseUrl + 'crud/business',
+                url : cc.baseUrl + 'crud/link',
                 dataType : 'json',
                 type: "POST",
                 processData : false,
@@ -29,10 +35,10 @@ cc.crud.link = {
             .done(function(data) {
                 if (data.success)
                 {
-                    tools.messages("Business " + data.business.name + " added", 'success');
+                    tools.messages("Link " + data.social_network.name + " added", 'success');
                     cc.dashboard.panel.hide();
-                    cc.crud.business.add.clear();
-                    cc.crud.business.table();
+                    cc.crud.link.add.clear();
+                    cc.crud.link.table();
                 }
                 else
                 {
@@ -42,50 +48,42 @@ cc.crud.link = {
             .fail(tools.fail)
             .always(function () {
                 form.find("button[type='submit']").attr('disabled', false);
-                cc.dashboard.panel.loading("#businessAddLoading","hide");
+                cc.dashboard.panel.loading("#linkAddLoading","hide");
             });
             return false;
         },
         cancel : function()
         {
-            cc.dashboard.panel.only('#businessTable');
+            cc.dashboard.panel.only('#linkTable');
             this.clear();
         },
         clear : function()
         {
-            $("#businessAddForm_HBW").html("");
+            $("#linkAddForm_HBW").html("");
         }
     },
     edit : 
     {
         edit : function(id)
         {
-            cc.dashboard.panel.only("#businessEdit");
-            cc.dashboard.panel.loading("#businessEditLoading","show");
+            cc.dashboard.panel.only("#linkEdit");
+            cc.dashboard.panel.loading("#linkEditLoading","show");
 
             $.ajax({
-                url : cc.baseUrl + 'crud/business/' + id + '/edit',
+                url : cc.baseUrl + 'crud/link/' + id + '/edit',
                 dataType : 'json'
             })
             .done(function(data) {
                 if (data.success)
                 {
-                    tools.handlebars("#businessEditForm_HBT", "#businessEditForm_HBW", data.business);
+                    tools.handlebars("#linkEditForm_HBT", "#linkEditForm_HBW", data.business);
                     $("#business_type_id").val(data.business.business_type_id);
                     $("#organization_type_id").val(data.business.organization_type_id);
                     var country_code = data.business.city.state.country.code;
                     $("#country_code").val(country_code);
-                    cc.location.country();
-                    if(country_code == "US")
-                    {
-                        $("#city_name, #state_name, #zip_code").val("");
-                    }
-                    else
-                    {
-                        $("#city_zip_code, #city_location, #zip_code").val("");
-                    }
-                    $("#businessEditForm").bind('submit', cc.crud.business.edit.update);
-                    cc.crud.business.admin.init();
+                    
+                    $("#linkEditForm").bind('submit', cc.crud.link.edit.update);
+                    cc.crud.link.admin.init();
                 }
                 else
                 {
@@ -94,20 +92,20 @@ cc.crud.link = {
             })
             .fail(tools.fail)
             .always(function(){
-                cc.dashboard.panel.loading("#businessEditLoading","hide");
+                cc.dashboard.panel.loading("#linkEditLoading","hide");
             });
         },
         update : function(x)
         {
-            cc.dashboard.panel.loading("#businessEditLoading","show");
-            var form = $("#businessEditForm");
+            cc.dashboard.panel.loading("#linkEditLoading","show");
+            var form = $("#linkEditForm");
             var data = form.serialize();
             var id = $("#id").val();
 
             form.find("button[type='submit']").attr('disabled', true);
 
             $.ajax({
-                url : cc.baseUrl + 'crud/business/' + id,
+                url : cc.baseUrl + 'crud/link/' + id,
                 dataType : 'json',
                 type: "PUT",
                 processData : false,
@@ -116,10 +114,10 @@ cc.crud.link = {
             .done(function(data) {
                 if (data.success)
                 {
-                    tools.messages("Business " + data.business.name + " edited", 'success');
+                    tools.messages("Link " + data.link.name + " edited", 'success');
                     cc.dashboard.panel.hide();
-                    cc.crud.business.edit.clear();
-                    cc.crud.business.table();
+                    cc.crud.link.edit.clear();
+                    cc.crud.link.table();
                 }
                 else
                 {
@@ -129,27 +127,27 @@ cc.crud.link = {
             .fail(tools.fail)
             .always(function () {
                 form.find("button[type='submit']").attr('disabled', false);
-                cc.dashboard.panel.loading("#businessEditLoading","hide");
+                cc.dashboard.panel.loading("#linkEditLoading","hide");
             });
             return false;
         },
         cancel : function()
         {
-            cc.dashboard.panel.only('#businessTable');
+            cc.dashboard.panel.only('#linkTable');
             this.clear();
         },
         clear : function()
         {
-            $("#businessEditForm_HBW").html("");
+            $("#linkEditForm_HBW").html("");
         }
     },
     destroy : function(id)
     {
-        cc.dashboard.modal.confirm("Delete Business", "Confirm delete busines?", function(){
-            cc.dashboard.panel.loading("#businessTableLoading","show");
+        cc.dashboard.modal.confirm("Delete Link", "Confirm delete link?", function(){
+            cc.dashboard.panel.loading("#linkTableLoading","show");
             var _token = $("meta[name=_token]").attr("content");
             $.ajax({
-                url : cc.baseUrl + 'crud/business/' + id,
+                url : cc.baseUrl + 'crud/link/' + id,
                 dataType : 'json',
                 type : "DELETE",
                 processData : false,
@@ -158,8 +156,8 @@ cc.crud.link = {
             .done(function(data) {
                 if (data.success)
                 {
-                    tools.messages("Business " + data.business + " deleted", 'success');
-                    cc.crud.business.table();
+                    tools.messages("Link " + data.link + " deleted", 'success');
+                    cc.crud.link.table();
                 }
                 else
                 {
@@ -168,7 +166,7 @@ cc.crud.link = {
             })
             .fail(tools.fail)
             .always(function(){
-                cc.dashboard.panel.loading("#businessTableLoading","hide");
+                cc.dashboard.panel.loading("#linkTableLoading","hide");
             });
         });
     },
@@ -228,7 +226,7 @@ cc.crud.link = {
             var keyword = search.val();
 
             search.attr('disabled', true);
-            cc.crud.business.admin.clear();
+            cc.crud.link.admin.clear();
             $("#admin_tab_search .alert").hide();
 
             $.ajax({
@@ -241,11 +239,11 @@ cc.crud.link = {
             .done(function(data) {
                 if(data.count == 0)
                 {
-                    cc.crud.business.admin.noresult();
+                    cc.crud.link.admin.noresult();
                 }
                 else if(data.count == 1)
                 {
-                    cc.crud.business.admin.result(data.admin.id, data.admin.name, data.admin.email);
+                    cc.crud.link.admin.result(data.admin.id, data.admin.name, data.admin.email);
                 }
                 else
                 {
@@ -265,7 +263,7 @@ cc.crud.link = {
         },
         noresult : function()
         {
-            cc.crud.business.admin.clear();
+            cc.crud.link.admin.clear();
             $("#admin_tab_search .alert").show();
         },
         clear : function()

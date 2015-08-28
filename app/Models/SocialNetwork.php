@@ -30,9 +30,7 @@ class SocialNetwork extends Model
      */
     public function businesses()
     {
-        return $this->belongsToMany('App\Models\Business', 'links', 'social_network_id', 'business_id')
-        				->withPivot('url', 'order', 'active')
-        				->withTimestamps();
+        return $this->belongsToMany('App\Models\Business');
     }
 
     public static function all($columns = array())
