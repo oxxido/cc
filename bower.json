@@ -26,6 +26,7 @@
     "handlebars": "~3.0.3",
     "pwstrength-bootstrap": "~1.2.7",
     "admin-lte": "~2.2.1",
-    "paging": "~1.2.0"
+    "paging": "~1.2.0",
+    "bootstrap-star-rating": "~3.5.3"
   }
 }
