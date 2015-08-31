@@ -14,55 +14,10 @@
 
   <div class="form-group">
       <label for="firstname">How likely is it that you would recommend our company to a friend or colleague?</label>
-      <div class="silver-bg">
-          <div class="radios-cnt clearfix">
-              <div class="radio">
-                  <label><input type="radio" name="rating" id="rating1" value="1" @if (old('rating') == 1) checked="checked" @endif></label>
-                  <p>1</p>
-              </div>
-              <div class="radio">
-                  <label><input type="radio" name="rating" id="rating2" value="2" @if (old('rating') == 2) checked="checked" @endif></label>
-                  <p>2</p>
-              </div>
-              <div class="radio">
-                  <label><input type="radio" name="rating" id="rating3" value="3" @if (old('rating') == 3) checked="checked" @endif></label>
-                  <p>3</p>
-              </div>
-              <div class="radio">
-                  <label><input type="radio" name="rating" id="rating4" value="4" @if (old('rating') == 4) checked="checked" @endif></label>
-                  <p>4</p>
-              </div>
-              <div class="radio">
-                  <label><input type="radio" name="rating" id="rating5" value="5" @if (old('rating') == 5) checked="checked" @endif></label>
-                  <p>5</p>
-              </div>
-              <div class="radio">
-                  <label><input type="radio" name="rating" id="rating6" value="6" @if (old('rating') == 6) checked="checked" @endif></label>
-                  <p>6</p>
-              </div>
-              <div class="radio">
-                  <label><input type="radio" name="rating" id="rating7" value="7" @if (old('rating') == 7) checked="checked" @endif></label>
-                  <p>7</p>
-              </div>
-              <div class="radio">
-                  <label><input type="radio" name="rating" id="rating8" value="8" @if (old('rating') == 8) checked="checked" @endif></label>
-                  <p>8</p>
-              </div>
-              <div class="radio">
-                  <label><input type="radio" name="rating" id="rating9" value="9" @if (old('rating') == 9) checked="checked" @endif></label>
-                  <p>9</p>
-              </div>
-              <div class="radio">
-                  <label><input type="radio" name="rating" id="rating10" value="10" @if ((old('rating') == 10) || !old('rating')) checked="checked" @endif></label>
-                  <p>10</p>
-              </div>
-          </div>
-          <div class="row">
-              <div class="col-xs-4">Not at all likely</div>
-              <div class="col-xs-4 text-center">Neutral</div>
-              <div class="col-xs-4 text-right">Very likely</div>
-          </div>
+      <div class="silver-bg" style="text-align: center">
+        <input id="rating" type="number" class="rating" size="lg" data-show-clear="false" data-show-caption="false" value="5">
       </div>
+
   </div>
 
   <div class="form-group">
