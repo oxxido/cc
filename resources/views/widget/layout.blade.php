@@ -1,5 +1,9 @@
 @extends('layouts.main')
 
+@section('head')
+<link href="{{ asset('vendor/bootstrap-star-rating/css/star-rating.min.css') }}" rel="stylesheet" type="text/css" >
+@endsection
+
 @section('body')
   <section class="top-page">
       <div class="wrapper">
@@ -22,4 +26,8 @@
           </div>
       </div>
   </section>
+@endsection
+
+@section('footer')
+<script type="text/javascript" src="{{ asset('/vendor/bootstrap-star-rating/js/star-rating.min.js') }}"></script>
 @endsection

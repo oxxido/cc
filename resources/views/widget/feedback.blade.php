@@ -21,6 +21,10 @@
 
           <div class="form-group">
               <label for="firstname">How likely is it that you would recommend our company to a friend or colleague?</label>
+              <div class="silver-bg" style="padding-left: 200px;">
+                <input id="rate" type="number" class="rating" >
+              </div>
+              <!--
               <div class="silver-bg">
                   <div class="radios-cnt clearfix">
                       <div class="radio">
@@ -69,7 +73,7 @@
                       <div class="col-xs-4 text-center">Neutral</div>
                       <div class="col-xs-4 text-right">Very likely</div>
                   </div>
-              </div>
+              </div> -->
           </div>
 
           <div class="form-group">
