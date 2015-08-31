@@ -3,14 +3,16 @@
 use Validator;
 use Illuminate\Http\Request;
 use App\Services\FeedbackService;
+use App\Services\PaginateService;
 use App\Models\Product;
+use App\Models\Comment;
 
 class WidgetController extends Controller
 {
 
     public function getFeedback($id)
     {
-        $product = Product::find($id);
+        $product = $this->findProduct($id);
         $this->data->product = $product;
 
         return $this->view("widget.feedback");
@@ -19,7 +21,7 @@ class WidgetController extends Controller
     public function postFeedback(Request $request)
     {
         $validator = FeedbackService::validator($request->all());
-        $product = Product::find($request->input('product_id'));
+        $product = $this->findProduct($request->input('product_id'));
 
         if ($validator->fails())
         {
@@ -46,6 +48,7 @@ class WidgetController extends Controller
         ]);
 
         $this->data->product = $product;
+
         if($request->input('rating') >= 8)
         {
             return $this->view("widget.feedbackPositive");
@@ -56,11 +59,46 @@ class WidgetController extends Controller
         }
     }
 
-    public function getReviews($id)
+    public function getTestimonial($id)
     {
-        $product = Product::find($id);
+        $product = $this->findProduct($id);
         $this->data->product = $product;
-
-        return $this->view("widget.reviews");
+        return $this->view("widget.testimonial");
     }
+
+    public function getReviews(Request $request)
+    {
+        $id = $request->input('product_id');
+        $product = $this->findProduct($id);
+        $query = Comment::where("product_id", "=", $product->id);
+        $paginate = new PaginateService($query);
+
+        $this->data->success = true;
+        $this->data->comments = $paginate->data();
+        $this->data->paging = $paginate->paging();
+
+        return $this->json();
+    }
+
+    private function findProduct($hash)
+    {
+        return Product::find($hash);
+    }
+
+    private function idEncrypt($id)
+    {
+        $pass = '1234';
+        $method = 'aes128';
+        $string = $id;
+        return openssl_encrypt($string, $method, $pass);
+    }
+
+    private function idDecrypt($hash)
+    {
+        $pass = '1234';
+        $method = 'aes128';
+        $string = $hash;
+        return openssl_decrypt($string, $method, $pass);
+    }
+
 }

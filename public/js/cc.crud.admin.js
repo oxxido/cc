@@ -180,16 +180,9 @@ cc.crud.admin = {
             if (data.success)
             {
                 tools.handlebars("#adminTable_HBT", "#adminTable_HBW", data);
-                $("#paging").easyPaging({
-                    total: data.paging.total,
-                    perpage : perpage,
-                    page : data.paging.page,
-                    onSelect: function(page)
-                    {
-                        if(data.paging.page != page)
-                            cc.crud.admin.table(page);
-                    }
-                });
+                tools.paging("#paging", data.paging, function(page){
+                    cc.crud.admin.table(page);
+                })
             }
             else
             {

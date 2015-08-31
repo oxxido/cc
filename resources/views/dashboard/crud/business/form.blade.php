@@ -126,7 +126,7 @@
           @endforeach
         </select>
         <input type="hidden" name="new_city" id="new_city" value="0">
-        <input type="hidden" id="city_id" name="city_id" value="@{{city_id}}">
+        <input type="hidden" id="city_id" name="city_id" value="@{{city.id}}">
       </div>
       <div id="location_auto">
         <div class="form-group">

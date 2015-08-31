@@ -57,6 +57,25 @@ var tools = {
             $("#errorMessage div").append("</ul>");
         }
 
+    },
+    paging : function(selector, data, callback)
+    {
+        if(data.pages > 1)
+        {
+            $(selector).easyPaging({
+                total: data.total,
+                perpage : data.perpage,
+                page : data.page,
+                onSelect: function(page)
+                {
+                    if(data.page != page)
+                        callback(page);
+                }
+            });
+        }
+        else
+        {
+            $(selector).hide();
+        }
     }
-
 }
