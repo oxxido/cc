@@ -32,3 +32,11 @@
     <script src="/js/tools.js" type="text/javascript"></script>
 
     <script src="/js/dashboard.js" type="text/javascript"></script>
+    <script>
+    $(function() {
+      //script for menu
+        var liHref = $("[href='"+window.location.pathname+"']").parent();
+        liHref.parent().parent().addClass('active');
+        liHref.addClass('active');
+    });
+    </script>
