@@ -71,8 +71,8 @@ cc.crud.business = {
                 if (data.success)
                 {
                     tools.handlebars("#businessEditForm_HBT", "#businessEditForm_HBW", data.business);
-                    $("#business_type_id").val(data.business.business_type_id);
-                    $("#organization_type_id").val(data.business.organization_type_id);
+                    $("#business_type_id").val(data.business.business_type.id);
+                    $("#organization_type_id").val(data.business.organization_type.id);
                     var country_code = data.business.city.state.country.code;
                     $("#country_code").val(country_code);
                     cc.location.country();
@@ -196,16 +196,9 @@ cc.crud.business = {
             if (data.success)
             {
                 tools.handlebars("#businessesTable_HBT", "#businessesTable_HBW", data);
-                $("#paging").easyPaging({
-                    total: data.paging.total,
-                    perpage : perpage,
-                    page : data.paging.page,
-                    onSelect: function(page)
-                    {
-                        if(data.paging.page != page)
-                            cc.crud.business.table(page);
-                    }
-                });
+                tools.paging("#paging", data.paging, function(page){
+                    cc.crud.business.table(page);
+                })
             }
             else
             {

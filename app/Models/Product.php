@@ -16,7 +16,9 @@ class Product extends Model {
      *
      * @var array
      */
-    protected $fillable = ['product', 'url'];
+    protected $fillable = ['business_id', 'product', 'url'];
+
+    protected $hidden = ['created_at','updated_at'];
 
     /**
      * Get the Business record associated with the Product.
@@ -39,4 +41,10 @@ class Product extends Model {
         return $this->hasMany('App\Models\Comment', 'product_id', 'id');
     }
 
+    public function toArray()
+    {
+        $this->comments;
+        $this->business;
+        return parent::toArray();
+    }
 }

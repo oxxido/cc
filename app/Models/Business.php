@@ -26,7 +26,7 @@ class Business extends Model {
      */
     protected $appends = ['location'];
 
-    protected $hidden = ['created_at','updated_at'];
+    protected $hidden = ['created_at', 'updated_at', 'business_type_id', 'organization_type_id', 'city_id', 'owner_id', 'admin_id'];
 
     /**
      * Get the City record associated with the Business.
