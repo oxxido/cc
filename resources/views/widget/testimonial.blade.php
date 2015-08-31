@@ -30,7 +30,7 @@
   <script type="text/javascript" src="{{ asset('/vendor/handlebars/handlebars.min.js') }}"></script>
   <script type="text/javascript" src="/js/tools.js"></script>
   <script type="text/javascript" src="/js/cc.testimonials.js"></script>
-
+<script type="text/javascript" src="{{ asset('/vendor/bootstrap-star-rating/js/star-rating.min.js') }}"></script>
   <script type="text/javascript">
     $(function () {
       cc.testimonials.init({{ $product->id }});

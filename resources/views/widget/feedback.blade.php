@@ -10,3 +10,7 @@
 
   </div>
 @endsection
+
+@section('footer')
+<script type="text/javascript" src="{{ asset('/vendor/bootstrap-star-rating/js/star-rating.min.js') }}"></script>
+@endsection

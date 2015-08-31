@@ -15,7 +15,7 @@
   <div class="form-group">
       <label for="firstname">How likely is it that you would recommend our company to a friend or colleague?</label>
       <div class="silver-bg" style="text-align: center">
-        <input id="rating" type="number" class="rating" size="lg" data-show-clear="false" data-show-caption="false" value="5">
+        <input id="rating" name="rating" type="number" class="rating" size="lg" data-show-clear="false" data-show-caption="false" value="5">
       </div>
 
   </div>
