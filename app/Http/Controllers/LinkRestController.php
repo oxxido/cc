@@ -17,7 +17,7 @@ use App\Services\AdminService;
 use App\Services\BusinessService;
 use App\Services\LocationService;
 
-class BusinessRestController extends Controller {
+class LinkRestController extends Controller {
 
     public $user;
 
@@ -39,11 +39,15 @@ class BusinessRestController extends Controller {
      */
     public function index()
     {
-        $query = Business::find(1)->social_networks();
+        //$biz = Business::find(1);
+        //$query = $biz->
+        $business_id = \Session::get('business_id');
+        $query = Business::find($business_id)->socialNetworks();
+
         $paginate = new PaginateService($query);
 
         $this->data->success = true;
-        $this->data->businesses = $paginate->data();
+        $this->data->links = $paginate->data();
         $this->data->paging = $paginate->paging();
 
         return $this->json();
@@ -210,17 +214,19 @@ class BusinessRestController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy($link_id)
     {
-        if($business = Business::find($id))
+        $business_id = \Session::get('business_id');
+
+        if($links = Business::find($business_id)->socialNetworks()->where("links.id","=",$link_id))
         {
-            $this->data->business = $business->name;
-            $business->delete();
+            $this->data->links = $links->first()->pivot->url;
+            $links->detach();
             $success = true;
         }
         else
         {
-            $this->data->error = "Business not found";
+            $this->data->error = "Profile not found";
             $success = false;
         }
 

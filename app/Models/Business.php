@@ -108,7 +108,7 @@ class Business extends Model {
     public function socialNetworks()
     {
         return $this->belongsToMany('App\Models\SocialNetwork', 'links', 'business_id', 'social_network_id')
-                        ->withPivot('url', 'order', 'active')
+                        ->withPivot('id', 'url', 'order', 'active')
                         ->withTimestamps();
     }
 

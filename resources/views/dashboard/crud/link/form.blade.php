@@ -23,7 +23,7 @@
 
       <div class="form-group">
         <img name="logo" id="logo" src="{{ $social_network->logo }}" width="50"> 
-        <input type="checkbox">Show URL in Testimonials Widget and on thank-you page
+        <input name="active" type="checkbox">Show URL in Testimonials Widget and on thank-you page
         <br>
         
         <label for="name"></label>

@@ -1,8 +1,3 @@
-$(document).ready(function(){
-   $("#social_network_id").change(function(){
-     $("img[name=logo]").attr("src",$(this).val());
-   });
-});
 
 if (!cc) var cc = {};
 if (!cc.crud) cc.crud = {};
@@ -14,6 +9,12 @@ cc.crud.link = {
             tools.handlebars("#linkAddForm_HBT", "#linkAddForm_HBW", {});
             cc.dashboard.panel.only("#linkAdd");
             $("#linkAddForm").bind('submit', cc.crud.link.add.store);
+
+            $("#social_network_id").change(function(){
+                $("img[name=logo]").attr("src",$(this).val());
+                $("#name").attr("placeholder","Enter link to "+$(this).name()+" profile page");
+            });
+
             cc.crud.link.admin.init();
         },
         store : function()
@@ -78,9 +79,9 @@ cc.crud.link = {
                 {
                     tools.handlebars("#linkEditForm_HBT", "#linkEditForm_HBW", data.business);
                     $("#business_type_id").val(data.business.business_type_id);
-                    $("#organization_type_id").val(data.business.organization_type_id);
-                    var country_code = data.business.city.state.country.code;
-                    $("#country_code").val(country_code);
+                    
+                    $("#active").val(active);
+                    $("#name").val(name);
                     
                     $("#linkEditForm").bind('submit', cc.crud.link.edit.update);
                     cc.crud.link.admin.init();
@@ -143,7 +144,7 @@ cc.crud.link = {
     },
     destroy : function(id)
     {
-        cc.dashboard.modal.confirm("Delete Link", "Confirm delete link?", function(){
+        cc.dashboard.modal.confirm("Delete Profile", "Confirm delete profile?", function(){
             cc.dashboard.panel.loading("#linkTableLoading","show");
             var _token = $("meta[name=_token]").attr("content");
             $.ajax({
@@ -156,7 +157,7 @@ cc.crud.link = {
             .done(function(data) {
                 if (data.success)
                 {
-                    tools.messages("Link " + data.link + " deleted", 'success');
+                    tools.messages("Profile " + data.links + " deleted", 'success');
                     cc.crud.link.table();
                 }
                 else
