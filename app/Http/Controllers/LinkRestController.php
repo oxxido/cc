@@ -15,7 +15,7 @@ use App\Services\PaginateService;
 use App\Services\UserService;
 use App\Services\AdminService;
 use App\Services\BusinessService;
-use App\Services\LocationService;
+use App\Services\LinkService;
 
 class LinkRestController extends Controller {
 
@@ -71,46 +71,28 @@ class LinkRestController extends Controller {
     {
         $success = false;
 
-        $validation = BusinessService::validator(\Request::all());
+        $validation = LinkService::validator(\Request::all());
 
-        if ($validation->fails())
-        {
-            $this->data->errors = $validation->getMessageBag()->toArray();
-        }
-        else
-        {
-            $admin = AdminService::getAdmin([
-                'owner_id'   => $this->user->id,
-                'email'      => $request->input('admin_email'),
-                'first_name' => $request->input('admin_first_name'),
-                'last_name'  => $request->input('admin_last_name'),
-                'id'         => ($request->input('new_admin') ? false : $request->input('admin_id'))
+       
+            $social = LinkService::getSocialNetwork([
+                'social_network_id'    => $request->input('social_network_id'),
+                //'name'                 => $request->input('social_network_id').text,
+                'logo'                 => $request->input('logo')
             ]);
 
-            $city = BusinessService::getCity([
-                'city_id'      => ($request->input('new_city') ? false : $request->input('city_id')),
-                'country_code' => $request->input('country_code'),
-                'zip_code'     => ($request->input('new_city') ? $request->input('zip_code') : $request->input('city_zip_code')),
-                'city_name'    => $request->input('city_name'),
-                'state_name'   => $request->input('state_name')
-            ]);
-
-            $business = BusinessService::create([
-                'business_type_id'     => $request->input('business_type_id'),
-                'organization_type_id' => $request->input('organization_type_id'),
-                'city_id'              => $city->id,
-                'owner_id'             => $this->user->id,
-                'admin_id'             => $admin->id,
-                'name'                 => $request->input('name'),
-                'description'          => $request->input('description'),
-                'phone'                => $request->input('phone'),
-                'url'                  => $request->input('url'),
-                'address'              => $request->input('address')
+            $business = LinkService::getBusiness([
+                'business_id'          => \Session::get('business_id')
             ]);
 
             $success = true;
-            $this->data->business = $business;
-        }
+            $this->data->links = $business;
+            $business->socialNetworks()->attach($social->id, 
+                                                [
+                                                    'url'    => $request->input('url'), 
+                                                    'order'  => 1, 
+                                                    'active' => 1
+                                                ]);
+        
         $this->data->success = $success;
         return $this->json();
     }
@@ -214,14 +196,15 @@ class LinkRestController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function destroy($link_id)
+    public function destroy($social_id)
     {
         $business_id = \Session::get('business_id');
 
-        if($links = Business::find($business_id)->socialNetworks()->where("links.id","=",$link_id))
+        if($links = Business::find($business_id)->socialNetworks()->where("links.social_network_id", "=", $social_id))
         {
             $this->data->links = $links->first()->pivot->url;
-            $links->detach();
+            $links = Business::find($business_id);
+            $links->socialNetworks()->detach($social_id);
             $success = true;
         }
         else

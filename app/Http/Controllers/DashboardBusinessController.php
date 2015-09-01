@@ -35,8 +35,6 @@ class DashboardBusinessController extends Controller {
      */
     public function getIndex()
     {
-        //$this->data->business = print_r($this->business->toArray(), true);
-        //return $this->view('dashboard.business.index');
         return redirect('/dashbiz/link');
     }
 
@@ -47,11 +45,7 @@ class DashboardBusinessController extends Controller {
      */
     public function getLink()
     {
-        //$this->data->organization_types = Models\OrganizationType::all();
-        //$this->data->business_types = Models\BusinessType::all();
-        //$this->data->countries = Models\Country::all();
-        $this->data->social_networks = Models\SocialNetwork::all();
-        
+        $this->data->social_networks = Models\SocialNetwork::all();        
         return $this->view('dashboard.crud.link.index');
     }
 

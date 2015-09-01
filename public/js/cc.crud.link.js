@@ -12,7 +12,7 @@ cc.crud.link = {
 
             $("#social_network_id").change(function(){
                 $("img[name=logo]").attr("src",$(this).val());
-                $("#name").attr("placeholder","Enter link to "+$(this).name()+" profile page");
+                $("#url").attr("placeholder","Enter link to (aqui nombre de la red social) profile page");
             });
 
             cc.crud.link.admin.init();
@@ -36,7 +36,7 @@ cc.crud.link = {
             .done(function(data) {
                 if (data.success)
                 {
-                    tools.messages("Link " + data.social_network.name + " added", 'success');
+                    tools.messages("Profile (aqui el profileo url al profile) added", 'success');
                     cc.dashboard.panel.hide();
                     cc.crud.link.add.clear();
                     cc.crud.link.table();

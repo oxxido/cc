@@ -17,7 +17,7 @@
           <a onclick="cc.crud.link.edit.edit(@{{id}})">
             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
           </a>
-          <a onclick="cc.crud.link.destroy(@{{pivot.id}})">
+          <a onclick="cc.crud.link.destroy(@{{id}})">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
           </a>
         </td>

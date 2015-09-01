@@ -16,7 +16,7 @@
         <select class="form-control" name="social_network_id" placeholder="Enter Social Network" id="social_network_id">
           <option></option>
           @foreach ($social_networks as $social_network)
-            <option value="{{ $social_network->logo }}">{{ $social_network->name }}</option>
+            <option value="{{ $social_network->id }}">{{ $social_network->name }}</option>
           @endforeach
         </select>
       </div>
@@ -27,7 +27,7 @@
         <br>
         
         <label for="name"></label>
-        <input type="text" name="name" placeholder="Enter link to {{ $social_network->name }} profile page" id="name" class="form-control" value="" required>
+        <input type="text" name="url" placeholder="Enter link to {{ $social_network->name }} profile page" id="name" class="form-control" value="" required>
         <br>
         
         <input type="button" value="Visit URL" onclick="">
