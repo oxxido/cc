@@ -2,10 +2,11 @@
   @{{#each comments}}
     <li class="list-group-item comment">
       <div class="row">
-        <div class="col-md-8 comment">@{{comment}}</div>
-        <div class="col-md-4">
+        <div class="col-xs-8 comment">@{{comment}}</div>
+        <div class="col-xs-4">
           @{{commenter.name}}<br>
-          Rating: @{{rating}}
+          <input type="text" class="rating" data-size="xxs" readonly data-show-clear="false" data-show-caption="false" value="@{{rating}}">
+          @{{created}}
         </div>
       </div>
     </li>

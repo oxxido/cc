@@ -40,16 +40,18 @@ class WidgetController extends Controller
             'business_id'  => $product->business->id
         ]);
 
+        $rating = trim($request->input('rating'));
+
         $comment = FeedbackService::createComment([
             'product_id'            => $product->id,
             'business_commenter_id' => $business_commenter->id,
             'comment'               => $request->input('comment'),
-            'rating'                => $request->input('rating')
+            'rating'                => $rating
         ]);
 
         $this->data->product = $product;
 
-        if($request->input('rating') >= 8)
+        if($rating >= 3)
         {
             return $this->view("widget.feedbackPositive");
         }
@@ -70,7 +72,7 @@ class WidgetController extends Controller
     {
         $id = $request->input('product_id');
         $product = $this->findProduct($id);
-        $query = Comment::where("product_id", "=", $product->id);
+        $query = Comment::where("product_id", "=", $product->id)->orderBy('created_at', 'desc');
         $paginate = new PaginateService($query);
 
         $this->data->success = true;

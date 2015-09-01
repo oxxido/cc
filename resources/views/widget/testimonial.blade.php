@@ -18,19 +18,16 @@
 
 @endsection
 
-@section('footer')
+@section('foot')
 
   <script id="reviewsTable_HBT" type="text/x-handlebars-template">
     @include('widget.reviews')
   </script>
 
-  <!-- Paging -->
-  <script src="/vendor/paging/jquery.paging.js" type="text/javascript"></script>
-  <script src="/js/vendor/jquery.easy-paging.js" type="text/javascript"></script>
   <script type="text/javascript" src="{{ asset('/vendor/handlebars/handlebars.min.js') }}"></script>
-  <script type="text/javascript" src="/js/tools.js"></script>
-  <script type="text/javascript" src="/js/cc.testimonials.js"></script>
-<script type="text/javascript" src="{{ asset('/vendor/bootstrap-star-rating/js/star-rating.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/vendor/paging/jquery.paging.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/js/vendor/jquery.easy-paging.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/js/cc.testimonials.js') }}"></script>
   <script type="text/javascript">
     $(function () {
       cc.testimonials.init({{ $product->id }});

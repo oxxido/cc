@@ -1,7 +1,12 @@
 @extends('layouts.main')
 
 @section('head')
-<link href="{{ asset('vendor/bootstrap-star-rating/css/star-rating.min.css') }}" rel="stylesheet" type="text/css" >
+  <link href="{{ asset('vendor/bootstrap-star-rating/css/star-rating.min.css') }}" rel="stylesheet" type="text/css" >
+  <style type="text/css">
+  .rating-xxs {
+    font-size: 1.3em;
+  }
+  </style>
 @endsection
 
 @section('body')
@@ -28,3 +33,8 @@
   </section>
 @endsection
 
+@section('footer')
+  <script type="text/javascript" src="{{ asset('/vendor/bootstrap-star-rating/js/star-rating.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/js/tools.js') }}"></script>
+  @yield('foot')
+@endsection

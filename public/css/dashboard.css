@@ -25,3 +25,10 @@
 #content-dashboard .table td.action{
 	text-align: center;
 }
+
+#feedbakConfig{
+    padding: 10px;
+}
+#feedbakConfig .box-footer{
+    border-top-color: #ddd;
+}

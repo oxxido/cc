@@ -1,8 +1,10 @@
 <?php namespace App\Http\Controllers;
 
 use Auth;
+use Validator;
 use Illuminate\Http\Request;
 use App\Models\Business;
+
 
 class DashboardBusinessController extends Controller {
 
@@ -27,6 +29,17 @@ class DashboardBusinessController extends Controller {
             $this->setBusiness();
         $this->data->businessId = \Session::get('business_id');
 
+    }
+
+    /**
+     * Show the application dashboard to the business admin.
+     *
+     * @return Response
+     */
+    public function getTest()
+    {
+        $this->data->business = $this->business;
+        return $this->json();
     }
 
     /**
@@ -60,6 +73,41 @@ class DashboardBusinessController extends Controller {
     {
         $this->data->business = $this->business->toArray();
         return $this->view('dashboard.business.feedback');
+    }
+
+    /**
+     * 
+     *
+     * @return Response
+     */
+    public function postFeedback(Request $request)
+    {
+        $validator = Validator::make($request->all(), array(
+            'pageTitle' => 'required',
+            'logoUrl'   => 'required',
+            'bannerUrl' => 'required'
+        ));
+
+        if ($validator->fails())
+        {
+            return redirect('dashbiz/feedback')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $feedback = isset($this->business->config->feedback) ? $this->business->config->feedback : new \stdClass;
+        $feedback->includeSocialLinks = $request->input('includeSocialLinks');
+        $feedback->includePhone       = $request->input('includePhone');
+        $feedback->positiveThreshold  = $request->input('positiveThreshold');
+        $feedback->pageTitle          = $request->input('pageTitle');
+        $feedback->logoUrl            = $request->input('logoUrl');
+        $feedback->bannerUrl          = $request->input('bannerUrl');
+        $feedback->starsStyle         = $request->input('starsStyle');
+
+        $this->business->config->feedback = $feedback;
+        $this->business->save();
+
+        return $this->view("dashboard.business.feedback");
     }
 
     /**

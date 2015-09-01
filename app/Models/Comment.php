@@ -16,7 +16,7 @@ class Comment extends Model {
      *
      * @var array
      */
-    protected $appends = ['commenter'];
+    protected $appends = ['commenter', 'created'];
 
     /**
      * The attributes that are mass assignable.
@@ -38,6 +38,21 @@ class Comment extends Model {
     public function product()
     {
         return $this->belongsTo('App\Models\Product', 'product_id', 'id');
+    }
+
+    public function getCreatedAttribute()
+    {
+        return date("M j, Y", strtotime($this->attributes['created_at']));
+    }
+
+    public function getRatingAttribute()
+    {
+        return $this->attributes['rating'] / 2;
+    }
+
+    public function setRatingAttribute($value)
+    {
+        $this->attributes['rating'] = floatval($value) * 2;
     }
 
     public function getCommenterAttribute()
