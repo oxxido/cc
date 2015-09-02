@@ -2,6 +2,7 @@
 
 use App\Models\Admin;
 use App\Models\Business;
+use App\Models\Product;
 use App\Services\UserService;
 use App\Services\AdminService;
 use App\Services\LocationService;
@@ -79,6 +80,53 @@ class BusinessService {
      */
     public static function create(array $data)
     {
-        return Business::create($data);
+        $business = Business::create($data);
+        $business->config = self::defaultConfig("default", $business);
+        $business->save();
+        $product = new Product();
+        $product->business_id = $business->id;
+        $product->save();
+
+        return $business;
+    }
+
+    public static function defaultConfig($type, $business, $request = false)
+    {
+        $default = [
+            'feedback' => [
+                'includeSocialLinks' => true,
+                'includePhone'       => false,
+                'positiveThreshold'  => 3,
+                'pageTitle'          => $business->name,
+                'logoUrl'            => asset('images/logo-example.png'),
+                'bannerUrl'          => asset('images/landscape.jpg'),
+                'starsStyle'         => 'default'
+            ],
+            'testimonial' => [
+                'includeFeedback' => true
+            ],
+            'notification' => [
+                'name' => 'value'
+            ],
+            'email' => [
+                'name' => 'value'
+            ],
+            'kiosk' => [
+                'name' => 'value'
+            ]
+        ];
+
+        if($type == "default")
+        {
+            return json_decode(json_encode($default));
+        }
+
+        $config = isset($business->config->$type) ? $business->config->$type : new \stdClass;
+        foreach($default[$type] as $name => $value)
+        {
+            $config->$name = $request->input($name) ? $request->input($name) : (($request->old($name) && $request->old($name) !== false) ? $request->old($name) : ((isset($config->$name) && $config->$name) ? $config->$name : $value));
+        }
+        //echo"<pre>";print_r($request->all());exit();
+        return $config;
     }
 }

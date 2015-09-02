@@ -9,12 +9,14 @@
     <div id="reviewsTable_HBW"></div>
   </div>
 
-  <div class="top-section">
-    <p class="title-section">Your Feedback</p>
-  </div>
-  <div class="bottom-section">
-    @include('widget.feedbackForm')
-  </div>
+  @if($config->testimonial->includeFeedback)
+    <div class="top-section">
+      <p class="title-section">Your Feedback</p>
+    </div>
+    <div class="bottom-section">
+      @include('widget.feedbackForm')
+    </div>
+  @endif
 
 @endsection
 

@@ -26,9 +26,15 @@
 	text-align: center;
 }
 
-#feedbackConfig{
+#config-form{
     padding: 10px;
 }
-#feedbackConfig .box-footer{
+#config-form .box-footer{
     border-top-color: #ddd;
+}
+textarea.noresize{
+    resize: none;
+}
+label small{
+    font-weight: normal;
 }

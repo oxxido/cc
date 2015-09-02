@@ -65,23 +65,23 @@ class Admin extends Model {
         return $this->hasMany('App\Models\Business', 'admin_id', 'id');
     }
 
-     /**
-     * Mutator to get the user's full name.
-     *
-     * @param  string  $value
-     * @return string
-     */
+    /**
+    * Mutator to get the user's full name.
+    *
+    * @param  string  $value
+    * @return string
+    */
     public function getNameAttribute()
     {
         return $this->user->name;
     }
 
-     /**
-     * Mutator to get the user's email.
-     *
-     * @param  string  $value
-     * @return string
-     */
+    /**
+    * Mutator to get the user's email.
+    *
+    * @param  string  $value
+    * @return string
+    */
     public function getEmailAttribute()
     {
         return $this->user->email;

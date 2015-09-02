@@ -41,7 +41,7 @@
   <div class="form-group">
       <label for="comment">How did you feel about your experience with us?</label>
       <div class="textarea-cnt">
-          <textarea class="form-control" rows="3" name="comment" id="comment" placeholder="Write comments here..." required>{{ old('comment') }}</textarea>
+          <textarea class="form-control noresize" rows="3" name="comment" id="comment" placeholder="Write comments here..." required>{{ old('comment') }}</textarea>
           <p class="max-chars">0 / 500 characters maximum</p>
       </div>
   </div>

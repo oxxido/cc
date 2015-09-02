@@ -1,4 +1,4 @@
-@extends('dashboard.crud.layout')
+@extends('dashboard.business.layout')
 
 @section('title')
   <section class="content-header">
@@ -15,54 +15,43 @@
   </section>
 @endsection
 
-@section('content')
+@section('form')
 
-
-  @if (count($errors) > 0)
-      <div class="alert alert-danger">
-          <ul>
-              @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-              @endforeach
-          </ul>
-      </div>
-  @endif
-
-  @if (isset($saved))
-      <div class="alert alert-info">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <p>Successfully saved!</p>
-      </div>
-  @endif
-
-  <div class="box box-primary collapse in" id="testimonialConfig">
-
-    {!! Form::open(array('url'=>url('dashbiz/testimonial'), 'method'=> 'POST', 'role' => 'form', 'name' => 'testimonialForm', 'id' => 'testimonialForm')) !!}
-      <div class="box-header with-border">
-        <h3 class="box-title">Testimonial Widget Options</h3>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <div class="form-group">
-            <input type="checkbox" name="includeFeedback" id="includeFeedback">
-            <label for="name" >Include feedback form</label>
-          </div>
-          <div class="form-group">
-            <label for="codeForSite">Widget Code <small>Use this code to add the testimonial widget on your site</small></label>
-            <textarea name="codeForSite"  rows="3" class="form-control" readonly="readonly"> code </textarea>
-          </div>
+  {!! Form::open(array('url'=>url('dashbiz/testimonial'), 'method'=> 'POST', 'role' => 'form', 'name' => 'testimonialForm', 'id' => 'testimonialForm')) !!}
+    <div>
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a>Testimonial Widget Options</a>
+        </li>
+      </ul>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="form-group">
+          <input type="checkbox" name="includeFeedback" id="includeFeedback" @if($config->includeFeedback) checked="checked" @endif>
+          <label for="includeFeedback" >Include feedback form</label>
         </div>
-
-        <div class="box-footer">
-          <button class="btn btn-primary" type="submit">Save</button>
-        </div>
-
       </div>
-    {!! Form::close() !!}
+      <div class="box-footer">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div>
+    </div>
+  {!! Form::close() !!}
 
+  <div>
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a>Integration Site</a>
+      </li>
+    </ul>
   </div>
-
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="form-group">
+        <label for="codeForSite">Widget Code <small>Use this code to add the testimonial widget on your site</small></label>
+        <textarea id="codeForSite"  rows="3" class="form-control noresize" readonly="readonly"><iframe src="{{ url("widget/testimonial/$product->hash") }}"></iframe></textarea>
+        <a target="_blank" href="{{ url("widget/testimonial/$product->hash") }}">Test Link</a>
+      </div>
+    </div>
+  </div>
 @endsection

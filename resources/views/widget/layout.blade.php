@@ -16,23 +16,23 @@
 
 @section('body')
   <section class="top-page">
-      <div class="wrapper">
-          <div class="logo-cnt"> {{ $config->feedback->pageTitle }}</div>
-          <div class="top-image">
-              <img src="{{ $config->feedback->bannerUrl }}" alt="{{ $config->feedback->pageTitle }}">
-              <div class="row company-info-cnt">
-                  <div class="col-sm-6">{{ $business->name }}</div>
-                  <div class="col-sm-6 text-right">{{ $business->address }} | {{ $business->phone }}</div>
-              </div>
-          </div>
+    <div class="wrapper">
+      <div class="logo-cnt"> {{ $config->feedback->pageTitle }}</div>
+      <div class="top-image">
+        <img src="{{ $config->feedback->bannerUrl }}" alt="{{ $config->feedback->pageTitle }}">
+        <div class="row company-info-cnt">
+          <div class="col-sm-6">{{ $business->name }}</div>
+          <div class="col-sm-6 text-right">{{ $business->address }} | {{ $business->phone }}</div>
+        </div>
       </div>
+    </div>
   </section>
   <section class="feedback">
-      <div class="wrapper">
-          <div class="bg-panel">
-              @yield('content')
-          </div>
+    <div class="wrapper">
+      <div class="bg-panel">
+        @yield('content')
       </div>
+    </div>
   </section>
 @endsection
 

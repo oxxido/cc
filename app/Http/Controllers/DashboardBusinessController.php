@@ -3,6 +3,7 @@
 use Auth;
 use Validator;
 use Illuminate\Http\Request;
+use App\Services\BusinessService;
 use App\Models\Business;
 
 
@@ -38,8 +39,7 @@ class DashboardBusinessController extends Controller {
      */
     public function getTest()
     {
-        $this->data->business = $this->business;
-        return $this->json();
+        print_r($this->business->products->first()->hash);
     }
 
     /**
@@ -58,10 +58,108 @@ class DashboardBusinessController extends Controller {
      *
      * @return Response
      */
-    public function getTestimonial()
+    public function getTestimonial(Request $request)
     {
-        $this->data->business = $this->business->toArray();
+        $this->data->business = $this->business;
+        $this->data->config = $this->defaultConfig('testimonial', $request);
+        $this->data->product = $this->business->products->first();
         return $this->view('dashboard.business.testimonial');
+    }
+
+    /**
+     * 
+     *
+     * @return Response
+     */
+    public function postTestimonial(Request $request)
+    {
+        $validator = Validator::make($request->all(), array());
+
+        if ($validator->fails())
+        {
+            return redirect('dashbiz/testimonial')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $setting = $this->defaultConfig('testimonial', $request);
+        // Only input type radio
+        $setting->includeFeedback = $request->input('includeFeedback');
+        $this->business->config->testimonial = $setting;
+        $this->business->save();
+
+        $this->data->saved = true;
+        $this->data->business = $this->business;
+        $this->data->config = $this->business->config->testimonial;
+        $this->data->product = $this->business->products->first();
+
+        return $this->view('dashboard.business.testimonial');
+    }
+
+    /**
+     * 
+     *
+     * @return Response
+     */
+    public function getNotification(Request $request)
+    {
+        $this->data->business = $this->business;
+        $this->data->config = $this->defaultConfig('notification', $request);
+        return $this->view('dashboard.business.notification');
+    }
+
+    /**
+     * 
+     *
+     * @return Response
+     */
+    public function postNotification(Request $request)
+    {
+        return $this->view('dashboard.business.notification');
+    }
+
+    /**
+     * 
+     *
+     * @return Response
+     */
+    public function getEmail(Request $request)
+    {
+        $this->data->business = $this->business;
+        $this->data->config = $this->defaultConfig('email', $request);
+        return $this->view('dashboard.business.email');
+    }
+
+    /**
+     * 
+     *
+     * @return Response
+     */
+    public function postEmail(Request $request)
+    {
+        return $this->view('dashboard.business.email');
+    }
+
+    /**
+     * 
+     *
+     * @return Response
+     */
+    public function getKiosk(Request $request)
+    {
+        $this->data->business = $this->business;
+        $this->data->config = $this->defaultConfig('kiosk', $request);
+        return $this->view('dashboard.business.kiosk');
+    }
+
+    /**
+     * 
+     *
+     * @return Response
+     */
+    public function postKiosk(Request $request)
+    {
+        return $this->view('dashboard.business.kiosk');
     }
 
     /**
@@ -72,7 +170,8 @@ class DashboardBusinessController extends Controller {
     public function getFeedback(Request $request)
     {
         $this->data->business = $this->business;
-        $this->data->config = $this->defaultFeedbackConfig($this->business, $request);
+        $this->data->config = $this->defaultConfig('feedback', $request);
+        $this->data->product = $this->business->products->first();
         return $this->view('dashboard.business.feedback');
     }
 
@@ -96,21 +195,17 @@ class DashboardBusinessController extends Controller {
                 ->withInput();
         }
 
-        $feedback = $this->defaultFeedbackConfig($this->business, $request);
+        $feedback = $this->defaultConfig('feedback', $request);
+        // Only input type radio
         $feedback->includeSocialLinks = $request->input('includeSocialLinks');
         $feedback->includePhone       = $request->input('includePhone');
-        $feedback->positiveThreshold  = $request->input('positiveThreshold');
-        $feedback->pageTitle          = $request->input('pageTitle');
-        $feedback->logoUrl            = $request->input('logoUrl');
-        $feedback->bannerUrl          = $request->input('bannerUrl');
-        $feedback->starsStyle         = $request->input('starsStyle');
-
         $this->business->config->feedback = $feedback;
         $this->business->save();
 
         $this->data->saved = true;
         $this->data->business = $this->business;
         $this->data->config = $this->business->config->feedback;
+        $this->data->product = $this->business->products->first();
 
         return $this->view("dashboard.business.feedback");
     }
@@ -151,24 +246,8 @@ class DashboardBusinessController extends Controller {
         }
     }
 
-    private function defaultFeedbackConfig($business, $request)
+    private function defaultConfig($type, $request)
     {
-        $feedback = isset($business->config->feedback) ? $business->config->feedback : new \stdClass;
-        $default = [
-            'includeSocialLinks' => true,
-            'includePhone'       => false,
-            'positiveThreshold'  => 3,
-            'pageTitle'          => $business->name,
-            'logoUrl'            => asset('images/logo-example.png'),
-            'bannerUrl'          => asset('images/landscape.jpg'),
-            'starsStyle'         => 'default'
-        ];
-        foreach($default as $name => $value)
-        {
-            $feedback->$name = ($request->old($name) && $request->old($name) !== false) ? $request->old($name) : ((isset($feedback->$name) && $feedback->$name) ? $feedback->$name : $default[$name]);
-        }
-
-        //echo "<pre>"; var_dump($feedback); exit();
-        return $feedback;
+        return BusinessService::defaultConfig($type, $this->business, $request);
     }
 }
