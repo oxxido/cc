@@ -4,7 +4,7 @@
   @include('dashboard.crud.link.form')
 
   <div class="box-footer">
-    <button class="btn btn-primary" type="submit" id="linkAddSubmit">Submit</button> 
+    <button class="btn btn-primary" type="submit" id="linkAddSubmit">Add</button> 
     <button onclick="cc.crud.link.add.cancel()" class="btn btn-default" type="button">Cancel</button>
   </div>
 

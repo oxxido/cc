@@ -11,11 +11,14 @@ cc.crud.link = {
             $("#linkAddForm").bind('submit', cc.crud.link.add.store);
 
             $("#social_network_id").change(function(){
-                $("img[name=logo]").attr("src",$(this).val());
-                $("#url").attr("placeholder","Enter link to (aqui nombre de la red social) profile page");
+                cc.crud.link.setLogo();
             });
-
+            $('#name').on('input', function() {
+                cc.crud.link.setInput(this);
+            });
             cc.crud.link.admin.init();
+            cc.crud.link.setLogo();
+            
         },
         store : function()
         {
@@ -272,8 +275,33 @@ cc.crud.link = {
             $("#admin_user_id, #admin_search_name, #admin_search_email").val("");
         }
     },
+    setLogo: function()
+    {
+        var found = $.map(socialNetworks, function(obj) {
+            if(obj.id == $("#social_network_id").val())
+                 return obj; // or return obj.name, whatever.
+        });
+        if(typeof found[0] !='undefined') {
+            $("#logo").prop('src',found[0].logo);
+            this.setInput(document.getElementById("name"));
+            $("#logo").show();
+        } else {
+            $("#logo").hide();
+        }
+
+    },
+    setInput: function(diz)
+    {
+        var found = $.map(socialNetworks, function(obj) {
+            if(obj.id == $("#social_network_id").val())
+                 return obj; // or return obj.name, whatever.
+        });
+        $("#social_result").html("http://"+found[0].url.replace("%",$(diz).val()));
+
+    },
     init: function()
     {
         cc.crud.link.table();
+        
     }
 }

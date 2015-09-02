@@ -82,8 +82,10 @@
   <script type="text/javascript" src="/js/cc.crud.link.js"></script>
 
   <script type="text/javascript">
+  var socialNetworks = {!! json_encode($social_networks) !!};
     $(function () {
       cc.crud.link.init();
+
     });
   </script>
 @endsection
