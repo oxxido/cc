@@ -1,4 +1,4 @@
-@extends('dashboard.crud.layout')
+@extends('dashboard.business.layout')
 
 @section('title')
   <section class="content-header">
@@ -15,28 +15,7 @@
   </section>
 @endsection
 
-@section('content')
-
-  @if (count($errors) > 0)
-    <div class="alert alert-danger">
-      <ul>
-        @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-      </ul>
-    </div>
-  @endif
-
-  @if (isset($saved))
-    <div class="alert alert-info">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <p>Successfully saved!</p>
-    </div>
-  @endif
-
-  <div class="box box-primary collapse in" id="feedbackConfig">
+@section('form')
 
     {!! Form::open(array('url'=>url('dashbiz/feedback'), 'method'=> 'POST', 'role' => 'form', 'name' => 'feedbackForm', 'id' => 'feedbackForm')) !!}
       <div>
@@ -109,7 +88,22 @@
         </div>
       </div>
     {!! Form::close() !!}
-  </div><!-- /.box-body -->
 
+  <div>
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a>Integration Site</a>
+      </li>
+    </ul>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="form-group">
+        <label for="codeForSite">Widget Code <small>Use this code to add the testimonial widget on your site</small></label>
+        <textarea id="codeForSite"  rows="3" class="form-control noresize" readonly="readonly"><iframe src="{{ url("widget/feedback/$product->hash") }}"></iframe></textarea>
+        <a target="_blank" href="{{ url("widget/feedback/$product->hash") }}">Test Link</a>
+      </div>
+    </div>
+  </div>
 @endsection
 

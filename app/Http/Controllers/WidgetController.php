@@ -10,9 +10,9 @@ use App\Models\Comment;
 class WidgetController extends Controller
 {
 
-    public function getFeedback($id)
+    public function getFeedback($hash)
     {
-        $product = $this->findProduct($id);
+        $product = $this->findProduct($hash);
         $this->data->product = $product;
         $this->data->business = $product->business;
         $this->data->config = $product->business->config;
@@ -24,7 +24,7 @@ class WidgetController extends Controller
     public function postFeedback(Request $request)
     {
         $validator = FeedbackService::validator($request->all());
-        $product = $this->findProduct($request->input('product_id'));
+        $product = Product::find($request->input('product_id'));
 
         if ($validator->fails())
         {
@@ -68,9 +68,9 @@ class WidgetController extends Controller
         }
     }
 
-    public function getTestimonial($id)
+    public function getTestimonial($hash)
     {
-        $product = $this->findProduct($id);
+        $product = $this->findProduct($hash);
         $this->data->product = $product;
         $this->data->business = $product->business;
         $this->data->config = $product->business->config;
@@ -81,7 +81,7 @@ class WidgetController extends Controller
     public function getReviews(Request $request)
     {
         $id = $request->input('product_id');
-        $product = $this->findProduct($id);
+        $product =  Product::find($id);
         $query = Comment::where("product_id", "=", $product->id)->orderBy('created_at', 'desc');
         $paginate = new PaginateService($query);
 
@@ -94,23 +94,7 @@ class WidgetController extends Controller
 
     private function findProduct($hash)
     {
-        return Product::find($hash);
+        $id = intval(str_replace("product_id=", "", base64_decode($hash)));
+        return Product::find($id);
     }
-
-    private function idEncrypt($id)
-    {
-        $pass = '1234';
-        $method = 'aes128';
-        $string = $id;
-        return openssl_encrypt($string, $method, $pass);
-    }
-
-    private function idDecrypt($hash)
-    {
-        $pass = '1234';
-        $method = 'aes128';
-        $string = $hash;
-        return openssl_decrypt($string, $method, $pass);
-    }
-
 }

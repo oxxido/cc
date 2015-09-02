@@ -60,6 +60,9 @@ form {
 img {
   border:0px;
 }
+textarea.noresize{
+    resize: none;
+}
 
 .borderbar {
   border-bottom:dashed 1px #ccc;
