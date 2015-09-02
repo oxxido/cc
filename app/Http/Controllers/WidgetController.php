@@ -14,6 +14,9 @@ class WidgetController extends Controller
     {
         $product = $this->findProduct($id);
         $this->data->product = $product;
+        $this->data->business = $product->business;
+        $this->data->config = $product->business->config;
+        $this->data->user = \Auth::user();
 
         return $this->view("widget.feedback");
     }
@@ -32,7 +35,8 @@ class WidgetController extends Controller
         $commenter = FeedbackService::getCommenter([
             'email'      => $request->input('email'),
             'first_name' => $request->input('first_name'),
-            'last_name'  => $request->input('last_name')
+            'last_name'  => $request->input('last_name'),
+            'phone'      => $request->input('phone')
         ]);
 
         $business_commenter = FeedbackService::getBusinessCommenter([
@@ -50,8 +54,11 @@ class WidgetController extends Controller
         ]);
 
         $this->data->product = $product;
+        $this->data->business = $product->business;
+        $this->data->config = $product->business->config;
+        $this->data->user = \Auth::user();
 
-        if($rating >= 3)
+        if($rating >= $product->business->config->feedback->positiveThreshold)
         {
             return $this->view("widget.feedbackPositive");
         }
@@ -65,6 +72,9 @@ class WidgetController extends Controller
     {
         $product = $this->findProduct($id);
         $this->data->product = $product;
+        $this->data->business = $product->business;
+        $this->data->config = $product->business->config;
+        $this->data->user = \Auth::user();
         return $this->view("widget.testimonial");
     }
 

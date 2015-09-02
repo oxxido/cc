@@ -160,7 +160,7 @@ class DashboardBusinessController extends Controller {
             'positiveThreshold'  => 3,
             'pageTitle'          => $business->name,
             'logoUrl'            => asset('images/logo-example.png'),
-            'bannerUrl'          => asset('images/landscape.png'),
+            'bannerUrl'          => asset('images/landscape.jpg'),
             'starsStyle'         => 'default'
         ];
         foreach($default as $name => $value)
