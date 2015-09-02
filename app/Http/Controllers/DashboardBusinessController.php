@@ -69,9 +69,10 @@ class DashboardBusinessController extends Controller {
      *
      * @return Response
      */
-    public function getFeedback()
+    public function getFeedback(Request $request)
     {
-        $this->data->business = $this->business->toArray();
+        $this->data->business = $this->business;
+        $this->data->config = $this->defaultFeedbackConfig($this->business, $request);
         return $this->view('dashboard.business.feedback');
     }
 
@@ -95,7 +96,7 @@ class DashboardBusinessController extends Controller {
                 ->withInput();
         }
 
-        $feedback = isset($this->business->config->feedback) ? $this->business->config->feedback : new \stdClass;
+        $feedback = $this->defaultFeedbackConfig($this->business, $request);
         $feedback->includeSocialLinks = $request->input('includeSocialLinks');
         $feedback->includePhone       = $request->input('includePhone');
         $feedback->positiveThreshold  = $request->input('positiveThreshold');
@@ -106,6 +107,10 @@ class DashboardBusinessController extends Controller {
 
         $this->business->config->feedback = $feedback;
         $this->business->save();
+
+        $this->data->saved = true;
+        $this->data->business = $this->business;
+        $this->data->config = $this->business->config->feedback;
 
         return $this->view("dashboard.business.feedback");
     }
@@ -144,5 +149,26 @@ class DashboardBusinessController extends Controller {
             $this->business = $business;
             \Session::set('business_id', $id);
         }
+    }
+
+    private function defaultFeedbackConfig($business, $request)
+    {
+        $feedback = isset($business->config->feedback) ? $business->config->feedback : new \stdClass;
+        $default = [
+            'includeSocialLinks' => true,
+            'includePhone'       => false,
+            'positiveThreshold'  => 3,
+            'pageTitle'          => $business->name,
+            'logoUrl'            => asset('images/logo-example.png'),
+            'bannerUrl'          => asset('images/landscape.png'),
+            'starsStyle'         => 'default'
+        ];
+        foreach($default as $name => $value)
+        {
+            $feedback->$name = ($request->old($name) && $request->old($name) !== false) ? $request->old($name) : ((isset($feedback->$name) && $feedback->$name) ? $feedback->$name : $default[$name]);
+        }
+
+        //echo "<pre>"; var_dump($feedback); exit();
+        return $feedback;
     }
 }
