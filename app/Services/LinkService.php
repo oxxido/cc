@@ -47,32 +47,5 @@ class LinkService {
         }
         return $business;
     }
-
-    /**
-     * Update user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return Business
-     */
-    public static function update($id, array $data)
-    {
-        $business = Business::find($id);
-        foreach ($data as $key => $value)
-        {
-            $business->setAttribute($key, $value);
-        }
-        $business->save();
-        return $business;
-    }
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return Business
-     */
-    public static function create(array $data)
-    {
-        return Business::create($data);
-    }
+    
 }

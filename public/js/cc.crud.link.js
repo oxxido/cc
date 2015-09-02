@@ -39,7 +39,7 @@ cc.crud.link = {
             .done(function(data) {
                 if (data.success)
                 {
-                    tools.messages("Profile (aqui el profileo url al profile) added", 'success');
+                    tools.messages("Profile (aqui el profile o url al profile) added", 'success');
                     cc.dashboard.panel.hide();
                     cc.crud.link.add.clear();
                     cc.crud.link.table();
@@ -81,10 +81,19 @@ cc.crud.link = {
                 if (data.success)
                 {
                     tools.handlebars("#linkEditForm_HBT", "#linkEditForm_HBW", data.business);
-                    $("#business_type_id").val(data.business.business_type_id);
+                    $("#id").val(data.link.pivot.social_network_id);
+                    $("#social_network_id").val(data.link.id);                    
+                    $("#name").val(data.link.pivot.url);
+                    $("#logo").prop('src',data.link.logo);
+                    $("#social_result").html("http://"+data.link.url.replace("%",data.link.pivot.url));
+                    //$("#active").val(active);
                     
-                    $("#active").val(active);
-                    $("#name").val(name);
+                    $("#social_network_id").change(function(){
+                        cc.crud.link.setLogo();
+                    });
+                    $('#name').on('input', function() {
+                        cc.crud.link.setInput(this);
+                    });
                     
                     $("#linkEditForm").bind('submit', cc.crud.link.edit.update);
                     cc.crud.link.admin.init();
@@ -118,7 +127,7 @@ cc.crud.link = {
             .done(function(data) {
                 if (data.success)
                 {
-                    tools.messages("Link " + data.link.name + " edited", 'success');
+                    tools.messages("Profile (aqui el profile o url al profile) edited", 'success');
                     cc.dashboard.panel.hide();
                     cc.crud.link.edit.clear();
                     cc.crud.link.table();

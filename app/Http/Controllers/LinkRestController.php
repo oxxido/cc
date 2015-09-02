@@ -103,20 +103,22 @@ class LinkRestController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show($social_id)
     {
-        if($business = Business::find($id))
+        $business_id = \Session::get('business_id');
+
+        if($links = Business::find($business_id)->socialNetworks()->where("links.social_network_id", "=", $social_id))
         {
             $success = true;
         }
         else
         {
-            $this->data->error = "Business not found";
+            $this->data->error = "Profile not found";
             $success = false;
         }
 
         $this->data->success = $success;
-        $this->data->business = $business;
+        $this->data->link = $links->first();
 
         return $this->json();
     }
@@ -138,52 +140,37 @@ class LinkRestController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $social_id)
     {
         $success = false;
 
-        $validation = BusinessService::validator(\Request::all());
+        $validation = LinkService::validator(\Request::all());
 
-        if ($validation->fails())
-        {
-            $this->data->errors = $validation->getMessageBag()->toArray();
-        }
-        else
-        {
-            $business = Business::find($id);
+        $business_id = \Session::get('business_id');
 
-            $admin = AdminService::getAdmin([
-                'owner_id'   => $this->user->id,
-                'email'      => $request->input('admin_email'),
-                'first_name' => $request->input('admin_first_name'),
-                'last_name'  => $request->input('admin_last_name'),
-                'id'         => ($request->input('new_admin') ? false : $request->input('admin_id'))
+            $social = LinkService::getSocialNetwork([
+                'social_network_id'    => $request->input('social_network_id'),
+                //'name'                 => $request->input('social_network_id').text,
+                'logo'                 => $request->input('logo')
             ]);
 
-            $city = BusinessService::getCity([
-                'city_id'      => ($request->input('new_city') ? false : $request->input('city_id')),
-                'country_code' => $request->input('country_code'),
-                'zip_code'     => ($request->input('new_city') ? $request->input('zip_code') : $request->input('city_zip_code')),
-                'city_name'    => $request->input('city_name'),
-                'state_name'   => $request->input('state_name')
+            $business = LinkService::getBusiness([
+                'business_id'          => $business_id
             ]);
 
-            $business = BusinessService::update($id, [
-                'business_type_id'     => $request->input('business_type_id'),
-                'organization_type_id' => $request->input('organization_type_id'),
-                'city_id'              => $city->id,
-                'owner_id'             => $this->user->id,
-                'admin_id'             => $admin->id,
-                'name'                 => $request->input('name'),
-                'description'          => $request->input('description'),
-                'phone'                => $request->input('phone'),
-                'url'                  => $request->input('url'),
-                'address'              => $request->input('address')
-            ]);
+            
+            $links = Business::find($business_id)->socialNetworks()->where("links.social_network_id", "=", $social_id);
+            $links->sync([
+                $social_id => [
+                    'social_network_id'  => $social->id, 
+                    'url'                => $request->input('url'), 
+                    'order'              => 1, 
+                    'active'             => 1]
+            ],false);
 
             $success = true;
-            $this->data->business = $business;
-        }
+            $this->data->links = $links;
+
 
         $this->data->success = $success;
 
