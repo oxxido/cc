@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterBusinessesTable extends Migration
+class AlterBusinessesTableAddDataColumn extends Migration
 {
     /**
      * Run the migrations.
