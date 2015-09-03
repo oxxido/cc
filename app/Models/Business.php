@@ -88,6 +88,11 @@ class Business extends Model {
         return $this->hasMany('App\Models\Product', 'business_id', 'id');
     }
 
+    public function links()
+    {
+        return $this->hasMany('App\Models\Link', 'business_id', 'id');
+    }
+
     /**
      * Mutator to get the location full text.
      *
@@ -145,5 +150,15 @@ class Business extends Model {
         return $this->belongsToMany('App\Models\SocialNetwork', 'links', 'business_id', 'social_network_id')
                         ->withPivot('id', 'url', 'order', 'active')
                         ->withTimestamps();
+    }
+
+    /**
+     * Mutator to get the location full text.
+     *
+     * @return string
+     */
+    public function getSocialNetworksAttribute()
+    {
+        return $this->socialNetworks()->get();
     }
 }

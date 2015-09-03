@@ -38,3 +38,7 @@ textarea.noresize{
 label small{
     font-weight: normal;
 }
+.form-control, select{
+    background-color: #F4F4F4;
+    border-radius: 3px;
+}

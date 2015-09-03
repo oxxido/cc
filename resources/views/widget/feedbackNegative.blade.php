@@ -1,11 +1,17 @@
 @extends('widget.layout')
 
 @section('content')
-    @section('content')
+
   <div class="top-section">
-      <p class="title-section">Negative Feedback</p>
+      <p class="title-section">Thank You</p>
   </div>
   <div class="bottom-section">
-  	Negative Feedback
+    <div>
+      <?=$config->feedback->negativeFeedbackPage?>
+    </div>
+
+    @include('widget.negativeFeedbackForm')
+
   </div>
+
 @endsection

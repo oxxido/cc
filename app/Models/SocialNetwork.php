@@ -1,6 +1,6 @@
 <?php namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 
 class SocialNetwork extends Model
 {
@@ -35,8 +35,14 @@ class SocialNetwork extends Model
                         ->withTimestamps();
     }
 
+    public function links()
+    {
+        return $this->hasMany('App\Models\Link', 'social_network_id', 'id');
+    }
+
     public static function all($columns = array())
     {
         return parent::all()->sortBy('name');
     }
+
 }

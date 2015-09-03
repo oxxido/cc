@@ -6,10 +6,14 @@
   .rating-xxs {
     font-size: 1.3em;
   }
-  .top-page .logo-cnt {
-    background-image: url('{{ $config->feedback->logoUrl }}');
-    background-size: auto 55px;
-    background-position: 5px;
+  body {
+    background: #EEE;
+  }
+  section.feedback {
+    padding: 5px;
+  }
+  .logo-title-cnt {
+    background-color: #FFF;
   }
   </style>
 @endsection
@@ -17,12 +21,23 @@
 @section('body')
   <section class="top-page">
     <div class="wrapper">
-      <div class="logo-cnt"> {{ $config->feedback->pageTitle }}</div>
+      <div class="row logo-title-cnt">
+        <div class="col-xs-6">
+          <div class="logo-cnt">
+            <img src="{{ $config->feedback->logoUrl }}">
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <div class="title-cnt">
+            {{ $config->feedback->pageTitle }}
+          </div>
+        </div>
+      </div>
       <div class="top-image">
         <img src="{{ $config->feedback->bannerUrl }}" alt="{{ $config->feedback->pageTitle }}">
         <div class="row company-info-cnt">
-          <div class="col-sm-6">{{ $business->name }}</div>
-          <div class="col-sm-6 text-right">{{ $business->address }} | {{ $business->phone }}</div>
+          <div class="col-xs-6">{{ $business->name }}</div>
+          <div class="col-xs-6 text-right">{{ $business->address }} | {{ $business->phone }}</div>
         </div>
       </div>
     </div>

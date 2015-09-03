@@ -6,6 +6,7 @@ use App\Services\FeedbackService;
 use App\Services\PaginateService;
 use App\Models\Product;
 use App\Models\Comment;
+use App\Models\Link;
 
 class WidgetController extends Controller
 {
@@ -53,17 +54,22 @@ class WidgetController extends Controller
             'rating'                => $rating
         ]);
 
+        $this->data->comment = $comment;
         $this->data->product = $product;
         $this->data->business = $product->business;
         $this->data->config = $product->business->config;
+        
         $this->data->user = \Auth::user();
 
         if($rating >= $product->business->config->feedback->positiveThreshold)
         {
+            $this->data->config->feedback->positiveFeedbackPage = FeedbackService::tagsreplace($this->data->config->feedback->positiveFeedbackPage, $product->business);
+            $this->data->links = $product->business->links;
             return $this->view("widget.feedbackPositive");
         }
         else
         {
+            $this->data->config->feedback->negativeFeedbackPage = FeedbackService::tagsreplace($this->data->config->feedback->negativeFeedbackPage, $product->business);
             return $this->view("widget.feedbackNegative");
         }
     }
