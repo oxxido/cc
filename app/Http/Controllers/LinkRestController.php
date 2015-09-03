@@ -73,7 +73,12 @@ class LinkRestController extends Controller {
 
         $validation = LinkService::validator(\Request::all());
 
-       
+        if ($validation->fails())
+        {
+            $this->data->errors = $validation->getMessageBag()->toArray();
+        }
+        else
+        {
             $social = LinkService::getSocialNetwork([
                 'social_network_id'    => $request->input('social_network_id'),
                 //'name'                 => $request->input('social_network_id').text,
@@ -92,7 +97,8 @@ class LinkRestController extends Controller {
                                                     'order'  => 1, 
                                                     'active' => 1
                                                 ]);
-        
+        }
+
         $this->data->success = $success;
         return $this->json();
     }
@@ -146,7 +152,13 @@ class LinkRestController extends Controller {
 
         $validation = LinkService::validator(\Request::all());
 
-        $business_id = \Session::get('business_id');
+        if ($validation->fails())
+        {
+            $this->data->errors = $validation->getMessageBag()->toArray();
+        }
+        else
+        {
+            $business_id = \Session::get('business_id');
 
             $social = LinkService::getSocialNetwork([
                 'social_network_id'    => $request->input('social_network_id'),
@@ -170,7 +182,7 @@ class LinkRestController extends Controller {
 
             $success = true;
             $this->data->links = $links;
-
+        }
 
         $this->data->success = $success;
 

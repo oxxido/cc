@@ -20,12 +20,9 @@ class LinkService {
     public static function validator(array $data)
     {
         return Validator::make($data, array(
-            'business_id'          => 'required',
             'social_network_id'    => 'required',
-
-            'url'                  => 'required|url',
-            'order'                => 'required',
-            'active'               => 'required'
+            //'order'                => 'required',
+            'url'                  => 'required'
         ));
     }
 
