@@ -26,7 +26,7 @@ class Business extends Model {
      *
      * @var array
      */
-    protected $appends = ['location', 'config'];
+    protected $appends = ['location'];
 
     protected $hidden = ['created_at', 'updated_at', 'business_type_id', 'organization_type_id', 'city_id', 'owner_id', 'admin_id', 'data'];
     protected $casts = [
@@ -88,6 +88,11 @@ class Business extends Model {
         return $this->hasMany('App\Models\Product', 'business_id', 'id');
     }
 
+    public function links()
+    {
+        return $this->hasMany('App\Models\Link', 'business_id', 'id');
+    }
+
     /**
      * Mutator to get the location full text.
      *
@@ -135,5 +140,25 @@ class Business extends Model {
     {
         $this->data = $this->configs;
         parent::save($options);
+    }
+
+    /**
+     * Get the SocialNetworks records associated with the Businesses.
+     */
+    public function socialNetworks()
+    {
+        return $this->belongsToMany('App\Models\SocialNetwork', 'links', 'business_id', 'social_network_id')
+                        ->withPivot('id', 'url', 'order', 'active')
+                        ->withTimestamps();
+    }
+
+    /**
+     * Mutator to get the location full text.
+     *
+     * @return string
+     */
+    public function getSocialNetworksAttribute()
+    {
+        return $this->socialNetworks()->get();
     }
 }

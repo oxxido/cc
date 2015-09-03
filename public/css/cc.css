@@ -396,8 +396,18 @@ textarea.noresize{
   margin-bottom: 25px;
 }
 .top-page .logo-cnt{
-  background:transparent url(/images/logo-example.png) no-repeat 0% 50%;
-  padding: 20px 0 20px 112px;
+  padding: 5px 5px 5px 20px;
+}
+.top-page .logo-cnt img{
+  height: 70px;
+  width: auto;
+}
+.top-page .title-cnt{
+  line-height: 70px;
+  font-weight: bold;
+  font-size: x-large;
+  padding: 5px;
+  text-align: center;
 }
 
 .top-page .top-image{
@@ -424,4 +434,24 @@ textarea.noresize{
   padding: 10px;
   color: #fff;
   left: 15px;
+}
+
+.links-list{
+  text-align: center;
+  margin-top: 20px;
+}
+.links-list li{
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.link-logo{
+  padding: 5px;
+}
+.link-logo img{
+  height: 50px
+}
+.link-btn{
+  line-height: 50px;
+  padding: 5px;
+  background-color: #EEE;
 }
