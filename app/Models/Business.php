@@ -136,4 +136,14 @@ class Business extends Model {
         $this->data = $this->configs;
         parent::save($options);
     }
+
+    /**
+     * Get the SocialNetworks records associated with the Businesses.
+     */
+    public function socialNetworks()
+    {
+        return $this->belongsToMany('App\Models\SocialNetwork', 'links', 'business_id', 'social_network_id')
+                        ->withPivot('id', 'url', 'order', 'active')
+                        ->withTimestamps();
+    }
 }

@@ -15,7 +15,7 @@ class CreateLinksTable extends Migration
         DB::transaction(function () {
             Schema::create('links', function (Blueprint $table) {
                 $table->increments('id');
-
+                
                 $table->integer('business_id')->unsigned();
                 $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade')->onUpdate('cascade');
                 $table->integer('social_network_id')->unsigned();

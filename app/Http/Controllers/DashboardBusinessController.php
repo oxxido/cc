@@ -1,10 +1,12 @@
 <?php namespace App\Http\Controllers;
 
+use DB;
 use Auth;
 use Validator;
 use Illuminate\Http\Request;
 use App\Services\BusinessService;
 use App\Models\Business;
+use App\Models;
 
 
 class DashboardBusinessController extends Controller {
@@ -49,8 +51,21 @@ class DashboardBusinessController extends Controller {
      */
     public function getIndex()
     {
-        $this->data->business = $this->business->toArray();
-        return $this->view('dashboard.business.index');
+
+        //$this->data->business = $this->business->toArray();
+        //return $this->view('dashboard.business.index');
+        return redirect('/dashbiz/link');
+    }
+
+    /**
+     * Link page in dashboard business.
+     *
+     * @return Response
+     */
+    public function getLink()
+    {
+        $this->data->social_networks = Models\SocialNetwork::all();        
+        return $this->view('dashboard.crud.link.index');
     }
 
     /**
