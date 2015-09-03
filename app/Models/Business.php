@@ -26,7 +26,7 @@ class Business extends Model {
      *
      * @var array
      */
-    protected $appends = ['location', 'config'];
+    protected $appends = ['location'];
 
     protected $hidden = ['created_at', 'updated_at', 'business_type_id', 'organization_type_id', 'city_id', 'owner_id', 'admin_id', 'data'];
     protected $casts = [
