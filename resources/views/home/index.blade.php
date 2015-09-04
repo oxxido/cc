@@ -43,7 +43,7 @@ Free 15 Day Trial (Button)
 <div class="description">
   <img src="images/homebannertxt.png" width="543" height="109"><br>
    <h4>Take the time to prove to your new clients that the comments displayed on your website are 100% authentic.</h4>
-   <a href="{{ url('request') }}"><img src="images/btn_req_black.png" width="240" height="60"></a> </div>
+   <a href="{{ url('invite') }}"><img src="images/btn_req_black.png" width="240" height="60"></a> </div>
 </div>
 </div>
 
@@ -61,7 +61,7 @@ Free 15 Day Trial (Button)
  <div id="containerleftbox"> 
   We validate each testimonial from your site with our Patent pending technology.  Your clients can rest assured that when they read a testimonial on your site that it is 100% real.  Our system will not only take the time to validate and certify that the comments on your site are real, but also offer you a validated logo and certificate for each testimonial we display on your website.<br>
 <br>
-<a href="requestform.htm">Sign up today</a> and start validating your customer comments today. 
+<a href="{{ url('invite') }}">Sign up today</a> and start validating your customer comments today. 
 
 <div class="borderbar"></div>
 
@@ -96,7 +96,7 @@ Free 15 Day Trial (Button)
 <div class="seperator"></div>
 <div style="text-align:center;">
 <h2>Sign up for Certified Comments and start showing all your loyal comments today! </h2>
-<a href="{{ url('request') }}"><img src="images/btn_req_green.png" width="242" height="63"></a> </div>
+<a href="{{ url('invite') }}"><img src="images/btn_req_green.png" width="242" height="63"></a> </div>
 </div>
 
 
