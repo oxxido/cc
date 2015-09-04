@@ -99,7 +99,7 @@ class DashboardBusinessController extends Controller {
 
         $setting = $this->defaultConfig('testimonial', $request);
         // Only input type radio
-        $setting->includeFeedback = $request->input('includeFeedback');
+        $setting->includeFeedback = is_null($request->input('includeFeedback')) ? false : true;
         $this->business->config->testimonial = $setting;
         $this->business->save();
 
@@ -186,6 +186,7 @@ class DashboardBusinessController extends Controller {
     {
         $this->data->business = $this->business;
         $this->data->config = $this->defaultConfig('feedback', $request);
+        //echo "<pre>";print_r($this->data->config); exit();
         $this->data->product = $this->business->products->first();
         return $this->view('dashboard.business.feedback');
     }
@@ -198,7 +199,6 @@ class DashboardBusinessController extends Controller {
     public function postFeedback(Request $request)
     {
         $validator = Validator::make($request->all(), array(
-            'pageTitle' => 'required',
             'logoUrl'   => 'required',
             'bannerUrl' => 'required'
         ));
@@ -212,8 +212,8 @@ class DashboardBusinessController extends Controller {
 
         $feedback = $this->defaultConfig('feedback', $request);
         // Only input type radio
-        $feedback->includeSocialLinks = $request->input('includeSocialLinks');
-        $feedback->includePhone       = $request->input('includePhone');
+        $feedback->includeSocialLinks = is_null($request->input('includeSocialLinks')) ? false : true;
+        $feedback->includePhone       = is_null($request->input('includePhone')) ? false : true;
         $this->business->config->feedback = $feedback;
         $this->business->save();
 

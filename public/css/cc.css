@@ -397,9 +397,10 @@ textarea.noresize{
 }
 .top-page .logo-cnt{
   padding: 5px 5px 5px 20px;
+  line-height: 70px;
 }
 .top-page .logo-cnt img{
-  height: 70px;
+  max-height: 70px;
   width: auto;
 }
 .top-page .title-cnt{
@@ -408,6 +409,13 @@ textarea.noresize{
   font-size: x-large;
   padding: 5px;
   text-align: center;
+}
+section.feedback {
+  padding: 5px;
+}
+.logo-title-cnt {
+  background-color: #FFF;
+  margin: 0;
 }
 
 .top-page .top-image{

@@ -28,11 +28,11 @@
       <div class="panel panel-default">
         <div class="panel-body">
           <div class="form-group">
-            <input type="checkbox" name="includeSocialLinks" id="includeSocialLinks" @if($config->includeSocialLinks) checked="checked" @endif>
+            <input type="checkbox" name="includeSocialLinks" id="includeSocialLinks" value="1" @if($config->includeSocialLinks) checked="checked" @endif>
             <label for="includeSocialLinks" >Include social review links</label>
           </div>
           <div class="form-group">
-            <input type="checkbox" name="includePhone" id="includePhone" @if($config->includePhone) checked="checked" @endif>
+            <input type="checkbox" name="includePhone" id="includePhone" value="1" @if($config->includePhone) checked="checked" @endif>
             <label for="includePhone"> Ask phone number </label>
           </div>
           <div class="form-group">
@@ -74,12 +74,14 @@
             <input type="text" name="pageTitle" id="pageTitle" class="form-control" value="{{ $config->pageTitle }}">
           </div>
           <div class="form-group">
-            <label for="positiveFeedbackPage">Positive Feedback Page</label>
-            <textarea class="form-control noresize" rows="6" name="positiveFeedbackPage" id="positiveFeedbackPage">{{ $config->positiveFeedbackPage }}</textarea>
+            <label for="positiveText">Positive Feedback Page</label>
+            <textarea class="form-control noresize" rows="6" name="positiveText" id="positiveText">{{ $config->positiveText }}</textarea>
+            <p>Allowed Tags: <span class="label label-info">[REVIEW_LINKS]</span> <span class="label label-info">[YOUR_NAME]</span></p>
           </div>
           <div class="form-group">
-            <label for="negativeFeedbackPage">Negative Feedback Page</label>
-            <textarea class="form-control noresize" rows="6" name="negativeFeedbackPage" id="negativeFeedbackPage">{{ $config->negativeFeedbackPage }}</textarea>
+            <label for="negativeText">Negative Feedback Page</label>
+            <textarea class="form-control noresize" rows="6" name="negativeText" id="negativeText">{{ $config->negativeText }}</textarea>
+            <p>Allowed Tags: <span class="label label-info">[YOUR_NAME]</span></p>
           </div>
           <div class="form-group">
             <label for="logoUrl">Logo Image Url</label>

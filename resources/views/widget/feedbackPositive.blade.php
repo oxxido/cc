@@ -6,9 +6,8 @@
       <p class="title-section">Positive Feedback</p>
   </div>
   <div class="bottom-section">
-    <div>
-      <?=$config->feedback->positiveFeedbackPage?>
-    </div>
+
+    <?=$config->feedback->positiveTextHeader?>
 
     @if($config->feedback->includeSocialLinks)
       <div class="links-list">
@@ -28,6 +27,8 @@
         </ul>
       </div>
     @endif
+
+    <?=$config->feedback->positiveTextFooter?>
 
   </div>
 @endsection
