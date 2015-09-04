@@ -11,18 +11,21 @@ class EmailService
     public $data = array();
     public $to = "gerardo@rosciano.com.ar";
 
-    protected $enabled = true;
+    protected $disabled = false;
 
     public function __construct()
     {
         if(strpos(url(), "localhost") !== false)
         {
-            $this->enabled = false;
+            $this->disabled = true;
         }
     }    
 
     private function send($options)
     {
+        if($this->disabled)
+            return;
+
         $this->data = isset($options['data']) ? $options['data'] : $this->data;
         $this->to = isset($options['to']) ? $options['to'] : $this->to;
 

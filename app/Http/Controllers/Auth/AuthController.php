@@ -73,7 +73,7 @@ class AuthController extends Controller {
     
     private function sendEmail(User $user)
     {
-        $this->email->userRegister([
+        $this->email()->userRegister([
             'to' => $user->email,
             'data' => [
                 'name' => $user->name,
