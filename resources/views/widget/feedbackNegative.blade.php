@@ -6,11 +6,19 @@
       <p class="title-section">Thank You</p>
   </div>
   <div class="bottom-section">
-    <div>
-      <?=$config->feedback->negativeFeedbackPage?>
-    </div>
+    <p>
+      <?=$config->feedback->negativeText?>
+    </p>
 
-    @include('widget.negativeFeedbackForm')
+    @if(!isset($noform))
+      <br>
+      <div class="panel panel-default">
+        <div class="panel-heading">Your experience</div>
+        <div class="panel-body">
+          @include('widget.negativeFeedbackForm')
+        </div>
+      </div>
+    @endif
 
   </div>
 

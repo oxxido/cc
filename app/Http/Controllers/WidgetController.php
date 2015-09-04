@@ -2,6 +2,7 @@
 
 use Validator;
 use Illuminate\Http\Request;
+use App\Services\BusinessService;
 use App\Services\FeedbackService;
 use App\Services\PaginateService;
 use App\Models\Product;
@@ -11,14 +12,10 @@ use App\Models\Link;
 class WidgetController extends Controller
 {
 
-    public function getFeedback($hash)
+    public function getFeedback($hash, Request $request)
     {
         $product = $this->findProduct($hash);
-        $this->data->product = $product;
-        $this->data->business = $product->business;
-        $this->data->config = $product->business->config;
-        $this->data->user = \Auth::user();
-
+        $this->setBasicData($product, $request);
         return $this->view("widget.feedback");
     }
 
@@ -55,32 +52,46 @@ class WidgetController extends Controller
         ]);
 
         $this->data->comment = $comment;
-        $this->data->product = $product;
-        $this->data->business = $product->business;
-        $this->data->config = $product->business->config;
-        
-        $this->data->user = \Auth::user();
+        $this->setBasicData($product, $request);
 
-        if($rating >= $product->business->config->feedback->positiveThreshold)
+        $this->data->config->feedback->positiveTextHeader = BusinessService::tagsReplace([
+            "text" => $this->data->config->feedback->positiveText,
+            "business" => $product->business,
+            "part" => "header"
+        ]);
+        $this->data->config->feedback->positiveTextFooter = BusinessService::tagsReplace([
+            "text" => $this->data->config->feedback->positiveText,
+            "business" => $product->business,
+            "part" => "footer"
+        ]);
+        $this->data->config->feedback->negativeText = BusinessService::tagsReplace([
+            "text" => $this->data->config->feedback->negativeText,
+            "business" => $product->business
+        ]);
+
+        if($rating >= $this->data->config->feedback->positiveThreshold)
         {
-            $this->data->config->feedback->positiveFeedbackPage = FeedbackService::tagsreplace($this->data->config->feedback->positiveFeedbackPage, $product->business);
             $this->data->links = $product->business->links;
             return $this->view("widget.feedbackPositive");
         }
         else
         {
-            $this->data->config->feedback->negativeFeedbackPage = FeedbackService::tagsreplace($this->data->config->feedback->negativeFeedbackPage, $product->business);
             return $this->view("widget.feedbackNegative");
         }
     }
 
-    public function getTestimonial($hash)
+    public function postRefeedback(Request $request)
+    {
+        $comment = Comment::find($request->input('comment_id'));
+        $this->setBasicData($comment->product, $request);
+        $this->data->noform = true;
+        return $this->view("widget.feedbackNegative");
+    }
+
+    public function getTestimonial($hash, Request $request)
     {
         $product = $this->findProduct($hash);
-        $this->data->product = $product;
-        $this->data->business = $product->business;
-        $this->data->config = $product->business->config;
-        $this->data->user = \Auth::user();
+        $this->setBasicData($product, $request);
         return $this->view("widget.testimonial");
     }
 
@@ -102,5 +113,12 @@ class WidgetController extends Controller
     {
         $id = intval(str_replace("product_id=", "", base64_decode($hash)));
         return Product::find($id);
+    }
+    private function setBasicData($product, $request)
+    {
+        $this->data->product = $product;
+        $this->data->business = $product->business;
+        $this->data->config = BusinessService::defaultConfig("all", $product->business, $request);
+        $this->data->user = \Auth::user();
     }
 }

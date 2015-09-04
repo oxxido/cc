@@ -101,16 +101,16 @@ class BusinessService {
                 'logoUrl'              => asset('images/logo-example.png'),
                 'bannerUrl'            => asset('images/landscape.jpg'),
                 'starsStyle'           => 'default',
-                'positiveFeedbackPage' => 'Thanks you for your feedback. It is very important to us to hear your feedback and it allow us to serve you better.
+                'positiveText' => 'Thanks you for your feedback. It is very important to us to hear your feedback and it allow us to serve you better.
 
-[review link]
+[REVIEW_LINKS]
 
 Have a great day!
 
-[your name]',
-                'negativeFeedbackPage' => 'Thanks you for your feedback
+[YOUR_NAME]',
+                'negativeText' => 'Thanks you for your feedback
 
-Whenever we see feedback that is not outstanding, wi like to follow up to see what we could have done better.
+Whenever we see feedback that is not outstanding, we like to follow up to see what we could have done better.
 
 We will contact you to address the situation in any way we can.
                 ',
@@ -118,28 +118,57 @@ We will contact you to address the situation in any way we can.
             'testimonial' => [
                 'includeFeedback' => true
             ],
-            'notification' => [
-                'name' => 'value'
-            ],
-            'email' => [
-                'name' => 'value'
-            ],
-            'kiosk' => [
-                'name' => 'value'
-            ]
+            'notification' => [],
+            'email' => [],
+            'kiosk' => []
         ];
 
         if($type == "default")
         {
             return json_decode(json_encode($default));
         }
+        elseif($type == "all")
+        {
+             $config = new \stdClass;
+            foreach ($default as $name => $value)
+            {
+                $config->$name = self::defaultConfigByType($name, $business, $request, $default);
+            }
+            return $config;
+        }
+        else
+        {
+            return self::defaultConfigByType($type, $business, $request, $default);
+        }
+    }
 
+    private static function defaultConfigByType($type, $business, $request, $default)
+    {
         $config = isset($business->config->$type) ? $business->config->$type : new \stdClass;
         foreach($default[$type] as $name => $value)
         {
             $config->$name = $request->input($name) ? $request->input($name) : (($request->old($name) && $request->old($name) !== false) ? $request->old($name) : ((isset($config->$name) && $config->$name) ? $config->$name : $value));
         }
-        //echo"<pre>";print_r($request->all());exit();
         return $config;
+    }
+
+    public static function tagsReplace($options = array())
+    {
+        $parsed = str_replace("\r\n", "<br>", $options['text']);
+        $parsed = str_replace("\n", "<br>", $parsed);
+
+        $parsed = str_replace("[YOUR_NAME]", $options['business']->owner->name, $parsed);
+
+        if(isset($options["part"]) && $options["part"] == "header")
+        {
+            $parsed = strpos($parsed, "[REVIEW_LINKS]") ? substr($parsed, 0, strpos($parsed, "[REVIEW_LINKS]")) : $parsed;
+        }
+
+        if(isset($options["part"]) && $options["part"] == "footer")
+        {
+            $parsed = strpos($parsed, "[REVIEW_LINKS]") ? substr($parsed, (strpos($parsed, "[REVIEW_LINKS]") + strlen("[REVIEW_LINKS]"))) : "";
+        }
+
+        return $parsed;
     }
 }

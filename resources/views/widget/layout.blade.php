@@ -9,12 +9,6 @@
   body {
     background: #EEE;
   }
-  section.feedback {
-    padding: 5px;
-  }
-  .logo-title-cnt {
-    background-color: #FFF;
-  }
   </style>
 @endsection
 

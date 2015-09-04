@@ -145,15 +145,6 @@ class FeedbackService
         return $business_commenter;
     }
 
-    public static function tagsreplace($string, $business)
-    {
-        $parese = str_replace("\r\n", "<br>", $string);
-        $parese = str_replace("\n", "<br>", $parese);
-
-        $parese = str_replace("[your name]", $business->owner->name, $parese);
-
-        return $parese;
-    }
 }
 
 

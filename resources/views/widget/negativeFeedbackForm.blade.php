@@ -1,4 +1,4 @@
-{!! Form::open(array('url'=>url('widget/negative'),'role' => 'form', 'name' => 'negativeFeedbackForm', 'id' => 'negativeFeedbackForm')) !!}
+{!! Form::open(array('url'=>url('widget/refeedback'),'role' => 'form', 'name' => 'negativeFeedbackForm', 'id' => 'negativeFeedbackForm')) !!}
 
   <input type="hidden" name="comment_id" value="{{ $comment->id }}">
 
