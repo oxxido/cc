@@ -1,6 +1,6 @@
 {!! Form::open(array('url'=>url('widget/refeedback'),'role' => 'form', 'name' => 'negativeFeedbackForm', 'id' => 'negativeFeedbackForm')) !!}
 
-  <input type="hidden" name="comment_id" value="{{ $comment->id }}">
+  <input type="hidden" id="comment_id" name="comment_id" value="{{ $comment->id }}">
 
   @if (count($errors) > 0)
       <div class="alert alert-danger">

@@ -22,31 +22,19 @@ Route::get('/test', function() {
     print_r($msg);
 });
 
-Route::get('/', function() {
-    return redirect('/home');
-});
-
-Route::get('creative', 'WelcomeController@creative');
-
-Route::get('home',  'HomeController@index');
-
+Route::get('/',             function(){return redirect('/home');});
+Route::get('home',          function(){return view('home');});
 Route::get('howitworks',    function(){return view('howitworks');});
 Route::get('pricing',       function(){return view('pricing');});
 Route::get('faqs',          function(){return view('faqs');});
 Route::get('testimonials',  function(){return view('testimonials');});
 Route::get('userguide',     function(){return view('userguide');});
 Route::get('terms',         function(){return view('terms');});
-Route::get('landing',         function(){return view('landing');});
-Route::get('contact',       function(){return view('contact');});
-Route::get('positiveFeedback',       function(){return view('positiveFeedback');});
-Route::get('negativeFeedback',       function(){return view('negativeFeedback');});
-Route::post('contact',     'HomeController@post_contact');
 
-Route::get('request', function(){return view('requestAnInvite');});
-Route::post('request', 'HomeController@post_request');
-
-Route::get('/resendEmail', 'Auth\AuthController@resendEmail');
-Route::get('/activate/{code}', 'Auth\AuthController@activateAccount');
+Route::get('contact',   function(){return view('contact');});
+Route::post('contact',  'HomeController@send');
+Route::get('invite',    function(){return view('invite');});
+Route::post('invite',   'HomeController@send');
 
 Route::controllers([
     'auth'      => 'Auth\AuthController',

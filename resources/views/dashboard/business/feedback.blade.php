@@ -28,11 +28,11 @@
       <div class="panel panel-default">
         <div class="panel-body">
           <div class="form-group">
-            <input type="checkbox" name="includeSocialLinks" id="includeSocialLinks" @if($config->includeSocialLinks) checked="checked" @endif>
+            <input type="checkbox" name="includeSocialLinks" id="includeSocialLinks" value="1" @if($config->includeSocialLinks) checked="checked" @endif>
             <label for="includeSocialLinks" >Include social review links</label>
           </div>
           <div class="form-group">
-            <input type="checkbox" name="includePhone" id="includePhone" @if($config->includePhone) checked="checked" @endif>
+            <input type="checkbox" name="includePhone" id="includePhone" value="1" @if($config->includePhone) checked="checked" @endif>
             <label for="includePhone"> Ask phone number </label>
           </div>
           <div class="form-group">

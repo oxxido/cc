@@ -138,7 +138,8 @@ class Business extends Model {
 
     public function save(array $options = [])
     {
-        $this->data = $this->configs;
+        if($this->configs)
+            $this->data = $this->configs;
         parent::save($options);
     }
 

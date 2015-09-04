@@ -66,7 +66,7 @@ class BusinessService {
         $business = Business::find($id);
         foreach ($data as $key => $value)
         {
-            $business->setAttribute($key, $value);
+            $business->$key = $value;
         }
         $business->save();
         return $business;
@@ -97,7 +97,7 @@ class BusinessService {
                 'includeSocialLinks'   => true,
                 'includePhone'         => false,
                 'positiveThreshold'    => 3,
-                'pageTitle'            => $business->name,
+                'pageTitle'            => '',
                 'logoUrl'              => asset('images/logo-example.png'),
                 'bannerUrl'            => asset('images/landscape.jpg'),
                 'starsStyle'           => 'default',
@@ -147,7 +147,22 @@ We will contact you to address the situation in any way we can.
         $config = isset($business->config->$type) ? $business->config->$type : new \stdClass;
         foreach($default[$type] as $name => $value)
         {
-            $config->$name = $request->input($name) ? $request->input($name) : (($request->old($name) && $request->old($name) !== false) ? $request->old($name) : ((isset($config->$name) && $config->$name) ? $config->$name : $value));
+            if($request->input($name))
+            {
+                $config->$name = $request->input($name);
+            }
+            elseif($request->old($name) && $request->old($name) !== false)
+            {
+                $config->$name = $request->old($name);
+            }
+            elseif(isset($config->$name) && $config->$name !== "")
+            {
+                $config->$name = $config->$name;
+            }
+            else
+            {
+                $config->$name = $value;
+            }
         }
         return $config;
     }

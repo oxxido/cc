@@ -35,92 +35,48 @@ class HomeController extends Controller {
     return view('home');
   }
 
-  public function howitworks()
-  {
-    return view('howitworks');
-  }
-
-  public function pricing()
-  {
-    return view('pricing');
-  }
-
-  public function faqs()
-  {
-    return view('faqs');
-  }
-
-
   /**
    * show the invite request to the user
    *
    * @return Response
    */
-  public function request()
+  public function send(Request $request)
   {
-    return view('requestAnInvite');
-  }
-  /**
-   * show the invite request to the user
-   *
-   * @return Response
-   */
-  public function post_request(Request $request)
-  {
-    /*
-      1. Validate that the input is properly formed
-      2. Attempt to send email (and store data?)
-      3. Respond with view or redirect
-    */
-
-    // Fields to get from form
-    $user_data = array(
-      'name'    => $request->input('name'),
-      'company' => $request->input('company'),
-      'email'   => $request->input('email'),
-      'website'     => $request->input('website')
-    );
-
-    // Validation rules to aply to fields
-    $rules = array(
-      'name'    => 'required',
-      'company' => 'required',
-      'email'   => "required|email",
-      'website'     => 'required|url'
+    $data = array(
+        'name'    => $request->input('name'),
+        'company' => $request->input('company'),
+        'email'   => $request->input('email'),
+        'website' => $request->input('website')
     );
 
     // Instantiate validator using received post parameters and setted rules
-    $validation = \Validator::make(\Request::all(), $rules);
+    $validation = \Validator::make(\Request::all(), [
+        'name'    => 'required',
+        'company' => 'required',
+        'email'   => "required|email",
+        'website'     => 'required|url'
+    ]);
 
     if ($validation->fails())
     {
-
-      //\Session::flash('messages', $validation->getMessageBag()->toArray() );
-      //exit(print_r($validation->getMessageBag()->toArray(),true));
-      return redirect()->back()->withInput()->withErrors($validation->getMessageBag()->toArray());
+        return redirect()
+            ->back()
+            ->withInput()
+            ->withErrors($validation->getMessageBag()->toArray());
     }
     else
     {
-      //send email
-      if(strpos(url(), "localhost") === false)
-      {
-        if($request->input('source')=="contact") {
-          $emailTmpl = 'emails.contact';
-          $user_data['msg'] = $request->input('msg');
-          $emailSubject = 'Contact form';
-        } else {
-          $emailTmpl = 'emails.requestAnInvite';
-          $emailSubject = 'Request an invite';
+        if($request->input('source')=="contact")
+        {
+            $data['msg'] = $request->input('msg');
+            $this->email()->contact(['to' => 'oxxido@gmail.com', 'data' => $data]);
         }
-        \Mail::queue($emailTmpl, $user_data, function($message) {
-          $message->from("gerardo@rosciano.com.ar");
-          $message->subject( "Email from site" );
-          $message->to("oxxido@gmail.com");
-        });
-      }
+        else
+        {
+            $this->email()->invite(['to' => 'oxxido@gmail.com', 'data' => $data]);
+        }
     }
 
-    
-    return view('requestSent');
+    return view('send');
   }
 }
