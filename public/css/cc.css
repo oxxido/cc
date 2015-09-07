@@ -60,6 +60,9 @@ form {
 img {
   border:0px;
 }
+textarea.noresize{
+    resize: none;
+}
 
 .borderbar {
   border-bottom:dashed 1px #ccc;
@@ -71,7 +74,7 @@ img {
 .wrapper {
   margin:0px auto 0px auto;
   padding:0px 0px 0px 0px;
-  width:1000px;
+  max-width:1000px;
   position:relative;
 }
 .footerwrapper {
@@ -326,4 +329,137 @@ img {
 .hc_btns{
   text-align: right;
   padding: 29px 0 0;
+}
+.bg-panel{
+  background-color: #fff;
+  border: 1px #ccc solid;
+  border-radius: 5px;
+}
+.bg-panel .top-section{
+  border-bottom: 1px #ccc solid;
+  padding: 20px;
+}
+.bg-panel .top-section .title-section{
+  color: #FE9A2E;
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+}
+.bg-panel .bottom-section{
+  padding: 20px;
+}
+.bg-panel .bottom-section label{
+  font-size: 12px;
+}
+.bg-panel .bottom-section .form-control.small-width{
+  width: 50%;
+}
+.bg-panel .bottom-section .textarea-cnt{
+  border: 1px #ccc solid;
+  border-radius: 4px;
+}
+.bg-panel .bottom-section .textarea-cnt textarea{
+  border: none;
+  border-bottom: 1px solid #ccc;
+  border-radius: 4px 4px 0 0;
+  background-color: transparent;
+}
+.bg-panel .bottom-section .textarea-cnt .max-chars{
+  text-align: right;
+  margin: 5px;
+  font-size: 10px;
+}
+
+.bg-panel .bottom-section .silver-bg{
+  border-radius: 4px;
+  border: 1px #ccc solid;
+  background-color: #f1f1f1;
+  padding: 10px;
+}
+.bg-panel .bottom-section .radios-cnt{
+  border-radius: 4px;
+  border: 1px #ccc solid;
+  background-color: #fff;
+  margin: 20px auto 45px;
+  padding: 10px;
+  width: 430px;
+  height: 43px;
+}
+.bg-panel .bottom-section .radios-cnt .radio{
+  float: left;
+  margin: 0 10px;
+}
+.bg-panel .bottom-section .radios-cnt .radio p{
+  margin-top:10px;
+}
+.top-page{
+  margin-bottom: 25px;
+}
+.top-page .logo-cnt{
+  padding: 5px 5px 5px 20px;
+  line-height: 70px;
+}
+.top-page .logo-cnt img{
+  max-height: 70px;
+  width: auto;
+}
+.top-page .title-cnt{
+  line-height: 70px;
+  font-weight: bold;
+  font-size: x-large;
+  padding: 5px;
+  text-align: center;
+}
+section.feedback {
+  padding: 5px;
+}
+.logo-title-cnt {
+  background-color: #FFF;
+  margin: 0;
+}
+
+.top-page .top-image{
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+}
+.top-page .top-image img{
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  width: 100%;
+  border-radius: 10px;
+}
+.top-page .top-image .company-info-cnt{
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  width: 100%;
+  border-radius: 10px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  background:transparent url(/images/dark-trans.png) repeat 0% 0%;
+  padding: 10px;
+  color: #fff;
+  left: 15px;
+}
+
+.links-list{
+  text-align: center;
+  margin-top: 20px;
+}
+.links-list li{
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.link-logo{
+  padding: 5px;
+}
+.link-logo img{
+  height: 50px
+}
+.link-btn{
+  line-height: 50px;
+  padding: 5px;
+  background-color: #EEE;
 }

@@ -41,13 +41,14 @@ class AdminService {
         {
             if(!($user_admin = UserService::find($data['email'])))
             {
-                $password = str_random(8);
+                $data['password'] = str_random(8);
                 $user_admin = UserService::create([
                     'first_name' => $data['first_name'],
                     'last_name'  => $data['last_name'],
                     'email'      => $data['email'],
-                    'password'   => $password
+                    'password'   => $data['password']
                 ]);
+                UserService::notifyCreation('admin', $data);
             }
 
             if($user_admin->isAdmin($data['owner_id']))
@@ -63,4 +64,5 @@ class AdminService {
             }
         }
         return $admin;
-    }}
+    }
+}

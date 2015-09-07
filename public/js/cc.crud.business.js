@@ -71,8 +71,8 @@ cc.crud.business = {
                 if (data.success)
                 {
                     tools.handlebars("#businessEditForm_HBT", "#businessEditForm_HBW", data.business);
-                    $("#business_type_id").val(data.business.business_type_id);
-                    $("#organization_type_id").val(data.business.organization_type_id);
+                    $("#business_type_id").val(data.business.business_type.id);
+                    $("#organization_type_id").val(data.business.organization_type.id);
                     var country_code = data.business.city.state.country.code;
                     $("#country_code").val(country_code);
                     cc.location.country();
@@ -174,10 +174,13 @@ cc.crud.business = {
     },
     show : function(id)
     {
-        $("#businessShow").collapse('show');
+        location.href = cc.baseUrl + 'dashbiz/load/' + id;
     },
-    table : function(page)
+    table : function()
     {
+        var page = arguments.length ? arguments[0] : 1;
+        var perpage = 10;
+
         cc.dashboard.panel.loading("#businessTableLoading","show");
         $("#businessesTable_HBW").html("");
         cc.dashboard.panel.only("#businessTable");
@@ -185,13 +188,17 @@ cc.crud.business = {
             url : cc.baseUrl + 'crud/business',
             dataType : 'json',
             data : {
-                page : page
+                page : page,
+                perpage : perpage
             }
         })
         .done(function(data) {
             if (data.success)
             {
                 tools.handlebars("#businessesTable_HBT", "#businessesTable_HBW", data);
+                tools.paging("#paging", data.paging, function(page){
+                    cc.crud.business.table(page);
+                })
             }
             else
             {
@@ -218,7 +225,7 @@ cc.crud.business = {
             $("#admin_tab_search .alert").hide();
 
             $.ajax({
-                url : cc.baseUrl + 'dashboard/searchAdmin',
+                url : cc.baseUrl + 'dashowner/searchadmin',
                 dataType : 'json',
                 data : {
                     keyword : keyword

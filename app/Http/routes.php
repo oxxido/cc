@@ -22,52 +22,37 @@ Route::get('/test', function() {
     print_r($msg);
 });
 
-Route::get('/', function() {
-    return redirect('/home');
-});
+Route::get('/',             function(){return redirect('/home');});
+Route::get('home',          function(){return view('home.index');});
+Route::get('howitworks',    function(){return view('home.howitworks');});
+Route::get('pricing',       function(){return view('home.pricing');});
+Route::get('faqs',          function(){return view('home.faqs');});
+Route::get('testimonials',  function(){return view('home.testimonials');});
+Route::get('userguide',     function(){return view('home.userguide');});
+Route::get('terms',         function(){return view('home.terms');});
 
-Route::get('creative', 'WelcomeController@creative');
-
-Route::get('home',  'HomeController@index');
-Route::get('howitworks',    function(){return view('howitworks');});
-Route::get('pricing',       function(){return view('pricing');});
-Route::get('faqs',          function(){return view('faqs');});
-Route::get('testimonials',  function(){return view('testimonials');});
-Route::get('userguide',     function(){return view('userguide');});
-Route::get('terms',         function(){return view('terms');});
-Route::get('contact',       function(){return view('contact');});
-Route::post('contact',     'HomeController@post_contact');
-
-Route::get('request', 	   function(){return view('requestAnInvite');});
-Route::post('request', 	   'HomeController@post_request');
-
-Route::get('/resendEmail', 'Auth\AuthController@resendEmail');
-Route::get('/activate/{code}', 'Auth\AuthController@activateAccount');
+Route::get('contact',   function(){return view('home.contact');});
+Route::post('contact',  'HomeController@send');
+Route::get('invite',    function(){return view('home.invite');});
+Route::post('invite',   'HomeController@send');
 
 Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-	'location' => 'LocationController'
+    'auth'      => 'Auth\AuthController',
+    'password'  => 'Auth\PasswordController',
+    'location'  => 'LocationController',
+    'dashboard' => 'DashboardController',
+    'dashbiz'   => 'DashboardBusinessController',
+    'dashowner' => 'DashboardOwnerController',
+    'widget'    => 'WidgetController'
 ]);
 
-// Dashboard
-
-Route::get('/dashboard', function() {
-    return redirect('/dashboard/business');
-});
-
-Route::get('/dashboard/searchAdmin', 	'DashboardController@searchAdmin');
-Route::get('/dashboard/business',		'DashboardController@business');
-Route::get('/dashboard/account', 		'DashboardController@account');
-Route::get('/dashboard/widgets', 		'DashboardController@widgets');
-Route::get('/dashboard/reports', 		'DashboardController@reports');
-Route::get('/dashboard/help',    		'DashboardController@help');
-Route::get('/dashboard/manageUsers',    'DashboardController@manageUsers');
 
 //REST Resourse
 Route::resource('crud/business', 'BusinessRestController');
 Route::resource('crud/admin', 'AdminRestController');
 
-Route::get('user/update', [
+Route::resource('crud/link', 'LinkRestController');
+
+Route::post('user/update', [
     'as' => 'user.update', 'uses' => 'UserController@update'
 ]);

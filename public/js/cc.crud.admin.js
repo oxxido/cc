@@ -160,8 +160,11 @@ cc.crud.admin = {
     {
         $("#userShow").collapse('show');
     },
-    table : function(page)
+    table : function()
     {
+        var page = arguments.length ? arguments[0] : 1;
+        var perpage = 10;
+
         cc.dashboard.panel.loading("#adminTableLoading","show");
         $("#adminTable_HBW").html("");
         cc.dashboard.panel.only("#adminTable");
@@ -169,13 +172,17 @@ cc.crud.admin = {
             url : cc.baseUrl + 'crud/admin',
             dataType : 'json',
             data : {
-                page : page
+                page : page,
+                perpage : perpage
             }
         })
         .done(function(data) {
             if (data.success)
             {
                 tools.handlebars("#adminTable_HBT", "#adminTable_HBW", data);
+                tools.paging("#paging", data.paging, function(page){
+                    cc.crud.admin.table(page);
+                })
             }
             else
             {

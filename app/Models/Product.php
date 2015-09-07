@@ -1,5 +1,7 @@
 <?php namespace App\Models;
 
+use App\Models\Model;
+
 class Product extends Model {
 
     /**
@@ -14,7 +16,9 @@ class Product extends Model {
      *
      * @var array
      */
-    protected $fillable = ['product', 'url'];
+    protected $fillable = ['business_id', 'product', 'url'];
+
+    protected $hidden = ['created_at','updated_at'];
 
     /**
      * Get the Business record associated with the Product.
@@ -37,4 +41,21 @@ class Product extends Model {
         return $this->hasMany('App\Models\Comment', 'product_id', 'id');
     }
 
+    /**
+    * Mutator to get the user's full name.
+    *
+    * @param  string  $value
+    * @return string
+    */
+    public function getHashAttribute()
+    {
+        return base64_encode("product_id=$this->id");
+    }
+
+    public function toArray()
+    {
+        $this->comments;
+        $this->business;
+        return parent::toArray();
+    }
 }

@@ -50,4 +50,20 @@ class UserService {
         $owner->id = $user->id;
         return $owner->save();
     }
+
+    public static function notifyCreation($type, $data)
+    {
+        // Send welcome email etc
+    }
+
+    public static function update($id, array $data)
+    {
+        $user = User::find($id);
+        foreach ($data as $key => $value)
+        {
+            $user->setAttribute($key, $value);
+        }
+        $user->save();
+        return $user;
+    }
 }

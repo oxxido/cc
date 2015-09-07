@@ -3,6 +3,7 @@
 use App\Models\User;
 use App\Models\Template;
 use Validator;
+use Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -32,102 +33,93 @@ class AuthController extends Controller {
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => ['getLogout','activateAccount']]);
+        $this->middleware('guest', ['except' => ['getLogout','getActivate','getResend','getActivate']]);
     }
 
-	/**
-	 * Handle a registration request for the application.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function postRegister(Request $request)
-	{
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function postRegister(Request $request)
+    {
 
-		$validator = UserService::validator($request->all());
-	
-		if ($validator->fails())
-		{
-			$this->throwValidationException(
-				$request, $validator
-			);
-		}
-
-		if ($user = UserService::create($request->all()))
-		{
-			UserService::makeOwner($user);
-			$this->sendEmail($user);
-			return view('auth.activateAccount')
-				->with('email', $request->input('email'));
-		}
-		else
-		{
-			\Session::flash('message', \Lang::get('notCreated') );
-			return redirect()->back()->withInput();
-		}
-	}
-	
-	public function sendEmail(User $user)
-	{
-
-		$data = array(
-				'name' => $user->name,
-				'code' => $user->activation_code,
-		);
-
-        if(strpos(url(), "localhost") === false)
+        $validator = UserService::validator($request->all());
+    
+        if ($validator->fails())
         {
-            /*
-            //get template from db
-            $template = Template::first();
-            $msg = \DbView::make($template)->with($data)->render();
-            \Mail::raw($msg, function($message) use ($user) {
-                $message->from("gerardo@rosciano.com.ar");
-                $message->subject( \Lang::get('auth.activateEmailSubject') );
-                $message->to($user->email);
-            });*/
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
 
-			\Mail::queue('emails.activateAccount', $data, function($message) use ($user) {
-				$message->from("gerardo@rosciano.com.ar");
-				$message->subject( \Lang::get('auth.activateEmailSubject') );
-				$message->to($user->email);
-			});
-            
-		}
-	}
-	
-	public function resendEmail()
-	{
-		$user = \Auth::user();
-		if( $user->resent >= 3 )
-		{
-			return view('auth.tooManyEmails')
-				->with('email', $user->email);
-		}
-		else
-		{
-			$user->resent = $user->resent + 1;
-			$user->save();
+        if ($user = UserService::create($request->all()))
+        {
+        	Auth::login($user);
+            UserService::makeOwner($user);
+            UserService::notifyCreation('owner', $request->all());
+            $this->sendEmail($user);
 
-			$this->sendEmail($user);
-			return view('auth.activateAccount')
-				->with('email', $user->email);
-		}
-	}
-	
-	public function activateAccount($code, User $user)
-	{
+            return view('auth.activateAccount')
+                ->with('email', $request->input('email'));
+        }
+        else
+        {
+            \Session::flash('message', \Lang::get('notCreated') );
+            return redirect()->back()->withInput();
+        }
+    }
+    
+    private function sendEmail(User $user)
+    {
+        $this->email()->userRegister([
+            'to' => $user->email,
+            'data' => [
+                'name' => $user->name,
+                'code' => $user->activation_code,
+            ]
+        ]);
+    }
+    
+    public function getResend()
+    {
+        $user = Auth::user();
+        if( $user->resent >= 3 )
+        {
+            return view('auth.tooManyEmails')
+                ->with('email', $user->email)
+                ->with('date', $user->updated_at->format('Y-m-d '));;
+        }
+        else
+        {
+            $user->resent = $user->resent + 1;
+            $user->save();
 
-		if($user->accountIsActive($code))
-		{
-			\Auth::login($user);
-			\Session::flash('message', \Lang::get('auth.successActivated') );
-			return redirect('/dashboard');
-		}
-	
-		\Session::flash('message', \Lang::get('auth.unsuccessful') );
-		return redirect('home');
-	
-	}
-
+            $this->sendEmail($user);
+            return redirect('auth/activate');
+            /*return view('auth.activateAccount')
+                ->with('email', $user->email);*/
+        }
+    }
+    
+    public function getActivate($code = false)
+    {
+    	$user = Auth::user();
+    	if($code)
+    	{
+	        if($user->accountIsActive($code))
+	        {
+	            Auth::login($user);
+	            \Session::flash('message', \Lang::get('auth.successActivated') );
+	            return redirect('/dashboard');
+	        }
+	    
+	        \Session::flash('message', \Lang::get('auth.unsuccessful') );
+	        return redirect('home');
+        }
+        return view('auth.guestActivate')
+            ->with('email', $user->email)
+            ->with('date', Auth::user()->updated_at->format('Y-m-d '));
+    }
 }

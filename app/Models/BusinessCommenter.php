@@ -1,36 +1,26 @@
-<?php namespace App;
+<?php namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 
 class BusinessCommenter extends Model {
 
     protected $table = 'business_commenter';
-    protected $fillable = ['added_by'];
+    protected $fillable = ['business_id', 'commenter_id', 'added_by'];
 
 
-    public function users()
+    public function adder()
     {
-        return $this->belongsTo('App\Models\User', 'added_by', 'id');
+        return $this->belongsTo('App\Models\User', 'adder_id', 'id');
     }
 
-    public function businesses()
+    public function businesse()
     {
         return $this->belongsTo('App\Models\Businesses', 'business_id', 'id');
     }
 
-    public function commenters()
+    public function commenter()
     {
         return $this->belongsTo('App\Models\Commenter', 'commenter_id', 'id');
-    }
-
-    public function products()
-    {
-        return $this->belongsToMany('App\Models\Product', 'comments', 'commenter_id', 'product_id');
-    }
-
-    public function comments()
-    {
-        return $this->hasMany('App\Models\Comment', 'commenter_id', 'id');
     }
 
 }

@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Services\UserService;
 
 class UserController extends Controller {
 
@@ -150,27 +151,24 @@ class UserController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update($id)
+    public function update(Request $request)
     {
         // get the user
-        $user = User::find($id);
-
-        // Define objet to be returned as a json string
-        $data = new \stdClass();
-        $data->success = false;
-        $data->errors = array();
+        $id = $request->input('user_id');
+        $success = false;
 
         // Fields to get from form
         $User_data = array(
-          'name'        => $request->input('name'),
+          'first_name'        => $request->input('first_name'),
+          'last_name'        => $request->input('last_name'),
           'email'       => $request->input('email'),
         );
 
-        // Validation rules to aply to fields
+        // Validation rules to aply to fields        
         $rules = array(
-          'name'    => 'required',
-          'email' => 'required|email'
-        );
+          'first_name'            => 'required',
+          'last_name'             => 'required'
+        );        
 
         if($request->input('password') && $request->input('password_confirmation')) {
             $User_data['password'] = $request->input('password');
@@ -181,18 +179,22 @@ class UserController extends Controller {
         $validation = \Validator::make(\Request::all(), $rules);
 
         if ($validation->fails()) {
-          $data->errors = $validation->getMessageBag()->toArray();
+          $this->data->errors = $validation->getMessageBag()->toArray();
         } else {
-          // store new biz
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');
-            $user->password = Hash::make($request->input('password'));
-            $user->save();
-            //Session::flash('message', 'Successfully created!');
-            $data->success = true;
-            $data->user = $user->toArray();
+            $user = User::find($id);
+
+            $user = UserService::update($id, [
+                'first_name'    => $request->input('first_name'),
+                'last_name'     => $request->input('last_name'),
+                'password'      => bcrypt($request->input('password'))
+            ]);
+
+            $success = true;
+            $this->data->user = $user;
         }
-        return \Response::json($data);
+        
+        $this->data->success = $success;
+        return $this->json();
     }
 
     /**

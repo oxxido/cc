@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 include "OrganizationTypesTableSeeder.php";
 include "BusinessTypesTableSeeder.php";
 include "LocationsSeeder.php";
+include "SocialNetworksTableSeeder.php";
 
 class DatabaseSeeder extends Seeder {
 
@@ -21,6 +22,8 @@ class DatabaseSeeder extends Seeder {
         $this->call('OrganizationTypesTableSeeder');
 
         $this->call('BusinessTypesTableSeeder');
+
+        $this->call('SocialNetworksTableSeeder');
 
         $this->call('LocationsSeeder');
         

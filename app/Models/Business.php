@@ -1,6 +1,10 @@
 <?php namespace App\Models;
 
+use App\Models\Model;
+
 class Business extends Model {
+
+    protected $configs;
 
     /**
      * The database table used by the model.
@@ -14,7 +18,7 @@ class Business extends Model {
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'description', 'phone', 'url', 'address','business_type_id' ,'organization_type_id', 'city_id', 'owner_id', 'admin_id'];
+	protected $fillable = ['name', 'description', 'phone', 'url', 'address','business_type_id' ,'organization_type_id', 'city_id', 'owner_id', 'admin_id', 'data'];
 
 
     /**
@@ -24,8 +28,10 @@ class Business extends Model {
      */
     protected $appends = ['location'];
 
-    protected $hidden = ['created_at','updated_at'];
-
+    protected $hidden = ['created_at', 'updated_at', 'business_type_id', 'organization_type_id', 'city_id', 'owner_id', 'admin_id', 'data'];
+    protected $casts = [
+        'data' => 'object',
+    ];
     /**
      * Get the City record associated with the Business.
      */
@@ -82,15 +88,43 @@ class Business extends Model {
         return $this->hasMany('App\Models\Product', 'business_id', 'id');
     }
 
+    public function links()
+    {
+        return $this->hasMany('App\Models\Link', 'business_id', 'id');
+    }
+
     /**
      * Mutator to get the location full text.
      *
-     * @param  string  $value
      * @return string
      */
     public function getLocationAttribute()
     {
         return "{$this->address}, {$this->city->location}";
+    }
+
+    /**
+     * Mutator to get the location full text.
+     *
+     * @return string
+     */
+    public function getConfigAttribute()
+    {
+        if(!$this->configs)
+        {
+            $this->configs = $this->data ? $this->data : new \stdClass;
+        }
+        return $this->configs;
+    }
+
+    /**
+     * Mutator to get the location full text.
+     *
+     * @return string
+     */
+    public function setConfigAttribute($value)
+    {
+        $this->configs = $value;
     }
 
     public function toArray()
@@ -100,5 +134,32 @@ class Business extends Model {
         $this->businessType;
         $this->organizationType;
         return parent::toArray();
+    }
+
+    public function save(array $options = [])
+    {
+        if($this->configs)
+            $this->data = $this->configs;
+        parent::save($options);
+    }
+
+    /**
+     * Get the SocialNetworks records associated with the Businesses.
+     */
+    public function socialNetworks()
+    {
+        return $this->belongsToMany('App\Models\SocialNetwork', 'links', 'business_id', 'social_network_id')
+                        ->withPivot('id', 'url', 'order', 'active')
+                        ->withTimestamps();
+    }
+
+    /**
+     * Mutator to get the location full text.
+     *
+     * @return string
+     */
+    public function getSocialNetworksAttribute()
+    {
+        return $this->socialNetworks()->get();
     }
 }

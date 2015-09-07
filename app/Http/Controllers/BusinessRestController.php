@@ -10,6 +10,7 @@ use App\Models\Admin;
 use App\Models\Business;
 use App\Models\Country;
 
+use App\Services\PaginateService;
 use App\Services\UserService;
 use App\Services\AdminService;
 use App\Services\BusinessService;
@@ -37,8 +38,13 @@ class BusinessRestController extends Controller {
      */
     public function index()
     {
+        $query = Business::where("owner_id", "=", $this->user->id);
+        $paginate = new PaginateService($query);
+
         $this->data->success = true;
-        $this->data->businesses = Business::where("owner_id", "=", $this->user->id)->get()->toArray();
+        $this->data->businesses = $paginate->data();
+        $this->data->paging = $paginate->paging();
+
         return $this->json();
     }
 

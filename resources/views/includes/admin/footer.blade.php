@@ -23,7 +23,20 @@
     
     <!-- AdminLTE App -->
     <script src="/vendor/admin-lte/dist/js/app.min.js" type="text/javascript"></script>
+
+    <!-- Paging -->
+    <script src="/vendor/paging/jquery.paging.js" type="text/javascript"></script>
+    <script src="/js/vendor/jquery.easy-paging.js" type="text/javascript"></script>
+
     <!-- Tools -->
     <script src="/js/tools.js" type="text/javascript"></script>
 
     <script src="/js/dashboard.js" type="text/javascript"></script>
+    <script>
+    $(function() {
+      //script for menu
+        var liHref = $("[href='"+window.location.pathname+"']").parent();
+        liHref.parent().parent().addClass('active');
+        liHref.addClass('active');
+    });
+    </script>

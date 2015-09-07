@@ -1,5 +1,7 @@
 <?php namespace App\Models;
 
+use App\Models\Model;
+
 class Owner extends Model {
 
     /**
@@ -22,7 +24,7 @@ class Owner extends Model {
      * @var array
      */
     protected $appends = ['name','email'];
-    protected $hidden = ['user'];
+    protected $hidden = ['created_at', 'updated_at', 'user', 'admins', 'businesses'];
 
     /**
      * Get the User record associated with the Owner.

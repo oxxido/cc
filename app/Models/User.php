@@ -1,7 +1,7 @@
 <?php namespace App\Models;
 
+use App\Models\Model;
 use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
@@ -30,7 +30,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $hidden = ['password', 'remember_token', 'activation_code', 'active', 'resent', 'created_at', 'updated_at'];
+	protected $hidden = ['password', 'remember_token', 'activation_code', 'active', 'resent', 'created_at', 'updated_at', 'admins', 'owner', 'commenter'];
 
     /**
      * The accessors to append to the model's array form.
@@ -52,10 +52,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return false;
 	}
 
-
     public function owner()
     {
         return $this->hasOne('App\Models\Owner', 'id', 'id');
+    }
+
+    public function commenter()
+    {
+        return $this->hasOne('App\Models\Commenter', 'id', 'id');
     }
 
     /**
@@ -93,9 +97,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->first_name . ' ' . $this->last_name;
 	}
 
-    public function isAdmin($id)
+    public function isAdmin($owner_id = false)
     {
-        return $this->admin($id) ? true : false;
+        if($owner_id)
+            return $this->admin($owner_id) ? true : false;
+        else
+            return $this->admins ? true : false;
     }    
 
     public function isOwner()
@@ -103,9 +110,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->owner ? true : false;
     }    
 
-    public function admin($id)
+    public function isCommenter()
     {
-        return Admin::where('owner_id', $id)->where('admin_id', $this->id)->get()->first();
+        return $this->commenter ? true : false;
+    }    
+
+    public function admin($owner_id = false)
+    {
+        if($owner_id)
+            return Admin::where('owner_id', $owner_id)->where('admin_id', $this->id)->get()->first();
+        else
+            return $this->admins;
     } 
 
 }

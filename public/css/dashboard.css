@@ -25,3 +25,20 @@
 #content-dashboard .table td.action{
 	text-align: center;
 }
+
+#config-form{
+    padding: 10px;
+}
+#config-form .box-footer{
+    border-top-color: #ddd;
+}
+textarea.noresize{
+    resize: none;
+}
+label small{
+    font-weight: normal;
+}
+.form-control, select{
+    background-color: #F4F4F4;
+    border-radius: 3px;
+}
