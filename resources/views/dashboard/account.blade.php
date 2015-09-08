@@ -16,7 +16,8 @@
 @section('content')
   <div class="box-body">
     <div id="accountdiv">
-      {!! Form::model($user, array('route' => array('user.update', $user->id))) !!}
+      {!! Form::model($user, array('route' => array('user.update'))) !!}
+      
         {!! Form::token() !!}
         {!! Form::hidden('user_id',$user->id) !!}
 
@@ -31,7 +32,7 @@
           </div>
           <div class="form-group">
             {!! Form::label('email', 'E-Mail Address') !!}
-            {!! Form::text('email', null,array('class' => 'form-control')) !!}
+            {!! Form::text('email', null,array('class' => 'form-control', 'readonly')) !!}
           </div>
           <div class="form-group">
             {!! Form::label('password', 'Update Password') !!}

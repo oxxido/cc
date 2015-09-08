@@ -50,8 +50,9 @@ Route::controllers([
 //REST Resourse
 Route::resource('crud/business', 'BusinessRestController');
 Route::resource('crud/admin', 'AdminRestController');
+
 Route::resource('crud/link', 'LinkRestController');
 
-Route::get('user/update', [
+Route::post('user/update', [
     'as' => 'user.update', 'uses' => 'UserController@update'
 ]);

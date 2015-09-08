@@ -30,6 +30,7 @@
   <br>
   <a href="{{ url('password/email') }}">Forgot Password</a><br>
   <br>
-  <b><a href="{{ url('auth/register') }}">Signup Today</a></b> - 
-  <b><a href="{{ url('invite') }}">Request Invite</a></b>
+  <b><a href="{{ url('auth/register') }}">Signup Today</a></b>
+  <!-- - 
+  <b><a href="{{ url('invite') }}">Request Invite</a></b> -->
 @endsection

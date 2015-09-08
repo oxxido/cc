@@ -50,7 +50,12 @@
       <div class="form-group">
         <label for="codeForSite">Widget Code <small>Use this code to add the testimonial widget on your site</small></label>
         <textarea id="codeForSite"  rows="3" class="form-control noresize" readonly="readonly"><iframe src="{{ url("widget/testimonial/$product->hash") }}"></iframe></textarea>
-        <a target="_blank" href="{{ url("widget/testimonial/$product->hash") }}">Test Link</a>
+        
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+        <a class="btn btn-primary" target="_blank" href="{{ url("widget/testimonial/$product->hash") }}">Test Link</a>
+        </div>
       </div>
     </div>
   </div>
