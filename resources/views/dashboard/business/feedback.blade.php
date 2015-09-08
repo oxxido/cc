@@ -37,8 +37,10 @@
           </div>
           <div class="form-group">
             <label for="positiveThreshold">
-              Positive Feedback Threshold<br>
-              <small>Show positive feedback page (including online reviews links) when rating is
+              Positive Feedback Threshold</label>
+              <br/>
+              Show positive feedback page (including online reviews links) when rating is
+              <br />
               <select name="positiveThreshold">
                 <option @if($config->positiveThreshold == 0.5) selected="selected" @endif>0.5</option>
                 <option @if($config->positiveThreshold == 1) selected="selected" @endif>1</option>
@@ -51,8 +53,8 @@
                 <option @if($config->positiveThreshold == 4.5) selected="selected" @endif>4.5</option>
                 <option @if($config->positiveThreshold == 5) selected="selected" @endif>5</option>
               </select>
-              or higher</small>
-            </label>
+              or higher
+            
           </div>
         </div>
       </div>
@@ -76,11 +78,15 @@
           <div class="form-group">
             <label for="positiveText">Positive Feedback Page</label>
             <textarea class="form-control noresize" rows="6" name="positiveText" id="positiveText">{{ $config->positiveText }}</textarea>
+          </div>
+          <div class="form-group">
             <p>Allowed Tags: <span class="label label-info">[REVIEW_LINKS]</span> <span class="label label-info">[YOUR_NAME]</span></p>
           </div>
           <div class="form-group">
             <label for="negativeText">Negative Feedback Page</label>
             <textarea class="form-control noresize" rows="6" name="negativeText" id="negativeText">{{ $config->negativeText }}</textarea>
+          </div>
+          <div class="form-group">
             <p>Allowed Tags: <span class="label label-info">[YOUR_NAME]</span></p>
           </div>
           <div class="form-group">
@@ -117,7 +123,11 @@
       <div class="form-group">
         <label for="codeForSite">Widget Code <small>Use this code to add the testimonial widget on your site</small></label>
         <textarea id="codeForSite"  rows="3" class="form-control noresize" readonly="readonly"><iframe src="{{ url("widget/feedback/$product->hash") }}"></iframe></textarea>
-        <a target="_blank" href="{{ url("widget/feedback/$product->hash") }}">Test Link</a>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <a class="btn btn-primary" href="{{ url("widget/feedback/$product->hash") }}" target="_blank">Test Link</a>
+        </div>
       </div>
     </div>
   </div>
