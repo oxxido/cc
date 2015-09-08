@@ -28,8 +28,8 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="form-group">
-          <input type="checkbox" name="includeFeedback" id="includeFeedback" @if($config->includeFeedback) checked="checked" @endif>
-          <label for="includeFeedback" >Include feedback form</label>
+          <input type="checkbox" name="include_feedback" id="include_feedback" @if($config->include_feedback) checked="checked" @endif>
+          <label for="include_feedback" >Include feedback form</label>
         </div>
       </div>
       <div class="box-footer">

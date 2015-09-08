@@ -1,8 +1,12 @@
 <?php namespace App\Services;
 
-use App\Models\Owner;
-use App\Models\User;
 use Validator;
+use App\Models\User;
+use App\Models\Owner;
+
+use Event;
+use App\Events\OwnerCreation;
+use App\Events\UserCreation;
 
 class UserService {
 
@@ -30,13 +34,15 @@ class UserService {
      */
     public static function create(array $data)
     {
-        return User::create([
-			'first_name'      => $data['first_name'],
-			'last_name'       => $data['last_name'],
-			'email'           => $data['email'],
-			'password'        => bcrypt($data['password']),
-			'activation_code' => str_random(60)
-		]);
+        $user = User::create([
+            'first_name'      => $data['first_name'],
+            'last_name'       => $data['last_name'],
+            'email'           => $data['email'],
+            'password'        => bcrypt($data['password']),
+            'activation_code' => str_random(60)
+        ]);
+        Event::fire(new UserCreation($user));
+        return $user;
     }
 
     public static function find($email)
@@ -44,15 +50,13 @@ class UserService {
         return User::where('email', $email)->get()->first();
     }
 
-    public static function makeOwner($user)
+    public static function createOwner($user)
     {
         $owner = new Owner;
         $owner->id = $user->id;
-        return $owner->save();
-    }
-
-    public static function notifyCreation($type, $data)
-    {
-        // Send welcome email etc
+        $owner->save();
+        $owner = Owner::find($user->id);
+        Event::fire(new OwnerCreation($owner));
+        return $owner;
     }
 }

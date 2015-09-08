@@ -11,7 +11,7 @@
   <tbody>
     @{{#each businesses}}
       <tr>
-        <td>@{{name}}</td>
+        <td><a href="javascript:;" onclick="cc.crud.business.show(@{{id}})">@{{name}}</a></td>
         <td>@{{admin.name}}</td>
         <td>@{{location}}</td>
         <td><a href="@{{url}}" target="_blank">@{{url}}</td>

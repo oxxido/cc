@@ -54,22 +54,22 @@ class WidgetController extends Controller
         $this->data->comment = $comment;
         $this->setBasicData($product, $request);
 
-        $this->data->config->feedback->positiveTextHeader = BusinessService::tagsReplace([
-            "text" => $this->data->config->feedback->positiveText,
+        $this->data->config->feedback->positive_text_header = BusinessService::tagsReplace([
+            "text" => $this->data->config->feedback->positive_text,
             "business" => $product->business,
             "part" => "header"
         ]);
-        $this->data->config->feedback->positiveTextFooter = BusinessService::tagsReplace([
-            "text" => $this->data->config->feedback->positiveText,
+        $this->data->config->feedback->positive_text_footer = BusinessService::tagsReplace([
+            "text" => $this->data->config->feedback->positive_text,
             "business" => $product->business,
             "part" => "footer"
         ]);
-        $this->data->config->feedback->negativeText = BusinessService::tagsReplace([
-            "text" => $this->data->config->feedback->negativeText,
+        $this->data->config->feedback->negative_text = BusinessService::tagsReplace([
+            "text" => $this->data->config->feedback->negative_text,
             "business" => $product->business
         ]);
 
-        if($rating >= $this->data->config->feedback->positiveThreshold)
+        if($rating >= $this->data->config->feedback->positive_threshold)
         {
             $this->data->links = $product->business->links;
             return $this->view("widget.feedbackPositive");

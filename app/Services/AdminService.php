@@ -3,6 +3,8 @@
 use App\Models\User;
 use App\Models\Admin;
 use Validator;
+use Event;
+use App\Events\AdminCreation;
 
 class AdminService {
 
@@ -28,10 +30,12 @@ class AdminService {
      */
     public static function create(array $data)
     {
-        return Admin::create([
+        $admin = Admin::create([
             'owner_id' => $data['owner_id'],
             'admin_id' => $data['admin_id']
         ]);
+        Event::fire(new AdminCreation($admin));
+        return $admin;
     }
 
     public static function getAdmin(array $data)
@@ -48,12 +52,11 @@ class AdminService {
                     'email'      => $data['email'],
                     'password'   => $data['password']
                 ]);
-                UserService::notifyCreation('admin', $data);
             }
 
             if($user_admin->isAdmin($data['owner_id']))
             {
-                $admin = $user_admin->admin;
+                $admin = $user_admin->admin($data['owner_id']);
             }
             else
             {

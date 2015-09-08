@@ -17,7 +17,7 @@ class EmailService
     {
         if(strpos(url(), "localhost") !== false)
         {
-            $this->disabled = true;
+            //$this->disabled = true;
         }
     }    
 
@@ -61,10 +61,36 @@ class EmailService
         $this->send($options);
     }
 
-    public function userRegister($options)
+    public function ownerCreation($options)
+    {
+        $this->subject = "Welcome New Owner";
+        $this->template = "ownerWelcome";
+        $this->send($options);
+    }
+
+    public function adminCreation($options)
+    {
+        $this->subject = "Welcome New Admin";
+        $this->template = "adminWelcome";
+        $this->send($options);
+    }
+
+    public function userCreation($options)
     {
         $this->subject = Lang::get('auth.activateEmailSubject');
         $this->template = "activateAccount";
         $this->send($options);
+    }
+
+    public function commenterCreation($options)
+    {
+        $this->subject = "Welcome New Commenter";
+        $this->template = "commenterWelcome";
+        $this->send($options);
+    }
+
+    public static function instance()
+    {
+        return new self();
     }
 }

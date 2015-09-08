@@ -7,9 +7,9 @@
   </div>
   <div class="bottom-section">
 
-    <?=$config->feedback->positiveTextHeader?>
+    <?=$config->feedback->positive_text_header?>
 
-    @if($config->feedback->includeSocialLinks)
+    @if($config->feedback->include_social_links)
       <div class="links-list">
         <ul class="list-group">
           @foreach($links as $link)
@@ -28,7 +28,7 @@
       </div>
     @endif
 
-    <?=$config->feedback->positiveTextFooter?>
+    <?=$config->feedback->positive_text_footer?>
 
   </div>
 @endsection

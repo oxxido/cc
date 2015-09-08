@@ -18,17 +18,17 @@
       <div class="row logo-title-cnt">
         <div class="col-xs-6">
           <div class="logo-cnt">
-            <img src="{{ $config->feedback->logoUrl }}">
+            <img src="{{ $config->feedback->logo_url }}">
           </div>
         </div>
         <div class="col-xs-6">
           <div class="title-cnt">
-            {{ $config->feedback->pageTitle }}
+            {{ $config->feedback->page_title }}
           </div>
         </div>
       </div>
       <div class="top-image">
-        <img src="{{ $config->feedback->bannerUrl }}" alt="{{ $config->feedback->pageTitle }}">
+        <img src="{{ $config->feedback->banner_url }}" alt="{{ $config->feedback->page_title }}">
         <div class="row company-info-cnt">
           <div class="col-xs-6">{{ $business->name }}</div>
           <div class="col-xs-6 text-right">{{ $business->address }} | {{ $business->phone }}</div>

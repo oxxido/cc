@@ -6,7 +6,7 @@
     <ul class="sidebar-menu">
       <li class="header">MAIN NAVIGATION</li>
 
-      @if (isset($businessId) AND $user->isOwner() )
+      @if (isset($business_id) AND $user->isOwner() )
         <li class="treeview">
           <a href="#">
             <i class="fa fa-user"></i> <span>Settings</span>

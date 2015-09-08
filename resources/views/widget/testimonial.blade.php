@@ -9,7 +9,7 @@
     <div id="reviewsTable_HBW"></div>
   </div>
 
-  @if($config->testimonial->includeFeedback)
+  @if($config->testimonial->include_feedback)
     <div class="top-section">
       <p class="title-section">Your Feedback</p>
     </div>
