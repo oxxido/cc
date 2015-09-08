@@ -56,3 +56,4 @@ Route::resource('crud/link', 'LinkRestController');
 Route::post('user/update', [
     'as' => 'user.update', 'uses' => 'UserController@update'
 ]);
+Route::get('reports', 'ReportController@index');
