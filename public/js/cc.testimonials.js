@@ -28,6 +28,8 @@ cc.testimonials = {
             {
                 tools.handlebars("#reviewsTable_HBT", "#reviewsTable_HBW", data);
                 $(".comment .rating").rating();
+                $("[data-toggle=popover]").popover();
+                
                 tools.paging("#paging", data.paging, function(page){
                     cc.testimonials.table(page);
                 })
