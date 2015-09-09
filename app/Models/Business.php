@@ -2,7 +2,12 @@
 
 use App\Models\Model;
 
-class Business extends Model {
+class Business extends Model
+{
+    const CONFIG_NOTIFICATIONS_FREQUENCY_HOURLY  = 1;
+    const CONFIG_NOTIFICATIONS_FREQUENCY_DAILY   = 2;
+    const CONFIG_NOTIFICATIONS_FREQUENCY_WEEKLY  = 3;
+    const CONFIG_NOTIFICATIONS_FREQUENCY_MONTHLY = 4;
 
     protected $configs;
 
@@ -13,13 +18,24 @@ class Business extends Model {
      */
     protected $table = 'businesses';
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = ['name', 'description', 'phone', 'url', 'address','business_type_id' ,'organization_type_id', 'city_id', 'owner_id', 'admin_id', 'data'];
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'description',
+        'phone',
+        'url',
+        'address',
+        'business_type_id',
+        'organization_type_id',
+        'city_id',
+        'owner_id',
+        'admin_id',
+        'data'
+    ];
 
     /**
      * The accessors to append to the model's array form.
@@ -28,10 +44,40 @@ class Business extends Model {
      */
     protected $appends = ['location'];
 
-    protected $hidden = ['created_at', 'updated_at', 'business_type_id', 'organization_type_id', 'city_id', 'owner_id', 'admin_id', 'data'];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'business_type_id',
+        'organization_type_id',
+        'city_id',
+        'owner_id',
+        'admin_id',
+        'data'
+    ];
+
     protected $casts = [
         'data' => 'object',
     ];
+
+    public static function configNotificationsFrequencies($only_keys = false)
+    {
+        $frequencies = [
+            self::CONFIG_NOTIFICATIONS_FREQUENCY_HOURLY=> trans('business.fields.notifications.frequency_hourly'),
+            self::CONFIG_NOTIFICATIONS_FREQUENCY_DAILY=> trans('business.fields.notifications.frequency_daily'),
+            self::CONFIG_NOTIFICATIONS_FREQUENCY_WEEKLY=> trans('business.fields.notifications.frequency_weekly'),
+            self::CONFIG_NOTIFICATIONS_FREQUENCY_MONTHLY=> trans('business.fields.notifications.frequency_monthly'),
+        ];
+
+        return $only_keys ? array_keys($frequencies) : $frequencies;
+    }
+
+    public static function configNotificationFrequencyText($frequency)
+    {
+        $frequencies = self::configNotificationsFrequency();
+
+        return isset($frequencies[$frequency]) ? $frequencies[$frequency] : 'Invalid frequency';
+    }
+
     /**
      * Get the City record associated with the Business.
      */
@@ -110,10 +156,10 @@ class Business extends Model {
      */
     public function getConfigAttribute()
     {
-        if(!$this->configs)
-        {
+        if (!$this->configs) {
             $this->configs = $this->data ? $this->data : new \stdClass;
         }
+
         return $this->configs;
     }
 
@@ -133,13 +179,15 @@ class Business extends Model {
         $this->admin;
         $this->businessType;
         $this->organizationType;
+
         return parent::toArray();
     }
 
     public function save(array $options = [])
     {
-        if($this->configs)
+        if ($this->configs) {
             $this->data = $this->configs;
+        }
         parent::save($options);
     }
 
@@ -148,9 +196,8 @@ class Business extends Model {
      */
     public function socialNetworks()
     {
-        return $this->belongsToMany('App\Models\SocialNetwork', 'links', 'business_id', 'social_network_id')
-                        ->withPivot('id', 'url', 'order', 'active')
-                        ->withTimestamps();
+        return $this->belongsToMany('App\Models\SocialNetwork', 'links', 'business_id',
+            'social_network_id')->withPivot('id', 'url', 'order', 'active')->withTimestamps();
     }
 
     /**
