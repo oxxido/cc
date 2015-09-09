@@ -19,14 +19,29 @@ class DatabaseSeeder extends Seeder {
     {
         Model::unguard();
 
-        $this->call('OrganizationTypesTableSeeder');
+        $this->call(OrganizationTypesTableSeeder::class);
+        $this->call(BusinessTypesTableSeeder::class);
+        $this->call(SocialNetworksTableSeeder::class);
+        $this->call(LocationsSeeder::class);
 
-        $this->call('BusinessTypesTableSeeder');
+        switch (App::environment()) {
+            case 'production':
+                break;
+            case 'local':
+                //break;
+            case 'development':
+                //break;
+            case 'testing':
+                //break;
+            case 'staging':
+                //break;
+            default:
+                $this->call(UsersTableSeeder::class);
+                break;
+        }
 
-        $this->call('SocialNetworksTableSeeder');
 
-        $this->call('LocationsSeeder');
-        
+        Model::reguard();
     }
 
 }
