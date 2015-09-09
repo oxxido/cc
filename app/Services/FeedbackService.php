@@ -5,7 +5,7 @@ use App\Models\BusinessCommenter;
 use App\Models\Commenter;
 use App\Models\Comment;
 use Event;
-use App\Events\CommenterCreation;
+use App\Events\UserEmailEvent;
 
 class FeedbackService
 {
@@ -45,7 +45,7 @@ class FeedbackService
 
         $commenter = Commenter::create($rows);
 
-        Event::fire(new CommenterCreation($commenter));
+        Event::fire(new UserEmailEvent($commenter->user, "commenter"));
 
         return $commenter;
     }
@@ -109,7 +109,7 @@ class FeedbackService
                     'last_name'  => $data['last_name'],
                     'email'      => $data['email'],
                     'password'   => $data['password']
-                ]);
+                ], true);
             }
 
             if(!$user_commenter->isCommenter())

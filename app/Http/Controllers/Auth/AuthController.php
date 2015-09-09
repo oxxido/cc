@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades;
 use App\Services\UserService;
 use Event;
-use App\Event\UserCreation;
+use App\Events\UserEmailEvent;
 
 class AuthController extends Controller {
 
@@ -85,7 +85,7 @@ class AuthController extends Controller {
             $user->resent = $user->resent + 1;
             $user->save();
 
-            Event::fire(new UserCreation($user));
+            Event::fire(new UserEmailEvent($user, "user", ["resend" => true]));
             return redirect('auth/activate');
         }
     }

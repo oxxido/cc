@@ -15,10 +15,6 @@ class EmailService
 
     public function __construct()
     {
-        if(strpos(url(), "localhost") !== false)
-        {
-            //$this->disabled = true;
-        }
     }    
 
     private function send($options)
@@ -47,46 +43,81 @@ class EmailService
         });*/
     }
 
-    public function contact($options)
+    public function contact($data)
     {
         $this->subject = "Contact form";
         $this->template = "contact";
-        $this->send($options);
+        $this->send(['data' => $data]);
     }
 
-    public function invite($options)
+    public function invite($data)
     {
         $this->subject = "Request an invite";
         $this->template = "invite";
-        $this->send($options);
+        $this->send(['data' => $data]);
     }
 
-    public function ownerCreation($options)
+    public function userCreation($user, $options)
+    {
+        $this->subject = Lang::get('auth.activateEmailSubject');
+
+        if(isset($options['send_password']) && $options['send_password'])
+        {
+            $this->template = "activateAccountPassword";
+        }
+        elseif(isset($options['resend']) && $options['resend'])
+        {
+            $this->template = "activateAccountResend";
+        }
+        else
+        {
+            $this->template = "activateAccount";
+        }
+
+        $this->send([
+            'to' => $user->email,
+            'data' => [
+                'name' => $user->name,
+                'code' => $user->activation_code,
+                'password' => isset($options['send_password']) ? $options['password'] : false
+            ]
+        ]);
+    }
+
+    public function ownerCreation($user, $options)
     {
         $this->subject = "Welcome New Owner";
         $this->template = "ownerWelcome";
-        $this->send($options);
+        $this->send([
+            'to' => $user->email,
+            'data' => [
+                'name' => $user->name
+            ]
+        ]);
     }
 
-    public function adminCreation($options)
+    public function adminCreation($user, $options)
     {
         $this->subject = "Welcome New Admin";
         $this->template = "adminWelcome";
-        $this->send($options);
+        $this->send([
+            'to' => $user->email,
+            'data' => [
+                'name' => $user->name
+            ]
+        ]);
     }
 
-    public function userCreation($options)
-    {
-        $this->subject = Lang::get('auth.activateEmailSubject');
-        $this->template = "activateAccount";
-        $this->send($options);
-    }
-
-    public function commenterCreation($options)
+    public function commenterCreation($user, $options)
     {
         $this->subject = "Welcome New Commenter";
         $this->template = "commenterWelcome";
-        $this->send($options);
+        $this->send([
+            'to' => $user->email,
+            'data' => [
+                'name' => $user->name
+            ]
+        ]);
     }
 
     public static function instance()

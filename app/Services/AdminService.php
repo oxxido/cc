@@ -4,7 +4,7 @@ use App\Models\User;
 use App\Models\Admin;
 use Validator;
 use Event;
-use App\Events\AdminCreation;
+use App\Events\UserEmailEvent;
 
 class AdminService {
 
@@ -34,7 +34,7 @@ class AdminService {
             'owner_id' => $data['owner_id'],
             'admin_id' => $data['admin_id']
         ]);
-        Event::fire(new AdminCreation($admin));
+        Event::fire(new UserEmailEvent($admin->user, "admin"));
         return $admin;
     }
 
@@ -51,7 +51,7 @@ class AdminService {
                     'last_name'  => $data['last_name'],
                     'email'      => $data['email'],
                     'password'   => $data['password']
-                ]);
+                ], true);
             }
 
             if($user_admin->isAdmin($data['owner_id']))
