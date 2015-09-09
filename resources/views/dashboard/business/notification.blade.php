@@ -16,8 +16,7 @@
 @endsection
 
 @section('form')
-
-    {!! Form::open(array('url'=>url('dashbiz/notification'), 'method'=> 'POST', 'role' => 'form', 'name' => 'notificationForm', 'id' => 'notificationForm')) !!}
+    {!! Form::open(['url'=>url('dashbiz/notification'), 'method'=> 'POST', 'role' => 'form', 'name' => 'notificationForm', 'id' => 'notificationForm']) !!}
       <div>
         <ul class="nav nav-tabs">
           <li class="active">
@@ -27,40 +26,38 @@
       </div>
       <div class="panel panel-default">
         <div class="panel-body">
-        <p>This section allows you to choose which feedback events you want to receive email 
+        <p>This section allows you to choose which feedback events you want to receive email
         alerts for and who should receive them.</p>
         <h4>Send to</h4>
           <div class="form-group">
-            <input type="checkbox" name="include_social_links" id="include_social_links" value="1"  >
-            <label for="include_social_links" >Account Owner</label>
+            {!! Form::checkbox('send_to_owner', 1, $config->send_to_owner) !!}
+            {!! Form::label('send_to_owner', trans('business.fields.notifications.send_to_owner')) !!}
           </div>
           <div class="form-group">
-            <input type="checkbox" name="include_social_links" id="include_social_links" value="1" >
-            <label for="include_social_links" >Business Manager</label>
+            {!! Form::checkbox('send_to_admin', 1, $config->send_to_admin) !!}
+            {!! Form::label('send_to_admin', trans('business.fields.notifications.send_to_admin')) !!}
           </div>
           <br />
           <h4>Which alerts?</h4>
-          <div class="form-group row">
-            <div class="col-sm-3"> 
-              <select class="form-control " >
-               <option>Positive Feedback</option>
-               <option>Negative Feedback</option>
-               <option>Both Positive and Negative</option>
-              </select>
+            <div class="form-group">
+                {!! Form::checkbox('alert_positive', 1, $config->alert_positive) !!}
+                {!! Form::label('alert_positive', trans('business.fields.notifications.alert_positive')) !!}
             </div>
-          </div>
+            <div class="form-group">
+                {!! Form::checkbox('alert_negative', 1, $config->alert_negative) !!}
+                {!! Form::label('alert_negative', trans('business.fields.notifications.alert_negative')) !!}
+            </div>
           <br />
           <h4>What to send?</h4>
-          <div class="form-group">
-            <div >
-            <input type="checkbox" name="include_social_links" id="include_social_links" value="1"  >
-            <label for="include_social_links" >Send new online review alerts</label>
-          </div>
-          <div class="checkbox">
-          <label for="performance_report" >
-            <input type="checkbox" name="performance_report" id="performance_report" value="1" > <b>Send performance report</b>
-          </label>
-          </div>
+            <div class="form-group">
+                {!! Form::checkbox('send_alerts', 1, $config->send_alerts) !!}
+                {!! Form::label('send_alerts', trans('business.fields.notifications.send_alerts')) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::checkbox('send_reports', 1, $config->send_reports) !!}
+                {!! Form::label('send_reports', trans('business.fields.notifications.send_reports')) !!}
+                {!! Form::select('frequency', \App\Models\Business::configNotificationsFrequencies(), $config->frequency, ['class' => 'form-control']) !!}
+            </div>
           </div>
 
         </div>
@@ -71,4 +68,3 @@
     {!! Form::close() !!}
 
 @endsection
-
