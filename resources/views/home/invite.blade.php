@@ -31,7 +31,10 @@
 @section('footer')
 <script type="text/javascript">
   $('#website').focus(function(){
-      $('#website').val('http://');
+      if($('#website').val()=="") {
+        $('#website').val('http://');
+      }
+        
   });
 </script>
 @endsection
