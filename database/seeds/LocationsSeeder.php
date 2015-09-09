@@ -14,7 +14,7 @@ class LocationsSeeder extends Seeder
     public function run()
     {
         DB::transaction(function () {
-            //DB::unprepared(file_get_contents(base_path() . "/database/sql/cities.sql"));
+            DB::unprepared(file_get_contents(base_path() . "/database/sql/cities.sql"));
             DB::table('countries')->delete();
             DB::unprepared($this->countries());
             $this->states();

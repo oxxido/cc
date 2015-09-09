@@ -14,7 +14,7 @@ class CreateOwnersTable extends Migration
     {
         DB::transaction(function () {
             Schema::create('owners', function (Blueprint $table) {
-                $table->increments('id');
+                $table->integer('id')->unsigned()->primary();
                 $table->foreign('id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
                 $table->timestamps();
             });
