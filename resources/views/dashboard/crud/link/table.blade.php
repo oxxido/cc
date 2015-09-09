@@ -10,14 +10,14 @@
   <tbody>
     @{{#each links}}
       <tr>
-        <td><img src="@{{logo}}" width="50"></td>
-        <td>@{{name}}</td>
-        <td><a href="@{{pivot.url}}" target="_blank">@{{pivot.url}}</td>
+        <td><img src="@{{social_network.logo}}" width="50"></td>
+        <td>@{{social_network.name}}</td>
+        <td><a href="@{{profile}}" target="_blank">@{{profile}}</td>
         <td class="action">
-          <a onclick="cc.crud.link.edit.edit(@{{id}})">
+          <a onclick="cc.crud.link.edit.edit(@{{social_network.id}})">
             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
           </a>
-          <a onclick="cc.crud.link.destroy(@{{id}})">
+          <a onclick="cc.crud.link.destroy(@{{social_network.id}})">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
           </a>
         </td>

@@ -84,6 +84,16 @@ cc.crud.business = {
                     {
                         $("#city_zip_code, #city_location, #zip_code").val("");
                     }
+                    if(data.business.owner.id == data.business.admin.user.id)
+                    {
+                        $("#new_admin").val(2);
+                        $('#myTabs a[href="#admin_tab_not"]').tab('show');
+                    }
+                    else
+                    {
+                        $("#new_admin").val(0);
+                        $('.admin-nav-tabs a[href="#admin_tab_search"]').tab('show');
+                    }
                     $("#businessEditForm").bind('submit', cc.crud.business.edit.update);
                     cc.crud.business.admin.init();
                 }

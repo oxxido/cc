@@ -38,11 +38,11 @@ class HomeController extends Controller {
         if($request->input('source')=="contact")
         {
             $data['msg'] = $request->input('msg');
-            $this->email()->contact(['to' => 'oxxido@gmail.com', 'data' => $data]);
+            $this->email()->contact($data);
         }
         else
         {
-            $this->email()->invite(['to' => 'oxxido@gmail.com', 'data' => $data]);
+            $this->email()->invite($data);
         }
     }
 

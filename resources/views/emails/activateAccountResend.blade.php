@@ -24,7 +24,23 @@
         <table class="twelve columns">
           <tr>
             <td class="panel">
-              <p><a href="{{ url('auth/activate/'.$code) }}">Click here</a> to verify your account</p>
+              <p>Click to verify your account <a href="{{ url('auth/activate/'.$code) }}">Verify it »</a></p>
+            </td>
+            <td class="expander"></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <table class="row footer">
+    <tr>
+      <td class="wrapper last">
+        <table class="twelve columns">
+          <tr>
+            <td class="expander"></td>
+            <td align="center">
+              <p>To keep our systems healthy and your accounts safe, we limited the amount of mail one user can send</p>
             </td>
             <td class="expander"></td>
           </tr>

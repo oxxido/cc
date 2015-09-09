@@ -7,6 +7,19 @@ class Link extends Model {
     protected $table = 'links';
     protected $fillable = ['url', 'order', 'active'];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $hidden = ['created_at', 'updated_at'];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['profile'];
 
     public function business()
     {
@@ -23,4 +36,9 @@ class Link extends Model {
         return "http://" . str_replace("%", $this->url, $this->socialNetwork->url);
     }
 
+    public function toArray()
+    {
+        $this->socialNetwork;
+        return parent::toArray();
+    }
 }

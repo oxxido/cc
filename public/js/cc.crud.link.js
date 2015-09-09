@@ -39,7 +39,7 @@ cc.crud.link = {
             .done(function(data) {
                 if (data.success)
                 {
-                    tools.messages("Profile (aqui el profile o url al profile) added", 'success');
+                    tools.messages("Profile for <b>" + data.link.social_network.name + "</b> added", 'success');
                     cc.dashboard.panel.hide();
                     cc.crud.link.add.clear();
                     cc.crud.link.table();
@@ -127,7 +127,7 @@ cc.crud.link = {
             .done(function(data) {
                 if (data.success)
                 {
-                    tools.messages("Profile (aqui el profile o url al profile) edited", 'success');
+                    tools.messages("Profile for <b>" + data.link.social_network.name + "</b> edited", 'success');
                     cc.dashboard.panel.hide();
                     cc.crud.link.edit.clear();
                     cc.crud.link.table();
@@ -169,7 +169,7 @@ cc.crud.link = {
             .done(function(data) {
                 if (data.success)
                 {
-                    tools.messages("Profile " + data.links + " deleted", 'success');
+                    tools.messages("Profile for <b>" + data.name + "</b> was deleted", 'success');
                     cc.crud.link.table();
                 }
                 else
