@@ -103,12 +103,11 @@ class FeedbackService
         {
             if(!($user_commenter = UserService::find($data['email'])))
             {
-                $data['password'] = str_random(8);
                 $user_commenter = UserService::create([
                     'first_name' => $data['first_name'],
                     'last_name'  => $data['last_name'],
                     'email'      => $data['email'],
-                    'password'   => $data['password']
+                    'password'   => str_random(8)
                 ], true);
             }
 

@@ -118,7 +118,14 @@ We will contact you to address the situation in any way we can.
             'testimonial' => [
                 'include_feedback' => true
             ],
-            'notification' => [],
+            'notification' => ['sent_to' => [
+                    'owner' => true,
+                    'admin' => true
+                ],
+                'alerts' => [
+                    'positive' => true,
+                    'negative' => true
+                ]],
             'email' => [],
             'kiosk' => []
         ];

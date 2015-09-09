@@ -34,7 +34,10 @@ class AdminService {
             'owner_id' => $data['owner_id'],
             'admin_id' => $data['admin_id']
         ]);
-        Event::fire(new UserEmailEvent($admin->user, "admin"));
+
+        if($admin->user->id != $data['owner_id']) {
+            Event::fire(new UserEmailEvent($admin->user, "admin"));
+        }
         return $admin;
     }
 
@@ -43,14 +46,17 @@ class AdminService {
         $data['id'] = isset($data['id']) ? $data['id'] : false;
         if(!($data['id'] && $admin = Admin::find($data['id'])))
         {
-            if(!($user_admin = UserService::find($data['email'])))
+            $user_admin_by_email = $data['email'] ? UserService::find($data['email']) : false;
+            $user_admin_by_id = (isset($data['user_admin_id']) && $data['user_admin_id']) ?  User::find($data['user_admin_id']) : false;
+            $user_admin = $user_admin_by_id ? $user_admin_by_id : ($user_admin_by_email ? $user_admin_by_email : false);
+
+            if(!$user_admin)
             {
-                $data['password'] = str_random(8);
                 $user_admin = UserService::create([
                     'first_name' => $data['first_name'],
                     'last_name'  => $data['last_name'],
                     'email'      => $data['email'],
-                    'password'   => $data['password']
+                    'password'   => str_random(8)
                 ], true);
             }
 
