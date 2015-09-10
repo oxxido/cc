@@ -143,6 +143,7 @@ class UserController extends Controller {
             $data->business = $business->toArray();
         }
         return \Response::json($data);
+        //return $this->show($id);
     }
 
     /**
@@ -194,7 +195,8 @@ class UserController extends Controller {
         }
         
         $this->data->success = $success;
-        return $this->json();
+        //return $this->json();
+        return redirect('/dashboard/account');
     }
 
     /**
