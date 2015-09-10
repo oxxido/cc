@@ -6,32 +6,32 @@ use Lang;
 class EmailService
 {
     public $subject;
+
     public $template;
+
     public $from = "gerardo@rosciano.com.ar";
-    public $data = array();
+
+    public $data = [];
+
     public $to = "gerardo@rosciano.com.ar";
 
     protected $disabled = false;
 
-    public function __construct()
-    {
-    }    
-
     private function send($options)
     {
-        if($this->disabled)
+        if ($this->disabled) {
             return;
+        }
 
         $this->data = isset($options['data']) ? $options['data'] : $this->data;
-        $this->to = isset($options['to']) ? $options['to'] : $this->to;
+        $this->to   = isset($options['to']) ? $options['to'] : $this->to;
 
         $that = $this;
-        Mail::queue("emails.{$that->template}", $that->data, function($message) use ($that) {
+        Mail::queue("emails.{$that->template}", $that->data, function ($message) use ($that) {
             $message->from($that->from);
             $message->subject($that->subject);
             $message->to($that->to);
         });
-
         /*
         //get template from db
         $template = Template::first();
@@ -45,40 +45,39 @@ class EmailService
 
     public function contact($data)
     {
-        $this->subject = "Contact form";
+        $this->subject  = "Contact form";
         $this->template = "contact";
         $this->send(['data' => $data]);
     }
 
     public function invite($data)
     {
-        $this->subject = "Request an invite";
+        $this->subject  = "Request an invite";
         $this->template = "invite";
         $this->send(['data' => $data]);
+
+        $this->subject = 'Thanks';
+        $this->template = 'thanks';
+        $this->send(['data' => $data, 'to' => $data['email']]);
     }
 
     public function userCreation($user, $options)
     {
         $this->subject = Lang::get('auth.activateEmailSubject');
 
-        if(isset($options['send_password']) && $options['send_password'])
-        {
+        if (isset($options['send_password']) && $options['send_password']) {
             $this->template = "activateAccountPassword";
-        }
-        elseif(isset($options['resend']) && $options['resend'])
-        {
+        } elseif (isset($options['resend']) && $options['resend']) {
             $this->template = "activateAccountResend";
-        }
-        else
-        {
+        } else {
             $this->template = "activateAccount";
         }
 
         $this->send([
-            'to' => $user->email,
+            'to'   => $user->email,
             'data' => [
-                'name' => $user->name,
-                'code' => $user->activation_code,
+                'name'     => $user->name,
+                'code'     => $user->activation_code,
                 'password' => isset($options['send_password']) ? $options['password'] : false
             ]
         ]);
@@ -86,10 +85,10 @@ class EmailService
 
     public function ownerCreation($user, $options)
     {
-        $this->subject = "Welcome New Owner";
+        $this->subject  = "Welcome New Owner";
         $this->template = "ownerWelcome";
         $this->send([
-            'to' => $user->email,
+            'to'   => $user->email,
             'data' => [
                 'name' => $user->name
             ]
@@ -98,10 +97,10 @@ class EmailService
 
     public function adminCreation($user, $options)
     {
-        $this->subject = "Welcome New Admin";
+        $this->subject  = "Welcome New Admin";
         $this->template = "adminWelcome";
         $this->send([
-            'to' => $user->email,
+            'to'   => $user->email,
             'data' => [
                 'name' => $user->name
             ]
@@ -110,10 +109,10 @@ class EmailService
 
     public function commenterCreation($user, $options)
     {
-        $this->subject = "Welcome New Commenter";
+        $this->subject  = "Welcome New Commenter";
         $this->template = "commenterWelcome";
         $this->send([
-            'to' => $user->email,
+            'to'   => $user->email,
             'data' => [
                 'name' => $user->name
             ]
