@@ -5,8 +5,7 @@ use App\Models\User;
 use App\Models\Owner;
 
 use Event;
-use App\Events\OwnerCreation;
-use App\Events\UserCreation;
+use App\Events\UserEmailEvent;
 
 class UserService {
 
@@ -32,7 +31,7 @@ class UserService {
      * @param  array  $data
      * @return User
      */
-    public static function create(array $data)
+    public static function create(array $data, $send_password = false)
     {
         $user = User::create([
             'first_name'      => $data['first_name'],
@@ -41,7 +40,7 @@ class UserService {
             'password'        => bcrypt($data['password']),
             'activation_code' => str_random(60)
         ]);
-        Event::fire(new UserCreation($user));
+        Event::fire(new UserEmailEvent($user, "user", ["send_password" => $send_password, "password" => $data['password']]));
         return $user;
     }
 
@@ -55,8 +54,7 @@ class UserService {
         $owner = new Owner;
         $owner->id = $user->id;
         $owner->save();
-        $owner = Owner::find($user->id);
-        Event::fire(new OwnerCreation($owner));
+        Event::fire(new UserEmailEvent($user, "owner"));
         return $owner;
     }
 

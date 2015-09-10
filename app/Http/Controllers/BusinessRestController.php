@@ -75,11 +75,12 @@ class BusinessRestController extends Controller {
         else
         {
             $admin = AdminService::getAdmin([
-                'owner_id'   => $this->user->id,
-                'email'      => $request->input('admin_email'),
-                'first_name' => $request->input('admin_first_name'),
-                'last_name'  => $request->input('admin_last_name'),
-                'id'         => ($request->input('new_admin') ? false : $request->input('admin_id'))
+                'owner_id'      => $this->user->id,
+                'email'         => $request->input('admin_email'),
+                'first_name'    => $request->input('admin_first_name'),
+                'last_name'     => $request->input('admin_last_name'),
+                'id'            => ($request->input('new_admin') ? false : $request->input('admin_id')),
+                'user_admin_id' => ($request->input('new_admin') == 2 ? $this->user->id : false)
             ]);
 
             $city = BusinessService::getCity([
@@ -170,7 +171,8 @@ class BusinessRestController extends Controller {
                 'email'      => $request->input('admin_email'),
                 'first_name' => $request->input('admin_first_name'),
                 'last_name'  => $request->input('admin_last_name'),
-                'id'         => ($request->input('new_admin') ? false : $request->input('admin_id'))
+                'id'         => ($request->input('new_admin') ? false : $request->input('admin_id')),
+                'user_admin_id' => ($request->input('new_admin') == 2 ? $this->user->id : false)
             ]);
 
             $city = BusinessService::getCity([

@@ -8,12 +8,9 @@
           <tr>
             <td>
               <h1>Requested Invite</h1>
-              <p class="lead">Following user requested an invite:</p>
+              <p class="lead">Thank you for join us</p>
               <p>
-                {{ $name }} <br>
-                {{ $company }} <br>
-                {{ $email }} <br>
-                {{ $website }} <br>
+                Soon you will receive indications on how to proceed.
               </p>
             </td>
             <td class="expander"></td>

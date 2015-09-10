@@ -28,3 +28,13 @@
   </form>
 @endsection
 
+@section('footer')
+<script type="text/javascript">
+  $('#website').focus(function(){
+      if($('#website').val()=="") {
+        $('#website').val('http://');
+      }
+        
+  });
+</script>
+@endsection
