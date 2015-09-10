@@ -17,13 +17,13 @@
         <td><a href="@{{url}}" target="_blank">@{{url}}</td>
         <td class="action">
           <a onclick="cc.crud.business.show(@{{id}})">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-search link" aria-hidden="true"></span>
           </a>
           <a onclick="cc.crud.business.edit.edit(@{{id}})">
-            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-pencil link" aria-hidden="true"></span>
           </a>
           <a onclick="cc.crud.business.destroy(@{{id}})">
-            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-remove link" aria-hidden="true"></span>
           </a>
         </td>
       </tr>

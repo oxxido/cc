@@ -12,14 +12,11 @@
         <td>@{{name}}</td>
         <td>@{{email}}</td>
         <td class="action">
-          <!-- <a onclick="cc.crud.admin.show(@{{id}})">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-          </a> -->
           <a onclick="cc.crud.admin.edit.edit(@{{id}})">
-            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-pencil link" aria-hidden="true"></span>
           </a>
           <a onclick="cc.crud.admin.destroy(@{{id}})">
-            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-remove link" aria-hidden="true"></span>
           </a>
         </td>
       </tr>

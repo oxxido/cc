@@ -42,3 +42,10 @@ label small{
     background-color: #F4F4F4;
     border-radius: 3px;
 }
+.link {
+    cursor:pointer
+}
+.fa-spin {
+  -webkit-animation: fa-spin 0.5s infinite linear !important;
+  animation: fa-spin 0.5s infinite linear !important;
+}

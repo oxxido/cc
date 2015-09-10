@@ -15,10 +15,10 @@
         <td><a href="@{{profile}}" target="_blank">@{{profile}}</td>
         <td class="action">
           <a onclick="cc.crud.link.edit.edit(@{{social_network.id}})">
-            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-pencil link" aria-hidden="true"></span>
           </a>
           <a onclick="cc.crud.link.destroy(@{{social_network.id}})">
-            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-remove link" aria-hidden="true"></span>
           </a>
         </td>
       </tr>
