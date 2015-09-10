@@ -30,7 +30,9 @@ class ReportController extends Controller
         $data['admin']['own']   = $own_admin;
         $data['admin']['other'] = $no_own_admin;
 
-        dd($data);
+        //dd($data);
+        $this->data->report = $data;
+        return $this->view('dashboard/reports');
     }
 
     /**
