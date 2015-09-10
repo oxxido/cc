@@ -51,10 +51,7 @@ class DashboardBusinessController extends Controller {
      */
     public function getIndex()
     {
-
-        //$this->data->business = $this->business->toArray();
-        //return $this->view('dashboard.business.index');
-        return redirect('/dashbiz/link');
+        return $this->view('dashboard.dashboardAdmin');
     }
 
     /**

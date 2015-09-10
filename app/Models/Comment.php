@@ -48,7 +48,7 @@ class Comment extends Model {
 
     public function getCreatedAttribute()
     {
-        return date("M j, Y", strtotime($this->attributes['created_at']));
+        return $this->created_at->format('M j, Y');
     }
 
     public function getRatingAttribute()

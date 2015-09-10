@@ -13,6 +13,14 @@
   <div class="wrapper">
     <div id="loginwrapper">
 
+      <!-- TIP -->
+      @if(\Session::has('message'))
+        <div class="alert alert-success alert-dismissable collapse in" id="sessionMessage">
+          <button type="button" class="close" data-toggle="collapse" data-target="#sessionMessage" aria-hidden="true">&times;</button>
+          <div>{{ Session::get('message') }}</div>
+        </div>
+      @endif
+
       @yield('content')
 
      </div>

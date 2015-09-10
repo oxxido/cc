@@ -31,7 +31,7 @@ class DashboardOwnerController extends Controller {
 	 */
 	public function getIndex()
 	{
-		return redirect('/dashowner/business');
+        return $this->view('dashboard.dashboardOwner');
 	}
 
 	/**
