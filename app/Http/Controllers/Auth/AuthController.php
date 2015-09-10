@@ -4,6 +4,8 @@ use App\Models\User;
 use App\Models\Template;
 use Validator;
 use Auth;
+use Session;
+use Lang;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -35,7 +37,7 @@ class AuthController extends Controller {
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => ['getLogout','getActivate','getResend','getActivate']]);
+        $this->middleware('guest', ['except' => ['getLogout','getInactive','getResend']]);
     }
 
     /**
@@ -66,7 +68,7 @@ class AuthController extends Controller {
         }
         else
         {
-            \Session::flash('message', \Lang::get('notCreated') );
+            Session::flash('message', Lang::get('notCreated') );
             return redirect()->back()->withInput();
         }
     }
@@ -86,27 +88,41 @@ class AuthController extends Controller {
             $user->save();
 
             Event::fire(new UserEmailEvent($user, "user", ["resend" => true]));
-            return redirect('auth/activate');
+            Session::flash('message', 'Activation email sent');
+            return redirect('auth/inactive');
         }
     }
     
     public function getActivate($code = false)
     {
-    	$user = Auth::user();
-    	if($code)
-    	{
-	        if($user->accountIsActive($code))
-	        {
-	            Auth::login($user);
-	            \Session::flash('message', \Lang::get('auth.successActivated') );
-	            return redirect('/dashboard');
-	        }
-	    
-	        \Session::flash('message', \Lang::get('auth.unsuccessful') );
-	        return redirect('home');
+        if($user = User::where('activation_code', '=', $code)->first())
+        {
+            $user->active = 1;
+            $user->activation_code = '';
+            $user->save();
+
+            Auth::login($user);
+            Session::flash('message', Lang::get('auth.successActivated') );
+
+            if($user->isOwner())
+            {
+                return redirect('/dashowner');
+            }
+            elseif($user->isAdmin())
+            {
+                return redirect('/dashbiz');
+            }
         }
+    
+        Session::flash('message', Lang::get('auth.unsuccessful') );
+        return redirect('home');
+    }
+    
+    public function getInactive()
+    {
+        $user = Auth::user();
         return view('auth.guestActivate')
             ->with('email', $user->email)
-            ->with('date', Auth::user()->updated_at->format('Y-m-d '));
+            ->with('date', Auth::user()->updated_at->format('Y-m-d'));
     }
 }

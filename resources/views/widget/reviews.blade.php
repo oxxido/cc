@@ -6,7 +6,7 @@
         <div class="col-xs-4 commenter">
           @{{commenter.user.name}}<br>
           <input type="text" class="rating" data-size="xxs" readonly data-show-clear="false" data-show-caption="false" value="@{{rating}}">
-          @{{created}}
+          @{{created}}<br/>
           <a role="button" tabindex="0" data-toggle="popover" data-placement="left" data-html="true" data-content="" data-trigger="focus"
             title="<img src='/images/certification.png' alt='certification'>"><img src="/images/certification.gif" alt="certification"></a>
           <div class="popover-data-content">

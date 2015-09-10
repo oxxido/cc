@@ -7,28 +7,28 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
-	use Authenticatable, CanResetPassword;
+    use Authenticatable, CanResetPassword;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'users';
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = ['first_name', 'last_name', 'email', 'password', 'activation_code','active'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['first_name', 'last_name', 'email', 'password', 'activation_code','active'];
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = ['password', 'remember_token', 'activation_code', 'active', 'resent', 'created_at', 'updated_at', 'admins', 'owner', 'commenter'];
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = ['password', 'remember_token', 'activation_code', 'active', 'resent', 'created_at', 'updated_at', 'admins', 'owner', 'commenter'];
 
     /**
      * The accessors to append to the model's array form.
@@ -36,19 +36,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $appends = ['name'];
-
-
-	public function accountIsActive($code)
-	{
-		if($user = User::where('activation_code', '=', $code)->first())
-        {
-    		$user->active = 1;
-    		$user->activation_code = '';
-            $user->save();
-    		return $user;
-        }
-        return false;
-	}
 
     public function owner()
     {
@@ -92,8 +79,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function getNameAttribute()
     {
-		return $this->first_name . ' ' . $this->last_name;
-	}
+        return $this->first_name . ' ' . $this->last_name;
+    }
 
     public function isAdmin($owner_id = false)
     {

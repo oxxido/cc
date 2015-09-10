@@ -34,7 +34,7 @@
   @if($config->feedback->include_phone)
     <div class="form-group">
         <label for="phone">Your Phone</label>
-        <input type="text" class="form-control small-width" name="phone" id="phone" placeholder="Phone" @if(old('rating')) value="{{ old('phone') }}"  @elseif($user->commenter)  value="{{ $user->commenter->phone }}" @endif required>
+        <input type="tel" class="form-control small-width" name="phone" id="phone" placeholder="Phone" @if(old('rating')) value="{{ old('phone') }}"  @elseif($user->commenter)  value="{{ $user->commenter->phone }}" @endif required>
     </div>
   @endif
 
