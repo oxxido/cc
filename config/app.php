@@ -88,7 +88,7 @@ return [
     |
     */
 
-    'log'             => 'daily',
+    'log'             => env('APP_LOG', 'daily'),
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

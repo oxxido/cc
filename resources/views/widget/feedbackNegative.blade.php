@@ -7,7 +7,7 @@
   </div>
   <div class="bottom-section">
     <p>
-      <?=$config->feedback->negativeText?>
+      <?=$config->feedback->negative_text?>
     </p>
 
     @if(!isset($noform))

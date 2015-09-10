@@ -10,6 +10,8 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades;
 use App\Services\UserService;
+use Event;
+use App\Events\UserEmailEvent;
 
 class AuthController extends Controller {
 
@@ -57,9 +59,7 @@ class AuthController extends Controller {
         if ($user = UserService::create($request->all()))
         {
         	Auth::login($user);
-            UserService::makeOwner($user);
-            UserService::notifyCreation('owner', $request->all());
-            $this->sendEmail($user);
+            UserService::createOwner($user);
 
             return view('auth.activateAccount')
                 ->with('email', $request->input('email'));
@@ -69,17 +69,6 @@ class AuthController extends Controller {
             \Session::flash('message', \Lang::get('notCreated') );
             return redirect()->back()->withInput();
         }
-    }
-    
-    private function sendEmail(User $user)
-    {
-        $this->email()->userRegister([
-            'to' => $user->email,
-            'data' => [
-                'name' => $user->name,
-                'code' => $user->activation_code,
-            ]
-        ]);
     }
     
     public function getResend()
@@ -96,10 +85,8 @@ class AuthController extends Controller {
             $user->resent = $user->resent + 1;
             $user->save();
 
-            $this->sendEmail($user);
+            Event::fire(new UserEmailEvent($user, "user", ["resend" => true]));
             return redirect('auth/activate');
-            /*return view('auth.activateAccount')
-                ->with('email', $user->email);*/
         }
     }
     

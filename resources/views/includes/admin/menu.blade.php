@@ -6,7 +6,7 @@
     <ul class="sidebar-menu">
       <li class="header">MAIN NAVIGATION</li>
 
-      @if (isset($businessId) AND $user->isOwner() )
+      @if (isset($business_id) AND $user->isOwner() )
         <li class="treeview">
           <a href="#">
             <i class="fa fa-user"></i> <span>Settings</span>
@@ -14,11 +14,11 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="/dashbiz/link">Online Review Links</a></li>
-            <li><a href="/dashbiz/email">Email Templates</a></li>
+            <!--<li><a href="/dashbiz/email">Email Templates</a></li> -->
             <li><a href="/dashbiz/feedback">Feedback Settings</a></li>
             <li><a href="/dashbiz/testimonial">Testimonials Widget</a></li>
-            <li><a href="/dashbiz/notification">Notification Settings</a></li>
-            <li><a href="/dashbiz/kiosk">Kiosk Mode</a></li>
+            <!--<li><a href="/dashbiz/notification">Notification Settings</a></li>-->
+            <!--<li><a href="/dashbiz/kiosk">Kiosk Mode</a></li>-->
           </ul>
         </li>
         <li class="treeview">
@@ -27,9 +27,9 @@
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Manage Customers</a></li>
-            <li><a href="#">Account Owner Details</a></li>
-            <li><a href="#">Payment Information</a></li>
+           <!-- <li><a href="#">Manage Customers</a></li>-->
+           <li><a href="/dashboard/account">Account Owner Details</a></li>
+          <!-- <li><a href="#">Payment Information</a></li>-->
           </ul>
         </li>
         <li class="treeview">
@@ -48,9 +48,9 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="/dashboard/reports">Reports</a></li>
-            <li><a href="#">Performance Report</a></li>
-            <li><a href="#">Online Review Monitor</a></li>
-            <li><a href="#">Customer Level Reporting</a></li>
+            <!--<li><a href="#">Performance Report</a></li> -->
+            <!--<li><a href="#">Online Review Monitor</a></li>-->
+            <!--<li><a href="#">Customer Level Reporting</a></li>-->
           </ul>
         </li>
       @else
@@ -61,10 +61,10 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="/dashowner/admins">Manage Users</a></li>
-            <li><a href="#">Default Configuration</a></li>
-            <li><a href="#">Manage Customers</a></li>
+            <!-- <li><a href="#">Default Configuration</a></li> -->
+            <!-- <li><a href="#">Manage Customers</a></li> -->
             <li><a href="/dashboard/account">Account Owner Details</a></li>
-            <li><a href="#">Payment Information</a></li>
+            <!-- <li><a href="#">Payment Information</a></li> -->
           </ul>
         </li>
         <li class="treeview">
@@ -81,11 +81,11 @@
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/dashboard/reports">Business Level Reporting</a></li>
+            <li><a href="/dashboard/reports">Report Page</a></li>
           </ul>
         </li>
       @endif
-      <li  class="treeview">
+      <!-- <li  class="treeview">
         <a href="/dashboard/help">
           <i class="fa fa-question-circle"></i> <span>Help</span>
           <i class="fa fa-angle-left pull-right"></i>
@@ -95,7 +95,7 @@
           <li><a href="#">User Guide</a></li>
           <li><a href="#">Getting Started Videos</a></li>
         </ul>
-      </li>
+      </li> -->
       <li>
         <a href="/auth/logout">
           <i class="fa fa-sign-out"></i> <span>Logout</span>

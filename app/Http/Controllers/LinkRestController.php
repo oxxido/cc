@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Models\User;
+use App\Models\Link;
 use App\Models\Admin;
 use App\Models\Business;
 use App\Models\Country;
@@ -39,10 +40,9 @@ class LinkRestController extends Controller {
      */
     public function index()
     {
-        //$biz = Business::find(1);
-        //$query = $biz->
         $business_id = \Session::get('business_id');
-        $query = Business::find($business_id)->socialNetworks();
+        //$query = Business::find($business_id)->socialNetworks();
+        $query = Link::where("business_id", "=", $business_id);
 
         $paginate = new PaginateService($query);
 
@@ -89,14 +89,17 @@ class LinkRestController extends Controller {
                 'business_id'          => \Session::get('business_id')
             ]);
 
-            $success = true;
-            $this->data->links = $business;
             $business->socialNetworks()->attach($social->id, 
                                                 [
                                                     'url'    => $request->input('url'), 
                                                     'order'  => 1, 
                                                     'active' => 1
                                                 ]);
+
+            $this->data->link = Link::where("business_id", "=", \Session::get('business_id'))
+                ->where("social_network_id", "=", $request->input('social_network_id'))
+                ->get()->first();
+            $success = true;
         }
 
         $this->data->success = $success;
@@ -181,7 +184,7 @@ class LinkRestController extends Controller {
             ],false);
 
             $success = true;
-            $this->data->links = $links;
+            $this->data->link = Link::find($links->get()->first()->pivot->id);
         }
 
         $this->data->success = $success;
@@ -201,7 +204,7 @@ class LinkRestController extends Controller {
 
         if($links = Business::find($business_id)->socialNetworks()->where("links.social_network_id", "=", $social_id))
         {
-            $this->data->links = $links->first()->pivot->url;
+            $this->data->name = $links->first()->name;
             $links = Business::find($business_id);
             $links->socialNetworks()->detach($social_id);
             $success = true;

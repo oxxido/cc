@@ -1,8 +1,11 @@
 <?php namespace App\Services;
 
-use App\Models\Owner;
-use App\Models\User;
 use Validator;
+use App\Models\User;
+use App\Models\Owner;
+
+use Event;
+use App\Events\UserEmailEvent;
 
 class UserService {
 
@@ -28,15 +31,17 @@ class UserService {
      * @param  array  $data
      * @return User
      */
-    public static function create(array $data)
+    public static function create(array $data, $send_password = false)
     {
-        return User::create([
-			'first_name'      => $data['first_name'],
-			'last_name'       => $data['last_name'],
-			'email'           => $data['email'],
-			'password'        => bcrypt($data['password']),
-			'activation_code' => str_random(60)
-		]);
+        $user = User::create([
+            'first_name'      => $data['first_name'],
+            'last_name'       => $data['last_name'],
+            'email'           => $data['email'],
+            'password'        => bcrypt($data['password']),
+            'activation_code' => str_random(60)
+        ]);
+        Event::fire(new UserEmailEvent($user, "user", ["send_password" => $send_password, "password" => $data['password']]));
+        return $user;
     }
 
     public static function find($email)
@@ -44,16 +49,13 @@ class UserService {
         return User::where('email', $email)->get()->first();
     }
 
-    public static function makeOwner($user)
+    public static function createOwner($user)
     {
         $owner = new Owner;
         $owner->id = $user->id;
-        return $owner->save();
-    }
-
-    public static function notifyCreation($type, $data)
-    {
-        // Send welcome email etc
+        $owner->save();
+        Event::fire(new UserEmailEvent($user, "owner"));
+        return $owner;
     }
 
     public static function update($id, array $data)

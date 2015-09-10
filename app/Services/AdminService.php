@@ -3,6 +3,8 @@
 use App\Models\User;
 use App\Models\Admin;
 use Validator;
+use Event;
+use App\Events\UserEmailEvent;
 
 class AdminService {
 
@@ -28,10 +30,15 @@ class AdminService {
      */
     public static function create(array $data)
     {
-        return Admin::create([
+        $admin = Admin::create([
             'owner_id' => $data['owner_id'],
             'admin_id' => $data['admin_id']
         ]);
+
+        if($admin->user->id != $data['owner_id']) {
+            Event::fire(new UserEmailEvent($admin->user, "admin"));
+        }
+        return $admin;
     }
 
     public static function getAdmin(array $data)
@@ -39,21 +46,23 @@ class AdminService {
         $data['id'] = isset($data['id']) ? $data['id'] : false;
         if(!($data['id'] && $admin = Admin::find($data['id'])))
         {
-            if(!($user_admin = UserService::find($data['email'])))
+            $user_admin_by_email = $data['email'] ? UserService::find($data['email']) : false;
+            $user_admin_by_id = (isset($data['user_admin_id']) && $data['user_admin_id']) ?  User::find($data['user_admin_id']) : false;
+            $user_admin = $user_admin_by_id ? $user_admin_by_id : ($user_admin_by_email ? $user_admin_by_email : false);
+
+            if(!$user_admin)
             {
-                $data['password'] = str_random(8);
                 $user_admin = UserService::create([
                     'first_name' => $data['first_name'],
                     'last_name'  => $data['last_name'],
                     'email'      => $data['email'],
-                    'password'   => $data['password']
-                ]);
-                UserService::notifyCreation('admin', $data);
+                    'password'   => str_random(8)
+                ], true);
             }
 
             if($user_admin->isAdmin($data['owner_id']))
             {
-                $admin = $user_admin->admin;
+                $admin = $user_admin->admin($data['owner_id']);
             }
             else
             {

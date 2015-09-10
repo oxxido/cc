@@ -12,7 +12,8 @@
     "laravelcollective/html": "~5.0",
     "guzzlehttp/guzzle": "~5.3|~6.0",
     "doctrine/dbal": "~2.3",
-    "flynsarmy/db-blade-compiler": "2.*"
+    "flynsarmy/db-blade-compiler": "2.*",
+    "fzaninotto/faker": "^1.5"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.0",

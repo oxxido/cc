@@ -8,23 +8,7 @@
           <tr>
             <td>
               <h1>Hi, {{ $name }}</h1>
-              <p class="lead">Thank you for signing up</p>
-              <p>To get started, please verify your email address here:</p>
-            </td>
-            <td class="expander"></td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-
-  <table class="row callout">
-    <tr>
-      <td class="wrapper last">
-        <table class="twelve columns">
-          <tr>
-            <td class="panel">
-              <p><a href="{{ url('auth/activate/'.$code) }}">Click here</a> to verify your account</p>
+              <p class="lead">You are a business owner</p>
             </td>
             <td class="expander"></td>
           </tr>

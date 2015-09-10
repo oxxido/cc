@@ -28,31 +28,32 @@
       <div class="panel panel-default">
         <div class="panel-body">
           <div class="form-group">
-            <input type="checkbox" name="includeSocialLinks" id="includeSocialLinks" value="1" @if($config->includeSocialLinks) checked="checked" @endif>
-            <label for="includeSocialLinks" >Include social review links</label>
+            <input type="checkbox" name="include_social_links" id="include_social_links" value="1" @if($config->include_social_links) checked="checked" @endif>
+            <label for="include_social_links" >Include social review links</label>
           </div>
           <div class="form-group">
-            <input type="checkbox" name="includePhone" id="includePhone" value="1" @if($config->includePhone) checked="checked" @endif>
-            <label for="includePhone"> Ask phone number </label>
+            <input type="checkbox" name="include_phone" id="include_phone" value="1" @if($config->include_phone) checked="checked" @endif>
+            <label for="include_phone"> Ask phone number </label>
           </div>
           <div class="form-group">
-            <label for="positiveThreshold">
-              Positive Feedback Threshold<br>
-              <small>Show positive feedback page (including online reviews links) when rating is
+            <label for="positive_threshold">
+              Positive Feedback Threshold</label>
+              <br/>
+              Show positive feedback page (including online reviews links) when rating is
+              <br />
               <select name="positiveThreshold">
-                <option @if($config->positiveThreshold == 0.5) selected="selected" @endif>0.5</option>
-                <option @if($config->positiveThreshold == 1) selected="selected" @endif>1</option>
-                <option @if($config->positiveThreshold == 1.5) selected="selected" @endif>1.5</option>
-                <option @if($config->positiveThreshold == 2) selected="selected" @endif>2</option>
-                <option @if($config->positiveThreshold == 2.5) selected="selected" @endif>2.5</option>
-                <option @if($config->positiveThreshold == 3) selected="selected" @endif>3</option>
-                <option @if($config->positiveThreshold == 3.5) selected="selected" @endif>3.5</option>
-                <option @if($config->positiveThreshold == 4) selected="selected" @endif>4</option>
-                <option @if($config->positiveThreshold == 4.5) selected="selected" @endif>4.5</option>
-                <option @if($config->positiveThreshold == 5) selected="selected" @endif>5</option>
+                <option @if($config->positive_threshold == 0.5) selected="selected" @endif>0.5</option>
+                <option @if($config->positive_threshold == 1) selected="selected" @endif>1</option>
+                <option @if($config->positive_threshold == 1.5) selected="selected" @endif>1.5</option>
+                <option @if($config->positive_threshold == 2) selected="selected" @endif>2</option>
+                <option @if($config->positive_threshold == 2.5) selected="selected" @endif>2.5</option>
+                <option @if($config->positive_threshold == 3) selected="selected" @endif>3</option>
+                <option @if($config->positive_threshold == 3.5) selected="selected" @endif>3.5</option>
+                <option @if($config->positive_threshold == 4) selected="selected" @endif>4</option>
+                <option @if($config->positive_threshold == 4.5) selected="selected" @endif>4.5</option>
+                <option @if($config->positive_threshold == 5) selected="selected" @endif>5</option>
               </select>
-              or higher</small>
-            </label>
+              or higher
           </div>
         </div>
       </div>
@@ -67,34 +68,38 @@
         <div class="panel-body">
 
           <div class="form-group">
-            <label for="pageTitle">
+            <label for="page_title">
               Page Title - Call to action
               <small>Leave blank if not desired</small>
             </label>
-            <input type="text" name="pageTitle" id="pageTitle" class="form-control" value="{{ $config->pageTitle }}">
+            <input type="text" name="page_title" id="page_title" class="form-control" value="{{ $config->page_title }}">
           </div>
           <div class="form-group">
-            <label for="positiveText">Positive Feedback Page</label>
-            <textarea class="form-control noresize" rows="6" name="positiveText" id="positiveText">{{ $config->positiveText }}</textarea>
+            <label for="positive_text">Positive Feedback Page</label>
+            <textarea class="form-control noresize" rows="6" name="positive_text" id="positive_text">{{ $config->positive_text }}</textarea>
+          </div>
+          <div class="form-group">
             <p>Allowed Tags: <span class="label label-info">[REVIEW_LINKS]</span> <span class="label label-info">[YOUR_NAME]</span></p>
           </div>
           <div class="form-group">
-            <label for="negativeText">Negative Feedback Page</label>
-            <textarea class="form-control noresize" rows="6" name="negativeText" id="negativeText">{{ $config->negativeText }}</textarea>
+            <label for="negative_text">Negative Feedback Page</label>
+            <textarea class="form-control noresize" rows="6" name="negative_text" id="negative_text">{{ $config->negative_text }}</textarea>
+          </div>
+          <div class="form-group">
             <p>Allowed Tags: <span class="label label-info">[YOUR_NAME]</span></p>
           </div>
           <div class="form-group">
-            <label for="logoUrl">Logo Image Url</label>
-            <input type="text" name="logoUrl" id="logoUrl" class="form-control" value="{{ $config->logoUrl }}">
+            <label for="logo_url">Logo Image Url</label>
+            <input type="text" name="logo_url" id="logo_url" class="form-control" value="{{ $config->logo_url }}">
           </div>
           <div class="form-group">
-            <label for="bannerUrl">Banner Page Image Url</label>
-            <input type="text" name="bannerUrl" id="bannerUrl" class="form-control" value="{{ $config->bannerUrl }}">
+            <label for="banner_url">Banner Page Image Url</label>
+            <input type="text" name="banner_url" id="banner_url" class="form-control" value="{{ $config->banner_url }}">
           </div>
           <div class="form-group">
-            <label for="starsStyle">Stars Style</label>
-            <select name="starsStyle" class="form-control">
-              <option @if($config->starsStyle == 'default') selected="selected" @endif>Default</option>
+            <label for="stars_style">Stars Style</label>
+            <select name="stars_style" class="form-control">
+              <option @if($config->stars_style == 'default') selected="selected" @endif>Default</option>
             </select>
           </div>
 
@@ -117,7 +122,11 @@
       <div class="form-group">
         <label for="codeForSite">Widget Code <small>Use this code to add the testimonial widget on your site</small></label>
         <textarea id="codeForSite"  rows="3" class="form-control noresize" readonly="readonly"><iframe src="{{ url("widget/feedback/$product->hash") }}"></iframe></textarea>
-        <a target="_blank" href="{{ url("widget/feedback/$product->hash") }}">Test Link</a>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <a class="btn btn-primary" href="{{ url("widget/feedback/$product->hash") }}" target="_blank">Test Link</a>
+        </div>
       </div>
     </div>
   </div>

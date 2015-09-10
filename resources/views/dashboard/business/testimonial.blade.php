@@ -28,8 +28,8 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="form-group">
-          <input type="checkbox" name="includeFeedback" id="includeFeedback" @if($config->includeFeedback) checked="checked" @endif>
-          <label for="includeFeedback" >Include feedback form</label>
+          <input type="checkbox" name="include_feedback" id="include_feedback" @if($config->include_feedback) checked="checked" @endif>
+          <label for="include_feedback" >Include feedback form</label>
         </div>
       </div>
       <div class="box-footer">
@@ -50,7 +50,12 @@
       <div class="form-group">
         <label for="codeForSite">Widget Code <small>Use this code to add the testimonial widget on your site</small></label>
         <textarea id="codeForSite"  rows="3" class="form-control noresize" readonly="readonly"><iframe src="{{ url("widget/testimonial/$product->hash") }}"></iframe></textarea>
-        <a target="_blank" href="{{ url("widget/testimonial/$product->hash") }}">Test Link</a>
+        
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+        <a class="btn btn-primary" target="_blank" href="{{ url("widget/testimonial/$product->hash") }}">Test Link</a>
+        </div>
       </div>
     </div>
   </div>
