@@ -47,7 +47,7 @@
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/dashboard/reports">Reports</a></li>
+            <li><a href="/reports">Basic Reports</a></li>
             <!--<li><a href="#">Performance Report</a></li> -->
             <!--<li><a href="#">Online Review Monitor</a></li>-->
             <!--<li><a href="#">Customer Level Reporting</a></li>-->
@@ -81,7 +81,7 @@
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/dashboard/reports">Report Page</a></li>
+            <li><a href="/reports">Basic Reports</a></li>
           </ul>
         </li>
       @endif
