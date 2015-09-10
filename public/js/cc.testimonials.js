@@ -27,7 +27,13 @@ cc.testimonials = {
             if (data.success)
             {
                 tools.handlebars("#reviewsTable_HBT", "#reviewsTable_HBW", data);
-                $(".comment .rating").rating();
+                $("#reviews .rating").rating();
+                $("#reviews .commenter").each(function(){
+                    $(this).find("[data-toggle=popover]").attr("data-content", $(this).find(".popover-data-content").html());
+                    $(this).find(".popover-data-content").remove();
+                });
+                $("[data-toggle=popover]").popover();
+                
                 tools.paging("#paging", data.paging, function(page){
                     cc.testimonials.table(page);
                 })

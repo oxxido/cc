@@ -413,6 +413,11 @@ textarea.noresize{
 section.feedback {
   padding: 5px;
 }
+
+#reviews .commenter{
+  text-align: right;
+}
+
 .logo-title-cnt {
   background-color: #FFF;
   margin: 0;
@@ -462,4 +467,29 @@ section.feedback {
   line-height: 50px;
   padding: 5px;
   background-color: #EEE;
+}
+.list-group .list-group-item .popover{
+  margin-left: -18px;
+}
+.popover-data-content{
+  display: none;
+}
+.popover .bg-text{
+  font-size: 11px;
+  background-color: #e7e7e7;
+  padding: 5px;
+}
+.popover .certification-table{
+  margin-top: 10px;  
+  width: 100%;
+}
+.popover .certification-table tr td{
+  font-size: 11px;
+  padding: 5px;
+}
+.popover .certification-table tr.first-row td{
+  border-bottom: 1px #64A600 solid;
+}
+.popover .certification-table tr td.first-col{
+  border-right: 1px #64A600 solid;
 }

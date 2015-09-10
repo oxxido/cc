@@ -1,7 +1,5 @@
 <?php namespace App\Models;
 
-use App\Models\Model;
-
 class Comment extends Model {
 
     /**
@@ -23,10 +21,18 @@ class Comment extends Model {
      *
      * @var array
      */
-    protected $fillable = ['business_commenter_id', 'product_id', 'comment', 'rating', 'score', 'status', 'show_on_website'];
+    protected $fillable = ['business_commenter_id', 'product_id', 'comment', 'ip', 'rating', 'score', 'status', 'show_on_website'];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $hidden = ['created_at', 'updated_at', 'show_on_website', 'product_id', 'business_commenter_id'];
 
+    /**
+     * Get the Business Commenter record associated with the Comment.
+     */
     public function businessCommenter()
     {
         return $this->belongsTo('App\Models\BusinessCommenter', 'business_commenter_id', 'id');
@@ -57,18 +63,18 @@ class Comment extends Model {
 
     public function getCommenterAttribute()
     {
-        return User::join('commenters','users.id', '=', 'commenters.id')
+        $user = User::join('commenters','users.id', '=', 'commenters.id')
             ->join('business_commenter','commenters.id', '=', 'business_commenter.commenter_id')
             ->join('comments','business_commenter.id', '=', 'comments.business_commenter_id')
             ->where('comments.id', '=', $this->id)
-            ->select('users.*', 'commenters.phone', 'commenters.note')
+            ->select('users.id')
             ->get()
             ->first();
+        return Commenter::find($user->id);
     }
 
     public function toArray()
     {
-        //$this->commenter;
         return parent::toArray();
     }
 

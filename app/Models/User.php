@@ -1,11 +1,9 @@
 <?php namespace App\Models;
 
-use App\Models\Model;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use App\Models\Admin;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
