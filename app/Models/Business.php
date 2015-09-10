@@ -1,7 +1,5 @@
 <?php namespace App\Models;
 
-use App\Models\Model;
-
 class Business extends Model {
 
     protected $configs;
@@ -28,10 +26,22 @@ class Business extends Model {
      */
     protected $appends = ['location'];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $hidden = ['created_at', 'updated_at', 'business_type_id', 'organization_type_id', 'city_id', 'owner_id', 'admin_id', 'data'];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
     protected $casts = [
         'data' => 'object',
     ];
+
     /**
      * Get the City record associated with the Business.
      */

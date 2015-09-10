@@ -1,7 +1,5 @@
 <?php namespace App\Models;
 
-use App\Models\Model;
-
 class Admin extends Model {
 
     /**
@@ -24,6 +22,12 @@ class Admin extends Model {
      * @var array
      */
     protected $appends = ['name','email'];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $hidden = ['admin_id','owner_id'];
 
     /**

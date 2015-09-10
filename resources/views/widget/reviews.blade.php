@@ -1,19 +1,27 @@
-<ul class="list-group">
+<ul class="list-group" id="reviews">
   @{{#each comments}}
-    <li class="list-group-item comment">
+    <li class="list-group-item">
       <div class="row">
         <div class="col-xs-8 comment">@{{comment}}</div>
-        <div class="col-xs-2">
-          @{{commenter.name}}<br>
+        <div class="col-xs-4 commenter">
+          @{{commenter.user.name}}<br>
           <input type="text" class="rating" data-size="xxs" readonly data-show-clear="false" data-show-caption="false" value="@{{rating}}">
           @{{created}}
-        </div>
-        <div class="col-xs-2">
-          <a role="button" data-toggle="popover" 
-            data-placement="left"
-            data-html="true" 
-            data-content="<div class='bg-text'>We validated the testimonial from data collected from the customer including but not limited to:</div><table class='certification-table'><tr class='first-row'><td class='first-col'>IP: 50.xxx.xxx.17</td><td>Phone: 570-xxx-xxxx</td></tr><tr><td class='first-col'>State: Pennsylvania</td><td>Email: XXXX@hotmail.com</td></tr></table>"
+          <a role="button" tabindex="0" data-toggle="popover" data-placement="left" data-html="true" data-content="" data-trigger="focus"
             title="<img src='/images/certification.png' alt='certification'>"><img src="/images/certification.gif" alt="certification"></a>
+          <div class="popover-data-content">
+            <div class='bg-text'>We validated the testimonial from data collected from the customer including but not limited to:</div>
+            <table class='certification-table'>
+              <tr class='first-row'>
+                <td class='first-col'>IP: @{{ip}}</td>
+                <td>Phone: @{{commenter.phone}}</td>
+              </tr>
+              <tr>
+                <td class='first-col'>State: @{{commenter.city.state.name}}</td>
+                <td>Email: @{{commenter.user.email}}</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </li>

@@ -1,10 +1,19 @@
 <?php namespace App\Models;
 
-use App\Models\Model;
-
 class Link extends Model {
 
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
     protected $table = 'links';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = ['url', 'order', 'active'];
 
     /**

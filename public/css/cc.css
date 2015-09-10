@@ -413,6 +413,11 @@ textarea.noresize{
 section.feedback {
   padding: 5px;
 }
+
+#reviews .commenter{
+  text-align: right;
+}
+
 .logo-title-cnt {
   background-color: #FFF;
   margin: 0;
@@ -464,7 +469,10 @@ section.feedback {
   background-color: #EEE;
 }
 .list-group .list-group-item .popover{
-  left: -260px !important;
+  margin-left: -18px;
+}
+.popover-data-content{
+  display: none;
 }
 .popover .bg-text{
   font-size: 11px;
