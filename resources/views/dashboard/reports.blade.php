@@ -101,7 +101,7 @@
       <!-- small box -->
       <div class="small-box bg-yellow">
         <div class="inner">
-          <h3>{{ $report['admin']['avg_ratings'] }}</h3>
+          <h3>{{ number_format($report['admin']['avg_ratings'], 2) }}</h3>
           <p>Admin Avg Rating</p>
         </div>
         <div class="icon">
