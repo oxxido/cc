@@ -49,10 +49,12 @@
             </div>
           <br />
           <h4>What to send?</h4>
+            {{--
             <div class="form-group">
                 {!! Form::checkbox('send_alerts', 1, $config->send_alerts) !!}
                 {!! Form::label('send_alerts', trans('business.fields.notifications.send_alerts')) !!}
             </div>
+            --}}
             <div class="form-group">
                 {!! Form::checkbox('send_reports', 1, $config->send_reports) !!}
                 {!! Form::label('send_reports', trans('business.fields.notifications.send_reports')) !!}
