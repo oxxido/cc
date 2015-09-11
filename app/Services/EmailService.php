@@ -123,4 +123,27 @@ class EmailService
     {
         return new self();
     }
+
+    public function positiveFeedback($user)
+    {
+        $this->subject  = "Positive feedback received";
+        $this->template = "positiveFeedback";
+        $this->send([
+            'to'   => $user->email,
+            'data' => [
+                'name' => $user->name
+            ]
+        ]);
+    }
+
+    public function negativeFeedback($user) {
+        $this->subject  = "Negative feedback received";
+        $this->template = "negativeFeedback";
+        $this->send([
+            'to'   => $user->email,
+            'data' => [
+                'name' => $user->name
+            ]
+        ]);
+    }
 }
