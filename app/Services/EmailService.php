@@ -9,11 +9,11 @@ class EmailService
 
     public $template;
 
-    public $from = "gerardo@rosciano.com.ar";
+    public $from = "info@certifiedcomments.com";
 
     public $data = [];
 
-    public $to = "gerardo@rosciano.com.ar";
+    public $to = "oxxido@gmail.com";
 
     protected $disabled = false;
 

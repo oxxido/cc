@@ -15,7 +15,7 @@ return [
 	|
 	*/
 
-	'driver' => env('MAIL_DRIVER', 'smtp'),
+	'driver' => env('MAIL_DRIVER', 'mailtrap'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
 	|
 	*/
 
-	'from' => ['address' => 'oxxido+test@gmail.com', 'name' => 'Gerardo Test'],
+	'from' => ['address' => 'info@certifiedcomments.com', 'name' => 'CertifiedComments Admin'],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -67,7 +67,7 @@ return [
 	|
 	*/
 
-	'encryption' => 'tls',
+	//'encryption' => 'tls',
 
 	/*
 	|--------------------------------------------------------------------------

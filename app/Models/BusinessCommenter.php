@@ -7,7 +7,7 @@ class BusinessCommenter extends Model {
      *
      * @var string
      */
-    protected $table = 'business_commenter';.
+    protected $table = 'business_commenter';
 
     /**
      * The attributes that are mass assignable.
