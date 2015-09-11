@@ -1,4 +1,4 @@
-@extends('dashboard.layouts')
+@extends('dashboard.layout')
 
 @section('title')
   <section class="content-header">
@@ -20,64 +20,109 @@
       <!-- small box -->
       <div class="small-box bg-aqua">
         <div class="inner">
-          <h3>150</h3>
-          <p>New Orders</p>
+          <h3>{{ $report['own']['count'] }}</h3>
+          <p>Businesses Owned</p>
         </div>
         <div class="icon">
           <i class="ion ion-bag"></i>
         </div>
-        <a class="small-box-footer" href="#">More info <i class="fa fa-arrow-circle-right"></i></a>
+        
       </div>
     </div><!-- ./col -->
     <div class="col-lg-3 col-xs-6">
       <!-- small box -->
       <div class="small-box bg-green">
         <div class="inner">
-          <h3>53<sup style="font-size: 20px">%</sup></h3>
-          <p>Bounce Rate</p>
+          <h3>{{ $report['own']['comments'] }}</h3>
+          <p>Total Comments</p>
         </div>
         <div class="icon">
           <i class="ion ion-stats-bars"></i>
         </div>
-        <a class="small-box-footer" href="#">More info <i class="fa fa-arrow-circle-right"></i></a>
+        
       </div>
     </div><!-- ./col -->
     <div class="col-lg-3 col-xs-6">
       <!-- small box -->
       <div class="small-box bg-yellow">
         <div class="inner">
-          <h3>44</h3>
-          <p>User Registrations</p>
+          <h3>{{ $report['own']['avg_ratings'] }}</h3>
+          <p>Avg Rating</p>
         </div>
         <div class="icon">
           <i class="ion ion-person-add"></i>
         </div>
-        <a class="small-box-footer" href="#">More info <i class="fa fa-arrow-circle-right"></i></a>
+        
       </div>
     </div><!-- ./col -->
     <div class="col-lg-3 col-xs-6">
       <!-- small box -->
       <div class="small-box bg-red">
         <div class="inner">
-          <h3>65</h3>
-          <p>Unique Visitors</p>
+          <h3>{{ $report['own']['sum_ratings'] }}</h3>
+          <p>Sum Rating</p>
         </div>
         <div class="icon">
           <i class="ion ion-pie-graph"></i>
         </div>
-        <a class="small-box-footer" href="#">More info <i class="fa fa-arrow-circle-right"></i></a>
+       
       </div>
     </div><!-- ./col -->
   </div>
-  <div class="box">
-    
-    <div class="box-body">
-      <div id="widgetDiv">
-          Demo content
-      </div>
-    </div><!-- /.box-body -->
-   
 
-  </div><!-- /.box -->
+  <div class="row">
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-aqua">
+        <div class="inner">
+          <h3>{{ $report['admin']['count'] }}</h3>
+          <p>Businesses Administrated</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-bag"></i>
+        </div>
+        
+      </div>
+    </div><!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-green">
+        <div class="inner">
+          <h3>{{ $report['admin']['comments'] }}</h3>
+          <p>Total Admin Comments</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-stats-bars"></i>
+        </div>
+        
+      </div>
+    </div><!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-yellow">
+        <div class="inner">
+          <h3>{{ $report['admin']['avg_ratings'] }}</h3>
+          <p>Admin Avg Rating</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-person-add"></i>
+        </div>
+        
+      </div>
+    </div><!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-red">
+        <div class="inner">
+          <h3>{{ $report['own']['sum_ratings'] }}</h3>
+          <p>Admin Sum Rating</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-pie-graph"></i>
+        </div>
+       
+      </div>
+    </div><!-- ./col -->
+  </div>
 @endsection
 

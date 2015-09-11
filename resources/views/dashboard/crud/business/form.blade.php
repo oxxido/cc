@@ -48,7 +48,7 @@
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
       <li role="presentation" class="active">
-        <a href="#admin_tab_not" aria-controls="admin_tab_not" role="tab" data-toggle="tab" isnew="2">With out Admin</a>
+        <a href="#admin_tab_not" aria-controls="admin_tab_not" role="tab" data-toggle="tab" isnew="2">No Admin</a>
       </li>
       <li role="presentation">
         <a href="#admin_tab_new" aria-controls="admin_tab_new" role="tab" data-toggle="tab" isnew="1">New Business Admin</a>

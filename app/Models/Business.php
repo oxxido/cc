@@ -55,6 +55,11 @@ class Business extends Model
         'data'
     ];
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
     protected $casts = [
         'data' => 'object',
     ];
@@ -62,10 +67,10 @@ class Business extends Model
     public static function configNotificationsFrequencies($only_keys = false)
     {
         $frequencies = [
-            self::CONFIG_NOTIFICATIONS_FREQUENCY_HOURLY=> trans('business.fields.notifications.frequency_hourly'),
-            self::CONFIG_NOTIFICATIONS_FREQUENCY_DAILY=> trans('business.fields.notifications.frequency_daily'),
-            self::CONFIG_NOTIFICATIONS_FREQUENCY_WEEKLY=> trans('business.fields.notifications.frequency_weekly'),
-            self::CONFIG_NOTIFICATIONS_FREQUENCY_MONTHLY=> trans('business.fields.notifications.frequency_monthly'),
+            self::CONFIG_NOTIFICATIONS_FREQUENCY_HOURLY  => trans('business.fields.notifications.frequency_hourly'),
+            self::CONFIG_NOTIFICATIONS_FREQUENCY_DAILY   => trans('business.fields.notifications.frequency_daily'),
+            self::CONFIG_NOTIFICATIONS_FREQUENCY_WEEKLY  => trans('business.fields.notifications.frequency_weekly'),
+            self::CONFIG_NOTIFICATIONS_FREQUENCY_MONTHLY => trans('business.fields.notifications.frequency_monthly'),
         ];
 
         return $only_keys ? array_keys($frequencies) : $frequencies;
