@@ -1,5 +1,6 @@
 <?php namespace App\Services;
 
+use App\Models\Business;
 use Mail;
 use Lang;
 
@@ -143,6 +144,20 @@ class EmailService
             'to'   => $user->email,
             'data' => [
                 'name' => $user->name
+            ]
+        ]);
+    }
+
+    public function performanceReport(Business $business)
+    {
+        $owner = $business->owner;
+        $this->subject  = "Performance report";
+        $this->template = "performanceReport";
+        $this->send([
+            'to'   => $owner->email,
+            'data' => [
+                'name' => $owner->name,
+                'business' => $business
             ]
         ]);
     }
