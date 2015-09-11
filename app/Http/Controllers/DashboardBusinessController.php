@@ -49,8 +49,10 @@ class DashboardBusinessController extends Controller {
      *
      * @return Response
      */
-    public function getIndex()
+    public function getIndex(Request $request)
     {
+        $request->session()->reflash();
+        return redirect('dashbiz/link');
         return $this->view('dashboard.dashboardAdmin');
     }
 
