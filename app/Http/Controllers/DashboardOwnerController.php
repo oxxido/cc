@@ -29,8 +29,10 @@ class DashboardOwnerController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function getIndex()
+	public function getIndex(Request $request)
 	{
+		$request->session()->reflash();
+		return redirect('dashowner/business');
         return $this->view('dashboard.dashboardOwner');
 	}
 

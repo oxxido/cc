@@ -30,7 +30,6 @@ class ReportController extends Controller
         $data['admin']['own']   = $own_admin;
         $data['admin']['other'] = $no_own_admin;
 
-        //dd($data);
         $this->data->report = $data;
         return $this->view('dashboard/reports');
     }
@@ -80,7 +79,7 @@ class ReportController extends Controller
             $comments += $business->comments;
             $sum_ratings += $business->sum_ratings;
         }
-        $avg_ratings = $comments ? $sum_ratings / $comments : 0;
+        $avg_ratings = $comments ? $sum_ratings / ($comments * 2 ): 0;
 
         return [
             'count'       => $businesses->count(),

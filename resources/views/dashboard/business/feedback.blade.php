@@ -41,7 +41,7 @@
               <br/>
               Show positive feedback page (including online reviews links) when rating is
               <br />
-              <select name="positiveThreshold">
+              <select name="positive_threshold">
                 <option @if($config->positive_threshold == 0.5) selected="selected" @endif>0.5</option>
                 <option @if($config->positive_threshold == 1) selected="selected" @endif>1</option>
                 <option @if($config->positive_threshold == 1.5) selected="selected" @endif>1.5</option>
