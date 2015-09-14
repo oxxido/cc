@@ -1,7 +1,7 @@
 <?php namespace App\Models;
 
-class Commenter extends Model {
-
+class Commenter extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -22,6 +22,8 @@ class Commenter extends Model {
      * @var array
      */
     protected $hidden = ['city_id', 'created_at', 'updated_at'];
+
+    public $incrementing = false;
 
     public function user()
     {
@@ -45,7 +47,7 @@ class Commenter extends Model {
     {
         $this->user;
         $this->city;
+
         return parent::toArray();
     }
-
 }
