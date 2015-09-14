@@ -18,6 +18,8 @@ class CreateCommentersTable extends Migration
                 $table->foreign('id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
                 $table->string('phone', 16);
                 $table->string('note')->nullable();
+                $table->integer('city_id')->unsigned()->nullable();
+                $table->foreign('city_id')->references('id')->on('cities')->onUpdate('cascade');
                 $table->timestamps();
             });
         });

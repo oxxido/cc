@@ -15,12 +15,11 @@ class CreateLinksTable extends Migration
         DB::transaction(function () {
             Schema::create('links', function (Blueprint $table) {
                 $table->increments('id');
-                
                 $table->integer('business_id')->unsigned();
                 $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade')->onUpdate('cascade');
                 $table->integer('social_network_id')->unsigned();
                 $table->foreign('social_network_id')->references('id')->on('social_networks')->onDelete('cascade')->onUpdate('cascade');
-                $table->string('url', 255);
+                $table->string('url');
                 $table->integer('order');
                 $table->tinyInteger('active')->default(0);
                 $table->timestamps();
