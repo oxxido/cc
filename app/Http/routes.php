@@ -57,3 +57,5 @@ Route::post('user/update', [
     'as' => 'user.update', 'uses' => 'UserController@update'
 ]);
 Route::get('reports', 'ReportController@index');
+Route::get('crud/business/{business}/commenters', 'CommenterRestController@index');
+Route::resource('crud/commenter', 'CommenterRestController', ['except' => 'index']);
