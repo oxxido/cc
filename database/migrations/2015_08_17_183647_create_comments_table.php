@@ -15,8 +15,8 @@ class CreateCommentsTable extends Migration
         DB::transaction(function () {
             Schema::create('comments', function (Blueprint $table) {
                 $table->increments('id');
-                $table->integer('commenter_id')->unsigned();
-                $table->foreign('commenter_id')->references('id')->on('business_commenter')->onDelete('cascade')->onUpdate('cascade');
+                $table->integer('business_commenter_id')->unsigned();
+                $table->foreign('business_commenter_id')->references('id')->on('business_commenter')->onDelete('cascade')->onUpdate('cascade');
                 $table->integer('product_id')->unsigned();
                 $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
                 $table->text('comment');
@@ -24,6 +24,7 @@ class CreateCommentsTable extends Migration
                 $table->tinyInteger('score')->nullable();
                 $table->tinyInteger('status')->nullable();
                 $table->tinyInteger('show_on_website')->default(0);
+                $table->string('ip', 15)->nullable();
                 $table->timestamps();
             });
         });

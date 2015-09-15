@@ -1,7 +1,7 @@
 <?php namespace App\Models;
 
-class Owner extends Model {
-
+class Owner extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -21,8 +21,11 @@ class Owner extends Model {
      *
      * @var array
      */
-    protected $appends = ['name','email'];
+    protected $appends = ['name', 'email'];
+
     protected $hidden = ['created_at', 'updated_at', 'user', 'admins', 'businesses'];
+
+    public $incrementing = false;
 
     /**
      * Get the User record associated with the Owner.
@@ -48,21 +51,23 @@ class Owner extends Model {
         return $this->hasMany('App\Models\Business', 'owner_id', 'id');
     }
 
-	 /**
+    /**
      * Mutator to get the user's full name.
      *
-     * @param  string  $value
+     * @param  string $value
+     *
      * @return string
      */
     public function getNameAttribute()
     {
-		return $this->user->name;
-	}
+        return $this->user->name;
+    }
 
-     /**
+    /**
      * Mutator to get the user's email.
      *
-     * @param  string  $value
+     * @param  string $value
+     *
      * @return string
      */
     public function getEmailAttribute()

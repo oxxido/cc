@@ -17,8 +17,8 @@ class CreateProductsTable extends Migration
                 $table->increments('id');
                 $table->integer('business_id')->unsigned();
                 $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade')->onUpdate('cascade');
-                $table->string('product', 45);
-                $table->string('url', 255);
+                $table->string('product', 45)->nullable();
+                $table->string('url', 255)->nullable();
                 $table->timestamps();
             });
         });

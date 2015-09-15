@@ -22,14 +22,15 @@ class CreateBusinessesTable extends Migration
                 $table->integer('city_id')->unsigned();
                 $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade')->onUpdate('cascade');
                 $table->integer('owner_id')->unsigned();
-                $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+                $table->foreign('owner_id')->references('id')->on('owners')->onDelete('cascade')->onUpdate('cascade');
                 $table->integer('admin_id')->unsigned()->nullable();
                 $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
                 $table->string('name');
                 $table->text('description')->nullable();
                 $table->string('address', 128)->nullable();
-                $table->string('telephone', 16)->nullable();
+                $table->string('phone', 16)->nullable();
                 $table->string('url', 128);
+                $table->text('data')->nullable();
                 $table->timestamps();
             });
         });
