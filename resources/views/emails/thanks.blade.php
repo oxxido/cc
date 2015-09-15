@@ -8,9 +8,9 @@
           <tr>
             <td>
               <h1>Requested Invite</h1>
-              <p class="lead">Thank you for join us</p>
+              <p class="lead">Thank you for joining us</p>
               <p>
-                Soon you will receive indications on how to proceed.
+                Soon you will receive instructions on how to proceed.
               </p>
             </td>
             <td class="expander"></td>

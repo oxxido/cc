@@ -30,6 +30,7 @@ Route::get('faqs',          function(){return view('home.faqs');});
 Route::get('testimonials',  function(){return view('home.testimonials');});
 Route::get('userguide',     function(){return view('home.userguide');});
 Route::get('terms',         function(){return view('home.terms');});
+Route::get('privacy',       function(){return view('home.privacy');});
 
 Route::get('contact',   function(){return view('home.contact');});
 Route::post('contact',  'HomeController@send');

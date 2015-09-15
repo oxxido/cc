@@ -827,7 +827,9 @@ body.outlook p {
                         <tr>
                           <td align="center">
                             <center>
-                              <p style="text-align:center;"><a href="#">Terms</a> | <a href="#">Privacy</a> | <a href="#">Unsubscribe</a></p>
+                              <p style="text-align:center;">
+                              <a href="{{ url('terms') }}" target="_blank">Terms</a> | 
+                              <a href="{{ url('privacy') }}" target="_blank">Privacy</a> </p>
                             </center>
                           </td>
                           <td class="expander"></td>
