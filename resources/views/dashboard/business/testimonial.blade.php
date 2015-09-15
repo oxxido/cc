@@ -30,6 +30,9 @@
         <div class="form-group">
           <input type="checkbox" name="include_feedback" id="include_feedback" @if($config->include_feedback) checked="checked" @endif>
           <label for="include_feedback" >Include feedback form</label>
+          <br>
+          <input type="checkbox" name="include_likes" id="include_likes" @if($config->include_likes) checked="checked" @endif>
+          <label for="include_likes" >Include Facebook Like and Google Plus button</label>
         </div>
       </div>
       <div class="box-footer">

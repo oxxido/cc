@@ -1,13 +1,15 @@
 @extends('widget.layout')
 
 @section('content')
-  <article class="social">
-    <div class="top-section">
-      <div id="fb-root"></div>
-      <div class="g-plusone" data-size="tall"></div>
-      <div class="fb-like" data-width="350" data-layout="box_count" data-action="recommend"></div>
-    </div>
-  </article> 
+  @if($config->testimonial->include_likes)
+    <article class="social">
+      <div class="top-section">
+        <div id="fb-root"></div>
+        <div class="g-plusone" data-size="tall"></div>
+        <div class="fb-like" data-width="350" data-layout="box_count" data-action="recommend"></div>
+      </div>
+    </article> 
+  @endif
   <div class="top-section">
     <p class="title-section">Testimonials</p>
   </div>

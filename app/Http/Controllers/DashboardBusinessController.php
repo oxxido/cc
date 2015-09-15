@@ -99,6 +99,7 @@ class DashboardBusinessController extends Controller {
         $setting = $this->defaultConfig('testimonial', $request);
         // Only input type radio
         $setting->include_feedback = is_null($request->input('include_feedback')) ? false : true;
+        $setting->include_likes = is_null($request->input('include_likes')) ? false : true;
         $this->business->config->testimonial = $setting;
         $this->business->save();
 

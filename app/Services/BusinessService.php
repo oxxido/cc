@@ -116,7 +116,8 @@ We will contact you to address the situation in any way we can.
                 ',
             ],
             'testimonial' => [
-                'include_feedback' => true
+                'include_feedback' => true,
+                'include_likes' => true
             ],
             'notification' => ['sent_to' => [
                     'owner' => true,
