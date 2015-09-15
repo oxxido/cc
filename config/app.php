@@ -194,7 +194,8 @@ return [
         'Form'      => Collective\Html\FormFacade::class,
         'Html'      => Collective\Html\HtmlFacade::class,
         'DbView'    => Flynsarmy\DbBladeCompiler\Facades\DbView::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Debugbar'  => Barryvdh\Debugbar\Facade::class,
+        'Uuid'      => Webpatser\Uuid\Uuid::class,
     ],
 
 ];
