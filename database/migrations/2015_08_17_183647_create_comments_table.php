@@ -19,6 +19,7 @@ class CreateCommentsTable extends Migration
                 $table->foreign('business_commenter_id')->references('id')->on('business_commenter')->onDelete('cascade')->onUpdate('cascade');
                 $table->integer('product_id')->unsigned();
                 $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+                $table->string('uuid', 36)->unique();
                 $table->text('comment');
                 $table->tinyInteger('rating')->default(0);
                 $table->tinyInteger('score')->nullable();

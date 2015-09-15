@@ -19,6 +19,7 @@ class CreateBillingsTable extends Migration
                 $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
                 $table->integer('city_id')->unsigned()->nullable();
                 $table->foreign('city_id')->references('id')->on('cities')->onUpdate('cascade');
+                $table->string('uuid', 36)->unique();
                 $table->string('address', 100);
                 $table->string('phone', 16);
                 $table->bigInteger('price');

@@ -17,9 +17,12 @@ class CreateCitiesTable extends Migration
                 $table->increments('id');
                 $table->integer('state_id')->unsigned();
                 $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade')->onUpdate('cascade');
+                $table->string('uuid', 36)->unique();
                 $table->string('name', 100);
                 $table->string('zip_code', 8);
             });
+
+            App::make(DatabaseSeeder::class)->call(CitiesTableSeeder::class);
         });
     }
 

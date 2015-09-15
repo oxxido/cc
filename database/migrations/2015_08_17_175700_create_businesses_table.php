@@ -25,6 +25,7 @@ class CreateBusinessesTable extends Migration
                 $table->foreign('owner_id')->references('id')->on('owners')->onDelete('cascade')->onUpdate('cascade');
                 $table->integer('admin_id')->unsigned()->nullable();
                 $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
+                $table->string('uuid', 36)->unique();
                 $table->string('name');
                 $table->text('description')->nullable();
                 $table->string('address', 128)->nullable();

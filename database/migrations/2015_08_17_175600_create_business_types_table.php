@@ -15,10 +15,12 @@ class CreateBusinessTypesTable extends Migration
         DB::transaction(function () {
             Schema::create('business_types', function (Blueprint $table) {
                 $table->increments('id');
+                $table->string('uuid', 36)->unique();
                 $table->string('name', 100);
             });
-            DB::unprepared($this->types());
         });
+
+        App::make(DatabaseSeeder::class)->call(BusinessTypesTableSeeder::class);
     }
 
     /**
@@ -31,24 +33,5 @@ class CreateBusinessTypesTable extends Migration
         DB::transaction(function () {
             Schema::dropIfExists('business_types');
         });
-    }
-
-    private function types()
-    {
-        $sql = "
-            INSERT INTO business_types (name) VALUES('Actual Company Name');
-            INSERT INTO business_types (name) VALUES('Agency');
-            INSERT INTO business_types (name) VALUES('Church');
-            INSERT INTO business_types (name) VALUES('Company');
-            INSERT INTO business_types (name) VALUES('Corporation');
-            INSERT INTO business_types (name) VALUES('Event');
-            INSERT INTO business_types (name) VALUES('Firm');
-            INSERT INTO business_types (name) VALUES('Non Profit');
-            INSERT INTO business_types (name) VALUES('Office');
-            INSERT INTO business_types (name) VALUES('Restaurant');
-            INSERT INTO business_types (name) VALUES('School');
-		";
-
-        return $sql;
     }
 }

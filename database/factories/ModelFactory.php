@@ -15,6 +15,7 @@ use Carbon\Carbon;
 */
 $factory->define(User::class, function ($faker) {
     return [
+        'uuid'           => Uuid::generate(),
         'first_name'     => $faker->firstName,
         'last_name'      => $faker->lastName,
         'email'          => $faker->unique()->email,
