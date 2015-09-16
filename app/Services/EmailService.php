@@ -1,5 +1,6 @@
 <?php namespace App\Services;
 
+use App\Models\Business;
 use Mail;
 use Lang;
 
@@ -122,5 +123,42 @@ class EmailService
     public static function instance()
     {
         return new self();
+    }
+
+    public function positiveFeedback($user)
+    {
+        $this->subject  = "Positive feedback received";
+        $this->template = "positiveFeedback";
+        $this->send([
+            'to'   => $user->email,
+            'data' => [
+                'name' => $user->name
+            ]
+        ]);
+    }
+
+    public function negativeFeedback($user) {
+        $this->subject  = "Negative feedback received";
+        $this->template = "negativeFeedback";
+        $this->send([
+            'to'   => $user->email,
+            'data' => [
+                'name' => $user->name
+            ]
+        ]);
+    }
+
+    public function performanceReport(Business $business)
+    {
+        $owner = $business->owner;
+        $this->subject  = "Performance report";
+        $this->template = "performanceReport";
+        $this->send([
+            'to'   => $owner->email,
+            'data' => [
+                'name' => $owner->name,
+                'business' => $business
+            ]
+        ]);
     }
 }

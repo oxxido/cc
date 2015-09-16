@@ -12,13 +12,14 @@ class FeedbackService
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
+     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
     public static function validator(array $data)
     {
         return Validator::make($data, [
-            'rating'      => 'required',
+            'rating'     => 'required',
             'first_name' => 'required',
             'last_name'  => 'required',
             'email'      => 'required',
@@ -29,7 +30,8 @@ class FeedbackService
     /**
      * Create a new commenter instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
+     *
      * @return Commenter
      */
     public static function createCommenter(array $data)
@@ -37,11 +39,13 @@ class FeedbackService
 
         $rows = ['id' => $data['id']];
 
-        if(isset($data['phone']) && $data['phone'])
+        if (isset($data['phone']) && $data['phone']) {
             $rows['phone'] = $data['phone'];
+        }
 
-        if(isset($data['note']) && $data['note'])
+        if (isset($data['note']) && $data['note']) {
             $rows['note'] = $data['note'];
+        }
 
         $commenter = Commenter::create($rows);
 
@@ -53,7 +57,8 @@ class FeedbackService
     /**
      * Create a new commenter instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
+     *
      * @return Commenter
      */
     public static function createComment(array $data)
@@ -65,14 +70,17 @@ class FeedbackService
             'rating'                => $data['rating']
         ];
 
-        if(isset($data['score']) && $data['score'])
+        if (isset($data['score']) && $data['score']) {
             $rows['score'] = $data['score'];
+        }
 
-        if(isset($data['status']) && $data['status'])
+        if (isset($data['status']) && $data['status']) {
             $rows['status'] = $data['status'];
+        }
 
-        if(isset($data['show_on_website']) && $data['show_on_website'])
+        if (isset($data['show_on_website']) && $data['show_on_website']) {
             $rows['show_on_website'] = $data['show_on_website'];
+        }
 
         return Comment::create($rows);
     }
@@ -80,7 +88,8 @@ class FeedbackService
     /**
      * Create a new commenter instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
+     *
      * @return Commenter
      */
     public static function createBusinessCommenter(array $data)
@@ -90,8 +99,9 @@ class FeedbackService
             'business_id'  => $data['business_id']
         ];
 
-        if(isset($data['adder_id']) && $data['adder_id'])
+        if (isset($data['adder_id']) && $data['adder_id']) {
             $rows['adder_id'] = $data['adder_id'];
+        }
 
         return BusinessCommenter::create($rows);
     }
@@ -99,10 +109,8 @@ class FeedbackService
     public static function getCommenter(array $data)
     {
         $data['id'] = isset($data['id']) ? $data['id'] : false;
-        if(!($data['id'] && $commenter = Commenter::find($data['id'])))
-        {
-            if(!($user_commenter = UserService::find($data['email'])))
-            {
+        if (!($data['id'] && $commenter = Commenter::find($data['id']))) {
+            if (!($user_commenter = UserService::find($data['email']))) {
                 $user_commenter = UserService::create([
                     'first_name' => $data['first_name'],
                     'last_name'  => $data['last_name'],
@@ -111,43 +119,38 @@ class FeedbackService
                 ], true);
             }
 
-            if(!$user_commenter->isCommenter())
-            {
+            if (!$user_commenter->isCommenter()) {
                 $commenter = self::createCommenter([
                     'id'    => $user_commenter->id,
                     'phone' => (isset($data['phone']) ? $data['phone'] : false),
                     'note'  => (isset($data['note']) ? $data['note'] : false)
                 ]);
-            }
-            else
-            {
+            } else {
                 $commenter = $user_commenter->commenter;
             }
         }
+
         return $commenter;
     }
 
     public static function getBusinessCommenter(array $data)
     {
         $data['id'] = isset($data['id']) ? $data['id'] : false;
-        if(!($data['id'] && $business_commenter = BusinessCommenter::find($data['id'])))
-        {
-            $business_commenter = BusinessCommenter::where('commenter_id', '=', $data['commenter_id'])
-                ->where('business_id', '=', $data['business_id'])->get()->first();
+        if (!($data['id'] && $business_commenter = BusinessCommenter::find($data['id']))) {
+            $business_commenter = BusinessCommenter::where('commenter_id', '=',
+                $data['commenter_id'])->where('business_id', '=', $data['business_id'])->get()->first();
 
-            if(!$business_commenter)
-            {
+            if (!$business_commenter) {
                 $business_commenter = self::createBusinessCommenter([
                     'commenter_id' => $data['commenter_id'],
                     'business_id'  => $data['business_id'],
                     'adder_id'     => (isset($data['adder_id']) ? $data['adder_id'] : false)
                 ]);
             }
-
         }
+
         return $business_commenter;
     }
-
 }
 
 
