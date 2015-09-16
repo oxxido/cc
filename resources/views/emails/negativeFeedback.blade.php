@@ -7,10 +7,10 @@
         <table class="twelve columns">
           <tr>
             <td>
-              <h1>Requested Invite</h1>
-              <p class="lead">Thank you for joining us</p>
+              <h1>{{ $name }} wrote a negative feedback</h1>
+              <p class="lead">Lorem ipsum...</p>
               <p>
-                Soon you will receive instructions on how to proceed.
+                Loremp ipsum
               </p>
             </td>
             <td class="expander"></td>

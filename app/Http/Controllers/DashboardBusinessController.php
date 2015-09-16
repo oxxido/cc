@@ -4,6 +4,7 @@ use Auth;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\NotificationUpdateRequest;
 use App\Services\BusinessService;
 use App\Models\Business;
 use App\Models\SocialNetwork;
@@ -12,23 +13,23 @@ use App\Models\SocialNetwork;
 class DashboardBusinessController extends Controller {
 
     public $user;
+
     public $business = false;
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('admin');
 
-        $this->user = Auth::user();
+        $this->user       = Auth::user();
         $this->data->user = $this->user;
 
-        if($this->user)
+        if ($this->user) {
             $this->setBusiness();
+        }
         $this->data->business_id = \Session::get('business_id');
 
         if($this->business == false)
@@ -67,6 +68,7 @@ class DashboardBusinessController extends Controller {
     public function getLink()
     {
         $this->data->social_networks = SocialNetwork::all();
+
         return $this->view('dashboard.crud.link.index');
     }
 
@@ -78,8 +80,9 @@ class DashboardBusinessController extends Controller {
     public function getTestimonial(Request $request)
     {
         $this->data->business = $this->business;
-        $this->data->config = $this->defaultConfig('testimonial', $request);
-        $this->data->product = $this->business->products->first();
+        $this->data->config   = $this->defaultConfig('testimonial', $request);
+        $this->data->product  = $this->business->products->first();
+
         return $this->view('dashboard.business.testimonial');
     }
 
@@ -90,25 +93,22 @@ class DashboardBusinessController extends Controller {
      */
     public function postTestimonial(Request $request)
     {
-        $validator = Validator::make($request->all(), array());
+        $validator = Validator::make($request->all(), []);
 
-        if ($validator->fails())
-        {
-            return redirect('dashbiz/testimonial')
-                ->withErrors($validator)
-                ->withInput();
+        if ($validator->fails()) {
+            return redirect('dashbiz/testimonial')->withErrors($validator)->withInput();
         }
 
         $setting = $this->defaultConfig('testimonial', $request);
         // Only input type radio
-        $setting->include_feedback = is_null($request->input('include_feedback')) ? false : true;
+        $setting->include_feedback           = is_null($request->input('include_feedback')) ? false : true;
         $this->business->config->testimonial = $setting;
         $this->business->save();
 
-        $this->data->saved = true;
+        $this->data->saved    = true;
         $this->data->business = $this->business;
-        $this->data->config = $this->business->config->testimonial;
-        $this->data->product = $this->business->products->first();
+        $this->data->config   = $this->business->config->testimonial;
+        $this->data->product  = $this->business->products->first();
 
         return $this->view('dashboard.business.testimonial');
     }
@@ -121,7 +121,8 @@ class DashboardBusinessController extends Controller {
     public function getNotification(Request $request)
     {
         $this->data->business = $this->business;
-        $this->data->config = $this->defaultConfig('notification', $request);
+        $this->data->config   = $this->defaultConfig('notification', $request);
+
         return $this->view('dashboard.business.notification');
     }
 
@@ -130,9 +131,14 @@ class DashboardBusinessController extends Controller {
      *
      * @return Response
      */
-    public function postNotification(Request $request)
+    public function postNotification(NotificationUpdateRequest $request)
     {
-        return $this->view('dashboard.business.notification');
+        $notifications = $request->all();
+        unset($notifications['_token']);
+        $notification = BusinessService::getConfig('notification', $request);
+        $this->business->config->notification = $notification;
+        $this->business->save();
+        return \Redirect::back();
     }
 
     /**
@@ -143,7 +149,8 @@ class DashboardBusinessController extends Controller {
     public function getEmail(Request $request)
     {
         $this->data->business = $this->business;
-        $this->data->config = $this->defaultConfig('email', $request);
+        $this->data->config   = $this->defaultConfig('email', $request);
+
         return $this->view('dashboard.business.email');
     }
 
@@ -181,7 +188,8 @@ class DashboardBusinessController extends Controller {
     public function getKiosk(Request $request)
     {
         $this->data->business = $this->business;
-        $this->data->config = $this->defaultConfig('kiosk', $request);
+        $this->data->config   = $this->defaultConfig('kiosk', $request);
+
         return $this->view('dashboard.business.kiosk');
     }
 
@@ -203,9 +211,10 @@ class DashboardBusinessController extends Controller {
     public function getFeedback(Request $request)
     {
         $this->data->business = $this->business;
-        $this->data->config = $this->defaultConfig('feedback', $request);
+        $this->data->config   = $this->defaultConfig('feedback', $request);
         //echo "<pre>";print_r($this->data->config); exit();
         $this->data->product = $this->business->products->first();
+
         return $this->view('dashboard.business.feedback');
     }
 
@@ -216,29 +225,26 @@ class DashboardBusinessController extends Controller {
      */
     public function postFeedback(Request $request)
     {
-        $validator = Validator::make($request->all(), array(
+        $validator = Validator::make($request->all(), [
             'logo_url'   => 'required',
             'banner_url' => 'required'
-        ));
+        ]);
 
-        if ($validator->fails())
-        {
-            return redirect('dashbiz/feedback')
-                ->withErrors($validator)
-                ->withInput();
+        if ($validator->fails()) {
+            return redirect('dashbiz/feedback')->withErrors($validator)->withInput();
         }
 
         $feedback = $this->defaultConfig('feedback', $request);
         // Only input type radio
-        $feedback->include_social_links = is_null($request->input('include_social_links')) ? false : true;
-        $feedback->include_phone       = is_null($request->input('include_phone')) ? false : true;
+        $feedback->include_social_links   = is_null($request->input('include_social_links')) ? false : true;
+        $feedback->include_phone          = is_null($request->input('include_phone')) ? false : true;
         $this->business->config->feedback = $feedback;
         $this->business->save();
 
-        $this->data->saved = true;
+        $this->data->saved    = true;
         $this->data->business = $this->business;
-        $this->data->config = $this->business->config->feedback;
-        $this->data->product = $this->business->products->first();
+        $this->data->config   = $this->business->config->feedback;
+        $this->data->product  = $this->business->products->first();
 
         return $this->view("dashboard.business.feedback");
     }
@@ -251,6 +257,7 @@ class DashboardBusinessController extends Controller {
     public function getLoad($id = false)
     {
         $this->setBusiness($id);
+
         return redirect("dashbiz");
     }
 
@@ -259,21 +266,19 @@ class DashboardBusinessController extends Controller {
         $id_session = \Session::get('business_id');
         $id_default = false;
 
-        if($this->user->isOwner())
-        {
-            if($business = $this->user->owner->businesses->first())
+        if ($this->user->isOwner()) {
+            if ($business = $this->user->owner->businesses->first()) {
                 $id_default = $business->id;
-        }
-        else
-        {
-            if(($admin = $this->user->admin()->first()) && ($business = $admin->businesses->first()))
+            }
+        } else {
+            if (($admin = $this->user->admin()->first()) && ($business = $admin->businesses->first())) {
                 $id_default = $business->id;
+            }
         }
 
         $id = $id ? $id : ($id_session ? $id_session : ($id_default ? $id_default : false));
 
-        if($id && $business = Business::find($id))
-        {
+        if ($id && $business = Business::find($id)) {
             $this->business = $business;
             \Session::set('business_id', $id);
         }

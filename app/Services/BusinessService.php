@@ -115,14 +115,15 @@ We will contact you to address the situation in any way we can.
             'testimonial' => [
                 'include_feedback' => true
             ],
-            'notification' => ['sent_to' => [
-                    'owner' => true,
-                    'admin' => true
-                ],
-                'alerts' => [
-                    'positive' => true,
-                    'negative' => true
-                ]],
+            'notification' => [
+                'send_to_owner' => true,
+                'send_to_admin' => true,
+                'alert_positive' => true,
+                'alert_negative' => true,
+                'send_alerts' => true,
+                'send_reports' => true,
+                'frequency' => Business::CONFIG_NOTIFICATIONS_FREQUENCY_DAILY
+            ],
             'email' => [
                 'feedback_request_from' => $business->owner->email,
                 'feedback_request_subject' => 'Thank you for visiting us. Would you leave us your feedback?',
@@ -185,14 +186,15 @@ Sincerely,
 
     private static function defaultConfigByType($type, Business $business, Request $request, $default)
     {
-        $config = isset($business->config->$type) ? $business->config->$type : new \stdClass;
+        $config = isset($business->config->$type) ? (object) $business->config->$type : new \stdClass();
+
         foreach($default[$type] as $name => $value)
         {
-            if($request->input($name))
+            if($request && $request->input($name))
             {
                 $config->$name = $request->input($name);
             }
-            elseif($request->old($name) && $request->old($name) !== false)
+            elseif($request && $request->old($name) && $request->old($name) !== false)
             {
                 $config->$name = $request->old($name);
             }
@@ -235,5 +237,19 @@ Sincerely,
         }
 
         return $parsed;
+    }
+
+    public static function getConfig($type, Request $request)
+    {
+        $business = new Business();
+
+        $default_config = self::defaultConfig($type, $business);
+
+        $config = new \stdClass();
+        foreach ($default_config as $field => $value) {
+            $config->$field = $request->input($field, false);
+        }
+
+        return $config;
     }
 }
