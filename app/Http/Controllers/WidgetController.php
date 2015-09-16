@@ -1,6 +1,5 @@
 <?php namespace App\Http\Controllers;
 
-use Validator;
 use Illuminate\Http\Request;
 use App\Services\BusinessService;
 use App\Services\FeedbackService;
@@ -54,28 +53,33 @@ class WidgetController extends Controller
         $this->data->comment = $comment;
         $this->setBasicData($product, $request);
 
-        $this->data->config->feedback->positive_text_header = BusinessService::tagsReplace([
-            "text" => $this->data->config->feedback->positive_text,
-            "business" => $product->business,
-            "part" => "header"
-        ]);
-        $this->data->config->feedback->positive_text_footer = BusinessService::tagsReplace([
-            "text" => $this->data->config->feedback->positive_text,
-            "business" => $product->business,
-            "part" => "footer"
-        ]);
-        $this->data->config->feedback->negative_text = BusinessService::tagsReplace([
-            "text" => $this->data->config->feedback->negative_text,
-            "business" => $product->business
-        ]);
-
         if($rating >= $this->data->config->feedback->positive_threshold)
         {
+            $this->data->config->feedback->positive_text_header = BusinessService::tagsReplace([
+                "text" => $this->data->config->feedback->positive_text,
+                "business" => $product->business,
+                "comment" => $comment,
+                "section" => "header"
+            ]);
+            $this->data->config->feedback->positive_text_footer = BusinessService::tagsReplace([
+                "text" => $this->data->config->feedback->positive_text,
+                "business" => $product->business,
+                "comment" => $comment,
+                "section" => "footer"
+            ]);
+
             $this->data->links = $product->business->links;
+
             return $this->view("widget.feedbackPositive");
         }
         else
         {
+            $this->data->config->feedback->negative_text = BusinessService::tagsReplace([
+                "text" => $this->data->config->feedback->negative_text,
+                "business" => $product->business,
+                "comment" => $comment
+            ]);
+
             return $this->view("widget.feedbackNegative");
         }
     }

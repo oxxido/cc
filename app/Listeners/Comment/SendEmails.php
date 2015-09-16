@@ -27,22 +27,22 @@ class SendEmails
     public function handle(Comment $comment)
     {
         $business = $comment->product->business;
-        $config = BusinessService::defaultConfig('all', $business);
-        $notification = $config->notification;
+        $notification = BusinessService::defaultConfig('notification', $business);
+        $feedback = BusinessService::defaultConfig('feedback', $business);
 
-        if ($comment->rating >= $config->feedback->positive_threshold) {
+        if ($comment->rating >= $feedback->positive_threshold) {
             if ($notification->send_to_owner) {
-                EmailService::instance()->positiveFeedback($business->owner);
+                EmailService::instance()->positiveFeedback($business->owner->user, $comment);
             }
             if ($notification->send_to_admin) {
-                EmailService::instance()->positiveFeedback($business->admin->user);
+                EmailService::instance()->positiveFeedback($business->admin->user, $comment);
             }
         } else {
             if ($notification->send_to_owner) {
-                EmailService::instance()->negativeFeedback($business->owner);
+                EmailService::instance()->negativeFeedback($business->owner->user, $comment);
             }
             if ($notification->send_to_admin) {
-                EmailService::instance()->negativeFeedback($business->admin->user);
+                EmailService::instance()->negativeFeedback($business->admin->user, $comment);
             }
         }
     }

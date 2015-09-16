@@ -7,11 +7,7 @@
         <table class="twelve columns">
           <tr>
             <td>
-              <h1>{{ $name }} wrote a negative feedback</h1>
-              <p class="lead">Lorem ipsum...</p>
-              <p>
-                Loremp ipsum
-              </p>
+              <?=$body?>
             </td>
             <td class="expander"></td>
           </tr>

@@ -104,7 +104,7 @@ class BusinessService {
 
 Have a great day!
 
-[YOUR_NAME]',
+[OWNER_NAME]',
                 'negative_text' => 'Thanks you for your feedback
 
 Whenever we see feedback that is not outstanding, we like to follow up to see what we could have done better.
@@ -171,7 +171,7 @@ Sincerely,
         }
         elseif($type == "all")
         {
-             $config = new \stdClass;
+            $config = new \stdClass;
             foreach ($default as $name => $value)
             {
                 $config->$name = self::defaultConfigByType($name, $business, $request, $default);
@@ -184,7 +184,7 @@ Sincerely,
         }
     }
 
-    private static function defaultConfigByType($type, Business $business, Request $request, $default)
+    private static function defaultConfigByType($type, Business $business, $request, $default)
     {
         $config = isset($business->config->$type) ? (object) $business->config->$type : new \stdClass();
 
@@ -224,16 +224,32 @@ Sincerely,
         $parsed = str_replace("\r\n", "<br>", $options['text']);
         $parsed = str_replace("\n", "<br>", $parsed);
 
-        $parsed = str_replace("[YOUR_NAME]", $options['business']->owner->name, $parsed);
+        $tags = [
+            "BUSINESS_NAME"       => $options['business']->name,
+            "BUSINESS_PHONE"      => $options['business']->phone,
+            "BUSINESS_URL"        => $options['business']->url,
+            "OWNER_NAME"          => $options['business']->owner->name,
+            "YOUR_NAME"           => $options['business']->owner->name,
+            "OWNER_FIRST_NAME"    => $options['business']->owner->first_name,
+            "OWNER_LAST_NAME"     => $options['business']->owner->last_name,
+            "OWNER_EMAIL"         => $options['business']->owner->email,
+            "CUSTOMER_NAME"       => isset($options['comment']) ? $options['comment']->commenter->name : "",
+            "CUSTOMER_FIRST_NAME" => isset($options['comment']) ? $options['comment']->commenter->first_name : "",
+            "CUSTOMER_LAST_NAME"  => isset($options['comment']) ? $options['comment']->commenter->last_name : "",
+            "PROVIDE_FEEDBACK"    => isset($options['comment']) ? $options['comment']->rating : ""
+        ];
 
-        if(isset($options["part"]) && $options["part"] == "header")
+        foreach($tags as $tag => $value)
         {
-            $parsed = strpos($parsed, "[REVIEW_LINKS]") ? substr($parsed, 0, strpos($parsed, "[REVIEW_LINKS]")) : $parsed;
+            $parsed = str_replace("[" . $tag ."]", $value, $parsed);
         }
 
-        if(isset($options["part"]) && $options["part"] == "footer")
-        {
+        if(isset($options["section"]) && $options["section"] == "header") {
+            $parsed = strpos($parsed, "[REVIEW_LINKS]") ? substr($parsed, 0, strpos($parsed, "[REVIEW_LINKS]")) : $parsed;
+        } elseif(isset($options["section"]) && $options["section"] == "footer") {
             $parsed = strpos($parsed, "[REVIEW_LINKS]") ? substr($parsed, (strpos($parsed, "[REVIEW_LINKS]") + strlen("[REVIEW_LINKS]"))) : "";
+        } else {
+            $parsed = str_replace("[REVIEW_LINKS]", "", $parsed);
         }
 
         return $parsed;

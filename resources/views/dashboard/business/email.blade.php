@@ -43,10 +43,7 @@
               </div>
               <div class="form-group">
                 <label for="feedback_request_body">Email Body</label>
-                <textarea class="form-control noresize" rows="8" name="feedback_request_body" id="feedback_request_body">{{ $config->feedback_request_body }}</textarea>
-              </div>
-              <div class="form-group">
-                <p>Allowed Tags: <span class="label label-info">[YOUR_NAME]</span> <span class="label label-info">[BUSINESS_NAME]</span></p>
+                <textarea class="form-control" rows="12" name="feedback_request_body" id="feedback_request_body">{{ $config->feedback_request_body }}</textarea>
               </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="tab_positive">
@@ -56,10 +53,7 @@
               </div>
               <div class="form-group">
                 <label for="positive_feedback_body">Email Body</label>
-                <textarea class="form-control noresize" rows="11" name="positive_feedback_body" id="positive_feedback_body">{{ $config->positive_feedback_body }}</textarea>
-              </div>
-              <div class="form-group">
-                <p>Allowed Tags: <span class="label label-info">[YOUR_NAME]</span> <span class="label label-info">[BUSINESS_NAME]</span></p>
+                <textarea class="form-control" rows="15" name="positive_feedback_body" id="positive_feedback_body">{{ $config->positive_feedback_body }}</textarea>
               </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="tab_negative">
@@ -69,10 +63,7 @@
               </div>
               <div class="form-group">
                 <label for="negative_feedback_body">Email Body</label>
-                <textarea class="form-control noresize" rows="11" name="negative_feedback_body" id="negative_feedback_body">{{ $config->negative_feedback_body }}</textarea>
-              </div>
-              <div class="form-group">
-                <p>Allowed Tags: <span class="label label-info">[YOUR_NAME]</span> <span class="label label-info">[BUSINESS_NAME]</span></p>
+                <textarea class="form-control" rows="15" name="negative_feedback_body" id="negative_feedback_body">{{ $config->negative_feedback_body }}</textarea>
               </div>
             </div>
           </div>
@@ -90,18 +81,22 @@
   <script type="text/javascript">
     tinymce.init({
       selector: "textarea",
-      plugins: [ 'e2wtags'],
-      toolbar: "undo redo e2wtags",
+      height: 300,
+      statusbar: false,
+      toolbar: "undo redo taging",
       menubar: false,
-      object_resizing: false
+      object_resizing: false,
+      external_plugins: {
+        "taging": "{{ asset('/js/vendor/taging/plugin.min.js') }}"
+      }
     });
+
     $("#emailForm").bind('submit', function(){
       $("textarea").each(function(i, textarea){
         var body = $(textarea).val();
         tinymce.editors[0].destroy();
         $(textarea).val(body);
       });
-
       return true;
     });
   </script>
