@@ -1,16 +1,15 @@
 <?php namespace App\Http\Controllers;
 
-use DB;
 use Auth;
 use Validator;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use App\Services\BusinessService;
 use App\Models\Business;
-use App\Models;
+use App\Models\SocialNetwork;
 
 
 class DashboardBusinessController extends Controller {
-
 
     public $user;
     public $business = false;
@@ -32,6 +31,10 @@ class DashboardBusinessController extends Controller {
             $this->setBusiness();
         $this->data->business_id = \Session::get('business_id');
 
+        if($this->business == false)
+        {
+            return new RedirectResponse(url('/dashboard'));
+        }
     }
 
     /**
@@ -63,12 +66,12 @@ class DashboardBusinessController extends Controller {
      */
     public function getLink()
     {
-        $this->data->social_networks = Models\SocialNetwork::all();        
+        $this->data->social_networks = SocialNetwork::all();
         return $this->view('dashboard.crud.link.index');
     }
 
     /**
-     * 
+     *
      *
      * @return Response
      */
@@ -81,7 +84,7 @@ class DashboardBusinessController extends Controller {
     }
 
     /**
-     * 
+     *
      *
      * @return Response
      */
@@ -111,7 +114,7 @@ class DashboardBusinessController extends Controller {
     }
 
     /**
-     * 
+     *
      *
      * @return Response
      */
@@ -123,7 +126,7 @@ class DashboardBusinessController extends Controller {
     }
 
     /**
-     * 
+     *
      *
      * @return Response
      */
@@ -133,7 +136,7 @@ class DashboardBusinessController extends Controller {
     }
 
     /**
-     * 
+     *
      *
      * @return Response
      */
@@ -145,17 +148,33 @@ class DashboardBusinessController extends Controller {
     }
 
     /**
-     * 
+     *
      *
      * @return Response
      */
     public function postEmail(Request $request)
     {
+        $validator = Validator::make($request->all(), array());
+        if ($validator->fails())
+        {
+            return redirect('dashbiz/email')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $setting = $this->defaultConfig('email', $request);
+        $this->business->config->email = $setting;
+        $this->business->save();
+
+        $this->data->saved = true;
+        $this->data->business = $this->business;
+        $this->data->config = $this->business->config->email;
+        $this->data->product = $this->business->products->first();
         return $this->view('dashboard.business.email');
     }
 
     /**
-     * 
+     *
      *
      * @return Response
      */
@@ -167,7 +186,7 @@ class DashboardBusinessController extends Controller {
     }
 
     /**
-     * 
+     *
      *
      * @return Response
      */
@@ -177,7 +196,7 @@ class DashboardBusinessController extends Controller {
     }
 
     /**
-     * 
+     *
      *
      * @return Response
      */
@@ -191,7 +210,7 @@ class DashboardBusinessController extends Controller {
     }
 
     /**
-     * 
+     *
      *
      * @return Response
      */

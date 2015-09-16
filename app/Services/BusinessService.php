@@ -3,9 +3,6 @@
 use App\Models\Admin;
 use App\Models\Business;
 use App\Models\Product;
-use App\Services\UserService;
-use App\Services\AdminService;
-use App\Services\LocationService;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -126,7 +123,44 @@ We will contact you to address the situation in any way we can.
                     'positive' => true,
                     'negative' => true
                 ]],
-            'email' => [],
+            'email' => [
+                'feedback_request_from' => $business->owner->email,
+                'feedback_request_subject' => 'Thank you for visiting us. Would you leave us your feedback?',
+                'feedback_request_body' => 'Dear [CUSTOMER_FIRST_NAME],
+Thank you for visiting us at [BUSINESS_NAME]. We appreciate your business and value you as a customer. To help us continue our high quality of service, we invite you to leave us your feedback.
+
+[PROVIDE_FEEDBACK]
+
+We look forward to seeing you again soon.
+
+Sincerely,
+
+[OWNER_NAME]
+[BUSINESS_NAME]
+[BUSINESS_URL]',
+                'positive_feedback_subject' => 'Thank you for your feedback.',
+                'positive_feedback_body' => 'Thank you for your feedback - we appreciate having you as a customer and your feedback helps us serve you better.
+
+Online reviews are becoming very important for our business. If you would leave us a review on one of these review sites it would really help us a lot:
+
+[REVIEW_LINKS]
+
+Thanks for your support, and have a great day!
+
+[OWNER_NAME]',
+                'negative_feedback_subject' => 'Thank you for your feedback.',
+                'negative_feedback_body' => 'Thank you for your feedback.
+
+Whenever we see feedback that is not outstanding, we like to follow up to see what we could have done better.
+
+We will contact you to address the situation in any way we can.
+
+Once again, thank you for taking the time to let us know how you feel, and I hope we can address this for you.
+
+Sincerely,
+
+[OWNER_NAME]'
+            ],
             'kiosk' => []
         ];
 
@@ -149,7 +183,7 @@ We will contact you to address the situation in any way we can.
         }
     }
 
-    private static function defaultConfigByType($type, $business, $request, $default)
+    private static function defaultConfigByType($type, Business $business, Request $request, $default)
     {
         $config = isset($business->config->$type) ? $business->config->$type : new \stdClass;
         foreach($default[$type] as $name => $value)
@@ -168,6 +202,15 @@ We will contact you to address the situation in any way we can.
             }
             else
             {
+                if(is_array($config))
+                {
+                    if(empty($config)){
+                        $config = new \stdClass();
+                    }
+                    else{
+                        $config = json_decode(json_encode($config));
+                    }
+                }
                 $config->$name = $value;
             }
         }
