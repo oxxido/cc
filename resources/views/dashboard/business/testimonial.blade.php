@@ -23,7 +23,7 @@
         <a href="#tab_config" aria-controls="tab_config" role="tab" data-toggle="tab">Testimonial Widget Options</a>
       </li>
       <li>
-        <a href="#tab_code" aria-controls="tab_code" role="tab" data-toggle="tab">Integration Site</a>
+        <a href="#tab_code" aria-controls="tab_code" role="tab" data-toggle="tab">Integration</a>
       </li>
     </ul>
     <div class="panel panel-default">
