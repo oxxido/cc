@@ -28,11 +28,16 @@
     </ul>
     <div class="panel panel-default">
       <div class="panel-body">
+
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="tab_config">
             <div class="form-group">
               <input type="checkbox" name="include_feedback" id="include_feedback" @if($config->include_feedback) checked="checked" @endif>
               <label for="include_feedback" >Include feedback form</label>
+            </div>
+            <div>
+              <input type="checkbox" name="include_likes" id="include_likes" @if($config->include_likes) checked="checked" @endif>
+              <label for="include_likes" >Include Facebook Like and Google Plus button</label>
             </div>
           </div>
           <div role="tabpanel" class="tab-pane" id="tab_code">
@@ -46,6 +51,7 @@
               </div>
             </div>
           </div>
+
         </div>
       </div>
       <div class="panel-footer">
