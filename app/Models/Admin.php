@@ -1,34 +1,36 @@
 <?php namespace App\Models;
 
-class Admin extends Model {
+use App\Traits\UserModel;
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'admins';
+class Admin extends Model
+{
+    use UserModel;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'admin_id');
+    }
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['admin_id','owner_id'];
+    protected $fillable = ['admin_id', 'owner_id', 'request_feedback_automatically'];
 
     /**
      * The accessors to append to the model's array form.
      *
      * @var array
      */
-    protected $appends = ['name','email'];
+    protected $appends = ['name', 'email'];
 
     /**
      * The accessors to append to the model's array form.
      *
      * @var array
      */
-    protected $hidden = ['admin_id','owner_id'];
+    protected $hidden = ['admin_id', 'owner_id'];
 
     /**
      * Indicates if the model should be timestamped.
@@ -42,15 +44,7 @@ class Admin extends Model {
      */
     public function owner()
     {
-        return $this->belongsTo('App\Models\User', 'owner_id', 'id');
-    }
-
-    /**
-     * Get the Owner record associated with the Admin.
-     */
-    public function user()
-    {
-        return $this->belongsTo('App\Models\User', 'admin_id', 'id');
+        return $this->belongsTo(User::class, 'owner_id', 'id');
     }
 
     /**
@@ -58,7 +52,7 @@ class Admin extends Model {
      */
     public function admin()
     {
-        return $this->belongsTo('App\Models\User', 'admin_id', 'id');
+        return $this->belongsTo(User::class, $this->user_fk);
     }
 
     /**
@@ -66,35 +60,13 @@ class Admin extends Model {
      */
     public function businesses()
     {
-        return $this->hasMany('App\Models\Business', 'admin_id', 'id');
-    }
-
-    /**
-    * Mutator to get the user's full name.
-    *
-    * @param  string  $value
-    * @return string
-    */
-    public function getNameAttribute()
-    {
-        return $this->user->name;
-    }
-
-    /**
-    * Mutator to get the user's email.
-    *
-    * @param  string  $value
-    * @return string
-    */
-    public function getEmailAttribute()
-    {
-        return $this->user->email;
+        return $this->hasMany(Business::class, 'admin_id');
     }
 
     public function toArray()
     {
         $this->user;
+
         return parent::toArray();
     }
-
 }

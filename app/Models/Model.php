@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
+use App\Services\ModelCollection;
 
 abstract class Model extends BaseModel {
 
@@ -12,5 +13,17 @@ abstract class Model extends BaseModel {
             $ids[] = $row->id;
         }
         return self::whereIn('id', $ids)->get();
+    }
+
+    /**
+     * Create a new Eloquent Collection instance.
+     *
+     * @param array $models
+     *
+     * @return ModelCollection
+     */
+    public function newCollection(array $models = [])
+    {
+        return new ModelCollection($models);
     }
 }

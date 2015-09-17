@@ -1,13 +1,10 @@
 <?php namespace App\Models;
 
+use App\Traits\UserModel;
+
 class Commenter extends Model
 {
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'commenters';
+    use UserModel;
 
     /**
      * The attributes that are mass assignable.
@@ -25,22 +22,22 @@ class Commenter extends Model
 
     public $incrementing = false;
 
-    public function user()
-    {
-        return $this->hasOne('App\Models\User', 'id', 'id');
-    }
-
     /**
      * Get the City record associated with the Commenter.
      */
     public function city()
     {
-        return $this->belongsTo('App\Models\City', 'city_id', 'id');
+        return $this->belongsTo(City::class);
     }
 
     public function businessCommenter()
     {
-        return $this->hasMany('App\Models\BusinessCommenter', 'commenter_id', 'id');
+        return $this->hasMany(BusinessCommenter::class);
+    }
+
+    public function businesses()
+    {
+        return $this->belongsToMany(Business::class)->withPivot('adder_id', 'request_feedback_automatically');
     }
 
     public function toArray()
