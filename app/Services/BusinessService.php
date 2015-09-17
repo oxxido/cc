@@ -113,7 +113,8 @@ We will contact you to address the situation in any way we can.
                 ',
             ],
             'testimonial' => [
-                'include_feedback' => true
+                'include_feedback' => true,
+                'include_likes' => true
             ],
             'notification' => [
                 'send_to_owner' => true,
