@@ -22,6 +22,7 @@ class CreateBusinessCommenterTable extends Migration
                 $table->integer('adder_id')->unsigned()->nullable();
                 $table->foreign('adder_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
                 $table->boolean('request_feedback_automatically')->default(true);
+                $table->integer('feedback_requests_sent')->unsigned()->default(0);
                 $table->timestamps();
                 $table->unique(['business_id', 'commenter_id']);
             });
