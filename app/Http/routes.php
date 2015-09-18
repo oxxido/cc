@@ -80,13 +80,17 @@ Route::post('user/update', [
     'uses' => 'UserController@update'
 ]);
 Route::get('reports', 'ReportController@index');
-Route::get('business/{business}/customers', ['as' => 'business.commenters', 'uses' => 'CommenterController@index']);
-Route::get('business/{business}/customers/assign', ['as' => 'business.check', 'uses' => 'CommenterController@check']);
-Route::put('business/{business}/customers/assign', ['as' => 'business.assign', 'uses' => 'CommenterController@assign']);
-Route::resource('business/{business}/customer', 'CommenterController', [
-    'only' => ['create', 'store'],
-    'names'  => [
-        'create'  => 'business.commenter.create',
-        'store'   => 'business.commenter.store',
-    ]
-]);
+Route::group(['middleware' => ['business.rights']], function () {
+    Route::get('business/{business}/customers', ['as' => 'business.commenters', 'uses' => 'CommenterController@index']);
+    Route::get('business/{business}/customers/assign',
+        ['as' => 'business.check', 'uses' => 'CommenterController@check']);
+    Route::put('business/{business}/customers/assign',
+        ['as' => 'business.assign', 'uses' => 'CommenterController@assign']);
+    Route::resource('business/{business}/customer', 'CommenterController', [
+        'only'  => ['create', 'store'],
+        'names' => [
+            'create' => 'business.commenter.create',
+            'store'  => 'business.commenter.store',
+        ]
+    ]);
+});
