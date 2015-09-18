@@ -4,6 +4,14 @@ use App\Models\User;
 
 trait UserModelTrait
 {
+    public static function stub()
+    {
+        $self = new self();
+        $self->relations['user'] = new User();
+
+        return $self;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'id');
