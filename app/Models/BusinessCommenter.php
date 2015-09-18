@@ -16,6 +16,8 @@ class BusinessCommenter extends Model {
      */
     protected $fillable = ['business_id', 'commenter_id', 'added_by'];
 
+    public $timestamps = true;
+
 
     public function adder()
     {
