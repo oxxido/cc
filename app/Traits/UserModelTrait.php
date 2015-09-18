@@ -2,7 +2,7 @@
 
 use App\Models\User;
 
-trait UserModel
+trait UserModelTrait
 {
     public function user()
     {
