@@ -21,6 +21,7 @@ class DashboardBusinessController extends Controller {
      */
     public function __construct()
     {
+        \Debugbar::disable();
         $this->middleware('auth');
         $this->middleware('admin');
 
@@ -251,6 +252,48 @@ class DashboardBusinessController extends Controller {
         return $this->view("dashboard.business.feedback");
     }
 
+    public function getGallery(Request $request)
+    {
+        $this->data->target = $request->input('target');
+        $this->business->config->feedback = $this->defaultConfig('feedback', $request);
+        $this->data->images = $this->business->config->feedback->{$this->data->target . '_gallery'};
+        return $this->json();
+    }
+
+    public function postImage(Request $request)
+    {
+        $this->data->image = $request->input('target');
+        $this->data->target = $request->input('image');
+        $this->setImage($this->data->target, $this->data->image, $request);
+        return $this->json();
+    }
+
+    public function postUpload(Request $request)
+    {
+        $success = false;
+        $target = $request->input('target');
+        $image = $request->file($target);
+        $validator = Validator::make(['image' => $image], ['image' => 'required']);
+        if ($validator->fails()) {
+            $this->data->errors = $validator->getMessageBag()->toArray();
+        } elseif ($image->isValid()) {
+            $destination_path = public_path() . '/uploads';
+            $extension = $image->getClientOriginalExtension();
+            $file_name = microtime(true).'.'.$extension;
+            $image->move($destination_path, $file_name);
+
+            $file_url = url('uploads/' . $file_name);
+            $this->setImage($target, $file_url, $request);
+            $this->data->image = $file_url;
+            $success = true;
+        } else {
+            $this->data->errors = 'Uploaded file is not valid';
+        }
+
+        $this->data->success = $success;
+        return $this->json();
+    }
+
     /**
      * Show the application dashboard to the business admin.
      *
@@ -290,4 +333,20 @@ class DashboardBusinessController extends Controller {
     {
         return BusinessService::defaultConfig($type, $this->business, $request);
     }
+
+    private function setImage($target, $image, $request)
+    {
+        $this->business->config->feedback = $this->defaultConfig('feedback', $request);
+        $this->business->config->feedback->{"{$target}_url"} = $image;
+        if(!(strpos($image, url('uploads/')) === false))
+        {
+            $gallery = $this->business->config->feedback->{$target . '_gallery'};
+            if(!in_array($image, $gallery))
+            {
+                $this->business->config->feedback->{$target . '_gallery'}[] = $image;
+            }
+        }
+        $this->business->save();
+    }
+
 }
