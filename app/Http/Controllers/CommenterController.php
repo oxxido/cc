@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests\CommenterCreateRequest;
+use App\Models\BusinessCommenter;
 use Illuminate\Http\Request;
 use App\Models\Commenter;
 use App\Models\Business;
@@ -27,7 +28,10 @@ class CommenterController extends Controller {
     public function store(CommenterCreateRequest $request, Business $business)
     {
         $commenter = Commenter::make($request->all());
-        $commenter->businesses()->attach($business->id, ['adder_id' => \Auth::id()]);
+
+        if (!BusinessCommenter::whereBusinessId($business->id)->whereCommenterId($commenter->id)->count()) {
+            $commenter->businesses()->attach($business->id, ['adder_id' => \Auth::id()]);
+        }
 
         return \Redirect::back()->with('message', 'Customer successfully saved');
     }
