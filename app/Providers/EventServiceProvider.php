@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use App\Listeners\Comment\SendEmails as ListenersCommentSendEmails;
+use App\Listeners\Comment\DisableAutomaticFeedbackRequestsListener;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use App\Events\Comment\Created as EventCommentCreated;
 use App\Models\OrganizationType;
@@ -26,7 +27,8 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         EventCommentCreated::class => [
-            ListenersCommentSendEmails::class
+            ListenersCommentSendEmails::class,
+            DisableAutomaticFeedbackRequestsListener::class
         ]
     ];
 
@@ -55,6 +57,10 @@ class EventServiceProvider extends ServiceProvider
         });
 
         User::creating(function ($model) {
+            $this->assignUuid($model);
+        });
+
+        Comment::creating(function ($model) {
             $this->assignUuid($model);
         });
 
