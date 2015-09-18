@@ -16,6 +16,7 @@ class CommenterCreateRequest extends CommenterRequest
     {
         $user_rules = UserCreateRequest::baseRules();
         unset($user_rules['password']);
+
         return array_merge($user_rules, self::selfRules());
     }
 
@@ -23,7 +24,8 @@ class CommenterCreateRequest extends CommenterRequest
     {
         return [
             'phone' => 'digits:10',
-            'city'  => 'exists:cities'
+            'city'  => 'exists:cities',
+            'email' => 'required|email|max:255',
         ];
     }
 }

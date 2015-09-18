@@ -51,17 +51,20 @@ class Commenter extends Model
     public static function make($attributes = [])
     {
         $self = null;
-        $self = \DB::transaction(function() use($attributes) {
-            $user = User::create($attributes);
 
-            $self = new self($attributes);
+        if (isset($attributes['email'])) {
+            $self = \DB::transaction(function() use($attributes) {
+                if (!($user = User::whereEmail($attributes['email'])->first())) {
+                    $user = User::create($attributes);
+                }
 
-            $self->id = $user->id;
-            $self->save();
-            $self->user()->associate($user);
+                $attributes['id'] = $user->id;
+                $self = $user->commenter?: self::create($attributes);
+                $self->user()->associate($user);
 
-            return $self;
-        });
+                return $self;
+            });
+        }
 
         return $self;
     }
