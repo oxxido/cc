@@ -1,10 +1,10 @@
 <?php namespace App\Models;
 
-use App\Traits\UserModel;
+use App\Traits\UserModelTrait;
 
 class Admin extends Model
 {
-    use UserModel;
+    use UserModelTrait;
 
     public function user()
     {

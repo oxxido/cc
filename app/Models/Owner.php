@@ -1,10 +1,10 @@
 <?php namespace App\Models;
 
-use App\Traits\UserModel;
+use App\Traits\UserModelTrait;
 
 class Owner extends Model
 {
-    use UserModel;
+    use UserModelTrait;
 
     /**
      * The attributes that are mass assignable.
