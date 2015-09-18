@@ -1,10 +1,10 @@
 <?php namespace App\Models;
 
-use App\Traits\UserModel;
+use App\Traits\UserModelTrait;
 
 class Commenter extends Model
 {
-    use UserModel;
+    use UserModelTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -37,7 +37,7 @@ class Commenter extends Model
 
     public function businesses()
     {
-        return $this->belongsToMany(Business::class)->withPivot('adder_id', 'request_feedback_automatically');
+        return $this->belongsToMany(Business::class)->withPivot('adder_id', 'request_feedback_automatically')->withTimestamps();
     }
 
     public function toArray()
@@ -46,5 +46,23 @@ class Commenter extends Model
         $this->city;
 
         return parent::toArray();
+    }
+
+    public static function make($attributes = [])
+    {
+        $self = null;
+        $self = \DB::transaction(function() use($attributes) {
+            $user = User::create($attributes);
+
+            $self = new self($attributes);
+
+            $self->id = $user->id;
+            $self->save();
+            $self->user()->associate($user);
+
+            return $self;
+        });
+
+        return $self;
     }
 }
