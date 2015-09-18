@@ -10,7 +10,7 @@ class ModelCollection extends Collection
 
         foreach ($this->all() as $key => $model) {
             if (null !== $model->id) {
-                $ids[$model->id] = $model->id;
+                $ids[$model->getKey()] = $model->getKey();
             }
         }
 
