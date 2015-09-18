@@ -30,7 +30,7 @@ class Commenter extends Model
         return $this->belongsTo(City::class);
     }
 
-    public function businessCommenter()
+    public function businessCommenters()
     {
         return $this->hasMany(BusinessCommenter::class);
     }
