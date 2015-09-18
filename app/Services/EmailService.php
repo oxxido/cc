@@ -1,6 +1,8 @@
 <?php namespace App\Services;
 
 use App\Models\Business;
+use App\Models\Comment;
+use App\Models\User;
 use Mail;
 use Lang;
 
@@ -125,25 +127,51 @@ class EmailService
         return new self();
     }
 
-    public function positiveFeedback($user)
+    /**
+     * @param User    $user
+     * @param Comment $comment
+     */
+    public function positiveFeedback(User $user, Comment $comment)
     {
-        $this->subject  = "Positive feedback received";
+        $business = $comment->product->business;
+        $this->subject  = $business->config->email->positive_feedback_subject;
         $this->template = "positiveFeedback";
         $this->send([
-            'to'   => $user->email,
-            'data' => [
-                'name' => $user->name
+            "to"   => $user->email,
+            "data" => [
+                "header"  => BusinessService::tagsReplace([
+                    "text" => $business->config->email->positive_feedback_body,
+                    "comment" => $comment,
+                    "business" => $business,
+                    "section" => "header"
+                ]),
+                "footer"  => BusinessService::tagsReplace([
+                    "text" => $business->config->email->positive_feedback_body,
+                    "comment" => $comment,
+                    "business" => $business,
+                    "section" => "footer"
+                ]),
+                "links" => $business->links
             ]
         ]);
     }
 
-    public function negativeFeedback($user) {
-        $this->subject  = "Negative feedback received";
+    /**
+     * @param User    $user
+     * @param Comment $comment
+     */
+    public function negativeFeedback(User $user, Comment $comment) {
+        $business = $comment->product->business;
+        $this->subject  = $business->config->email->negative_feedback_subject;
         $this->template = "negativeFeedback";
         $this->send([
-            'to'   => $user->email,
-            'data' => [
-                'name' => $user->name
+            "to"   => $user->email,
+            "data" => [
+                "body"  => BusinessService::tagsReplace([
+                    "text" => $business->config->email->negative_feedback_body,
+                    "comment" => $comment,
+                    "business" => $business
+                ])
             ]
         ]);
     }

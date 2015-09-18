@@ -3,9 +3,6 @@
 use App\Models\Admin;
 use App\Models\Business;
 use App\Models\Product;
-use App\Services\UserService;
-use App\Services\AdminService;
-use App\Services\LocationService;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -107,7 +104,7 @@ class BusinessService {
 
 Have a great day!
 
-[YOUR_NAME]',
+[OWNER_NAME]',
                 'negative_text' => 'Thanks you for your feedback
 
 Whenever we see feedback that is not outstanding, we like to follow up to see what we could have done better.
@@ -116,7 +113,8 @@ We will contact you to address the situation in any way we can.
                 ',
             ],
             'testimonial' => [
-                'include_feedback' => true
+                'include_feedback' => true,
+                'include_likes' => true
             ],
             'notification' => [
                 'send_to_owner' => true,
@@ -127,7 +125,44 @@ We will contact you to address the situation in any way we can.
                 'send_reports' => true,
                 'frequency' => Business::CONFIG_NOTIFICATIONS_FREQUENCY_DAILY
             ],
-            'email' => [],
+            'email' => [
+                'feedback_request_from' => $business->owner->email,
+                'feedback_request_subject' => 'Thank you for visiting us. Would you leave us your feedback?',
+                'feedback_request_body' => 'Dear [CUSTOMER_FIRST_NAME],
+Thank you for visiting us at [BUSINESS_NAME]. We appreciate your business and value you as a customer. To help us continue our high quality of service, we invite you to leave us your feedback.
+
+[PROVIDE_FEEDBACK]
+
+We look forward to seeing you again soon.
+
+Sincerely,
+
+[OWNER_NAME]
+[BUSINESS_NAME]
+[BUSINESS_URL]',
+                'positive_feedback_subject' => 'Thank you for your feedback.',
+                'positive_feedback_body' => 'Thank you for your feedback - we appreciate having you as a customer and your feedback helps us serve you better.
+
+Online reviews are becoming very important for our business. If you would leave us a review on one of these review sites it would really help us a lot:
+
+[REVIEW_LINKS]
+
+Thanks for your support, and have a great day!
+
+[OWNER_NAME]',
+                'negative_feedback_subject' => 'Thank you for your feedback.',
+                'negative_feedback_body' => 'Thank you for your feedback.
+
+Whenever we see feedback that is not outstanding, we like to follow up to see what we could have done better.
+
+We will contact you to address the situation in any way we can.
+
+Once again, thank you for taking the time to let us know how you feel, and I hope we can address this for you.
+
+Sincerely,
+
+[OWNER_NAME]'
+            ],
             'kiosk' => []
         ];
 
@@ -137,7 +172,7 @@ We will contact you to address the situation in any way we can.
         }
         elseif($type == "all")
         {
-             $config = new \stdClass;
+            $config = new \stdClass;
             foreach ($default as $name => $value)
             {
                 $config->$name = self::defaultConfigByType($name, $business, $request, $default);
@@ -150,7 +185,7 @@ We will contact you to address the situation in any way we can.
         }
     }
 
-    private static function defaultConfigByType($type, $business, $request, $default)
+    private static function defaultConfigByType($type, Business $business, $request, $default)
     {
         $config = isset($business->config->$type) ? (object) $business->config->$type : new \stdClass();
 
@@ -170,6 +205,15 @@ We will contact you to address the situation in any way we can.
             }
             else
             {
+                if(is_array($config))
+                {
+                    if(empty($config)){
+                        $config = new \stdClass();
+                    }
+                    else{
+                        $config = json_decode(json_encode($config));
+                    }
+                }
                 $config->$name = $value;
             }
         }
@@ -181,16 +225,32 @@ We will contact you to address the situation in any way we can.
         $parsed = str_replace("\r\n", "<br>", $options['text']);
         $parsed = str_replace("\n", "<br>", $parsed);
 
-        $parsed = str_replace("[YOUR_NAME]", $options['business']->owner->name, $parsed);
+        $tags = [
+            "BUSINESS_NAME"       => $options['business']->name,
+            "BUSINESS_PHONE"      => $options['business']->phone,
+            "BUSINESS_URL"        => $options['business']->url,
+            "OWNER_NAME"          => $options['business']->owner->name,
+            "YOUR_NAME"           => $options['business']->owner->name,
+            "OWNER_FIRST_NAME"    => $options['business']->owner->first_name,
+            "OWNER_LAST_NAME"     => $options['business']->owner->last_name,
+            "OWNER_EMAIL"         => $options['business']->owner->email,
+            "CUSTOMER_NAME"       => isset($options['comment']) ? $options['comment']->commenter->name : "",
+            "CUSTOMER_FIRST_NAME" => isset($options['comment']) ? $options['comment']->commenter->first_name : "",
+            "CUSTOMER_LAST_NAME"  => isset($options['comment']) ? $options['comment']->commenter->last_name : "",
+            "PROVIDE_FEEDBACK"    => isset($options['comment']) ? $options['comment']->rating : ""
+        ];
 
-        if(isset($options["part"]) && $options["part"] == "header")
+        foreach($tags as $tag => $value)
         {
-            $parsed = strpos($parsed, "[REVIEW_LINKS]") ? substr($parsed, 0, strpos($parsed, "[REVIEW_LINKS]")) : $parsed;
+            $parsed = str_replace("[" . $tag ."]", $value, $parsed);
         }
 
-        if(isset($options["part"]) && $options["part"] == "footer")
-        {
+        if(isset($options["section"]) && $options["section"] == "header") {
+            $parsed = strpos($parsed, "[REVIEW_LINKS]") ? substr($parsed, 0, strpos($parsed, "[REVIEW_LINKS]")) : $parsed;
+        } elseif(isset($options["section"]) && $options["section"] == "footer") {
             $parsed = strpos($parsed, "[REVIEW_LINKS]") ? substr($parsed, (strpos($parsed, "[REVIEW_LINKS]") + strlen("[REVIEW_LINKS]"))) : "";
+        } else {
+            $parsed = str_replace("[REVIEW_LINKS]", "", $parsed);
         }
 
         return $parsed;

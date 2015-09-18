@@ -1,23 +1,23 @@
 <?php namespace App\Http\Controllers;
 
+use Auth;
+use Validator;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\NotificationUpdateRequest;
 use App\Services\BusinessService;
-use Illuminate\Http\Request;
 use App\Models\Business;
-use App\Models;
-use Validator;
-use Auth;
+use App\Models\SocialNetwork;
 
-class DashboardBusinessController extends Controller
-{
+
+class DashboardBusinessController extends Controller {
+
     public $user;
 
     public $business = false;
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -31,6 +31,11 @@ class DashboardBusinessController extends Controller
             $this->setBusiness();
         }
         $this->data->business_id = \Session::get('business_id');
+
+        if($this->business == false)
+        {
+            return new RedirectResponse(url('/dashboard'));
+        }
     }
 
     /**
@@ -62,7 +67,7 @@ class DashboardBusinessController extends Controller
      */
     public function getLink()
     {
-        $this->data->social_networks = Models\SocialNetwork::all();
+        $this->data->social_networks = SocialNetwork::all();
 
         return $this->view('dashboard.crud.link.index');
     }
@@ -96,7 +101,9 @@ class DashboardBusinessController extends Controller
 
         $setting = $this->defaultConfig('testimonial', $request);
         // Only input type radio
-        $setting->include_feedback           = is_null($request->input('include_feedback')) ? false : true;
+        $setting->include_feedback = is_null($request->input('include_feedback')) ? false : true;
+        $setting->include_likes = is_null($request->input('include_likes')) ? false : true;
+
         $this->business->config->testimonial = $setting;
         $this->business->save();
 
@@ -156,6 +163,22 @@ class DashboardBusinessController extends Controller
      */
     public function postEmail(Request $request)
     {
+        $validator = Validator::make($request->all(), array());
+        if ($validator->fails())
+        {
+            return redirect('dashbiz/email')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $setting = $this->defaultConfig('email', $request);
+        $this->business->config->email = $setting;
+        $this->business->save();
+
+        $this->data->saved = true;
+        $this->data->business = $this->business;
+        $this->data->config = $this->business->config->email;
+        $this->data->product = $this->business->products->first();
         return $this->view('dashboard.business.email');
     }
 

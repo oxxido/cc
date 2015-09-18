@@ -14,7 +14,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="/dashbiz/link">Online Review Links</a></li>
-            <!--<li><a href="/dashbiz/email">Email Templates</a></li> -->
+            <li><a href="/dashbiz/email">Email Templates</a></li>
             <li><a href="/dashbiz/feedback">Feedback Settings</a></li>
             <li><a href="/dashbiz/testimonial">Testimonials Widget</a></li>
             <li><a href="/dashbiz/notification">Notification Settings</a></li>

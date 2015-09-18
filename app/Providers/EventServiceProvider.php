@@ -1,10 +1,10 @@
 <?php namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use App\Listeners\Comment\SendEmails as ListenersCommentSendEmails;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
-use App\Listeners\Comment\SendEmails;
+use App\Events\Comment\Created as EventCommentCreated;
 use App\Models\OrganizationType;
-use App\Events\Comment\Created;
 use App\Models\SocialNetwork;
 use App\Models\BusinessType;
 use App\Models\Business;
@@ -25,8 +25,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Created::class => [
-            SendEmails::class
+        EventCommentCreated::class => [
+            ListenersCommentSendEmails::class
         ]
     ];
 
@@ -51,7 +51,7 @@ class EventServiceProvider extends ServiceProvider
         parent::boot($events);
 
         Comment::created(function (Comment $comment) {
-            Event::fire(Created::class, [$comment]);
+            Event::fire(EventCommentCreated::class, [$comment]);
         });
 
         User::creating(function ($model) {

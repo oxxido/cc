@@ -7,11 +7,17 @@
         <table class="twelve columns">
           <tr>
             <td>
-              <h1>{{ $name }} wrote a positive feedback</h1>
-              <p class="lead">Lorem ipsum...</p>
-              <p>
-                Loremp ipsum
-              </p>
+
+              <?=$header?>
+
+              <ul>
+                @foreach($links as $link)
+                  <li><a href="{{ $link['profile'] }}" target="_blank">{{ $link['social_network']['name'] }}</a></li>
+                @endforeach
+              </ul>
+
+              <?=$footer?>
+
             </td>
             <td class="expander"></td>
           </tr>
