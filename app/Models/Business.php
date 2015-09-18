@@ -209,4 +209,19 @@ class Business extends Model
     {
         return $this->belongsToMany(SocialNetwork::class)->withPivot('id', 'url', 'order', 'active')->withTimestamps();
     }
+
+    public function isOwner(User $user)
+    {
+        return $user->id == $this->owner_id;
+    }
+
+    public function isAdmin(User $user)
+    {
+        return $this->admin? $this->admin->admin_id == $user->id: false;
+    }
+
+    public function hasRights(User $user)
+    {
+        return $this->isOwner($user) || $this->isAdmin($user);
+    }
 }
