@@ -21,17 +21,17 @@ class BusinessCommenter extends Model {
 
     public function adder()
     {
-        return $this->belongsTo('App\Models\User', 'adder_id', 'id');
+        return $this->belongsTo(User::class, 'adder_id');
     }
 
-    public function businesse()
+    public function business()
     {
-        return $this->belongsTo('App\Models\Businesses', 'business_id', 'id');
+        return $this->belongsTo(Business::class);
     }
 
     public function commenter()
     {
-        return $this->belongsTo('App\Models\Commenter', 'commenter_id', 'id');
+        return $this->belongsTo(Commenter::class);
     }
 
 }
