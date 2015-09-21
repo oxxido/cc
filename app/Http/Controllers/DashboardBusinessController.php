@@ -262,8 +262,8 @@ class DashboardBusinessController extends Controller {
 
     public function postImage(Request $request)
     {
-        $this->data->image = $request->input('target');
-        $this->data->target = $request->input('image');
+        $this->data->image = $request->input('image');
+        $this->data->target = $request->input('target');
         $this->setImage($this->data->target, $this->data->image, $request);
         return $this->json();
     }

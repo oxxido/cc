@@ -47,11 +47,9 @@
                 <label for="include_phone"> Ask phone number </label>
               </div>
               <div class="form-group">
-                <label for="positive_threshold">
-                  Positive Feedback Threshold</label>
-                  <br/>
+                <label for="positive_threshold">Positive Feedback Threshold</label>
+                <p>
                   Show positive feedback page (including online reviews links) when rating is
-                  <br />
                   <select name="positive_threshold">
                     <option @if($config->positive_threshold == 0.5) selected="selected" @endif>0.5</option>
                     <option @if($config->positive_threshold == 1) selected="selected" @endif>1</option>
@@ -65,77 +63,72 @@
                     <option @if($config->positive_threshold == 5) selected="selected" @endif>5</option>
                   </select>
                   or higher
+                </p>
               </div>
             </div>
 
             <div role="tabpanel" class="tab-pane active" id="tab_config">
-              <div class="form-group hidden">
+              <div class="form-group">
                 <label for="page_title">
                   Page Title - Call to action
                   <small>Leave blank if not desired</small>
                 </label>
                 <input type="text" name="page_title" id="page_title" class="form-control" value="{{ $config->page_title }}">
               </div>
-              <div class="form-group hidden">
+              <div class="form-group">
                 <label for="positive_text">Positive Feedback Page</label>
                 <textarea class="form-control editable" rows="6" name="positive_text" id="positive_text">{{ $config->positive_text }}</textarea>
               </div>
-              <div class="form-group hidden">
+              <div class="form-group">
                 <label for="negative_text">Negative Feedback Page</label>
                 <textarea class="form-control editable" rows="6" name="negative_text" id="negative_text">{{ $config->negative_text }}</textarea>
               </div>
 
               <div class="form-group">
-                <label for="logo_url">Logo Image Url</label>
-                <!-- <input type="text" name="logo_url" id="logo_url" class="form-control" value="{{ $config->logo_url }}"> -->
+                <label for="logo_url">Logo Image</label>
                 <div class="row">
                   <div class="col-sm-6">
                     <img src="{{ $config->logo_url }}" class="img-responsive" id="logo">
+                    <div id="logo-progress" class="progress" style="display:none">
+                        <div class="progress-bar progress-bar-success"></div>
+                    </div>
                   </div>
                   <div class="col-sm-6">
-                    <span class="btn btn-success fileinput-button">
-                      <span>Upload Image</span>
-                      <!-- The file input field used as target for the file upload widget -->
-                      <input id="logo-upload" type="file" name="logo" multiple>
-                    </span>
-                    <span class="btn btn-success" onclick="cc.bizfeed.gallery('logo')">Select Image</span>
-                    <span class="btn btn-success" onclick="cc.bizfeed.external('logo')">External Link</span>
+                    <div class="btn-group" role="group">
+                      <span class="btn btn-success fileinput-button">
+                        <span>Upload</span>
+                        <input id="logo-upload" type="file" name="logo" multiple>
+                      </span>
+                      <span class="btn btn-success" onclick="cc.bizfeed.gallery('logo')">Uploaded</span>
+                      <span class="btn btn-success" onclick="cc.bizfeed.external('logo')">Link</span>
+                    </div>
                   </div>
-                </div>
-                  <!-- The fileinput-button span is used to style the file input field as button -->
-                  <br>
-                  <br>
-                  <!-- The global progress bar -->
-                  <div id="logo-progress" class="progress" style="display:none">
-                      <div class="progress-bar progress-bar-success"></div>
-                  </div>
-                  <!-- The container for the uploaded files -->
-                  <div id="logo-file" class="files"></div>
                 </div>
               </div>
 
-              <div class="form-group hidden">
-                <label for="banner_url">Banner Page Image Url</label>
-                <!-- <input type="text" name="banner_url" id="banner_url" class="form-control" value="{{ $config->banner_url }}"> -->
-                <div>
-                  <!-- The fileinput-button span is used to style the file input field as button -->
-                  <span class="btn btn-success fileinput-button">
-                    <span>Select file</span>
-                    <!-- The file input field used as target for the file upload widget -->
-                    <input id="banner-upload" type="file" name="banner" multiple>
-                  </span>
-                  <br>
-                  <br>
-                  <!-- The global progress bar -->
-                  <div id="banner-progress" class="progress">
-                      <div class="progress-bar progress-bar-success"></div>
+              <div class="form-group">
+                <label for="banner_url">Banner Page Image</label>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <img src="{{ $config->banner_url }}" class="img-responsive" id="banner">
+                    <div id="banner-progress" class="progress" style="display:none">
+                        <div class="progress-bar progress-bar-success"></div>
+                    </div>
                   </div>
-                  <!-- The container for the uploaded files -->
-                  <div id="banner-file" class="files"></div>
+                  <div class="col-sm-6">
+                    <div class="btn-group" role="group">
+                      <span class="btn btn-success fileinput-button">
+                        <span>Upload</span>
+                        <input id="banner-upload" type="file" name="banner" multiple>
+                      </span>
+                      <span class="btn btn-success" onclick="cc.bizfeed.gallery('banner')">Uploaded</span>
+                      <span class="btn btn-success" onclick="cc.bizfeed.external('banner')">Link</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div class="form-group hidden">
+              <div class="form-group">
                 <label for="stars_style">Stars Style</label>
                 <select name="stars_style" class="form-control">
                   <option @if($config->stars_style == 'default') selected="selected" @endif>Default</option>
@@ -201,7 +194,7 @@
     @{{#if images}}
       <div class="row">
         @{{#each images}}
-          <div class="col-xs-6 col-md-3">
+          <div class="col-xs-4">
             <a href="javascript:;" class="thumbnail" onclick="cc.bizfeed.selected(this)" data-image="@{{this}}">
               <img src="@{{this}}" alt="Image">
             </a>
@@ -222,103 +215,5 @@
     </div>
   </script>
 
-  <script>
-  $(function () {
-    cc.bizfeed = {
-      gallery : function(target)
-      {
-        $.ajax({
-          url : cc.baseUrl + 'dashbiz/gallery',
-          dataType : 'json',
-          data : {
-            target : target
-          }
-        })
-        .done(function(data) {
-          cc.dashboard.modal.handlebars("Select Image", "#gallery_HBT", data);
-          cc.dashboard.modal.size("modal-lg");
-          $("#dashboard-modal .thumbnail").data("target", target);
-        })
-        .fail(tools.fail);
-      },
-      selected : function(link)
-      {
-        var target = $(link).data("target");
-        var image = $(link).data("image");
-        this.save(target, image);
-      },
-      external : function(target)
-      {
-        cc.dashboard.modal.handlebars("External Image", "#external_HBT", {}, function(){
-          var image = $("#external_link").val();
-          cc.bizfeed.save(target, image);
-        });
-      },
-      save : function(target, image)
-      {
-        $.ajax({
-          url : cc.baseUrl + 'dashbiz/image',
-          dataType : 'json',
-          type : "POST",
-          data : {
-            _token : '{{ csrf_token() }}',
-            target : target,
-            image : image
-          }
-        })
-        .done(function(data) {
-          cc.dashboard.modal.hide();
-          $('#logo').attr("src", image);  
-        })
-        .fail(tools.fail);
-      }
-    };
-
-    'use strict';
-    // Change this to the location of your server-side upload handler:
-    var url = '{{ url("dashbiz/upload") }}';
-    $('#logo-upload').fileupload({
-      url: url,
-      dataType: 'json',
-      formData : {
-        _token : '{{ csrf_token() }}',
-        target : 'logo'
-      },
-      submit : function(e, data) {
-        $('#logo-progress').show();
-        return true;
-      },
-      done: function (e, data) {
-        $('#logo').attr("src", data.result.image);
-        $('#logo-progress').hide();
-      },
-      progressall: function (e, data) {
-        var progress = parseInt(data.loaded / data.total * 100, 10);
-        $('#logo-progress .progress-bar').css(
-          'width',
-          progress + '%'
-        );
-      }
-    }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
-
-    $('#banner-upload').fileupload({
-        url: url,
-        dataType: 'json',
-        formData : {
-          _token : '{{ csrf_token() }}',
-          target : 'banner'
-        },
-        done: function (e, data) {
-          $('<img/>').attr("src", data.result.image).html('#logo-file');
-        },
-        progressall: function (e, data) {
-          var progress = parseInt(data.loaded / data.total * 100, 10);
-          $('#banner-progress .progress-bar').css(
-            'width',
-            progress + '%'
-          );
-        }
-    }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
-  });
-  </script>
+  <script  type="text/javascript" src="{{ asset('/js/cc.bizfeed.js') }}"></script>
 @endsection
