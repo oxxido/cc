@@ -97,7 +97,7 @@
                     <div class="btn-group" role="group">
                       <span class="btn btn-success fileinput-button">
                         <span>Upload</span>
-                        <input id="logo-upload" type="file" name="logo" multiple>
+                        <input id="logo-upload" type="file" name="logo">
                       </span>
                       <span class="btn btn-success" onclick="cc.bizfeed.gallery('logo')">Uploaded</span>
                       <span class="btn btn-success" onclick="cc.bizfeed.external('logo')">Link</span>
@@ -119,7 +119,7 @@
                     <div class="btn-group" role="group">
                       <span class="btn btn-success fileinput-button">
                         <span>Upload</span>
-                        <input id="banner-upload" type="file" name="banner" multiple>
+                        <input id="banner-upload" type="file" name="banner">
                       </span>
                       <span class="btn btn-success" onclick="cc.bizfeed.gallery('banner')">Uploaded</span>
                       <span class="btn btn-success" onclick="cc.bizfeed.external('banner')">Link</span>
@@ -162,28 +162,6 @@
 @section('footer')
 
   <script type="text/javascript" src="{{ asset('/vendor/tinymce/tinymce.min.js') }}"></script>
-  <script type="text/javascript">
-    // tinymce.init({
-    //   selector: "textarea.editable",
-    //   height: 300,
-    //   statusbar: false,
-    //   toolbar: "undo redo taging",
-    //   menubar: false,
-    //   object_resizing: false,
-    //   external_plugins: {
-    //     "taging": "{{ asset('/js/vendor/taging/plugin.min.js') }}"
-    //   }
-    // });
-
-    // $("#feedbackForm").bind('submit', function(){
-    //   $("textarea").each(function(i, textarea){
-    //     var body = $(textarea).val();
-    //     tinymce.editors[0].destroy();
-    //     $(textarea).val(body);
-    //   });
-    //   return true;
-    // });
-  </script>
 
   <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
   <script type="text/javascript" src="{{ asset('/vendor/blueimp-file-upload/js/jquery.iframe-transport.js') }}"></script>

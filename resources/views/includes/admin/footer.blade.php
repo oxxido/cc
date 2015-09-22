@@ -29,6 +29,7 @@
 <script type="text/javascript" src="{{ asset('/js/vendor/jquery.easy-paging.js') }}"></script>
 
 <!-- Tools -->
+<script type="text/javascript" src="{{ asset('/vendor/jquery.scrollTo/jquery.scrollTo.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/tools.js') }}"></script>
 
 <script type="text/javascript" src="{{ asset('/js/cc.dashboard.js') }}"></script>

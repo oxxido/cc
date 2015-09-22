@@ -228,10 +228,7 @@ class DashboardBusinessController extends Controller {
      */
     public function postFeedback(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'logo_url'   => 'required',
-            'banner_url' => 'required'
-        ]);
+        $validator = Validator::make($request->all(), []);
 
         if ($validator->fails()) {
             return redirect('dashbiz/feedback')->withErrors($validator)->withInput();
