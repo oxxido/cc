@@ -20,27 +20,36 @@ class ReportService
         $negative_comments = 0;
         $request = 0;
         $request_open = 0;
+        $request_not_open = 0;
+        $request_open_rate = 0;
+        $unrequested_comment = 0;
         foreach ($biz as $business) {
-            $comments_detail = self::businessesComments($business->id);
-            $request        += self::feedbackRequests($business->id);
-            $request_open   += self::feedbackRequestsOpen($business->id);
+            $comments_detail      = self::businessesComments($business->id);
+            $request             += self::feedbackRequests($business->id);
+            $request_open        += self::feedbackRequestsOpen($business->id);
+            $request_not_open    += self::feedbackRequestsNotOpen($business->id);
+            $unrequested_comment += self::feedbackWithoutRequest($business->id);
+
             foreach ($comments_detail as $comment) {
                 if ($comment->rating < 7) {
                     $negative_comments++;
                 }
             }
         }
-        $request_open = $request == 0 ? 0 : ($request_open / $request) * 100;
+        $request_open_rate = $request == 0 ? 0 : ($request_open / $request) * 100;
 
-        $data['own']               = $own;
-        $data['own']['admin']      = $own_admin;
-        $data['own']['other']      = $own_no_admin;
-        $data['admin']             = $admin;
-        $data['admin']['own']      = $own_admin;
-        $data['admin']['other']    = $no_own_admin;
-        $data['negative_comments'] = $negative_comments;
-        $data['request']           = $request;
-        $data['request_open']      = $request_open;
+        $data['own']                 = $own;
+        $data['own']['admin']        = $own_admin;
+        $data['own']['other']        = $own_no_admin;
+        $data['admin']               = $admin;
+        $data['admin']['own']        = $own_admin;
+        $data['admin']['other']      = $no_own_admin;
+        $data['negative_comments']   = $negative_comments;
+        $data['request']             = $request;
+        $data['request_open_rate']   = $request_open_rate;
+        $data['request_not_open']    = $request_not_open;
+        $data['request_open']        = $request_open;
+        $data['unrequested_comment'] = $unrequested_comment;
 
         return $data;
     }
@@ -160,6 +169,7 @@ class ReportService
     {
         return DB::table('business_commenter')
                     ->where('business_id', '=', $id)
+                    ->whereNotNull('adder_id')
                     ->count();
                     //->get();
     }
@@ -176,7 +186,59 @@ class ReportService
         return DB::table('business_commenter AS bc')
                     ->join('comments AS c', 'bc.id', '=', 'c.business_commenter_id')
                     ->where('bc.business_id', '=', $id)
+                    ->whereNotNull('bc.adder_id')
                     ->count();
-                    //->get();
     }
+
+    /**
+     * Get the feedback count request that not be open of a business
+     *
+     * @param $id
+     *
+     * @return mixed
+     */
+    protected static function feedbackRequestsNotOpen($id)
+    {
+        return DB::table('business_commenter')
+                    ->where('business_id', '=', $id)
+                    ->whereNotIn('id', function($query) {
+                        $query->select(DB::raw('business_commenter_id'))
+                        ->from('comments');
+                    })
+                    ->count();
+    }
+
+    /**
+     * Get the feedback comment without request count of a business
+     *
+     * @param $id
+     *
+     * @return mixed
+     */
+    protected static function feedbackWithoutRequest($id)
+    {
+        return DB::table('business_commenter AS bc')
+                    ->join('comments AS c', 'bc.id', '=', 'c.business_commenter_id')
+                    ->where('bc.business_id', '=', $id)
+                    ->whereNull('bc.adder_id')
+                    ->count();
+    }
+
+    /**
+     * Get the rating comments per month of a business
+     *
+     * @param $id
+     *
+     * @return mixed
+     */
+    protected static function ratingCommentPerMonth($id)
+    {
+        /*
+        select month(c.created_at) as month, count(*) as qcomments from comments c
+        inner join business_commenter bc on bc.id = c.business_commenter_id
+        where bc.business_id = 4 and year(c.created_at) = year(curdate())
+        group by month(c.created_at);
+        */
+    }
+    
 }
