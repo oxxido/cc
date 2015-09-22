@@ -87,15 +87,26 @@ cc.dashboard = {
             this.show(title, message);
             $("#dashboard-modal .btn-primary").removeClass("hide");
             $("#dashboard-modal .btn-primary" ).off( "click");
-            $("#dashboard-modal .btn-primary").click(function(){
+            $("#dashboard-modal .btn-primary").html("Confirm").click(function(){
                 success();
                 cc.dashboard.modal.hide();
+                $("#dashboard-modal .btn-primary").html("Save");
             });
         },
         handlebars : function(title, template, data)
         {
+            var success = arguments[3] ? arguments[3] : function(){};
             this.show(title, "");
             tools.handlebars(template, "#dashboard-modal .modal-body", data);
+            if(success)
+            {
+                $("#dashboard-modal .btn-primary").removeClass("hide");
+                $("#dashboard-modal .btn-primary" ).off( "click");
+                $("#dashboard-modal .btn-primary").click(function(){
+                    success();
+                    cc.dashboard.modal.hide();
+                });
+            }
         },
         show : function(title, content)
         {
@@ -107,6 +118,10 @@ cc.dashboard = {
         hide : function()
         {
             $("#dashboard-modal").modal("hide");
+        },
+        size : function(size)
+        {
+            $("#dashboard-modal .modal-dialog").removeClass("modal-sm modal-lg").addClass(size);
         }
     },
     panel : {

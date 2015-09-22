@@ -47,6 +47,7 @@
 
 @section('footer')
   <script type="text/javascript" src="{{ asset('/vendor/bootstrap-star-rating/js/star-rating.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/vendor/jquery.scrollTo/jquery.scrollTo.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('/js/tools.js') }}"></script>
   @yield('foot')
 @endsection

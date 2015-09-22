@@ -29,6 +29,8 @@
     "paging": "~1.2.0",
     "bootstrap-star-rating": "~3.5.3",
     "ionicons": "~2.0.1",
-    "tinymce": "~4.2.5"
+    "tinymce": "~4.2.5",
+    "blueimp-file-upload":  "~9.11.2",
+    "jquery.scrollTo" : "~2.1.1"
   }
 }
