@@ -15,9 +15,9 @@ class CreateBusinessesTable extends Migration
         DB::transaction(function () {
             Schema::create('businesses', function (Blueprint $table) {
                 $table->increments('id');
-                $table->integer('business_type_id')->unsigned();
+                $table->integer('business_type_id')->unsigned()->nullable();
                 $table->foreign('business_type_id')->references('id')->on('business_types')->onDelete('cascade')->onUpdate('cascade');
-                $table->integer('organization_type_id')->unsigned();
+                $table->integer('organization_type_id')->unsigned()->nullable();
                 $table->foreign('organization_type_id')->references('id')->on('organization_types')->onDelete('cascade')->onUpdate('cascade');
                 $table->integer('city_id')->unsigned();
                 $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade')->onUpdate('cascade');
