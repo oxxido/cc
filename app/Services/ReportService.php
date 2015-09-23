@@ -18,6 +18,7 @@ class ReportService
         $biz          = self::businessesOwnAdmin($id);
 
         $negative_comments = 0;
+        $positive_comments = 0;
         $request = 0;
         $request_open = 0;
         $request_not_open = 0;
@@ -33,6 +34,10 @@ class ReportService
             foreach ($comments_detail as $comment) {
                 if ($comment->rating < 7) {
                     $negative_comments++;
+                } else {
+                    if ($comment->rating > 8) {
+                        $positive_comments++;
+                    } 
                 }
             }
         }
@@ -45,6 +50,7 @@ class ReportService
         $data['admin']['own']        = $own_admin;
         $data['admin']['other']      = $no_own_admin;
         $data['negative_comments']   = $negative_comments;
+        $data['positive_comments']   = $positive_comments;
         $data['request']             = $request;
         $data['request_open_rate']   = $request_open_rate;
         $data['request_not_open']    = $request_not_open;
@@ -234,6 +240,12 @@ class ReportService
     protected static function ratingCommentPerMonth($id)
     {
         /*
+        $ratings = array($positive, $negative);
+        return $ratings;
+        */
+
+        /*SP to do this
+
         select month(c.created_at) as month, count(*) as qcomments from comments c
         inner join business_commenter bc on bc.id = c.business_commenter_id
         where bc.business_id = 4 and year(c.created_at) = year(curdate())
