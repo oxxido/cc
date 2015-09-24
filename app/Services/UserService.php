@@ -31,7 +31,7 @@ class UserService {
      * @param  array  $data
      * @return User
      */
-    public static function create(array $data, $send_password = false)
+    public static function create(array $data, $send_password = false, &$log = array())
     {
         $user = User::create([
             'first_name'      => $data['first_name'],
@@ -41,6 +41,7 @@ class UserService {
             'activation_code' => str_random(60)
         ]);
         Event::fire(new UserEmailEvent($user, "user", ["send_password" => $send_password, "password" => $data['password']]));
+        $log[] = "New user created. Email sent";
         return $user;
     }
 

@@ -127,7 +127,7 @@ cc.dashboard = {
     panel : {
         only : function(selector)
         {
-            $("#content-dashboard .collapse:not("+selector+", alert.collapse)").collapse("hide");
+            $("#content-dashboard .collapse:not("+selector+")").collapse("hide");
             this.show(selector);
         },
         hide : function()

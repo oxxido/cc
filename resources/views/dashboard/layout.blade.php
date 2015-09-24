@@ -35,7 +35,7 @@
         @yield('title')
 
         <!-- Main content -->
-        <section class="content" id="content-dashboard">
+        <section class="content">
           <!-- TIP -->
           @if(\Session::has('message'))
             <div class="callout callout-info">
@@ -49,7 +49,9 @@
             <div></div>
           </div>
 
-    			@yield('content')
+          <div id="content-dashboard">
+            @yield('content')
+          </div>
 
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->

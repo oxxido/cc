@@ -2,6 +2,48 @@ if (!cc) var cc = {};
 if (!cc.crud) cc.crud = {};
 
 cc.crud.business = {
+    cvs: {
+        upload : function()
+        {
+            'use strict';
+
+            $('#csv-upload').fileupload({
+                url:  cc.baseUrl + 'crud/business/csv',
+                dataType: 'json',
+                type : 'POST',
+                formData : {
+                    _token : cc._token
+                },
+                submit : function(e, data) {
+                    tools.messagesHide();
+                    cc.dashboard.panel.hide("#businessCvsLog");
+                    $('#csv-progress').show();
+                    return true;
+                },
+                done: function (e, data) {
+                    cc.crud.business.cvs.log(data.result);
+                    $('#csv-progress').hide();
+                },
+                progressall: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#csv-progress .progress-bar').css('width', progress + '%');
+                }
+            }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
+        },
+        log : function(data)
+        {
+            if(data.errors)
+            {
+                tools.messages(data.errors, "error");
+            }
+            else
+            {
+                cc.crud.business.table();
+                tools.handlebars("#businessCvsLog_HBT", "#businessCvsLog_HBW", data);
+                cc.dashboard.panel.show("#businessCvsLog");
+            }
+        }
+    },
     add : {
         create : function()
         {
@@ -279,5 +321,6 @@ cc.crud.business = {
     init: function()
     {
         cc.crud.business.table();
+        cc.crud.business.cvs.upload();
     }
 }

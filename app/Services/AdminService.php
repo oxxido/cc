@@ -28,20 +28,21 @@ class AdminService {
      * @param  array  $data
      * @return Admin
      */
-    public static function create(array $data)
+    public static function create(array $data, &$log = array())
     {
         $admin = Admin::create([
             'owner_id' => $data['owner_id'],
             'admin_id' => $data['admin_id']
         ]);
-
+        $log[] = "User asigned as admin";
         if($admin->user->id != $data['owner_id']) {
             Event::fire(new UserEmailEvent($admin->user, "admin"));
+            $log[] = "Email send for new admin";
         }
         return $admin;
     }
 
-    public static function getAdmin(array $data)
+    public static function getAdmin(array $data, &$log = array())
     {
         $data['id'] = isset($data['id']) ? $data['id'] : false;
         if(!($data['id'] && $admin = Admin::find($data['id'])))
@@ -57,19 +58,24 @@ class AdminService {
                     'last_name'  => $data['last_name'],
                     'email'      => $data['email'],
                     'password'   => str_random(8)
-                ], true);
+                ], true, $log);
+            }
+            else
+            {
+                $log[] = "Email {$data['email']} was found";
             }
 
             if($user_admin->isAdmin($data['owner_id']))
             {
                 $admin = $user_admin->admin($data['owner_id']);
+                $log[] = "User is already an admin";
             }
             else
             {
                 $admin = AdminService::create([
                     'owner_id' => $data['owner_id'],
                     'admin_id' => $user_admin->id
-                ]);
+                ], $log);
             }
         }
         return $admin;

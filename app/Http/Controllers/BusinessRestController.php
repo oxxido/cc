@@ -27,6 +27,7 @@ class BusinessRestController extends Controller {
      */
     public function __construct()
     {
+        \Debugbar::disable();
         $this->middleware('auth');
         $this->user = \Auth::user();
     }
@@ -230,4 +231,123 @@ class BusinessRestController extends Controller {
         return $this->json();
     }
 
+    public function csv(Request $request)
+    {
+        $upload = $request->file('csv');
+        $validator = \Validator::make(['csv' => $upload], [
+            'csv' => 'required|max:3072'
+        ],[
+            'csv.required' => 'File is required',
+            'csv.max' => 'Max file size is 3MB'
+        ]);
+
+        if ($validator->fails())
+        {
+            $this->data->errors = $validator->getMessageBag()->toArray();
+        }
+        elseif (!$upload->isValid())
+        {
+            $this->data->errors = 'Uploaded file is not valid';
+        }
+        elseif(!in_array($upload->getClientMimeType(), explode(",", "csv,txt,text/csv,xls,application/vnd.ms-excel")))
+        {
+            $this->data->errors = 'Soported files are CSV (comma separated values) or XSL e.g. Excel. (Uploaded: '. $upload->getClientMimeType().')';
+        }
+        else
+        {
+            $tmp = (microtime(true)*1000) . '.' . $upload->getClientOriginalExtension();
+            $path = storage_path("app/");
+            $upload->move($path, $tmp);
+            $tmp_path = $path.$tmp;
+
+            $csv = \Excel::load($tmp_path);
+            $lines = $csv->get();
+
+            $heading = "name,description,phone,url,address,city,zip_code,state,state_code,country,country_code,admin_first_name,admin_last_name,admin_email";
+            if(array_keys($csv->first()->toArray()) !== explode(",", $heading))
+            {
+                $this->data->errors = "Invalid format file. Check example file for CSV and XLS";
+            }
+            else
+            {
+                $results = [];
+
+                foreach ($lines as $line)
+                {
+                    $validator = \Validator::make($line->toArray(), [
+                        'name'             => 'required',
+                        'url'              => 'required|url',
+                        'address'          => 'required',
+                        'city'             => 'required_if:zip_code,null',
+                        'zip_code'         => '',
+                        'country'          => '',
+                        'country_code'     => '',
+                        'admin_first_name' => 'required',
+                        'admin_last_name'  => 'required',
+                        'admin_email'      => 'required|email'
+                    ]);
+                    $validator->sometimes('state', 'required', function($input) use ($line) {
+                        return (!$line->zip_code && !$line->state_code);
+                    });
+                    $validator->sometimes('state_code', 'required', function($input) use ($line) {
+                        return (!$line->zip_code && !$line->state);
+                    });
+                    $errors = $validator->getMessageBag()->toArray();
+                    $logs = [];
+
+                    $admin = AdminService::getAdmin([
+                        'owner_id'   => $this->user->id,
+                        'email'      => $line->admin_email,
+                        'first_name' => $line->admin_first_name,
+                        'last_name'  => $line->admin_last_name
+                    ], $logs);
+
+                    if(!$admin)
+                    {
+                        $errors[] = "Admin not found or not created";
+                    }
+
+                    $city = BusinessService::getCity([
+                        'city_name'    => $line->city,
+                        'zip_code'     => $line->zip_code,
+                        'state_name'   => $line->state,
+                        'state_code'   => $line->state_code,
+                        'country_name' => $line->country,
+                        'country_code' => $line->country_code
+                    ]);
+                    if(!$city)
+                    {
+                        $errors[] = "City not found or not created";
+                    }
+
+                    $result = new \stdClass;
+                    $result->line = $line;
+                    if(count($errors))
+                    {
+                        $result->errors = $errors;
+                    }
+                    else
+                    {
+                        $business = BusinessService::create([
+                            'city_id'     => $city->id,
+                            'owner_id'    => $this->user->id,
+                            'admin_id'    => $admin->id,
+                            'name'        => $line->name,
+                            'description' => $line->description,
+                            'phone'       => $line->phone,
+                            'url'         => $line->url,
+                            'address'     => $line->address
+                        ]);
+                        $result->business = $business;
+                    }
+                    $result->logs = $logs;
+                    $results[] = $result;
+                }
+                $this->data->results = $results;
+            }
+
+            \Storage::delete($tmp);
+        }
+        return $this->json();
+    }
 }

@@ -1,5 +1,10 @@
 @extends('dashboard.crud.layout')
 
+@section('head')
+  <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+  <link rel="stylesheet" href="{{ asset('/vendor/blueimp-file-upload/css/jquery.fileupload.css') }}">
+@endsection
+
 @section('title')
   <section class="content-header">
     <h1>
@@ -36,12 +41,30 @@
     </div>
   </div>
 
+  <div class="box box-primary collapse" id="businessCvsLog">
+    <div class="box-header with-border">
+      <h3 class="box-title">Import CSV Log</h3>
+    </div>
+    <div class="box-body">
+      <div id="businessCvsLog_HBW"></div>
+    </div>
+  </div>
+
   <!-- Default box -->
   <div class="box collapse in" id="businessTable">
     <div class="box-header with-border">
-      <a class="btn btn-app" onclick="cc.crud.business.add.create()">
-        <i class="fa fa-plus"></i> Add Business
-      </a>
+      <div>
+        <a class="btn btn-app" onclick="cc.crud.business.add.create()">
+          <i class="fa fa-plus"></i> Add Business
+        </a>
+        <a class="btn btn-app fileinput-button">
+          <i class="fa fa-file-excel-o"></i> Import CSV
+          <input id="csv-upload" type="file" name="csv">
+        </a>
+      </div>
+      <div id="csv-progress" class="progress" style="display:none">
+          <div class="progress-bar progress-bar-success"></div>
+      </div>
     </div>
     <div class="box-body">
       <div id="businessesTable_HBW"></div>
@@ -54,15 +77,20 @@
 
 @section('footer')
 
-  <!-- Adding templates -->
   <script id="businessEditForm_HBT" type="text/x-handlebars-template">
     @include('dashboard.crud.business.editForm')
   </script>
+
   <script id="businessAddForm_HBT" type="text/x-handlebars-template">
     @include('dashboard.crud.business.addForm')
   </script>
+
   <script id="businessesTable_HBT" type="text/x-handlebars-template">
     @include('dashboard.crud.business.table')
+  </script>
+
+  <script id="businessCvsLog_HBT" type="text/x-handlebars-template">
+    @include('dashboard.crud.business.cvslog')
   </script>
 
   <script id="modalLocations_HBT" type="text/x-handlebars-template">
@@ -80,6 +108,12 @@
       @{{/each}}
     </div>
   </script>
+
+  <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+  <script type="text/javascript" src="{{ asset('/vendor/blueimp-file-upload/js/jquery.iframe-transport.js') }}"></script>
+  <!-- The basic File Upload plugin -->
+  <script  type="text/javascript" src="{{ asset('/vendor/blueimp-file-upload/js/jquery.fileupload.js') }}"></script>
+
 
   <!-- Users dashboard script  -->
   <script type="text/javascript" src="/js/cc.crud.business.js"></script>

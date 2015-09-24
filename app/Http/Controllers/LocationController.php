@@ -15,7 +15,10 @@ class LocationController extends Controller {
 		$country_code = $request->input('country_code');
 		$zip_code = $request->input('zip_code');
 
-		$cities = LocationService::find(false, $zip_code, $country_code);
+		$cities = LocationService::find([
+			'zip_code' => $zip_code,
+			'country_code' => $country_code
+		]);
 
 		$this->data->count = $cities->count();
 		if($this->data->count == 1)
