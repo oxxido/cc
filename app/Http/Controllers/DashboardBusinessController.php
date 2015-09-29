@@ -21,7 +21,7 @@ class DashboardBusinessController extends Controller {
      */
     public function __construct()
     {
-        \Debugbar::disable();
+        //\Debugbar::disable();
         $this->middleware('auth');
         $this->middleware('admin');
 
@@ -32,7 +32,8 @@ class DashboardBusinessController extends Controller {
             $this->setBusiness();
         }
         $this->data->business_id = \Session::get('business_id');
-
+        $this->data->business = $this->business;
+        
         if($this->business == false)
         {
             return new RedirectResponse(url('/dashboard'));

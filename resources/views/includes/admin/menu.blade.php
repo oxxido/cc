@@ -6,7 +6,7 @@
     <ul class="sidebar-menu">
       <li class="header">MAIN NAVIGATION</li>
 
-      @if (isset($business_id) AND $user->isOwner() )
+      @if (isset($business->id)  )
         <li class="treeview">
           <a href="#">
             <i class="fa fa-user"></i> <span>Settings</span>
@@ -18,6 +18,7 @@
             <li><a href="/dashbiz/feedback">Feedback Settings</a></li>
             <li><a href="/dashbiz/testimonial">Testimonials Widget</a></li>
             <li><a href="/dashbiz/notification">Notification Settings</a></li>
+            <li><a href="/business/{{ $business->uuid }}/customers">Manage Customers</a></li>
             <!--<li><a href="/dashbiz/kiosk">Kiosk Mode</a></li>-->
           </ul>
         </li>
