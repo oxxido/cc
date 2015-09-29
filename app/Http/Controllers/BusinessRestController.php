@@ -270,77 +270,107 @@ class BusinessRestController extends Controller {
             }
             else
             {
+                notification_csv("Initializing file processing", "info", false, true);
+
                 $results = [];
 
-                foreach ($lines as $line)
+                foreach ($lines as $index => $line)
                 {
+                    set_time_limit(30);
+                    notification_csv("Processing line " . ($index+1), "warning", ($index+1));
+                    $result = new \stdClass;
+                    $result->line = $line;
+                    $result->errors = [];
+                    $logs_admin = [];
+                    $logs_city = [];
+                    $logs_business = [];
+
                     $validator = \Validator::make($line->toArray(), [
                         'name'             => 'required',
-                        'url'              => 'required|url',
+                        'url'              => 'required|url|unique:businesses,url',
                         'address'          => 'required',
-                        'city'             => 'required_if:zip_code,null',
-                        'zip_code'         => '',
-                        'country'          => '',
-                        'country_code'     => '',
                         'admin_first_name' => 'required',
                         'admin_last_name'  => 'required',
                         'admin_email'      => 'required|email'
                     ]);
+                    $validator->sometimes('city', 'required', function($input) use ($line) {
+                        return (!$line->zip_code);
+                    });
+                    $validator->sometimes('zip_code', 'required', function($input) use ($line) {
+                        return (!$line->city);
+                    });
                     $validator->sometimes('state', 'required', function($input) use ($line) {
                         return (!$line->zip_code && !$line->state_code);
                     });
                     $validator->sometimes('state_code', 'required', function($input) use ($line) {
                         return (!$line->zip_code && !$line->state);
                     });
-                    $errors = $validator->getMessageBag()->toArray();
-                    $logs = [];
+                    $validator->sometimes('country', 'required', function($input) use ($line) {
+                        return (!$line->country_code);
+                    });
+                    $validator->sometimes('country_code', 'required', function($input) use ($line) {
+                        return (!$line->country);
+                    });
 
-                    $admin = AdminService::getAdmin([
-                        'owner_id'   => $this->user->id,
-                        'email'      => $line->admin_email,
-                        'first_name' => $line->admin_first_name,
-                        'last_name'  => $line->admin_last_name
-                    ], $logs);
-
-                    if(!$admin)
+                    if($errors = $validator->getMessageBag()->toArray())
                     {
-                        $errors[] = "Admin not found or not created";
-                    }
-
-                    $city = BusinessService::getCity([
-                        'city_name'    => $line->city,
-                        'zip_code'     => $line->zip_code,
-                        'state_name'   => $line->state,
-                        'state_code'   => $line->state_code,
-                        'country_name' => $line->country,
-                        'country_code' => $line->country_code
-                    ]);
-                    if(!$city)
-                    {
-                        $errors[] = "City not found or not created";
-                    }
-
-                    $result = new \stdClass;
-                    $result->line = $line;
-                    if(count($errors))
-                    {
+                        $errors = array_merge(['Error on file line validation'], $errors);
                         $result->errors = $errors;
+                        notification_csv($errors, "danger");
+                        notification_csv("Line " . ($index+1) ." not saved", "danger");
                     }
                     else
                     {
-                        $business = BusinessService::create([
-                            'city_id'     => $city->id,
-                            'owner_id'    => $this->user->id,
-                            'admin_id'    => $admin->id,
-                            'name'        => $line->name,
-                            'description' => $line->description,
-                            'phone'       => $line->phone,
-                            'url'         => $line->url,
-                            'address'     => $line->address
+                        $admin = AdminService::getAdmin([
+                            'owner_id'   => $this->user->id,
+                            'email'      => $line->admin_email,
+                            'first_name' => $line->admin_first_name,
+                            'last_name'  => $line->admin_last_name
                         ]);
-                        $result->business = $business;
+
+                        if(!$admin)
+                        {
+                            $errors[] = "Admin not found or not created";
+                            notification_csv("Admin not found or not created", "danger");
+                        }
+
+                        $city = BusinessService::getCity([
+                            'city_name'    => $line->city,
+                            'zip_code'     => $line->zip_code,
+                            'state_name'   => $line->state,
+                            'state_code'   => $line->state_code,
+                            'country_name' => $line->country,
+                            'country_code' => $line->country_code
+                        ]);
+                        if(!$city)
+                        {
+                            $errors[] = "City not found or not created";
+                            notification_csv("City not found or not created", "danger");
+                        }
+
+                        if(count($errors))
+                        {
+                            $result->errors = $errors;
+                            notification_csv("Line " . ($index+1) ." not saved", "danger");
+                        }
+                        else
+                        {
+                            $business = BusinessService::create([
+                                'city_id'     => $city->id,
+                                'owner_id'    => $this->user->id,
+                                'admin_id'    => $admin->id,
+                                'name'        => $line->name,
+                                'description' => $line->description,
+                                'phone'       => $line->phone,
+                                'url'         => $line->url,
+                                'address'     => $line->address
+                            ]);
+                            $result->business = $business;
+
+                            notification_csv("Line " . ($index+1) ." was saved", "success");
+                        }
+                        $result->errors = $errors;
                     }
-                    $result->logs = $logs;
                     $results[] = $result;
                 }
                 $this->data->results = $results;

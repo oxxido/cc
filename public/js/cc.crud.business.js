@@ -16,12 +16,29 @@ cc.crud.business = {
                 },
                 submit : function(e, data) {
                     tools.messagesHide();
-                    cc.dashboard.panel.hide("#businessCvsLog");
+                    $("#businessCvsNotifications table").html("");
+                    $("#businessCvsNotifications").show();
+                    cc.crud.business.cvs.notification("Uploading file...", "info");
                     $('#csv-progress').show();
                     return true;
                 },
                 done: function (e, data) {
-                    cc.crud.business.cvs.log(data.result);
+                    if(data.result.errors)
+                    {
+                        for(i in data.result.errors)
+                        {
+                            cc.crud.business.cvs.notification(data.result.errors[i], "danger", false);
+                        }
+                    }
+                    else
+                    {
+                        cc.crud.business.table();
+
+                        for(i in data.result.logs)
+                        {
+                            cc.crud.business.cvs.notification(data.result.logs[i], "info", false);
+                        }
+                    }
                     $('#csv-progress').hide();
                 },
                 progressall: function (e, data) {
@@ -30,18 +47,47 @@ cc.crud.business = {
                 }
             }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
         },
-        log : function(data)
+        notification : function(log, type, datetime)
         {
-            if(data.errors)
+            var line = arguments[3] ? arguments[3] : false;
+            if(typeof log == "string")
             {
-                tools.messages(data.errors, "error");
+                var html = log;
             }
             else
             {
-                cc.crud.business.table();
-                tools.handlebars("#businessCvsLog_HBT", "#businessCvsLog_HBW", data);
-                cc.dashboard.panel.show("#businessCvsLog");
+                var html = "<b>" + log[0] + "</b>";
+                html += "<ul>";
+                for (var i in log)
+                {
+                    if(i == 0)
+                        continue;
+
+                    if(typeof log[i] == "array")
+                    {
+                        for(var j in log[i])
+                        {
+                            html += "<li>" + i + ":</b> " + log[i][j] + "</li>";
+                        }
+                    }
+                    else
+                    {
+                        html += "<li>" + i + ":</b> " + log[i] + "</li>";
+                    }
+                }
+                html += "</ul>";
             }
+            var d = new Date();
+            var dhtml = datetime ? datetime : moment().format('HH:mm:ss');
+            if(line)
+            {
+                var tr = '<tr class="' + type + '"><td width="70">' + dhtml + '</td><td width="50">Line ' + line + '</td><td>' + html + '</td></tr>';
+            }
+            else
+            {
+                var tr = '<tr class="' + type + '"><td width="70">' + dhtml + '</td><td colspan="2">' + html + '</td></tr>';
+            }
+            $("#businessCvsNotifications table").prepend(tr);
         }
     },
     add : {

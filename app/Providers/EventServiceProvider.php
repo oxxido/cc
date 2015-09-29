@@ -17,6 +17,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         EventCommentCreated::class => [
             ListenersCommentSendEmails::class
+        ],
+        EventCsvImporterLog::class => [
+            ListenersCsvImporterLog::class
         ]
     ];
 

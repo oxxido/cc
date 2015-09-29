@@ -28,21 +28,23 @@ class AdminService {
      * @param  array  $data
      * @return Admin
      */
-    public static function create(array $data, &$log = array())
+    public static function create(array $data)
     {
         $admin = Admin::create([
             'owner_id' => $data['owner_id'],
             'admin_id' => $data['admin_id']
         ]);
-        $log[] = "User asigned as admin";
+        notification_csv("User {$admin->user->email} asigned as admin");
+
         if($admin->user->id != $data['owner_id']) {
             Event::fire(new UserEmailEvent($admin->user, "admin"));
-            $log[] = "Email send for new admin";
+
+            notification_csv("Email send to {$admin->user->email} for new admin");
         }
         return $admin;
     }
 
-    public static function getAdmin(array $data, &$log = array())
+    public static function getAdmin(array $data)
     {
         $data['id'] = isset($data['id']) ? $data['id'] : false;
         if(!($data['id'] && $admin = Admin::find($data['id'])))
@@ -58,24 +60,24 @@ class AdminService {
                     'last_name'  => $data['last_name'],
                     'email'      => $data['email'],
                     'password'   => str_random(8)
-                ], true, $log);
+                ], true);
             }
             else
             {
-                $log[] = "Email {$data['email']} was found";
+                notification_csv("User {$data['email']} was found");
             }
 
             if($user_admin->isAdmin($data['owner_id']))
             {
                 $admin = $user_admin->admin($data['owner_id']);
-                $log[] = "User is already an admin";
+                notification_csv("User {$data['email']} is already an admin");
             }
             else
             {
                 $admin = AdminService::create([
                     'owner_id' => $data['owner_id'],
                     'admin_id' => $user_admin->id
-                ], $log);
+                ]);
             }
         }
         return $admin;

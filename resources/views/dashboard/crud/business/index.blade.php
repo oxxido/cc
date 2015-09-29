@@ -41,12 +41,15 @@
     </div>
   </div>
 
-  <div class="box box-primary collapse" id="businessCvsLog">
+  <div class="box box-primary" id="businessCvsNotifications">
     <div class="box-header with-border">
-      <h3 class="box-title">Import CSV Log</h3>
+      <h3 class="box-title">Import CSV logs</h3>
     </div>
     <div class="box-body">
-      <div id="businessCvsLog_HBW"></div>
+      <div class="table-log">
+        <table class="table table-condensed table-hover">
+        </table>
+      </div>
     </div>
   </div>
 
@@ -89,10 +92,6 @@
     @include('dashboard.crud.business.table')
   </script>
 
-  <script id="businessCvsLog_HBT" type="text/x-handlebars-template">
-    @include('dashboard.crud.business.cvslog')
-  </script>
-
   <script id="modalLocations_HBT" type="text/x-handlebars-template">
     <div class="list-group">
       @{{#each locations}}
@@ -107,6 +106,17 @@
         <a href="javascript:;" onclick="cc.crud.business.admin.result('@{{id}}','@{{name}}','@{{email}}');cc.dashboard.modal.hide()" class="list-group-item">@{{name}} - @{{email}}</a>
       @{{/each}}
     </div>
+  </script>
+
+  <script type="text/javascript" src="{{ asset('/vendor/pusher/dist/pusher.min.js') }}"></script>
+  <script>
+    var pusher = new Pusher('d05e325a459b724d0d2f', {
+      encrypted: true
+    });
+    var channel = pusher.subscribe('user.{{ Auth::id() }}');
+    channel.bind('App\\Events\\EventCsvImporterLog', function(data) {
+      cc.crud.business.cvs.notification(data.log, data.type, data.datetime, data.line);
+    });
   </script>
 
   <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->

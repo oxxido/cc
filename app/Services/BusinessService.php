@@ -45,12 +45,7 @@ class BusinessService {
         }
         else
         {
-            return LocationService::create([
-                'city_name'    => $data['city_name'],
-                'state_name'   => $data['state_name'],
-                'country_code' => $data['country_code'],
-                'zip_code'     => $data['zip_code']
-            ]);
+            return LocationService::create($data);
         }
     }
 
