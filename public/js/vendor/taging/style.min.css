@@ -1,0 +1,13 @@
+body.mce-content-body{
+	font-size:15px;
+	color:#004e67;
+	font-family:sans-serif;
+	line-height:22px;
+}
+p {
+	margin: 5px 0;
+	line-height: 25px;
+}
+.taging{
+	vertical-align:top;
+}

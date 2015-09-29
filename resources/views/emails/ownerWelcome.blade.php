@@ -8,9 +8,9 @@
           <tr>
             <td>
               <h1>Hi, {{ $name }}</h1>
-              <p class="lead">You are a business owner</p>
+              <p class="lead">Welcome to certifiedcomments!</p>
             </td>
-            <td class="expander"></td>
+            <td class="expander"> Your Business Owner account is ready</td>
           </tr>
         </table>
       </td>

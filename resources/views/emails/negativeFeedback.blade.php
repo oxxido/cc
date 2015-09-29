@@ -7,11 +7,7 @@
         <table class="twelve columns">
           <tr>
             <td>
-              <h1>Requested Invite</h1>
-              <p class="lead">Thank you for joining us</p>
-              <p>
-                Soon you will receive instructions on how to proceed.
-              </p>
+              <?=$body?>
             </td>
             <td class="expander"></td>
           </tr>

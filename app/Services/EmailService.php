@@ -1,5 +1,8 @@
 <?php namespace App\Services;
 
+use App\Models\Business;
+use App\Models\Comment;
+use App\Models\User;
 use Mail;
 use Lang;
 
@@ -122,5 +125,68 @@ class EmailService
     public static function instance()
     {
         return new self();
+    }
+
+    /**
+     * @param User    $user
+     * @param Comment $comment
+     */
+    public function positiveFeedback(User $user, Comment $comment)
+    {
+        $business = $comment->product->business;
+        $this->subject  = $business->config->email->positive_feedback_subject;
+        $this->template = "positiveFeedback";
+        $this->send([
+            "to"   => $user->email,
+            "data" => [
+                "header"  => BusinessService::tagsReplace([
+                    "text" => $business->config->email->positive_feedback_body,
+                    "comment" => $comment,
+                    "business" => $business,
+                    "section" => "header"
+                ]),
+                "footer"  => BusinessService::tagsReplace([
+                    "text" => $business->config->email->positive_feedback_body,
+                    "comment" => $comment,
+                    "business" => $business,
+                    "section" => "footer"
+                ]),
+                "links" => $business->links
+            ]
+        ]);
+    }
+
+    /**
+     * @param User    $user
+     * @param Comment $comment
+     */
+    public function negativeFeedback(User $user, Comment $comment) {
+        $business = $comment->product->business;
+        $this->subject  = $business->config->email->negative_feedback_subject;
+        $this->template = "negativeFeedback";
+        $this->send([
+            "to"   => $user->email,
+            "data" => [
+                "body"  => BusinessService::tagsReplace([
+                    "text" => $business->config->email->negative_feedback_body,
+                    "comment" => $comment,
+                    "business" => $business
+                ])
+            ]
+        ]);
+    }
+
+    public function performanceReport(Business $business)
+    {
+        $owner = $business->owner;
+        $this->subject  = "Performance report";
+        $this->template = "performanceReport";
+        $this->send([
+            'to'   => $owner->email,
+            'data' => [
+                'name' => $owner->name,
+                'business' => $business
+            ]
+        ]);
     }
 }

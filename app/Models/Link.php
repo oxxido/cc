@@ -21,7 +21,7 @@ class Link extends Model {
      *
      * @var array
      */
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['social_network_id', 'created_at', 'updated_at'];
 
     /**
      * The accessors to append to the model's array form.
@@ -47,7 +47,7 @@ class Link extends Model {
 
     public function toArray()
     {
-        $this->socialNetwork;
+        $this->social_network;
         return parent::toArray();
     }
 }

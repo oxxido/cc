@@ -7,11 +7,17 @@
         <table class="twelve columns">
           <tr>
             <td>
-              <h1>Requested Invite</h1>
-              <p class="lead">Thank you for joining us</p>
-              <p>
-                Soon you will receive instructions on how to proceed.
-              </p>
+
+              <?=$header?>
+
+              <ul>
+                @foreach($links as $link)
+                  <li><a href="{{ $link['profile'] }}" target="_blank">{{ $link['social_network']['name'] }}</a></li>
+                @endforeach
+              </ul>
+
+              <?=$footer?>
+
             </td>
             <td class="expander"></td>
           </tr>
