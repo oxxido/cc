@@ -56,7 +56,7 @@ var tools = {
             });
             $("#errorMessage div").append("</ul>");
         }
-
+        $(window).scrollTo("#errorMessage",{offset : -60});
     },
     paging : function(selector, data, callback)
     {

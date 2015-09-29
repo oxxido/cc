@@ -43,7 +43,7 @@
               </div>
               <div class="form-group">
                 <label for="feedback_request_body">Email Body</label>
-                <textarea class="form-control" rows="12" name="feedback_request_body" id="feedback_request_body">{{ $config->feedback_request_body }}</textarea>
+                <textarea class="form-control editable" rows="12" name="feedback_request_body" id="feedback_request_body">{{ $config->feedback_request_body }}</textarea>
               </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="tab_positive">
@@ -53,7 +53,7 @@
               </div>
               <div class="form-group">
                 <label for="positive_feedback_body">Email Body</label>
-                <textarea class="form-control" rows="15" name="positive_feedback_body" id="positive_feedback_body">{{ $config->positive_feedback_body }}</textarea>
+                <textarea class="form-control editable" rows="15" name="positive_feedback_body" id="positive_feedback_body">{{ $config->positive_feedback_body }}</textarea>
               </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="tab_negative">
@@ -63,7 +63,7 @@
               </div>
               <div class="form-group">
                 <label for="negative_feedback_body">Email Body</label>
-                <textarea class="form-control" rows="15" name="negative_feedback_body" id="negative_feedback_body">{{ $config->negative_feedback_body }}</textarea>
+                <textarea class="form-control editable" rows="15" name="negative_feedback_body" id="negative_feedback_body">{{ $config->negative_feedback_body }}</textarea>
               </div>
             </div>
           </div>
@@ -80,7 +80,7 @@
   <script type="text/javascript" src="{{ asset('/vendor/tinymce/tinymce.min.js') }}"></script>
   <script type="text/javascript">
     tinymce.init({
-      selector: "textarea",
+      selector: "textarea.editable",
       height: 300,
       statusbar: false,
       toolbar: "undo redo taging",

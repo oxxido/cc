@@ -91,21 +91,23 @@ class BusinessService {
     {
         $default = [
             'feedback' => [
-                'include_social_links'   => true,
-                'include_phone'         => false,
-                'positive_threshold'    => 3,
-                'page_title'            => '',
-                'logo_url'              => asset('images/logo-example.png'),
-                'banner_url'            => asset('images/landscape.jpg'),
-                'stars_style'           => 'default',
-                'positive_text' => 'Thanks you for your feedback. It is very important to us to hear your feedback and it allow us to serve you better.
+                'include_social_links' => true,
+                'include_phone'        => false,
+                'positive_threshold'   => 3,
+                'page_title'           => '',
+                'logo_url'             => asset('images/logo-example.png'),
+                'logo_gallery'         => [],
+                'banner_url'           => asset('images/landscape.jpg'),
+                'banner_gallery'       => [],
+                'stars_style'          => 'default',
+                'positive_text'        => 'Thanks you for your feedback. It is very important to us to hear your feedback and it allow us to serve you better.
 
 [REVIEW_LINKS]
 
 Have a great day!
 
 [OWNER_NAME]',
-                'negative_text' => 'Thanks you for your feedback
+                'negative_text'         => 'Thanks you for your feedback
 
 Whenever we see feedback that is not outstanding, we like to follow up to see what we could have done better.
 

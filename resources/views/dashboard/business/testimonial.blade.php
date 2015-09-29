@@ -23,7 +23,7 @@
         <a href="#tab_config" aria-controls="tab_config" role="tab" data-toggle="tab">Testimonial Widget Options</a>
       </li>
       <li>
-        <a href="#tab_code" aria-controls="tab_code" role="tab" data-toggle="tab">Integration Site</a>
+        <a href="#tab_code" aria-controls="tab_code" role="tab" data-toggle="tab">Integration</a>
       </li>
     </ul>
     <div class="panel panel-default">
@@ -43,8 +43,7 @@
           <div role="tabpanel" class="tab-pane" id="tab_code">
             <div class="form-group">
               <label for="codeForSite">Widget Code <small>Use this code to add the testimonial widget on your site</small></label>
-              <textarea id="codeForSite"  rows="3" class="form-control noresize" readonly="readonly"><iframe src="{{ url("widget/testimonial/$product->hash") }}"></iframe></textarea>
-
+              <pre>{{ htmlentities('<iframe src="' . url("widget/testimonial/$product->hash") . '"></iframe>') }}</pre>
             </div>
             <div class="row">
               <div class="col-sm-12 text-right">
