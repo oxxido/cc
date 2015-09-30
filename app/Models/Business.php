@@ -207,7 +207,7 @@ class Business extends Model
      */
     public function socialNetworks()
     {
-        return $this->belongsToMany(SocialNetwork::class)->withPivot('id', 'url', 'order', 'active')->withTimestamps();
+        return $this->belongsToMany(SocialNetwork::class, 'links')->withPivot('id', 'url', 'order', 'active')->withTimestamps();
     }
 
     public function isOwner(User $user)
