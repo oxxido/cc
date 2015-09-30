@@ -15,7 +15,7 @@ class BusinessRights
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->business->hasRights(Auth::user())) {
+        if (!$request->biz->hasRights(Auth::user())) {
             return Redirect::to('dashowner/business')->with('message', 'You are not allowed there.');
         }
 
