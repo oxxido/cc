@@ -15,11 +15,14 @@ class CreateSocialNetworksTable extends Migration
         DB::transaction(function () {
             Schema::create('social_networks', function (Blueprint $table) {
                 $table->increments('id');
+                $table->string('uuid', 36)->unique();
                 $table->string('name', 128);
                 $table->string('logo', 255);
                 $table->string('url', 128);
             });
         });
+
+        App::make(DatabaseSeeder::class)->call(SocialNetworksTableSeeder::class);
     }
 
     /**

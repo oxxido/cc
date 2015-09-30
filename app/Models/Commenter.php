@@ -1,13 +1,10 @@
 <?php namespace App\Models;
 
-class Commenter extends Model {
+use App\Traits\UserModelTrait;
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'commenters';
+class Commenter extends Model
+{
+    use UserModelTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -23,29 +20,52 @@ class Commenter extends Model {
      */
     protected $hidden = ['city_id', 'created_at', 'updated_at'];
 
-    public function user()
-    {
-        return $this->hasOne('App\Models\User', 'id', 'id');
-    }
+    public $incrementing = false;
 
     /**
      * Get the City record associated with the Commenter.
      */
     public function city()
     {
-        return $this->belongsTo('App\Models\City', 'city_id', 'id');
+        return $this->belongsTo(City::class);
     }
 
-    public function businessCommenter()
+    public function businessCommenters()
     {
-        return $this->hasMany('App\Models\BusinessCommenter', 'commenter_id', 'id');
+        return $this->hasMany(BusinessCommenter::class);
+    }
+
+    public function businesses()
+    {
+        return $this->belongsToMany(Business::class)->withPivot('adder_id', 'request_feedback_automatically')->withTimestamps();
     }
 
     public function toArray()
     {
         $this->user;
         $this->city;
+
         return parent::toArray();
     }
 
+    public static function make($attributes = [])
+    {
+        $self = null;
+
+        if (isset($attributes['email'])) {
+            $self = \DB::transaction(function() use($attributes) {
+                if (!($user = User::whereEmail($attributes['email'])->first())) {
+                    $user = User::create($attributes);
+                }
+
+                $attributes['id'] = $user->id;
+                $self = $user->commenter?: self::create($attributes);
+                $self->user()->associate($user);
+
+                return $self;
+            });
+        }
+
+        return $self;
+    }
 }

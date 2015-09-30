@@ -3,11 +3,6 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-include "OrganizationTypesTableSeeder.php";
-include "BusinessTypesTableSeeder.php";
-include "LocationsSeeder.php";
-include "SocialNetworksTableSeeder.php";
-
 class DatabaseSeeder extends Seeder {
 
     /**
@@ -18,11 +13,6 @@ class DatabaseSeeder extends Seeder {
     public function run()
     {
         Model::unguard();
-
-        $this->call(OrganizationTypesTableSeeder::class);
-        $this->call(BusinessTypesTableSeeder::class);
-        $this->call(SocialNetworksTableSeeder::class);
-        $this->call(LocationsSeeder::class);
 
         switch (App::environment()) {
             case 'production':

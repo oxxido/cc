@@ -194,6 +194,7 @@ return [
         'DbView'    => Flynsarmy\DbBladeCompiler\Facades\DbView::class,
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
         'Excel'     => Maatwebsite\Excel\Facades\Excel::class,
+        'Uuid'      => Webpatser\Uuid\Uuid::class,
     ],
 
 ];

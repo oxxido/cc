@@ -15,13 +15,16 @@ class CreateBusinessCommenterTable extends Migration
         DB::transaction(function () {
             Schema::create('business_commenter', function (Blueprint $table) {
                 $table->increments('id');
-                $table->integer('commenter_id')->unsigned();
-                $table->foreign('commenter_id')->references('id')->on('commenters')->onDelete('cascade')->onUpdate('cascade');
                 $table->integer('business_id')->unsigned();
                 $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade')->onUpdate('cascade');
-                $table->integer('added_by')->unsigned();
-                $table->foreign('added_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+                $table->integer('commenter_id')->unsigned();
+                $table->foreign('commenter_id')->references('id')->on('commenters')->onDelete('cascade')->onUpdate('cascade');
+                $table->integer('adder_id')->unsigned()->nullable();
+                $table->foreign('adder_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+                $table->boolean('request_feedback_automatically')->default(true);
+                $table->integer('feedback_requests_sent')->unsigned()->default(0);
                 $table->timestamps();
+                $table->unique(['business_id', 'commenter_id']);
             });
         });
     }

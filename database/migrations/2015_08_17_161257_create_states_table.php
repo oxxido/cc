@@ -17,9 +17,12 @@ class CreateStatesTable extends Migration
                 $table->increments('id');
                 $table->integer('country_id')->unsigned();
                 $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade')->onUpdate('cascade');
+                $table->string('uuid', 36)->unique();
                 $table->string('name', 100);
                 $table->string('code', 2);
             });
+
+            App::make(DatabaseSeeder::class)->call(StatesTableSeeder::class);
         });
     }
 
