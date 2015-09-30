@@ -25,9 +25,16 @@ cc.crud.business = {
                 done: function (e, data) {
                     if(data.result.errors)
                     {
-                        for(i in data.result.errors)
+                        if(typeof data.result.errors == "string")
                         {
-                            cc.crud.business.cvs.notification(data.result.errors[i], "danger", false);
+                            cc.crud.business.cvs.notification(data.result.errors, "danger", false);
+                        }
+                        else
+                        {
+                            for(i in data.result.errors)
+                            {
+                                cc.crud.business.cvs.notification(data.result.errors[i], "danger", false);
+                            }
                         }
                     }
                     else
@@ -159,8 +166,11 @@ cc.crud.business = {
                 if (data.success)
                 {
                     tools.handlebars("#businessEditForm_HBT", "#businessEditForm_HBW", data.business);
-                    $("#business_type_id").val(data.business.business_type.id);
-                    $("#organization_type_id").val(data.business.organization_type.id);
+                    if(data.business.business_type)
+                        $("#business_type_id").val(data.business.business_type.id);
+                    if(data.business.organization_type)
+                        $("#organization_type_id").val(data.business.organization_type.id);
+
                     var country_code = data.business.city.state.country.code;
                     $("#country_code").val(country_code);
                     cc.location.country();

@@ -110,7 +110,12 @@ class LocationService {
 
         if(isset($data['zip_code']) && $data['zip_code'])
         {
-            $city = City::where("zip_code", "=", $data['zip_code'])->get()->first();
+            $city = City::join('states', 'city.state_id', '=', 'states.id')
+                ->where("states.country_id", "=", $country->id)
+                ->where("cities.zip_code", "=", $data['zip_code'])
+                ->select("cities.*")
+                ->get()
+                ->first();
             if($city)
             {
                 return $city->state;

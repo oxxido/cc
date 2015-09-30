@@ -43,6 +43,7 @@
 
   <div class="box box-primary" id="businessCvsNotifications">
     <div class="box-header with-border">
+      <button type="button" class="close" onclick="$('#businessCvsNotifications').hide()">×</button>
       <h3 class="box-title">Import CSV logs</h3>
     </div>
     <div class="box-body">
@@ -109,15 +110,6 @@
   </script>
 
   <script type="text/javascript" src="{{ asset('/vendor/pusher/dist/pusher.min.js') }}"></script>
-  <script>
-    var pusher = new Pusher('d05e325a459b724d0d2f', {
-      encrypted: true
-    });
-    var channel = pusher.subscribe('user.{{ Auth::id() }}');
-    channel.bind('App\\Events\\EventCsvImporterLog', function(data) {
-      cc.crud.business.cvs.notification(data.log, data.type, data.datetime, data.line);
-    });
-  </script>
 
   <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
   <script type="text/javascript" src="{{ asset('/vendor/blueimp-file-upload/js/jquery.iframe-transport.js') }}"></script>
@@ -127,6 +119,7 @@
 
   <!-- Users dashboard script  -->
   <script type="text/javascript" src="/js/cc.crud.business.js"></script>
+  <script type="text/javascript" src="/js/cc.pusher.js"></script>
 
   <script type="text/javascript">
     $(function () {
