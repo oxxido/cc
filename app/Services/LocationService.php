@@ -12,24 +12,30 @@ class LocationService {
         {
             return City::where('id', '=', $data['city_id'])->get();
         }
-        elseif($state = self::findState($data))
+        elseif($states = self::findState($data))
         {
+            $state_ids = [];
+            foreach ($states as $state)
+            {
+                $state_ids[] = $state->id;
+            }
+
             if(isset($data['zip_code']) && $data['zip_code'])
             {
                 return City::select('*')
-                    ->where('state_id', '=', $state->id)
+                    ->whereIn('state_id', $state_ids)
                     ->where('zip_code', '=', $data['zip_code'])
                     ->get();
             }
             elseif(isset($data['city_name']) && $data['city_name'])
             {
                 return City::select('*')
-                    ->where('state_id', '=', $state->id)
+                    ->whereIn('state_id', $state_ids)
                     ->where('name', '=', $data['city_name'])
                     ->get();
             }
         }
-        return City::get();
+        return new ModelCollection();
     }
 
     /**
@@ -110,15 +116,14 @@ class LocationService {
 
         if(isset($data['zip_code']) && $data['zip_code'])
         {
-            $city = City::join('states', 'cities.state_id', '=', 'states.id')
+            $states = State::join('cities', 'states.id', '=', 'cities.state_id')
                 ->where("states.country_id", "=", $country->id)
                 ->where("cities.zip_code", "=", $data['zip_code'])
-                ->select("cities.*")
-                ->get()
-                ->first();
-            if($city)
+                ->select("states.*")
+                ->get();
+            if($states)
             {
-                return $city->state;
+                return $states;
             }
         }
         

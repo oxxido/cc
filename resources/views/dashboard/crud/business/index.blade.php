@@ -61,10 +61,20 @@
         <a class="btn btn-app" onclick="cc.crud.business.add.create()">
           <i class="fa fa-plus"></i> Add Business
         </a>
-        <a class="btn btn-app fileinput-button">
-          <i class="fa fa-file-excel-o"></i> Import CSV
-          <input id="csv-upload" type="file" name="csv">
-        </a>
+        <div class="btn-group btn-app-group">
+          <a class="btn btn-app fileinput-button">
+            <i class="fa fa-file-excel-o"></i> Import CSV
+            <input id="csv-upload" type="file" name="csv">
+          </a>
+          <button type="button" class="btn btn-default dropdown-toggle btn-app" data-toggle="dropdown">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="{{ asset('downloads/businesses.csv') }}">CSV File Template</a></li>
+            <li><a href="{{ asset('downloads/businesses.xls') }}">XLS File Template</a></li>
+          </ul>
+        </div>
       </div>
       <div id="csv-progress" class="progress" style="display:none">
           <div class="progress-bar progress-bar-success"></div>

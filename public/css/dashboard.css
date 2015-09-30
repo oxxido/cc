@@ -56,3 +56,15 @@ label small{
     max-height: 300px;
     overflow-y: auto;
 }
+.btn-app-group{
+    padding-left: 15px;
+}
+.btn-app-group .dropdown-toggle{
+    min-width: 26px;
+    background-image: none;
+}
+.btn-app-group .dropdown-menu{
+    top: 60px;
+    background-color: #f4f4f4;
+    border-color: #ddd;
+}
