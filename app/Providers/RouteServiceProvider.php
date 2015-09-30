@@ -61,8 +61,8 @@ class RouteServiceProvider extends ServiceProvider
             return User::whereUuid($uuid)->firstOrFail();
         });
 
-        $router->pattern('business', $uuid_pattern);
-        $router->bind('business', function ($uuid) {
+        $router->pattern('biz', $uuid_pattern);
+        $router->bind('biz', function ($uuid) {
             return Business::whereUuid($uuid)->firstOrFail();
         });
 
