@@ -60,4 +60,22 @@ class CommenterController extends Controller {
 
         return \Redirect::back()->with('Customers for this business updated correctly');
     }
+
+    public function suscription(Commenter $commenter)
+    {
+        return \View::make('commenter.suscription', compact('commenter'));
+    }
+
+    public function getCommenter($hash, Request $request)
+    {
+        $commenter = $this->findCommenter($hash);
+        $this->setBasicData($commenter, $request);
+        return $this->view("commenter.suscription", compact('commenter'));
+    }
+
+    private function findCommenter($hash)
+    {
+        $id = intval(str_replace("commenter_id=", "", base64_decode($hash)));
+        return Commenter::find($id);
+    }
 }

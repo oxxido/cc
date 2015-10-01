@@ -16,8 +16,10 @@ class CreateCommentersTable extends Migration
             Schema::create('commenters', function (Blueprint $table) {
                 $table->integer('id')->unsigned()->primary();
                 $table->foreign('id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+                $table->string('uuid', 36)->unique();
                 $table->string('phone', 16);
                 $table->string('note')->nullable();
+                $table->boolean('mail_suscribe')->default(true);
                 $table->integer('city_id')->unsigned()->nullable();
                 $table->foreign('city_id')->references('id')->on('cities')->onUpdate('cascade');
                 $table->timestamps();

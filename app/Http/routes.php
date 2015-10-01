@@ -66,7 +66,8 @@ Route::controllers([
     'dashboard' => 'DashboardController',
     'dashbiz'   => 'DashboardBusinessController',
     'dashowner' => 'DashboardOwnerController',
-    'widget'    => 'WidgetController'
+    'widget'    => 'WidgetController',
+    'commenter' => 'CommenterController'
 ]);
 
 //REST Resourse
@@ -80,6 +81,9 @@ Route::post('user/update', [
     'uses' => 'UserController@update'
 ]);
 Route::get('reports', 'ReportController@index');
+Route::get('commenter', 'CommenterController@suscription');
+Route::get('commenter/{commenter}/subscriptions', ['as' => 'commenter.suscription', 'uses' => 'CommenterController@suscription']);
+
 Route::group(['middleware' => ['business.rights']], function () {
     Route::get('business/{biz}/customers', ['as' => 'business.commenters', 'uses' => 'CommenterController@index']);
     Route::get('business/{biz}/customers/assign',
