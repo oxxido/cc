@@ -224,4 +224,11 @@ class Business extends Model
     {
         return $this->isOwner($user) || $this->isAdmin($user);
     }
+
+    public function feedbackUrl()
+    {
+        $product = $this->products()->first();
+
+        return \URL::to("widget/feedback/$product->hash");
+    }
 }

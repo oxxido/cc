@@ -36,7 +36,7 @@
   </div>
 
   <!-- Default box -->
-  <div class="box collapse in" id="adminTable">
+  <div class="box box-primary collapse in" id="adminTable">
     <div class="box-header with-border">
       <a class="btn btn-app" onclick="cc.crud.admin.add.create();">
         <i class="fa fa-plus"></i> Add User
