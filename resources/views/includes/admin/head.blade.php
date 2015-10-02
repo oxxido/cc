@@ -40,4 +40,5 @@
         cc.ver = "0.0.1";
         cc.baseUrl = "{{url()}}/";
         cc._token = '{{ csrf_token() }}';
+        cc.id = {{ Auth::id() }};
     </script>

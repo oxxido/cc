@@ -27,6 +27,7 @@ class BusinessRestController extends Controller {
      */
     public function __construct()
     {
+        \Debugbar::disable();
         $this->middleware('auth');
         $this->user = \Auth::user();
     }
@@ -230,4 +231,153 @@ class BusinessRestController extends Controller {
         return $this->json();
     }
 
+    public function csv(Request $request)
+    {
+        $upload = $request->file('csv');
+        $validator = \Validator::make(['csv' => $upload], [
+            'csv' => 'required|max:3072'
+        ],[
+            'csv.required' => 'File is required',
+            'csv.max' => 'Max file size is 3MB'
+        ]);
+
+        if ($validator->fails())
+        {
+            $this->data->errors = $validator->getMessageBag()->toArray();
+        }
+        elseif (!$upload->isValid())
+        {
+            $this->data->errors = 'Uploaded file is not valid';
+        }
+        elseif(!in_array($upload->getClientMimeType(), explode(",", "csv,txt,text/csv,xls,application/vnd.ms-excel")))
+        {
+            $this->data->errors = 'Soported files are CSV (comma separated values) or XSL e.g. Excel. (Uploaded: '. $upload->getClientMimeType().')';
+        }
+        else
+        {
+            $tmp = (microtime(true)*1000) . '.' . $upload->getClientOriginalExtension();
+            $path = storage_path("app/");
+            $upload->move($path, $tmp);
+            $tmp_path = $path.$tmp;
+
+            $csv = \Excel::load($tmp_path);
+            $lines = $csv->get();
+
+            $heading = "name,description,phone,url,address,city,zip_code,state,state_code,country,country_code,admin_first_name,admin_last_name,admin_email";
+            if(array_keys($csv->first()->toArray()) !== explode(",", $heading))
+            {
+                $this->data->errors = "Invalid format file. Check example file for CSV and XLS";
+            }
+            else
+            {
+                notification_csv("Initializing file processing", "info", false, true);
+
+                $results = [];
+
+                foreach ($lines as $index => $line)
+                {
+                    set_time_limit(30);
+                    notification_csv("Processing line " . ($index+1), "warning", ($index+1));
+                    $result = new \stdClass;
+                    $result->line = $line;
+                    $result->errors = [];
+                    $logs_admin = [];
+                    $logs_city = [];
+                    $logs_business = [];
+
+                    $validator = \Validator::make($line->toArray(), [
+                        'name'             => 'required',
+                        'url'              => 'required|url|unique:businesses,url',
+                        'address'          => 'required',
+                        'admin_first_name' => 'required',
+                        'admin_last_name'  => 'required',
+                        'admin_email'      => 'required|email'
+                    ]);
+                    $validator->sometimes('city', 'required', function($input) use ($line) {
+                        return (!$line->zip_code);
+                    });
+                    $validator->sometimes('zip_code', 'required', function($input) use ($line) {
+                        return (!$line->city);
+                    });
+                    $validator->sometimes('state', 'required', function($input) use ($line) {
+                        return (!$line->zip_code && !$line->state_code);
+                    });
+                    $validator->sometimes('state_code', 'required', function($input) use ($line) {
+                        return (!$line->zip_code && !$line->state);
+                    });
+                    $validator->sometimes('country', 'required', function($input) use ($line) {
+                        return (!$line->country_code);
+                    });
+                    $validator->sometimes('country_code', 'required', function($input) use ($line) {
+                        return (!$line->country);
+                    });
+
+                    if($errors = $validator->getMessageBag()->toArray())
+                    {
+                        $errors = array_merge(['Error on file line validation'], $errors);
+                        $result->errors = $errors;
+                        notification_csv($errors, "danger");
+                        notification_csv("Line " . ($index+1) ." not saved", "danger");
+                    }
+                    else
+                    {
+                        $admin = AdminService::getAdmin([
+                            'owner_id'   => $this->user->id,
+                            'email'      => $line->admin_email,
+                            'first_name' => $line->admin_first_name,
+                            'last_name'  => $line->admin_last_name
+                        ]);
+
+                        if(!$admin)
+                        {
+                            $errors[] = "Admin not found or not created";
+                            notification_csv("Admin not found or not created", "danger");
+                        }
+
+                        $city = BusinessService::getCity([
+                            'city_name'    => $line->city,
+                            'zip_code'     => $line->zip_code,
+                            'state_name'   => $line->state,
+                            'state_code'   => $line->state_code,
+                            'country_name' => $line->country,
+                            'country_code' => $line->country_code
+                        ]);
+                        if(!$city)
+                        {
+                            $errors[] = "City not found or not created";
+                            notification_csv("City not found or not created", "danger");
+                        }
+
+                        if(count($errors))
+                        {
+                            $result->errors = $errors;
+                            notification_csv("Line " . ($index+1) ." not saved", "danger");
+                        }
+                        else
+                        {
+                            $business = BusinessService::create([
+                                'city_id'     => $city->id,
+                                'owner_id'    => $this->user->id,
+                                'admin_id'    => $admin->id,
+                                'name'        => $line->name,
+                                'description' => $line->description,
+                                'phone'       => $line->phone,
+                                'url'         => $line->url,
+                                'address'     => $line->address
+                            ]);
+                            $result->business = $business;
+
+                            notification_csv("Line " . ($index+1) ." was saved", "success");
+                        }
+                        $result->errors = $errors;
+                    }
+                    $results[] = $result;
+                }
+                $this->data->results = $results;
+            }
+
+            \Storage::delete($tmp);
+        }
+        return $this->json();
+    }
 }

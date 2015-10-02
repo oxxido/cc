@@ -29,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         EventCommentCreated::class => [
             ListenersCommentSendEmails::class,
             DisableAutomaticFeedbackRequestsListener::class
+        ],
+        EventCsvImporterLog::class => [
+            ListenersCsvImporterLog::class
         ]
     ];
 

@@ -46,6 +46,25 @@ label small{
     cursor:pointer
 }
 .fa-spin {
-  -webkit-animation: fa-spin 0.5s infinite linear !important;
-  animation: fa-spin 0.5s infinite linear !important;
+    -webkit-animation: fa-spin 0.5s infinite linear !important;
+    animation: fa-spin 0.5s infinite linear !important;
+}
+#businessCvsNotifications{
+    display: none;
+}
+#businessCvsNotifications .table-log{
+    max-height: 300px;
+    overflow-y: auto;
+}
+.btn-app-group{
+    padding-left: 15px;
+}
+.btn-app-group .dropdown-toggle{
+    min-width: 26px;
+    background-image: none;
+}
+.btn-app-group .dropdown-menu{
+    top: 60px;
+    background-color: #f4f4f4;
+    border-color: #ddd;
 }

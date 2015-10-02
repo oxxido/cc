@@ -18,7 +18,6 @@ class BusinessService {
     {
         return Validator::make($data, array(
             'name'                 => 'required',
-            'name'                 => 'required',
             'url'                  => 'required|url',
             'organization_type_id' => 'required',
             'business_type_id'     => 'required',
@@ -26,7 +25,7 @@ class BusinessService {
             'admin_id'             => 'required_if:new_admin,0',
             'admin_first_name'     => 'required_if:new_admin,1',
             'admin_last_name'      => 'required_if:new_admin,1',
-            'admin_email'          => 'required_if:new_admin,1',
+            'admin_email'          => 'required_if:new_admin,1|email',
 
             'country_code'         => 'required',
             'city_id'              => 'required_if:new_city,0',
@@ -40,16 +39,14 @@ class BusinessService {
 
     public static function getCity(array $data)
     {
-        if(!($city = LocationService::find($data['city_id'], $data['zip_code'], $data['country_code'])->first()))
+        if($cities = LocationService::find($data))
         {
-            $city = LocationService::create([
-                'city_name'    => $data['city_name'],
-                'state_name'   => $data['state_name'],
-                'country_code' => $data['country_code'],
-                'zip_code'     => $data['zip_code']
-            ]);
+            return $cities->first();
         }
-        return $city;
+        else
+        {
+            return LocationService::create($data);
+        }
     }
 
     /**

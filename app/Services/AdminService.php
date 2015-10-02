@@ -34,9 +34,12 @@ class AdminService {
             'owner_id' => $data['owner_id'],
             'admin_id' => $data['admin_id']
         ]);
+        notification_csv("User {$admin->user->email} asigned as admin");
 
         if($admin->user->id != $data['owner_id']) {
             Event::fire(new UserEmailEvent($admin->user, "admin"));
+
+            notification_csv("Email send to {$admin->user->email} for new admin");
         }
         return $admin;
     }
@@ -59,10 +62,15 @@ class AdminService {
                     'password'   => str_random(8)
                 ], true);
             }
+            else
+            {
+                notification_csv("User {$data['email']} was found");
+            }
 
             if($user_admin->isAdmin($data['owner_id']))
             {
                 $admin = $user_admin->admin($data['owner_id']);
+                notification_csv("User {$data['email']} is already an admin");
             }
             else
             {

@@ -271,7 +271,7 @@ class DashboardBusinessController extends Controller {
         $success = false;
         $target = $request->input('target');
         $image = $request->file($target);
-        $validator = Validator::make(['image' => $image], ['image' => 'required']);
+        $validator = Validator::make(['image' => $image], ['image' => 'required|image|max:5120']);
         if ($validator->fails()) {
             $this->data->errors = $validator->getMessageBag()->toArray();
         } elseif ($image->isValid()) {

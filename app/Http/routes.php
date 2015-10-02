@@ -70,6 +70,7 @@ Route::controllers([
 ]);
 
 //REST Resourse
+Route::post('crud/business/csv', 'BusinessRestController@csv');
 Route::resource('crud/business', 'BusinessRestController');
 Route::resource('crud/admin', 'AdminRestController');
 
