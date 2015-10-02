@@ -34,4 +34,19 @@ class BusinessCommenter extends Model {
         return $this->belongsTo(Commenter::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function getStatusAttribute()
+    {
+        $status = 'No review';
+
+        if (null !== ($comment = $this->comments()->orderBy('created_at', 'desc')->first())) {
+            $status = $comment->rating . ' stars review';
+        }
+
+        return $status;
+    }
 }
