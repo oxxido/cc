@@ -23,7 +23,7 @@ class CommenterCreateRequest extends CommenterRequest
     public static function selfRules()
     {
         return [
-            'phone' => 'digits:10',
+            'phone' => 'regex:/^\(?([0-9]{3})\)?([ .-]?)([0-9]{3})([ .-]?)([0-9]{4})$/',
             'city'  => 'exists:cities',
             'email' => 'required|email|max:255',
         ];

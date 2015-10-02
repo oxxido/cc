@@ -83,15 +83,13 @@ Route::post('user/update', [
 Route::get('reports', 'ReportController@index');
 Route::group(['middleware' => ['business.rights']], function () {
     Route::get('business/{biz}/customers', ['as' => 'business.commenters', 'uses' => 'CommenterController@index']);
-    Route::get('business/{biz}/customers/assign',
-        ['as' => 'business.check', 'uses' => 'CommenterController@check']);
-    Route::put('business/{biz}/customers/assign',
-        ['as' => 'business.assign', 'uses' => 'CommenterController@assign']);
-    Route::resource('business/{biz}/customer', 'CommenterController', [
-        'only'  => ['create', 'store'],
-        'names' => [
-            'create' => 'business.commenter.create',
-            'store'  => 'business.commenter.store',
-        ]
-    ]);
+    Route::get('business/{biz}/customers/assign', ['as' => 'business.check', 'uses' => 'CommenterController@check']);
+    Route::put('business/{biz}/customers/assign', ['as' => 'business.assign', 'uses' => 'CommenterController@assign']);
+    Route::get('business/{biz}/customer/{commenter}/pause',
+        ['as' => 'business.commenter.pause', 'uses' => 'CommenterController@pause']);
+    Route::post('business/{biz}/customer', ['as' => 'business.commenter.store', 'uses' => 'CommenterController@store']);
+    Route::get('business/{biz}/customer/create',
+        ['as' => 'business.commenter.create', 'uses' => 'CommenterController@create']);
+    Route::delete('business/{biz}/customer/{commenter}/destroy',
+        ['as' => 'business.commenter.destroy', 'uses' => 'CommenterController@destroy']);
 });
