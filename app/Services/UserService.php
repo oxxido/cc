@@ -41,7 +41,8 @@ class UserService {
             'activation_code' => str_random(60)
         ]);
         Event::fire(new UserEmailEvent($user, "user", ["send_password" => $send_password, "password" => $data['password']]));
-        notification_csv("New user created. Email sent to " . $data['email']);
+
+        notification_csv(trans('logs.user.created', ['email' => $data['email']]));
         return $user;
     }
 

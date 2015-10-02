@@ -65,6 +65,7 @@ label small{
 }
 .btn-app-group .dropdown-menu{
     top: 60px;
+    left: 15px;
     background-color: #f4f4f4;
     border-color: #ddd;
 }

@@ -41,4 +41,5 @@
         cc.baseUrl = "{{url()}}/";
         cc._token = '{{ csrf_token() }}';
         cc.id = {{ Auth::id() }};
+        cc.pusher_key = "{{ env('PUSHER_KEY') }}";
     </script>

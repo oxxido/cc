@@ -15,6 +15,11 @@ cc.crud.business = {
                     _token : cc._token
                 },
                 submit : function(e, data) {
+                    cc.pusher.connect();
+                    cc.pusher.subscribe('user.' + cc.id, 'App\\Events\\EventCsvImporterLog', function(notification){
+                        cc.crud.business.cvs.notification(notification.log, notification.type, notification.datetime, notification.line);
+                    });
+
                     tools.messagesHide();
                     $("#businessCvsNotifications table").html("");
                     $("#businessCvsNotifications").show();
@@ -47,6 +52,7 @@ cc.crud.business = {
                         }
                     }
                     $('#csv-progress').hide();
+                    cc.pusher.disconnect();
                 },
                 progressall: function (e, data) {
                     var progress = parseInt(data.loaded / data.total * 100, 10);

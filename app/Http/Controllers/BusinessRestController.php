@@ -237,8 +237,8 @@ class BusinessRestController extends Controller {
         $validator = \Validator::make(['csv' => $upload], [
             'csv' => 'required|max:3072'
         ],[
-            'csv.required' => 'File is required',
-            'csv.max' => 'Max file size is 3MB'
+            'csv.required' => trans('logs.validation.required'),
+            'csv.max' => trans('logs.validation.max_size')
         ]);
 
         if ($validator->fails())
@@ -247,11 +247,11 @@ class BusinessRestController extends Controller {
         }
         elseif (!$upload->isValid())
         {
-            $this->data->errors = 'Uploaded file is not valid';
+            $this->data->errors = trans('logs.validation.invalid');
         }
         elseif(!in_array($upload->getClientMimeType(), explode(",", "csv,txt,text/csv,xls,application/vnd.ms-excel")))
         {
-            $this->data->errors = 'Soported files are CSV (comma separated values) or XSL e.g. Excel. (Uploaded: '. $upload->getClientMimeType().')';
+            $this->data->errors = trans('logs.validation.mime_type', ['mimetype' => $upload->getClientMimeType()]);
         }
         else
         {
@@ -266,18 +266,19 @@ class BusinessRestController extends Controller {
             $heading = "name,description,phone,url,address,city,zip_code,state,state_code,country,country_code,admin_first_name,admin_last_name,admin_email";
             if(array_keys($csv->first()->toArray()) !== explode(",", $heading))
             {
-                $this->data->errors = "Invalid format file. Check example file for CSV and XLS";
+                $this->data->errors = trans('logs.validation.format');
             }
             else
             {
-                notification_csv("Initializing file processing", "info", false, true);
+                notification_csv(trans('logs.parse.initializing'), "info", false, true);
 
                 $results = [];
 
-                foreach ($lines as $index => $line)
+                foreach ($lines as $i => $line)
                 {
+                    $index = $i + 1;
                     set_time_limit(30);
-                    notification_csv("Processing line " . ($index+1), "warning", ($index+1));
+                    notification_csv(trans('logs.parse.line', ['line' => $index]), "warning", $index);
                     $result = new \stdClass;
                     $result->line = $line;
                     $result->errors = [];
@@ -288,10 +289,7 @@ class BusinessRestController extends Controller {
                     $validator = \Validator::make($line->toArray(), [
                         'name'             => 'required',
                         'url'              => 'required|url|unique:businesses,url',
-                        'address'          => 'required',
-                        'admin_first_name' => 'required',
-                        'admin_last_name'  => 'required',
-                        'admin_email'      => 'required|email'
+                        'address'          => 'required'
                     ]);
                     $validator->sometimes('city', 'required', function($input) use ($line) {
                         return (!$line->zip_code);
@@ -311,13 +309,22 @@ class BusinessRestController extends Controller {
                     $validator->sometimes('country_code', 'required', function($input) use ($line) {
                         return (!$line->country);
                     });
+                    $validator->sometimes('admin_first_name', 'required', function($input) use ($line) {
+                        return ($line->admin_email && !User::whereEmail($line->admin_email)->get()->first()) ? true : false;
+                    });
+                    $validator->sometimes('admin_last_name', 'required', function($input) use ($line) {
+                        return ($line->admin_email && !User::whereEmail($line->admin_email)->get()->first()) ? true : false;
+                    });
+                    $validator->sometimes('admin_email', 'email', function($input) use ($line) {
+                        return $line->admin_email ? true : false;
+                    });
 
                     if($errors = $validator->getMessageBag()->toArray())
                     {
-                        $errors = array_merge(['Error on file line validation'], $errors);
+                        $errors = array_merge([trans('logs.parse.line_error')], $errors);
                         $result->errors = $errors;
                         notification_csv($errors, "danger");
-                        notification_csv("Line " . ($index+1) ." not saved", "danger");
+                        notification_csv(trans('logs.parse.line_not_saved', ['line' => $index]), "danger");
                     }
                     else
                     {
@@ -330,8 +337,8 @@ class BusinessRestController extends Controller {
 
                         if(!$admin)
                         {
-                            $errors[] = "Admin not found or not created";
-                            notification_csv("Admin not found or not created", "danger");
+                            $errors[] = trans('logs.admin.not_found');
+                            notification_csv(trans('logs.admin.not_found'), "danger");
                         }
 
                         $city = BusinessService::getCity([
@@ -344,14 +351,14 @@ class BusinessRestController extends Controller {
                         ]);
                         if(!$city)
                         {
-                            $errors[] = "City not found or not created";
-                            notification_csv("City not found or not created", "danger");
+                            $errors[] = trans('logs.location.city_not_found');
+                            notification_csv(trans('logs.location.city_not_found'), "danger");
                         }
 
                         if(count($errors))
                         {
                             $result->errors = $errors;
-                            notification_csv("Line " . ($index+1) ." not saved", "danger");
+                            notification_csv(trans('logs.parse.line_not_saved', ['line' => $index]), "danger");
                         }
                         else
                         {
@@ -366,8 +373,7 @@ class BusinessRestController extends Controller {
                                 'address'     => $line->address
                             ]);
                             $result->business = $business;
-
-                            notification_csv("Line " . ($index+1) ." was saved", "success");
+                            notification_csv(trans('logs.parse.line_saved', ['line' => $index]), "success");
                         }
                         $result->errors = $errors;
                     }

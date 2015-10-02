@@ -15,9 +15,17 @@ class LocationService {
         elseif($states = self::findState($data))
         {
             $state_ids = [];
-            foreach ($states as $state)
+
+            if(is_a($states, "App\Models\State"))
             {
-                $state_ids[] = $state->id;
+                $state_ids[] = $states->id;
+            }
+            else
+            {
+                foreach ($states as $state)
+                {
+                    $state_ids[] = $state->id;
+                }
             }
 
             if(isset($data['zip_code']) && $data['zip_code'])
@@ -48,12 +56,12 @@ class LocationService {
     {
         if($country = self::findCountry($data))
         {
-            if($state = self::findState($data))
+            if($state = self::findState($data, true))
             {
                 return City::create([
                     'state_id' => $state->id,
                     'name'     => $data['city_name'],
-                    'zip_code' => $data['zip_code']
+                    'zip_code' => $data['zip_code'] ? $data['zip_code'] : ""
                 ]);
             }
         }
@@ -88,13 +96,13 @@ class LocationService {
         {
             return Country::find($data['country_id']);
         }
-        elseif(isset($data['country_code']))
+        elseif(isset($data['country_code']) && $data['country_code'])
         {
-            return Country::where("code", "=", $data['country_code'])->get()->first();
+            return Country::whereCode($data['country_code'])->get()->first();
         }
-        elseif(isset($data['country_name']))
+        elseif(isset($data['country_name']) && $data['country_name'])
         {
-            return Country::where("name", "=", $data['country_name'])->get()->first();
+            return Country::whereName($data['country_name'])->get()->first();
         }
         else
         {
@@ -102,13 +110,12 @@ class LocationService {
         }
     }
 
-    public static function findState(array $data)
+    public static function findState(array $data, $one = true)
     {
         if(!($country = self::findCountry($data)))
         {
             return false;
         }
-
         if(isset($data['state_id']) && $data['state_id'])
         {
             return State::find($data['state_id']);
@@ -121,31 +128,31 @@ class LocationService {
                 ->where("cities.zip_code", "=", $data['zip_code'])
                 ->select("states.*")
                 ->get();
-            if($states)
-            {
-                return $states;
-            }
+
+            if($states->count())
+                return $one ? $states->first() : $states;
         }
         
         if(isset($data['state_code']) && $data['state_code'])
         {
-            return State::select('states.*')
+            $states = State::select('states.*')
                 ->where("country_id", "=", $country->id)
                 ->where("code", "=", $data['state_code'])
-                ->get()
-                ->first();
+                ->get();
+
+            if($states->count())
+                return $one ? $states->first() : $states;
         }
-        elseif(isset($data['state_name']) && $data['state_name'])
+        if(isset($data['state_name']) && $data['state_name'])
         {
-            return State::select('states.*')
+            $states = State::select('states.*')
                 ->where("country_id", "=", $country->id)
                 ->where("name", "=", $data['state_name'])
-                ->get()
-                ->first();;
+                ->get();
+
+            if($states->count())
+                return $one ? $states->first() : $states;
         }
-        else
-        {
-            return self::createState($data);
-        }
+        return self::createState($data);
     }
 }

@@ -213,4 +213,18 @@ class EmailService
             ]
         ]);
     }
+
+    public function businessCreated(Business $business)
+    {
+        $owner = $business->owner;
+        $this->subject  = "New Business Created";
+        $this->template = "newBusinessCreated";
+        $this->send([
+            'to'   => $owner->email,
+            'data' => [
+                'name' => $business->admin->user->name,
+                'business' => $business->name
+            ]
+        ]);
+    }
 }

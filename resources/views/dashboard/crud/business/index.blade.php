@@ -63,7 +63,7 @@
         </a>
         <div class="btn-group btn-app-group">
           <a class="btn btn-app fileinput-button">
-            <i class="fa fa-file-excel-o"></i> Import CSV
+            <i class="fa fa-file-excel-o"></i> Upload CSV
             <input id="csv-upload" type="file" name="csv">
           </a>
           <button type="button" class="btn btn-default dropdown-toggle btn-app" data-toggle="dropdown">
@@ -71,8 +71,8 @@
             <span class="sr-only">Toggle Dropdown</span>
           </button>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="{{ asset('downloads/businesses.csv') }}">CSV File Template</a></li>
-            <li><a href="{{ asset('downloads/businesses.xls') }}">XLS File Template</a></li>
+            <li><a href="{{ asset('downloads/businesses.csv') }}">Download CSV example</a></li>
+            <li><a href="{{ asset('downloads/businesses.xls') }}">Download XLS example</a></li>
           </ul>
         </div>
       </div>
