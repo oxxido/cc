@@ -70,5 +70,10 @@ class RouteServiceProvider extends ServiceProvider
         $router->bind('product', function ($uuid) {
             return Product::whereUuid($uuid)->firstOrFail();
         });
+
+        $router->pattern('commenter', $uuid_pattern);
+        $router->bind('commenter', function ($uuid) {
+            return User::whereUuid($uuid)->firstOrFail()->commenter()->firstOrFail();
+        });
     }
 }
