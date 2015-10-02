@@ -33,7 +33,7 @@ class CommenterController extends Controller {
             $commenter->businesses()->attach($business->id, ['adder_id' => \Auth::id()]);
         }
 
-        return \Redirect::back()->with('message', 'Customer successfully saved');
+        return \Redirect::route('business.commenters', $business)->with('message', 'Customer successfully saved');
     }
 
     public function destroy(Business $business, Commenter $commenter)
