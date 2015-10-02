@@ -1,8 +1,17 @@
-var pusher = new Pusher('d05e325a459b724d0d2f', {
-    encrypted: true
-});
-
-var channel = pusher.subscribe('user.' + cc.id);
-channel.bind('App\\Events\\EventCsvImporterLog', function(data) {
-    cc.crud.business.cvs.notification(data.log, data.type, data.datetime, data.line);
-});
+cc.pusher = {
+    instance : false,
+    connect : function(){
+        this.instance = new Pusher(cc.pusher_key, {
+            encrypted: true
+        });
+    },
+    subscribe : function(name, event, callback){
+        var channel = this.instance.subscribe(name);
+        channel.bind(event, function(data) {
+            callback(data);
+        });
+    },
+    disconnect : function(){
+        this.instance.disconnect();
+    }
+};

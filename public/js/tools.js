@@ -45,7 +45,7 @@ var tools = {
         //set the title
         $("#errorTitle").html(errorText);
 
-        $("#errorMessage").addClass("in");
+        $("#errorMessage").collapse("show");
 
         if(typeof str === 'string')
         {
