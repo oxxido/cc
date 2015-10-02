@@ -55,7 +55,7 @@
   </div>
 
   <!-- Default box -->
-  <div class="box collapse in" id="businessTable">
+  <div class="box box-primary collapse in" id="businessTable">
     <div class="box-header with-border">
       <div>
         <a class="btn btn-app" onclick="cc.crud.business.add.create()">

@@ -9,7 +9,7 @@
     <!-- FontAwesome 4.3.0 -->
     <link href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" >
     <!-- Ionicons 2.0.0 -->
-    <link href="{{ asset('vendor/Ionicons/css/ionicons.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('vendor/ionicons/css/ionicons.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Datatables -->
     <link href="{{ asset('vendor/datatables/media/css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" >
 

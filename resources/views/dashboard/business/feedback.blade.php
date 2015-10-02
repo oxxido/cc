@@ -24,10 +24,10 @@
 
     {!! Form::open(array('url'=>url('dashbiz/feedback'), 'method'=> 'POST', 'role' => 'form', 'name' => 'feedbackForm', 'id' => 'feedbackForm')) !!}
       <ul class="nav nav-tabs" role="tablist">
-        <li>
+        <li class="active">
           <a href="#tab_option" aria-controls="tab_option" role="tab" data-toggle="tab">Feedback Widget Options</a>
         </li>
-        <li class="active">
+        <li>
           <a href="#tab_config" aria-controls="tab_config" role="tab" data-toggle="tab">Widget Configuration</a>
         </li>
         <li>
@@ -37,7 +37,7 @@
       <div class="panel panel-default">
         <div class="panel-body">
           <div class="tab-content">
-            <div role="tabpanel" class="tab-pane" id="tab_option">
+            <div role="tabpanel" class="tab-pane active" id="tab_option">
               <div class="form-group">
                 <input type="checkbox" name="include_social_links" id="include_social_links" value="1" @if($config->include_social_links) checked="checked" @endif>
                 <label for="include_social_links" >Include social review links</label>
@@ -67,7 +67,7 @@
               </div>
             </div>
 
-            <div role="tabpanel" class="tab-pane active" id="tab_config">
+            <div role="tabpanel" class="tab-pane" id="tab_config">
               <div class="form-group">
                 <label for="page_title">
                   Page Title - Call to action

@@ -48,7 +48,7 @@ class CommenterController extends Controller {
         }
 
         if (\Request::ajax()) {
-            \Session::flash('message', 'asd');
+            \Session::flash('message', $message);
             return \Response::json([
                 'success' => $success,
                 'message' => $message,
