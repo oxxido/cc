@@ -5,6 +5,8 @@ use App\Models\Business;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Validator;
+use Event;
+use App\Events\UserEmailEvent;
 
 class BusinessService {
 
@@ -39,7 +41,8 @@ class BusinessService {
 
     public static function getCity(array $data)
     {
-        if($cities = LocationService::find($data))
+        $cities = LocationService::find($data);
+        if($cities->count())
         {
             return $cities->first();
         }
@@ -80,7 +83,6 @@ class BusinessService {
         $product = new Product();
         $product->business_id = $business->id;
         $product->save();
-
         return $business;
     }
 
