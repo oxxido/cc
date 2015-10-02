@@ -68,4 +68,9 @@ class Commenter extends Model
 
         return $self;
     }
+
+    public function mailSuscribe()
+    {
+        return $this->hasMany(MailSuscribe::class);
+    }
 }

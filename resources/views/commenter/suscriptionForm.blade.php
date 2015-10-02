@@ -1,4 +1,4 @@
-{!! Form::open(array('url'=>url('commenter'),'role' => 'form', 'name' => 'commenterForm', 'id' => 'commenterForm')) !!}
+{!! Form::open(array('url'=>url('commenter/suscription'),'role' => 'form', 'name' => 'commenterForm', 'id' => 'commenterForm')) !!}
 
   <input type="hidden" name="commenter_id" value="{{ $commenter->id }}">
 
@@ -18,19 +18,32 @@
 
   <div class="form-group">
       <fieldset>
-        <label for="businesses">Businesses Admin</label>
-        <select name="businesses" class="form-control">
+        <label for="businesses">Business to configure mail suscription</label>
+        <select name="businesses" id="businesses" class="form-control">
           @foreach ($business_commenter as $biz)
-            <option value=$biz->id>$biz->id</option>
+            <option value="{{ $biz->id }}"> {{ $biz->business->name }}</option>
           @endforeach
         </select>
 
-        <input type="checkbox" name="suscribe_biz" id="suscribe_biz" value="1" @if($business_commenter->mail_suscribe) checked="checked" @endif>
-        <label for="suscribe_biz" >Suscribe to all business mails</label>
+          <hr>
+          <div class="overlay" id="linkTableLoading">
+            <i class="fa fa-refresh fa-spin"></i>
+          </div>
+
+          <label>Check the type of mail you want to suscribe</label>
+          <div id="biz_suscriptions">
+            <!--
+            biz_commenter->mail_suscribe checkbox for selected biz
+
+            <br>Check the type of mail you want to suscribe<br>
+            foreach of mailSuscribes checkboxes for selected biz
+            -->
+          </div>
+        
       </fieldset>
   </div>
 
   <p class="text-center">
-      <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Save Settings</button>
+      <button type="submit" class="btn btn-warning"></span> Save Settings</button>
   </p>
 {!! Form::close() !!}

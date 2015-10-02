@@ -1,5 +1,5 @@
 <?php namespace App\Http\Controllers;
-
+use DB;
 use App\Http\Requests\CommenterCreateRequest;
 use App\Models\BusinessCommenter;
 use Illuminate\Http\Request;
@@ -61,21 +61,40 @@ class CommenterController extends Controller {
         return \Redirect::back()->with('Customers for this business updated correctly');
     }
 
-    public function suscription(Commenter $commenter)
-    {
-        return \View::make('commenter.suscription', compact('commenter'));
-    }
-
-    public function getCommenter($hash, Request $request)
+    public function getSuscription($hash, Request $request)
     {
         $commenter = $this->findCommenter($hash);
         $this->setBasicData($commenter, $request);
-        return $this->view("commenter.suscription", compact('commenter'));
+        return $this->view("commenter.suscription");
     }
 
     private function findCommenter($hash)
     {
-        $id = intval(str_replace("commenter_id=", "", base64_decode($hash)));
+        //$id = intval(str_replace("commenter_id=", "", base64_decode($hash)));
+        $id = intval($hash);
         return Commenter::find($id);
+    }
+
+    private function setBasicData($commenter, $request)
+    {
+        $this->data->commenter = $commenter;
+        $this->data->business_commenter = $commenter->businessCommenters;
+        $this->data->user = \Auth::user();
+        $this->data->success = true;
+    } 
+
+    public function postSuscription(Request $request)
+    {
+        $commenter = Commenter::find($request->input('commenter_id'));
+        $commenter->mail_suscribe = is_null($request->input('suscribe_all')) ? false : true;
+        $commenter->save();
+
+        $this->data->saved    = true;
+        $this->data->commenter = $commenter;
+        $this->data->business_commenter = $commenter->businessCommenters;
+        $this->data->user = \Auth::user();
+        $this->data->success = true;
+
+        return $this->view("commenter.suscription");
     }
 }

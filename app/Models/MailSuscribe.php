@@ -2,6 +2,9 @@
 
 class MailSuscribe extends Model
 {
+    const FEEDBACK_MAIL     = 1;
+    const THANK_YOU_MAIL    = 2;
+    const CALIFICATION_MAIL = 3;
     /**
      * The database table used by the model.
      *

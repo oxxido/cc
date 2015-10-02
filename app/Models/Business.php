@@ -224,4 +224,9 @@ class Business extends Model
     {
         return $this->isOwner($user) || $this->isAdmin($user);
     }
+
+    public function mailSuscribe()
+    {
+        return $this->hasMany(MailSuscribe::class);
+    }
 }
