@@ -36,6 +36,29 @@ class CommenterController extends Controller {
         return \Redirect::back()->with('message', 'Customer successfully saved');
     }
 
+    public function destroy(Business $business, Commenter $commenter)
+    {
+        $message = 'Customer couldn\'t be deleted.';
+        $success = true;
+        $redirect = \URL::route('business.commenters', $business);
+
+        if (null !== ($business_commenter = $commenter->businessCommenter($business->id))) {
+            $success = $business_commenter->delete();
+            $message = 'Customer deleted.';
+        }
+
+        if (\Request::ajax()) {
+            \Session::flash('message', 'asd');
+            return \Response::json([
+                'success' => $success,
+                'message' => $message,
+                'redirect' => $redirect
+            ]);
+        } else {
+            return \Redirect::to($redirect)->with('message', $message);
+        }
+    }
+
     public function check(Business $business)
     {
         $commenter_ids = $business->commenters->ids();
