@@ -22,7 +22,7 @@ class CreateCitiesTable extends Migration
                 $table->string('zip_code', 8)->nullable();
             });
 
-            App::make(DatabaseSeeder::class)->call(CitiesTableSeeder::class);
+            //App::make(DatabaseSeeder::class)->call(CitiesTableSeeder::class);
         });
     }
 

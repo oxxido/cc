@@ -17,6 +17,7 @@ use App\Services\UserService;
 use App\Services\AdminService;
 use App\Services\BusinessService;
 use App\Services\LinkService;
+use Webpatser\Uuid\Uuid;
 
 class LinkRestController extends Controller {
 
@@ -89,10 +90,11 @@ class LinkRestController extends Controller {
                 'business_id'          => \Session::get('business_id')
             ]);
 
-            $business->socialNetworks()->attach($social->id, 
+            $business->socialNetworks()->attach($social->id,
                                                 [
-                                                    'url'    => $request->input('url'), 
-                                                    'order'  => 1, 
+                                                    'uuid' => Uuid::generate(),
+                                                    'url'    => $request->input('url'),
+                                                    'order'  => 1,
                                                     'active' => 1
                                                 ]);
 
@@ -173,13 +175,13 @@ class LinkRestController extends Controller {
                 'business_id'          => $business_id
             ]);
 
-            
+
             $links = Business::find($business_id)->socialNetworks()->where("links.social_network_id", "=", $social_id);
             $links->sync([
                 $social_id => [
-                    'social_network_id'  => $social->id, 
-                    'url'                => $request->input('url'), 
-                    'order'              => 1, 
+                    'social_network_id'  => $social->id,
+                    'url'                => $request->input('url'),
+                    'order'              => 1,
                     'active'             => 1]
             ],false);
 

@@ -20,7 +20,7 @@ class CreateBusinessTypesTable extends Migration
             });
         });
 
-        App::make(DatabaseSeeder::class)->call(BusinessTypesTableSeeder::class);
+        //App::make(DatabaseSeeder::class)->call(BusinessTypesTableSeeder::class);
     }
 
     /**

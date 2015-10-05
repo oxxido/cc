@@ -20,7 +20,7 @@ class CreateOrganizationTypesTable extends Migration
             });
         });
 
-        App::make(DatabaseSeeder::class)->call(OrganizationTypesTableSeeder::class);
+        //App::make(DatabaseSeeder::class)->call(OrganizationTypesTableSeeder::class);
     }
 
     /**
