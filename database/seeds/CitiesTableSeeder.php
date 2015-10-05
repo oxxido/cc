@@ -17,7 +17,7 @@ class CitiesTableSeeder extends Seeder
             DB::table('cities')->delete();
             DB::unprepared($this->cities());
 
-            //Schema::dropIfExists('zipcodes');
+            Schema::dropIfExists('zipcodes');
         });
     }
 

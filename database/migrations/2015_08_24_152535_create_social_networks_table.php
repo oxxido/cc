@@ -22,7 +22,7 @@ class CreateSocialNetworksTable extends Migration
             });
         });
 
-        App::make(DatabaseSeeder::class)->call(SocialNetworksTableSeeder::class);
+        //App::make(DatabaseSeeder::class)->call(SocialNetworksTableSeeder::class);
     }
 
     /**
