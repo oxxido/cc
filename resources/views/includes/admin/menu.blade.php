@@ -8,8 +8,11 @@
 
       @if (isset($business->id)  )
         <li class="treeview">
+          <div class="user-panel info-cnt">
+            <p>{{$business->name}}</p>
+          </div>
           <a href="#">
-            <i class="fa fa-user"></i> <span>Settings</span>
+            <i class="fa fa-user"></i> <span>Business Settings</span>
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="treeview-menu">
