@@ -53,6 +53,10 @@
                     {!! Form::label('note') !!}
                     {!! Form::text('note', null, ['placeholder' => trans('commenter.fields.note'), 'class' => 'form-control']) !!}
                 </div>
+                <div class="form-group">
+                    {!! Form::label('send_feedback_request', 'Send Feedback Request Now') !!}
+                    {!! Form::checkbox('send_feedback_request', null, ['class' => 'form-control']) !!}
+                </div>
             </div>
             <div class="box-footer">
                 <div class="text-right">
