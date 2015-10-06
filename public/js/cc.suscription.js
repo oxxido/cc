@@ -1,41 +1,40 @@
 
 if (!cc) var cc = {};
 
-
 cc.suscription = {
     list : function()
     {
-        var page = arguments.length ? arguments[0] : 1;
-        var perpage = 10;
+        cc.dashboard.panel.loading("#linkTableLoading","show");  
 
-        cc.dashboard.panel.hide("#linkTableLoading","show");
         $("#businesses").change(function(){
                 //function to load the mails suscribe for that biz
-                //cc.suscription.setBusinessSuscription(this);
+                if ($("#businesses").val() != 0) {
+                    cc.suscription.setBusinessSuscription($("#businesses").val());
+                };
         });
-
-        .done(function(data) {
-            if (data.success)
-            {
-                cc.dashboard.panel.loading("#linkTableLoading","hide");
-            }
-            else
-            {
-                tools.messages(data.errors, "error");
-            }
-        })
-        .fail(tools.fail)
-        .always(function(){
-            cc.dashboard.panel.loading("#linkTableLoading","hide");
-            cc.dashboard.panel.loading("#biz_suscriptions","hide");
-        });
+        cc.dashboard.panel.loading("#linkTableLoading","hide");
     },
     setBusinessSuscription: function(diz)
     {
-        var found = $.map(socialNetworks, function(obj) {
-            if(obj.id == $("#businesses").val())
+        //find the business_commenter and check the suscribe business mails if necesary
+        var found = $.map(bizCommenters, function(obj) {
+            if(obj.business_id == $("#businesses").val())
                  return obj; // or return obj.name, whatever.
         });
+        
+        $("#suscribe_biz").prop('checked', found[0].mail_suscribe == 1 ? true : false);
+
+        //find the business mail types and check anyone mail type if necesary
+        var foundMail = $.map(mailBizSuscribes, function(obj) {
+            if(obj.business_id == $("#businesses").val())
+                 return obj; // or return obj.name, whatever.
+        });
+
+        for (var i = 0; i < foundMail.length; i++) {
+            check = foundMail[i].suscribe == 1 ? true : false;
+
+            $("#mail"+foundMail[i].mail_type).prop('checked', check);
+        }
 
     },
     init: function()

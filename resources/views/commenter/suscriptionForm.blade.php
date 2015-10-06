@@ -20,8 +20,9 @@
       <fieldset>
         <label for="businesses">Business to configure mail suscription</label>
         <select name="businesses" id="businesses" class="form-control">
+            <option value="0" selected="true">Select a business</option>
           @foreach ($business_commenter as $biz)
-            <option value="{{ $biz->id }}"> {{ $biz->business->name }}</option>
+            <option value="{{ $biz->business_id }}"> {{ $biz->business->name }}</option>
           @endforeach
         </select>
 
@@ -32,12 +33,17 @@
 
           <label>Check the type of mail you want to suscribe</label>
           <div id="biz_suscriptions">
-            <!--
-            biz_commenter->mail_suscribe checkbox for selected biz
-
-            <br>Check the type of mail you want to suscribe<br>
-            foreach of mailSuscribes checkboxes for selected biz
-            -->
+            <input type="checkbox" name="suscribe_biz" id="suscribe_biz" value="1">
+            <label for="suscribe_biz" >Suscribe to all business mails</label>
+            <p><br>
+            <input type="checkbox" name="mail1" id="mail1" value="1">
+            <label for="mail1" >Suscribe to feedback business mails</label>
+            <p>
+            <input type="checkbox" name="mail2" id="mail2" value="1">
+            <label for="mail2" >Suscribe to thank you business mails</label>
+            <p>
+            <input type="checkbox" name="mail3" id="mail3" value="1">
+            <label for="mail3" >Suscribe to calification business mails</label>
           </div>
         
       </fieldset>

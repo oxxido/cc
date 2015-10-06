@@ -77,9 +77,10 @@ class CommenterController extends Controller {
 
     private function setBasicData($commenter, $request)
     {
+        $this->data->user = \Auth::user();
         $this->data->commenter = $commenter;
         $this->data->business_commenter = $commenter->businessCommenters;
-        $this->data->user = \Auth::user();
+        $this->data->mail_suscribe = $commenter->mailSuscribe;
         $this->data->success = true;
     } 
 
@@ -87,11 +88,25 @@ class CommenterController extends Controller {
     {
         $commenter = Commenter::find($request->input('commenter_id'));
         $commenter->mail_suscribe = is_null($request->input('suscribe_all')) ? false : true;
+
+        if ($request->input('businesses')) {
+            $business_commenter = $commenter->businessCommenters()->where('business_id','=',$request->input('businesses'))->first();
+            $business_commenter->mail_suscribe = is_null($request->input('suscribe_biz')) ? false : true;
+            $mail_suscribe = $commenter->mailSuscribe()->where('business_id','=',$request->input('businesses'))->get();
+            
+            foreach ($mail_suscribe as $mail) {
+                $mail->suscribe = is_null($request->input('mail'.$mail->mail_type)) ? false : true;
+                $mail->save();
+            }
+
+            $business_commenter->save();
+        }
         $commenter->save();
 
-        $this->data->saved    = true;
+        $this->data->saved = true;
         $this->data->commenter = $commenter;
         $this->data->business_commenter = $commenter->businessCommenters;
+        $this->data->mail_suscribe = $commenter->mailSuscribe;
         $this->data->user = \Auth::user();
         $this->data->success = true;
 

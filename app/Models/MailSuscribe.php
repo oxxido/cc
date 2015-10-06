@@ -19,19 +19,7 @@ class MailSuscribe extends Model
      */
     protected $fillable = ['mail_type', 'suscribe'];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $hidden = ['commenter_id', 'created_at', 'updated_at'];
-
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = ['profile'];
+    public $timestamps = true;
 
     public function business()
     {
