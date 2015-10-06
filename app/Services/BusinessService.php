@@ -33,8 +33,13 @@ class BusinessService
             'city_name'            => 'required_if:new_city,1',
             'state_name'           => 'required_if:new_city,1',
             'zip_code'             => 'required_if:new_city,1',
-            'city_name'            => 'required_if:new_city,1',
             'address'              => 'required'
+        ], [
+            'city_id.required_if' => 'The city needs to be set.',
+            'admin_id.required_if' => 'The admin needs to be set.',
+            'admin_first_name.required_if' => 'The admin first name field is required.',
+            'admin_last_name.required_if' => 'The admin last name field is required.',
+            'admin_email.required_if' => 'The admin email field is required.',
         ]);
     }
 
