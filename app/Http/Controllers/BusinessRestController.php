@@ -264,7 +264,7 @@ class BusinessRestController extends Controller {
             $lines = $csv->get();
 
             $heading = "name,description,phone,url,address,city,zip_code,state,state_code,country,country_code,admin_first_name,admin_last_name,admin_email";
-            if(array_keys($csv->first()->toArray()) !== explode(",", $heading))
+            if(!$csv->first() || array_keys($csv->first()->toArray()) !== explode(",", $heading))
             {
                 $this->data->errors = trans('logs.validation.format');
             }

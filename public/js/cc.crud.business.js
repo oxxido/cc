@@ -23,11 +23,12 @@ cc.crud.business = {
                     tools.messagesHide();
                     $("#businessCvsNotifications table").html("");
                     $("#businessCvsNotifications").show();
-                    cc.crud.business.cvs.notification("Uploading file...", "info");
+                    cc.crud.business.cvs.notification("Uploading file", "info");
                     $('#csv-progress').show();
                     return true;
                 },
                 done: function (e, data) {
+                    cc.pusher.disconnect();
                     if(data.result.errors)
                     {
                         if(typeof data.result.errors == "string")
@@ -36,7 +37,7 @@ cc.crud.business = {
                         }
                         else
                         {
-                            for(i in data.result.errors)
+                            for(var i in data.result.errors)
                             {
                                 cc.crud.business.cvs.notification(data.result.errors[i], "danger", false);
                             }
@@ -46,13 +47,17 @@ cc.crud.business = {
                     {
                         cc.crud.business.table();
 
-                        for(i in data.result.logs)
+                        if(!cc.pusher.logged)
                         {
-                            cc.crud.business.cvs.notification(data.result.logs[i], "info", false);
+                            for(var i in data.result.results)
+                            {
+                                if(data.result.results[i].errors)
+                                    cc.crud.business.cvs.notification(data.result.results[i].errors, "danger", false);
+                            }
                         }
                     }
                     $('#csv-progress').hide();
-                    cc.pusher.disconnect();
+                    cc.crud.business.cvs.notification("File uploaded", "info");
                 },
                 progressall: function (e, data) {
                     var progress = parseInt(data.loaded / data.total * 100, 10);
