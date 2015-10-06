@@ -2,6 +2,7 @@
 
 use App\Http\Requests\CommenterCreateRequest;
 use App\Models\BusinessCommenter;
+use App\Services\EmailService;
 use Illuminate\Http\Request;
 use App\Models\Commenter;
 use App\Models\Business;
@@ -29,8 +30,16 @@ class CommenterController extends Controller {
     {
         $commenter = Commenter::make($request->all());
 
-        if (!BusinessCommenter::whereBusinessId($business->id)->whereCommenterId($commenter->id)->count()) {
-            $commenter->businesses()->attach($business->id, ['adder_id' => \Auth::id()]);
+        if (null === ($business_commenter = BusinessCommenter::whereBusinessId($business->id)->whereCommenterId($commenter->id)->first())) {
+            $business_commenter = BusinessCommenter::create([
+                'business_id' => $business->id,
+                'commenter_id' => $commenter->id,
+                'adder_id' => \Auth::id()
+            ]);
+        }
+
+        if ($request->get('send_feedback_request')) {
+            EmailService::instance()->requestFeedback($business_commenter);
         }
 
         return \Redirect::route('business.commenters', $business)->with('message', 'Customer successfully saved');
