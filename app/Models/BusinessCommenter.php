@@ -14,7 +14,7 @@ class BusinessCommenter extends Model {
      *
      * @var array
      */
-    protected $fillable = ['business_id', 'commenter_id', 'added_by'];
+    protected $fillable = ['business_id', 'commenter_id', 'adder_id'];
 
     public $timestamps = true;
 
