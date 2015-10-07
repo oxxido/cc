@@ -12,7 +12,9 @@
           <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li><a href="/dashowner/admins">Manage Users</a></li>
+          @if(\Auth::user()->isOwner())
+            <li><a href="/dashowner/admins">Manage Users</a></li>
+          @endif
           <!-- <li><a href="#">Default Configuration</a></li> -->
           <!-- <li><a href="#">Manage Customers</a></li> -->
           <li><a href="/dashboard/account">Account Owner Details</a></li>
@@ -25,7 +27,11 @@
           <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li><a href="/dashowner/business">Manage Businesses</a></li>
+          @if(\Auth::user()->isOwner())
+            <li><a href="/dashowner/business">Manage Businesses</a></li>
+          @elseif(\Auth::user()->isAdmin())
+            <li><a href="/dashadmin/business">Manage Businesses</a></li>
+          @endif
         </ul>
       <li  class="treeview">
         <a href="#">

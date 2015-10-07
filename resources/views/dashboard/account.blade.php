@@ -6,8 +6,12 @@
       Account Owner Details
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="#">Dashboard</a></li>
+      <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+      @if(\Auth::user()->isOwner())
+        <li><a href="{{ url('dashowner') }}">Dashboard</a></li>
+      @elseif(\Auth::user()->isAdmin())
+        <li><a href="{{ url('dasadmin') }}">Dashboard</a></li>
+      @endif
       <li class="active">Account</li>
     </ol>
   </section>

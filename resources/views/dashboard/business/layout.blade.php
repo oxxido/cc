@@ -8,8 +8,14 @@
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ url('home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="{{ url('dashowner/home') }}">Dashboard</a></li>
-      <li><a href="{{ url('dashowner/business') }}">Business</a></li>
+
+      @if(\Auth::user()->isOwner())
+        <li><a href="{{ url('dashowner') }}">Dashboard</a></li>
+        <li><a href="{{ url('dashowner/business') }}">Business</a></li>
+      @elseif(\Auth::user()->isAdmin())
+        <li><a href="{{ url('dashadmin') }}">Dashboard</a></li>
+        <li><a href="{{ url('dashadmin/business') }}">Business</a></li>
+      @endif
       <li class="active">{{ $business->name }}</li>
     </ol>
   </section>

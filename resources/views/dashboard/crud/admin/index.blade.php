@@ -7,8 +7,8 @@
       <small>This is the landing page to manage users</small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="#">Dashboard</a></li>
+      <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="{{ url('dashowner') }}">Dashboard</a></li>
       <li class="active">Manage Users</li>
     </ol>
   </section>

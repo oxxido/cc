@@ -1,3 +1,19 @@
+.content-header > .breadcrumb {
+    float: none;
+    background: #DDD;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-size: 13px;
+    padding: 7px 15px;
+    position: initial;
+    top: initial;
+    right: initial;
+    border-radius: 4px;
+}
+.content-header > .breadcrumb > li + li:before {
+    color: #AAA;
+    content: "»";
+}
 .alert-warning, .alert-success, .label-success, .label-warning, .alert-danger, .label-danger, .alert-info, .label-info {
     background-image: none !important;
 }
