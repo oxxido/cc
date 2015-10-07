@@ -64,8 +64,9 @@ Route::controllers([
     'password'  => 'Auth\PasswordController',
     'location'  => 'LocationController',
     'dashboard' => 'DashboardController',
-    'dashbiz'   => 'DashboardBusinessController',
     'dashowner' => 'DashboardOwnerController',
+    'dashadmin' => 'DashboardAdminController',
+    'dashbiz'   => 'DashboardBusinessController',
     'widget'    => 'WidgetController'
 ]);
 

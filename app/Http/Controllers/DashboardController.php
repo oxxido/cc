@@ -39,7 +39,7 @@ class DashboardController extends Controller {
         }
         elseif($this->user->isAdmin())
         {
-            return redirect('/dashbiz');
+            return redirect('/dashadmin');
         }
     }
 

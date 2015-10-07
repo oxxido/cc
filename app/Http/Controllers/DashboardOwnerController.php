@@ -7,60 +7,59 @@ use App\Models;
 
 class DashboardOwnerController extends Controller {
 
+    public $user;
 
-	public $user;
-
-	/**
-	 * Create a new controller instance.
-	 *
-	 * @return void
-	 */
-	public function __construct()
-	{
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
         \Debugbar::disable();
 
-		$this->middleware('auth');
-		$this->middleware('owner');
+        $this->middleware('auth');
+        $this->middleware('owner');
 
-		$this->user = Auth::user();;
-		$this->data->user = $this->user;
-	}
+        $this->user = Auth::user();;
+        $this->data->user = $this->user;
+    }
 
-	/**
-	 * Show the application dashboard to the owner site.
-	 *
-	 * @return Response
-	 */
-	public function getIndex(Request $request)
-	{
-		$request->session()->reflash();
-		return redirect('dashowner/business');
-        return $this->view('dashboard.dashboardOwner');
-	}
+    /**
+     * Show the application dashboard to the owner site.
+     *
+     * @return Response
+     */
+    public function getIndex(Request $request)
+    {
+        $request->session()->reflash();
+        return redirect('dashowner/business');
+        return $this->view('dashboard.owner.index');
+    }
 
-	/**
-	 * Businesses page in dashboard.
-	 *
-	 * @return Response
-	 */
-	public function getBusiness()
-	{
-		$this->data->organization_types = Models\OrganizationType::all();
-		$this->data->business_types = Models\BusinessType::all();
-		$this->data->countries = Models\Country::all();
+    /**
+     * Businesses page in dashboard.
+     *
+     * @return Response
+     */
+    public function getBusiness()
+    {
+        $this->data->organization_types = Models\OrganizationType::all();
+        $this->data->business_types = Models\BusinessType::all();
+        $this->data->countries = Models\Country::all();
 
-		return $this->view('dashboard.crud.business.index');
-	}
+        return $this->view('dashboard.crud.business.index');
+    }
 
-	/**
-	 * 
-	 *
-	 * @return Response
-	 */
-	public function getAdmins()
-	{
-		return $this->view('dashboard.crud.admin.index');
-	}
+    /**
+     * 
+     *
+     * @return Response
+     */
+    public function getAdmins()
+    {
+        return $this->view('dashboard.crud.admin.index');
+    }
 
     /**
      * Search Business Admin by keyword and Owner.
@@ -72,14 +71,14 @@ class DashboardOwnerController extends Controller {
         $keyword = $request->input('keyword');
 
         $resultset = DB::table('admins')
-        	->join('users', 'admins.admin_id', '=', 'users.id')
-        	->where('admins.owner_id', '=', $this->user->id)
+            ->join('users', 'admins.admin_id', '=', 'users.id')
+            ->where('admins.owner_id', '=', $this->user->id)
             ->where(function ($query) use ($keyword) {
-	            $query->where('users.first_name', 'like', "% $keyword%")
-	            	->orWhere('users.first_name', 'like', "$keyword%")
-	            	->orWhere('users.last_name', 'like', "$keyword%")
-	            	->orWhere('users.last_name', 'like', "% $keyword%")
-	            	->orWhere('users.email', 'like', "%$keyword%@%");
+                $query->where('users.first_name', 'like', "% $keyword%")
+                    ->orWhere('users.first_name', 'like', "$keyword%")
+                    ->orWhere('users.last_name', 'like', "$keyword%")
+                    ->orWhere('users.last_name', 'like', "% $keyword%")
+                    ->orWhere('users.email', 'like', "%$keyword%@%");
             })
             ->select('admins.*')
             ->get();
@@ -95,7 +94,7 @@ class DashboardOwnerController extends Controller {
         {
             $this->data->admins = $users;
         }
-		unset($this->data->user);
+        unset($this->data->user);
         return $this->json();
     }
 }

@@ -45,9 +45,10 @@ class DashboardBusinessController extends Controller {
      *
      * @return Response
      */
-    public function getTest()
+    public function getIndex()
     {
-        print_r($this->business->products->first()->hash);
+        return redirect('/dashbiz/link');
+        return $this->view('dashboard.business.index');
     }
 
     /**
@@ -55,11 +56,9 @@ class DashboardBusinessController extends Controller {
      *
      * @return Response
      */
-    public function getIndex(Request $request)
+    public function getTest()
     {
-        $request->session()->reflash();
-        return redirect('dashbiz/link');
-        return $this->view('dashboard.dashboardAdmin');
+        print_r($this->business->products->first()->hash);
     }
 
     /**
