@@ -1,23 +1,15 @@
 <?php namespace App\Http\Controllers;
 
-use DB;
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
 use App\Models\User;
-use App\Models\Admin;
 use App\Models\Business;
-use App\Models\Country;
-
 use App\Services\PaginateService;
-use App\Services\UserService;
 use App\Services\AdminService;
 use App\Services\BusinessService;
-use App\Services\LocationService;
 
-class BusinessRestController extends Controller {
-
+class BusinessRestController extends Controller
+{
     public $user;
 
     /**
@@ -39,12 +31,12 @@ class BusinessRestController extends Controller {
      */
     public function index()
     {
-        $query = Business::where("owner_id", "=", $this->user->id);
+        $query    = Business::where("owner_id", "=", $this->user->id);
         $paginate = new PaginateService($query);
 
-        $this->data->success = true;
+        $this->data->success    = true;
         $this->data->businesses = $paginate->data();
-        $this->data->paging = $paginate->paging();
+        $this->data->paging     = $paginate->paging();
 
         return $this->json();
     }
@@ -69,12 +61,9 @@ class BusinessRestController extends Controller {
 
         $validation = BusinessService::validator(\Request::all());
 
-        if ($validation->fails())
-        {
+        if ($validation->fails()) {
             $this->data->errors = $validation->getMessageBag()->toArray();
-        }
-        else
-        {
+        } else {
             $admin = AdminService::getAdmin([
                 'owner_id'      => $this->user->id,
                 'email'         => $request->input('admin_email'),
@@ -105,32 +94,31 @@ class BusinessRestController extends Controller {
                 'address'              => $request->input('address')
             ]);
 
-            $success = true;
+            $success              = true;
             $this->data->business = $business;
         }
         $this->data->success = $success;
+
         return $this->json();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function show($id)
     {
-        if($business = Business::find($id))
-        {
+        if ($business = Business::find($id)) {
             $success = true;
-        }
-        else
-        {
+        } else {
             $this->data->error = "Business not found";
-            $success = false;
+            $success           = false;
         }
 
-        $this->data->success = $success;
+        $this->data->success  = $success;
         $this->data->business = $business;
 
         return $this->json();
@@ -139,7 +127,8 @@ class BusinessRestController extends Controller {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -150,7 +139,8 @@ class BusinessRestController extends Controller {
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function update(Request $request, $id)
@@ -159,20 +149,17 @@ class BusinessRestController extends Controller {
 
         $validation = BusinessService::validator(\Request::all());
 
-        if ($validation->fails())
-        {
+        if ($validation->fails()) {
             $this->data->errors = $validation->getMessageBag()->toArray();
-        }
-        else
-        {
+        } else {
             $business = Business::find($id);
 
             $admin = AdminService::getAdmin([
-                'owner_id'   => $this->user->id,
-                'email'      => $request->input('admin_email'),
-                'first_name' => $request->input('admin_first_name'),
-                'last_name'  => $request->input('admin_last_name'),
-                'id'         => ($request->input('new_admin') ? false : $request->input('admin_id')),
+                'owner_id'      => $this->user->id,
+                'email'         => $request->input('admin_email'),
+                'first_name'    => $request->input('admin_first_name'),
+                'last_name'     => $request->input('admin_last_name'),
+                'id'            => ($request->input('new_admin') ? false : $request->input('admin_id')),
                 'user_admin_id' => ($request->input('new_admin') == 2 ? $this->user->id : false)
             ]);
 
@@ -197,7 +184,7 @@ class BusinessRestController extends Controller {
                 'address'              => $request->input('address')
             ]);
 
-            $success = true;
+            $success              = true;
             $this->data->business = $business;
         }
 
@@ -209,21 +196,19 @@ class BusinessRestController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
+     *
      * @return Response
      */
     public function destroy($id)
     {
-        if($business = Business::find($id))
-        {
+        if ($business = Business::find($id)) {
             $this->data->business = $business->name;
             $business->delete();
             $success = true;
-        }
-        else
-        {
+        } else {
             $this->data->error = "Business not found";
-            $success = false;
+            $success           = false;
         }
 
         $this->data->success = $success;
@@ -233,101 +218,90 @@ class BusinessRestController extends Controller {
 
     public function csv(Request $request)
     {
-        $upload = $request->file('csv');
+        $upload    = $request->file('csv');
         $validator = \Validator::make(['csv' => $upload], [
             'csv' => 'required|max:3072'
-        ],[
+        ], [
             'csv.required' => trans('logs.validation.required'),
-            'csv.max' => trans('logs.validation.max_size')
+            'csv.max'      => trans('logs.validation.max_size')
         ]);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             $this->data->errors = $validator->getMessageBag()->toArray();
-        }
-        elseif (!$upload->isValid())
-        {
+        } elseif (!$upload->isValid()) {
             $this->data->errors = trans('logs.validation.invalid');
-        }
-        elseif(!in_array($upload->getClientMimeType(), explode(",", "csv,txt,text/csv,xls,application/vnd.ms-excel")))
-        {
+        } elseif (!in_array($upload->getClientMimeType(),
+            explode(",", "csv,txt,text/csv,xls,application/vnd.ms-excel"))
+        ) {
             $this->data->errors = trans('logs.validation.mime_type', ['mimetype' => $upload->getClientMimeType()]);
-        }
-        else
-        {
-            $tmp = (microtime(true)*1000) . '.' . $upload->getClientOriginalExtension();
+        } else {
+            $tmp  = (microtime(true) * 1000) . '.' . $upload->getClientOriginalExtension();
             $path = storage_path("app/");
             $upload->move($path, $tmp);
-            $tmp_path = $path.$tmp;
+            $tmp_path = $path . $tmp;
 
-            $csv = \Excel::load($tmp_path);
+            $csv   = \Excel::load($tmp_path);
             $lines = $csv->get();
 
             $heading = "name,description,phone,url,address,city,zip_code,state,state_code,country,country_code,admin_first_name,admin_last_name,admin_email";
             if(!$csv->first() || array_keys($csv->first()->toArray()) !== explode(",", $heading))
             {
                 $this->data->errors = trans('logs.validation.format');
-            }
-            else
-            {
+            } else {
                 notification_csv(trans('logs.parse.initializing'), "info", false, true);
 
                 $results = [];
 
-                foreach ($lines as $i => $line)
-                {
+                foreach ($lines as $i => $line) {
                     $index = $i + 1;
                     set_time_limit(30);
                     notification_csv(trans('logs.parse.line', ['line' => $index]), "warning", $index);
-                    $result = new \stdClass;
-                    $result->line = $line;
+                    $result         = new \stdClass;
+                    $result->line   = $line;
                     $result->errors = [];
-                    $logs_admin = [];
-                    $logs_city = [];
-                    $logs_business = [];
+                    $logs_admin     = [];
+                    $logs_city      = [];
+                    $logs_business  = [];
 
                     $validator = \Validator::make($line->toArray(), [
-                        'name'             => 'required',
-                        'url'              => 'required|url|unique:businesses,url',
-                        'address'          => 'required'
+                        'name'    => 'required',
+                        'url'     => 'required|url|unique:businesses,url',
+                        'address' => 'required'
                     ]);
-                    $validator->sometimes('city', 'required', function($input) use ($line) {
+                    $validator->sometimes('city', 'required', function ($input) use ($line) {
                         return (!$line->zip_code);
                     });
-                    $validator->sometimes('zip_code', 'required', function($input) use ($line) {
+                    $validator->sometimes('zip_code', 'required', function ($input) use ($line) {
                         return (!$line->city);
                     });
-                    $validator->sometimes('state', 'required', function($input) use ($line) {
+                    $validator->sometimes('state', 'required', function ($input) use ($line) {
                         return (!$line->zip_code && !$line->state_code);
                     });
-                    $validator->sometimes('state_code', 'required', function($input) use ($line) {
+                    $validator->sometimes('state_code', 'required', function ($input) use ($line) {
                         return (!$line->zip_code && !$line->state);
                     });
-                    $validator->sometimes('country', 'required', function($input) use ($line) {
+                    $validator->sometimes('country', 'required', function ($input) use ($line) {
                         return (!$line->country_code);
                     });
-                    $validator->sometimes('country_code', 'required', function($input) use ($line) {
+                    $validator->sometimes('country_code', 'required', function ($input) use ($line) {
                         return (!$line->country);
                     });
-                    $validator->sometimes('admin_first_name', 'required', function($input) use ($line) {
+                    $validator->sometimes('admin_first_name', 'required', function ($input) use ($line) {
                         return ($line->admin_email && !User::whereEmail($line->admin_email)->get()->first()) ? true : false;
                     });
-                    $validator->sometimes('admin_last_name', 'required', function($input) use ($line) {
+                    $validator->sometimes('admin_last_name', 'required', function ($input) use ($line) {
                         return ($line->admin_email && !User::whereEmail($line->admin_email)->get()->first()) ? true : false;
                     });
-                    $validator->sometimes('admin_email', 'email', function($input) use ($line) {
+                    $validator->sometimes('admin_email', 'email', function ($input) use ($line) {
                         return $line->admin_email ? true : false;
                     });
 
-                    if($errors = $validator->getMessageBag()->toArray())
-                    {
-                        $errors = array_merge([trans('logs.parse.line_error')], $errors);
+                    if ($errors = $validator->getMessageBag()->toArray()) {
+                        $errors         = array_merge([trans('logs.parse.line_error')], $errors);
                         $result->errors = $errors;
                         notification_csv($errors, "danger");
                         notification_csv(trans('logs.parse.line_not_saved', ['line' => $index]), "danger");
-                    }
-                    else
-                    {
+                    } else {
                         $admin = AdminService::getAdmin([
                             'owner_id'   => $this->user->id,
                             'email'      => $line->admin_email,
@@ -335,8 +309,7 @@ class BusinessRestController extends Controller {
                             'last_name'  => $line->admin_last_name
                         ]);
 
-                        if(!$admin)
-                        {
+                        if (!$admin) {
                             $errors[] = trans('logs.admin.not_found');
                             notification_csv(trans('logs.admin.not_found'), "danger");
                         }
@@ -349,20 +322,16 @@ class BusinessRestController extends Controller {
                             'country_name' => $line->country,
                             'country_code' => $line->country_code
                         ]);
-                        if(!$city)
-                        {
+                        if (!$city) {
                             $errors[] = trans('logs.location.city_not_found');
                             notification_csv(trans('logs.location.city_not_found'), "danger");
                         }
 
-                        if(count($errors))
-                        {
+                        if (count($errors)) {
                             $result->errors = $errors;
                             notification_csv(trans('logs.parse.line_not_saved', ['line' => $index]), "danger");
-                        }
-                        else
-                        {
-                            $business = BusinessService::create([
+                        } else {
+                            $business         = BusinessService::create([
                                 'city_id'     => $city->id,
                                 'owner_id'    => $this->user->id,
                                 'admin_id'    => $admin->id,
@@ -384,6 +353,7 @@ class BusinessRestController extends Controller {
 
             \Storage::delete($tmp);
         }
+
         return $this->json();
     }
 }
