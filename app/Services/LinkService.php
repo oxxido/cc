@@ -1,12 +1,7 @@
 <?php namespace App\Services;
 
-use App\Models\Admin;
 use App\Models\Business;
 use App\Models\SocialNetwork;
-use App\Services\UserService;
-use App\Services\AdminService;
-use App\Services\LocationService;
-use Illuminate\Http\Request;
 use Validator;
 
 class LinkService {

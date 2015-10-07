@@ -14,6 +14,13 @@ class DatabaseSeeder extends Seeder {
     {
         Model::unguard();
 
+        $this->call(CountriesTableSeeder::class);
+        $this->call(StatesTableSeeder::class);
+        $this->call(CitiesTableSeeder::class);
+        $this->call(BusinessTypesTableSeeder::class);
+        $this->call(OrganizationTypesTableSeeder::class);
+        $this->call(SocialNetworksTableSeeder::class);
+
         switch (App::environment()) {
             case 'production':
                 break;

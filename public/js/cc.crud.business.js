@@ -2,6 +2,107 @@ if (!cc) var cc = {};
 if (!cc.crud) cc.crud = {};
 
 cc.crud.business = {
+    cvs: {
+        upload : function()
+        {
+            'use strict';
+
+            $('#csv-upload').fileupload({
+                url:  cc.baseUrl + 'crud/business/csv',
+                dataType: 'json',
+                type : 'POST',
+                formData : {
+                    _token : cc._token
+                },
+                submit : function(e, data) {
+                    cc.pusher.connect();
+                    cc.pusher.subscribe('user.' + cc.id, 'App\\Events\\EventCsvImporterLog', function(notification){
+                        cc.crud.business.cvs.notification(notification.log, notification.type, notification.datetime, notification.line);
+                    });
+
+                    tools.messagesHide();
+                    $("#businessCvsNotifications table").html("");
+                    $("#businessCvsNotifications").show();
+                    cc.crud.business.cvs.notification("Uploading file...", "info");
+                    $('#csv-progress').show();
+                    return true;
+                },
+                done: function (e, data) {
+                    if(data.result.errors)
+                    {
+                        if(typeof data.result.errors == "string")
+                        {
+                            cc.crud.business.cvs.notification(data.result.errors, "danger", false);
+                        }
+                        else
+                        {
+                            for(i in data.result.errors)
+                            {
+                                cc.crud.business.cvs.notification(data.result.errors[i], "danger", false);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        cc.crud.business.table();
+
+                        for(i in data.result.logs)
+                        {
+                            cc.crud.business.cvs.notification(data.result.logs[i], "info", false);
+                        }
+                    }
+                    $('#csv-progress').hide();
+                    cc.pusher.disconnect();
+                },
+                progressall: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#csv-progress .progress-bar').css('width', progress + '%');
+                }
+            }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
+        },
+        notification : function(log, type, datetime)
+        {
+            var line = arguments[3] ? arguments[3] : false;
+            if(typeof log == "string")
+            {
+                var html = log;
+            }
+            else
+            {
+                var html = "<b>" + log[0] + "</b>";
+                html += "<ul>";
+                for (var i in log)
+                {
+                    if(i == 0)
+                        continue;
+
+                    if(typeof log[i] == "array")
+                    {
+                        for(var j in log[i])
+                        {
+                            html += "<li>" + i + ":</b> " + log[i][j] + "</li>";
+                        }
+                    }
+                    else
+                    {
+                        html += "<li>" + i + ":</b> " + log[i] + "</li>";
+                    }
+                }
+                html += "</ul>";
+            }
+            var d = new Date();
+            var dhtml = datetime ? datetime : moment().format('HH:mm:ss');
+            if(line)
+            {
+                var tr = '<tr class="' + type + '"><td width="70">' + dhtml + '</td><td width="50">Line ' + line + '</td><td>' + html + '</td></tr>';
+            }
+            else
+            {
+                var tr = '<tr class="' + type + '"><td width="70">' + dhtml + '</td><td colspan="2">' + html + '</td></tr>';
+            }
+            $("#businessCvsNotifications table").prepend(tr);
+        }
+    },
     add : {
         create : function()
         {
@@ -71,8 +172,11 @@ cc.crud.business = {
                 if (data.success)
                 {
                     tools.handlebars("#businessEditForm_HBT", "#businessEditForm_HBW", data.business);
-                    $("#business_type_id").val(data.business.business_type.id);
-                    $("#organization_type_id").val(data.business.organization_type.id);
+                    if(data.business.business_type)
+                        $("#business_type_id").val(data.business.business_type.id);
+                    if(data.business.organization_type)
+                        $("#organization_type_id").val(data.business.organization_type.id);
+
                     var country_code = data.business.city.state.country.code;
                     $("#country_code").val(country_code);
                     cc.location.country();
@@ -279,5 +383,6 @@ cc.crud.business = {
     init: function()
     {
         cc.crud.business.table();
+        cc.crud.business.cvs.upload();
     }
 }

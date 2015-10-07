@@ -2,6 +2,7 @@
 use DB;
 use App\Http\Requests\CommenterCreateRequest;
 use App\Models\BusinessCommenter;
+use App\Services\EmailService;
 use Illuminate\Http\Request;
 use App\Models\Commenter;
 use App\Models\Business;
@@ -29,11 +30,42 @@ class CommenterController extends Controller {
     {
         $commenter = Commenter::make($request->all());
 
-        if (!BusinessCommenter::whereBusinessId($business->id)->whereCommenterId($commenter->id)->count()) {
-            $commenter->businesses()->attach($business->id, ['adder_id' => \Auth::id()]);
+        if (null === ($business_commenter = BusinessCommenter::whereBusinessId($business->id)->whereCommenterId($commenter->id)->first())) {
+            $business_commenter = BusinessCommenter::create([
+                'business_id' => $business->id,
+                'commenter_id' => $commenter->id,
+                'adder_id' => \Auth::id()
+            ]);
         }
 
-        return \Redirect::back()->with('message', 'Customer successfully saved');
+        if ($request->get('send_feedback_request')) {
+            EmailService::instance()->requestFeedback($business_commenter);
+        }
+
+        return \Redirect::route('business.commenters', $business)->with('message', 'Customer successfully saved');
+    }
+
+    public function destroy(Business $business, Commenter $commenter)
+    {
+        $message = 'Customer couldn\'t be deleted.';
+        $success = true;
+        $redirect = \URL::route('business.commenters', $business);
+
+        if (null !== ($business_commenter = $commenter->businessCommenter($business->id))) {
+            $success = $business_commenter->delete();
+            $message = 'Customer deleted.';
+        }
+
+        if (\Request::ajax()) {
+            \Session::flash('message', $message);
+            return \Response::json([
+                'success' => $success,
+                'message' => $message,
+                'redirect' => $redirect
+            ]);
+        } else {
+            return \Redirect::to($redirect)->with('message', $message);
+        }
     }
 
     public function check(Business $business)

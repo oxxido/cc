@@ -20,7 +20,7 @@ class CreateCountriesTable extends Migration
                 $table->string('code', 2)->unique();
             });
 
-            App::make(DatabaseSeeder::class)->call(CountriesTableSeeder::class);
+            //App::make(DatabaseSeeder::class)->call(CountriesTableSeeder::class);
         });
     }
 

@@ -17,6 +17,8 @@ class DashboardOwnerController extends Controller {
 	 */
 	public function __construct()
 	{
+        \Debugbar::disable();
+
 		$this->middleware('auth');
 		$this->middleware('owner');
 

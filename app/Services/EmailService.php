@@ -1,6 +1,6 @@
 <?php namespace App\Services;
 
-use App\Models\Commenter;
+use App\Models\BusinessCommenter;
 use App\Models\Business;
 use App\Models\Comment;
 use App\Models\User;
@@ -191,25 +191,39 @@ class EmailService
         ]);
     }
 
-    public function requestFeedback(Commenter $commenter)
+    public function requestFeedback(BusinessCommenter $business_commenter)
     {
-        $businesses = [];
-        foreach ($commenter->businessCommenters()->get() as $business_commenter) {
-            $business_commenter->feedback_requests_sent++;
-            $business_commenter->save();
-            $business = $business_commenter->business;
-            $business->hash = $business->products()->first()->hash;
-            $businesses[] = $business;
-        }
+        $business = $business_commenter->business;
+        $commenter = $business_commenter->commenter;
 
-        $this->subject  = "Please, give us feedback";
+        $this->subject  = $business->config->email->feedback_request_subject;
         $this->template = "feedbackRequest";
+        $this->from = $business->config->email->feedback_request_from;
+        $body = BusinessService::tagsReplace([
+            'text' => $business->config->email->feedback_request_body,
+            'business' => $business,
+            'commenter' => $commenter
+        ]);
 
         $this->send([
             'to'   => $commenter->email,
             'data' => [
                 'name' => $commenter->name,
-                'businesses' => $businesses
+                'body' => $body
+            ]
+        ]);
+    }
+
+    public function businessCreated(Business $business)
+    {
+        $owner = $business->owner;
+        $this->subject  = "New Business Created";
+        $this->template = "newBusinessCreated";
+        $this->send([
+            'to'   => $owner->email,
+            'data' => [
+                'name' => $business->admin->user->name,
+                'business' => $business->name
             ]
         ]);
     }

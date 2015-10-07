@@ -207,16 +207,23 @@ cc.crud.link = {
             if (data.success)
             {
                 tools.handlebars("#linkTable_HBT", "#linkTable_HBW", data);
-                $("#paging").easyPaging({
-                    total: data.paging.total,
-                    perpage : perpage,
-                    page : data.paging.page,
-                    onSelect: function(page)
-                    {
-                        if(data.paging.page != page)
-                            cc.crud.link.table(page);
-                    }
-                });
+                if(data.paging.total > 1)
+                {
+                    $("#paging").easyPaging({
+                        total: data.paging.total,
+                        perpage : perpage,
+                        page : data.paging.page,
+                        onSelect: function(page)
+                        {
+                            if(data.paging.page != page)
+                                cc.crud.link.table(page);
+                        }
+                    });
+                }
+                else
+                {
+                    $("#paging").remove();
+                }
             }
             else
             {

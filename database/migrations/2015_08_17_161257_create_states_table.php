@@ -22,7 +22,7 @@ class CreateStatesTable extends Migration
                 $table->string('code', 2);
             });
 
-            App::make(DatabaseSeeder::class)->call(StatesTableSeeder::class);
+            //App::make(DatabaseSeeder::class)->call(StatesTableSeeder::class);
         });
     }
 

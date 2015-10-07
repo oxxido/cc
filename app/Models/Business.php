@@ -137,7 +137,7 @@ class Business extends Model
 
     public function commenters()
     {
-        return $this->belongsToMany(Commenter::class)->withPivot('adder_id', 'request_feedback_automatically');
+        return $this->belongsToMany(Commenter::class)->withPivot('id', 'adder_id', 'request_feedback_automatically', 'feedback_requests_sent');
     }
 
     /**
@@ -228,5 +228,12 @@ class Business extends Model
     public function mailSuscribe()
     {
         return $this->hasMany(MailSuscribe::class);
+    }
+
+    public function feedbackUrl()
+    {
+        $product = $this->products()->first();
+
+        return \URL::to("widget/feedback/$product->hash");
     }
 }

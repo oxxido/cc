@@ -5,25 +5,24 @@
         <thead>
             <tr>
                 <th>Name</th>
+                <th>E-mail</th>
                 <th>Added by</th>
+                <th>Nº of tries</th>
+                <th>Status</th>
                 <th width="65">Action</th>
             </tr>
         </thead>
         <tbody>
         @foreach ($commenters_page as $commenter)
+            <?php $business_commenter = $commenter->businessCommenter($business->id) ?>
             <tr>
-                <td>{{ $commenter->user->name }}</td>
+                <td>{{ $commenter->name }}</td>
+                <td>{{ $commenter->email }}</td>
                 <td>{{ (null !== ($adder = App\Models\User::find($commenter->pivot->adder_id)))? $adder->name: '-'}}</td>
+                <td>{{ $commenter->pivot->feedback_requests_sent }}</td>
+                <td>{{ $business_commenter->status }}</td>
                 <td class="action">
-                    <a href=" URL::route('business.commenter.show', [$business, $commenter]) }}">
-                        <span class="glyphicon glyphicon-search link" aria-hidden="true"></span>
-                    </a>
-                    <a href=" URL::route('business.commenter.edit', [$business, $commenter]) }}">
-                        <span class="glyphicon glyphicon-pencil link" aria-hidden="true"></span>
-                    </a>
-                    <a href=" URL::route('business.commenter.destroy', [$business, $commenter]) }}">
-                        <span class="glyphicon glyphicon-remove link" aria-hidden="true"></span>
-                    </a>
+                    <div data-uuid="{{ $commenter->uuid }}" class="commenter-remove glyphicon glyphicon-remove link" aria-hidden="true"></div>
                 </td>
             </tr>
         @endforeach

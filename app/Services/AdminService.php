@@ -34,9 +34,12 @@ class AdminService {
             'owner_id' => $data['owner_id'],
             'admin_id' => $data['admin_id']
         ]);
+        notification_csv(trans('logs.admin.asigned', ['email' => $admin->user->email]));
 
         if($admin->user->id != $data['owner_id']) {
             Event::fire(new UserEmailEvent($admin->user, "admin"));
+
+            notification_csv(trans('logs.admin.asigned_email', ['email' => $admin->user->email]));
         }
         return $admin;
     }
@@ -52,17 +55,29 @@ class AdminService {
 
             if(!$user_admin)
             {
-                $user_admin = UserService::create([
-                    'first_name' => $data['first_name'],
-                    'last_name'  => $data['last_name'],
-                    'email'      => $data['email'],
-                    'password'   => str_random(8)
-                ], true);
+                if($data['first_name'] && $data['last_name'] && $data['email'])
+                {
+                    $user_admin = UserService::create([
+                        'first_name' => $data['first_name'],
+                        'last_name'  => $data['last_name'],
+                        'email'      => $data['email'],
+                        'password'   => str_random(8)
+                    ], true);
+                }
+                else
+                {
+                    $user_admin = User::find($data['owner_id']);
+                }
+            }
+            else
+            {
+                notification_csv(trans('logs.user.found', ['email' => $data['email']]));
             }
 
             if($user_admin->isAdmin($data['owner_id']))
             {
                 $admin = $user_admin->admin($data['owner_id']);
+                notification_csv(trans('logs.user.is_admin', ['email' => $data['email']]));
             }
             else
             {

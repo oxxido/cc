@@ -3,8 +3,10 @@
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use App\Listeners\Comment\SendEmails as ListenersCommentSendEmails;
 use App\Listeners\Comment\DisableAutomaticFeedbackRequestsListener;
+use App\Listeners\Business\SendEmail as ListenersBusinessSendEmail;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use App\Events\Comment\Created as EventCommentCreated;
+use App\Events\Business\Created as EventBusinessCreated;
 use App\Models\OrganizationType;
 use App\Models\SocialNetwork;
 use App\Models\BusinessType;
@@ -29,6 +31,12 @@ class EventServiceProvider extends ServiceProvider
         EventCommentCreated::class => [
             ListenersCommentSendEmails::class,
             DisableAutomaticFeedbackRequestsListener::class
+        ],
+        EventBusinessCreated::class => [
+            ListenersBusinessSendEmail::class
+        ],
+        EventCsvImporterLog::class => [
+            ListenersCsvImporterLog::class
         ]
     ];
 
@@ -69,6 +77,8 @@ class EventServiceProvider extends ServiceProvider
         });
 
         Business::creating(function ($model) {
+            Event::fire(EventBusinessCreated::class, [$model]);
+            notification_csv(trans('logs.business.email_sent', ['email' => $model->admin->user->email]));
             $this->assignUuid($model);
         });
 

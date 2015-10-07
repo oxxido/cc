@@ -1,0 +1,7 @@
+name,description,phone,url,address,city,zip_code,state,state_code,country,country_code,admin_first_name,admin_last_name,admin_email
+PochoClo,,5555555555,http://cosocomue.com,Street Figther,New York City,90210,,,,US,,,
+BizCocho,Description Business,5555555555,http://url.com,Calle 15,Miami,,Florida,,United States,US,,,juanperez@example.com
+PanCho,,5555555555,http://link.com,5° Avenida,Palo Alto,90210,,CA,,,John,Doe,johndoe@example.com
+Plasticola,,5555555555,http://website.com,Wall Street,New York City,90210,,FL,,US,Mohamed,Lee,Mohamed.Lee@example.com
+Boligoma,Description Business,5555555555,http://url.com,Calle 13,Orlando,,FL,,Unites States,,Juan,Perez,juanperez@example.com
+Unipox,,5555555555,http://link.com,5° Avenida,Yerba Buena,,Tucuman,,,AR,John,Doe,johndoe@example.com

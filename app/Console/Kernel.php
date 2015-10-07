@@ -6,7 +6,7 @@ use App\Console\Commands\DropDatabase;
 use App\Console\Commands\Inspire;
 use App\Services\ReportService;
 use App\Services\EmailService;
-use App\Models\Commenter;
+use App\Models\BusinessCommenter;
 use App\Models\Business;
 use DB;
 
@@ -62,15 +62,10 @@ class Kernel extends ConsoleKernel
 
     protected function automaticFeedbackRequest()
     {
-        $commenters = Commenter::with('user',
-            'businessCommenters.business.products')->select(['commenters.*'])->join('business_commenter AS bc',
-            function ($join) {
-                $join->on('commenters.id', '=', 'bc.commenter_id');
-                $join->on('bc.request_feedback_automatically', '=', DB::raw(true));
-            })->groupBy('commenters.id')->get();
+        $business_commenters = BusinessCommenter::whereRequestFeedbackAutomatically(true)->get();
 
-        foreach ($commenters as $commenter) {
-            EmailService::instance()->requestFeedback($commenter);
+        foreach ($business_commenters as $business_commenter) {
+            EmailService::instance()->requestFeedback($business_commenter);
         }
     }
 }

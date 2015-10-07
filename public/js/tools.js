@@ -11,6 +11,9 @@ var tools = {
     fail : function(x, status, error) {
         tools.messages("There was an error in our system:, please try again (Error " + x.status + ": " + error +")");   
     },
+    messagesHide: function() {
+        $("#errorMessage").removeClass("in");
+    },
     messages: function(str, msgType) {
         //check msgType
         var cssClass = "alert-info";

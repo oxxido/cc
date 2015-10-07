@@ -35,9 +35,14 @@ class Commenter extends Model
         return $this->hasMany(BusinessCommenter::class);
     }
 
+    public function businessCommenter($business_id)
+    {
+        return $this->businessCommenters()->whereBusinessId($business_id)->first();
+    }
+
     public function businesses()
     {
-        return $this->belongsToMany(Business::class)->withPivot('adder_id', 'request_feedback_automatically')->withTimestamps();
+        return $this->belongsToMany(Business::class)->withPivot('id', 'adder_id', 'request_feedback_automatically', 'feedback_requests_sent')->withTimestamps();
     }
 
     public function toArray()

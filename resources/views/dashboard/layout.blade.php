@@ -35,10 +35,11 @@
         @yield('title')
 
         <!-- Main content -->
-        <section class="content" id="content-dashboard">
+        <section class="content">
           <!-- TIP -->
           @if(\Session::has('message'))
-            <div class="callout callout-info">
+            <div class="callout callout-info alert alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <p>{{ Session::get('message') }}</p>
             </div>
           @endif
@@ -49,7 +50,9 @@
             <div></div>
           </div>
 
-    			@yield('content')
+          <div id="content-dashboard">
+            @yield('content')
+          </div>
 
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->

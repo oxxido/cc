@@ -31,6 +31,7 @@
     "ionicons": "~2.0.1",
     "tinymce": "~4.2.5",
     "blueimp-file-upload":  "~9.11.2",
-    "jquery.scrollTo" : "~2.1.1"
+    "jquery.scrollTo" : "~2.1.1",
+    "pusher" : "~3.0.0"
   }
 }
