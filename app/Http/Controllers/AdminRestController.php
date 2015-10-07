@@ -31,7 +31,8 @@ class AdminRestController extends Controller {
     public function index()
     {
         $query = User::join('admins', 'users.id', '=', 'admins.admin_id')
-            ->where('admins.owner_id', $this->user->id);
+            ->where('admins.owner_id', $this->user->id)
+            ->where('users.id', "!=",$this->user->id);
         $paginate = new PaginateService($query);
 
         $this->data->success = true;
@@ -39,15 +40,6 @@ class AdminRestController extends Controller {
         $this->data->paging = $paginate->paging();
 
         return $this->json();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
     }
 
     /**
@@ -159,6 +151,18 @@ class AdminRestController extends Controller {
 
         if($admin = Admin::find($id))
         {
+            foreach ($admin->businesses as $business)
+            {
+                if(!($new_admin = $business->owner->admin))
+                {
+                    $new_admin = AdminService::create([
+                        'owner_id' => $business->owner->id,
+                        'admin_id' => $business->owner->id
+                    ]);
+                }
+                $business->admin_id = $new_admin->id;
+                $business->save();
+            }
             $this->data->admin = $admin->name;
             $admin->delete();
             $success = true;
