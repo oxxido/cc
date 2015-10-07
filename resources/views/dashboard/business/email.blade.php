@@ -1,24 +1,13 @@
 @extends('dashboard.business.layout')
 
-@section('title')
-  <section class="content-header">
-    <h1>
-      Email Templates
-      <small>Change your email templates settings from here</small>
-    </h1>
-    <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="#">Dashboard</a></li>
-      <li><a href="#">Settings</a></li>
-      <li class="active">Email Templates</li>
-    </ol>
-  </section>
-@endsection
-
 @section('form')
 
+    <h3>Email Settings</h3>
+    <p>Change your email settings from here</p>
+    <br>
+
     {!! Form::open(array('url'=>url('dashbiz/email'), 'method'=> 'POST', 'role' => 'form', 'name' => 'emailForm', 'id' => 'emailForm')) !!}
-      <ul class="nav nav-tabs" role="tablist">
+      <ul class="nav nav-pills" role="tablist">
         <li class="active">
           <a href="#tab_request" aria-controls="tab_request" role="tab" data-toggle="tab">Feedback Request Email</a>
         </li>
@@ -29,7 +18,8 @@
           <a href="#tab_negative" aria-controls="tab_negative" role="tab" data-toggle="tab">Negative Feedback Email</a>
         </li>
       </ul>
-      <div class="panel panel-default">
+      <div class="panel panel-success pilled">
+        <div class="panel-heading"></div>
         <div class="panel-body">
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="tab_request">
@@ -69,7 +59,7 @@
           </div>
         </div>
         <div class="panel-footer">
-          <button class="btn btn-primary" type="submit">Save</button>
+          <button class="btn btn-success" type="submit">Save</button>
         </div>
       </div>
     {!! Form::close() !!}
@@ -77,6 +67,9 @@
 @endsection
 
 @section('footer')
+
+  @parent
+
   <script type="text/javascript" src="{{ asset('/vendor/tinymce/tinymce.min.js') }}"></script>
   <script type="text/javascript">
     tinymce.init({

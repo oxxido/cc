@@ -1,24 +1,13 @@
 @extends('dashboard.business.layout')
 
-@section('title')
-  <section class="content-header">
-    <h1>
-      Testimonial Settings
-      <small>Change your testimonial widget from here</small>
-    </h1>
-    <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="#">Dashboard</a></li>
-      <li><a href="#">Settings</a></li>
-      <li class="active">Testimonial</li>
-    </ol>
-  </section>
-@endsection
-
 @section('form')
 
+  <h3>Testimonial Settings</h3>
+  <p>Change your testimonial widget from here</p>
+  <br>
+
   {!! Form::open(array('url'=>url('dashbiz/testimonial'), 'method'=> 'POST', 'role' => 'form', 'name' => 'testimonialForm', 'id' => 'testimonialForm')) !!}
-    <ul class="nav nav-tabs" role="tablist">
+    <ul class="nav nav-pills" role="tablist">
       <li class="active">
         <a href="#tab_config" aria-controls="tab_config" role="tab" data-toggle="tab">Testimonial Widget Options</a>
       </li>
@@ -26,9 +15,9 @@
         <a href="#tab_code" aria-controls="tab_code" role="tab" data-toggle="tab">Integration</a>
       </li>
     </ul>
-    <div class="panel panel-default">
+    <div class="panel panel-success pilled">
+      <div class="panel-heading"></div>
       <div class="panel-body">
-
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="tab_config">
             <div class="form-group">
@@ -55,7 +44,7 @@
         </div>
       </div>
       <div class="panel-footer">
-        <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn btn-success" type="submit">Save</button>
       </div>
     </div>
   {!! Form::close() !!}

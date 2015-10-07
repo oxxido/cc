@@ -17,6 +17,3 @@
 @section('content')
   <pre>{{ print_r($business) }}</pre>
 @endsection
-
-@section('foot')
-@endsection

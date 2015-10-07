@@ -5,25 +5,14 @@
   <link rel="stylesheet" href="{{ asset('/vendor/blueimp-file-upload/css/jquery.fileupload.css') }}">
 @endsection
 
-@section('title')
-  <section class="content-header">
-    <h1>
-      Feedback Widget
-      <small>Change your feedback widget from here</small>
-    </h1>
-    <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="#">Dashboard</a></li>
-      <li><a href="#">Settings</a></li>
-      <li class="active">Testimonial</li>
-    </ol>
-  </section>
-@endsection
-
 @section('form')
 
+    <h3>Feedback Settings</h3>
+    <p>Change your feedback widget from here</p>
+    <br>
+
     {!! Form::open(array('url'=>url('dashbiz/feedback'), 'method'=> 'POST', 'role' => 'form', 'name' => 'feedbackForm', 'id' => 'feedbackForm')) !!}
-      <ul class="nav nav-tabs" role="tablist">
+      <ul class="nav nav-pills" role="tablist">
         <li class="active">
           <a href="#tab_option" aria-controls="tab_option" role="tab" data-toggle="tab">Feedback Widget Options</a>
         </li>
@@ -34,7 +23,8 @@
           <a href="#tab_code" aria-controls="tab_code" role="tab" data-toggle="tab">Integration</a>
         </li>
       </ul>
-      <div class="panel panel-default">
+      <div class="panel panel-success pilled">
+        <div class="panel-heading"></div>
         <div class="panel-body">
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="tab_option">
@@ -151,7 +141,7 @@
           </div>
         </div>
         <div class="panel-footer">
-          <button class="btn btn-primary" type="submit">Save</button>
+          <button class="btn btn-success" type="submit">Save</button>
         </div>
       </div>
     {!! Form::close() !!}
@@ -160,6 +150,8 @@
 
 
 @section('footer')
+
+  @parent
 
   <script type="text/javascript" src="{{ asset('/vendor/tinymce/tinymce.min.js') }}"></script>
 

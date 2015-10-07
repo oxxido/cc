@@ -1,36 +1,21 @@
-@extends('dashboard.crud.layout')
+@extends('dashboard.business.layout')
 
-@section('title')
-  <section class="content-header">
-    <h1>
-      Online Review Links
-      <small>This is the landing page of the online review links on business dashboard</small>
-    </h1>
-    <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="#">Dashboard</a></li>
-      <li><a href="#">Business</a></li>
-      <li class="active">Links</li>
-    </ol>
-  </section>
-@endsection
+@section('form')
 
-@section('content')
+  <h3>Online Review Links</h3>
+  <p>This is the landing page of the online review links on business dashboard</p>
+  <br>
 
-  <div class="box box-primary collapse" id="linkAdd">
-    <div class="box-header with-border">
-      <h3 class="box-title">Add Social Media Profile</h3>
-    </div>
+  <div class="box box-success box-solid collapse" id="linkAdd">
+    <div class="box-header">Add Social Media Profile</div>
     <div id="linkAddForm_HBW"></div>
     <div class="overlay" id="linkAddLoading">
       <i class="fa fa-refresh fa-spin"></i>
     </div>
   </div>
 
-  <div class="box box-primary collapse" id="linkEdit">
-    <div class="box-header with-border">
-      <h3 class="box-title">Edit Social Media Profile</h3>
-    </div>
+  <div class="box box-success box-solid collapse" id="linkEdit">
+    <div class="box-header">Edit Social Media Profile</div>
     <div id="linkEditForm_HBW"></div>
     <div class="overlay" id="linkEditLoading">
       <i class="fa fa-refresh fa-spin"></i>
@@ -38,9 +23,8 @@
   </div>
 
   <!-- Default box -->
-  <div class="box collapse in" id="linkTable">
-    <div class="box-header with-border">
-      
+  <div class="box box-success box-solid collapse in" id="linkTable">
+    <div class="box-header">
       <a class="btn btn-app" onclick="cc.crud.link.add.create()">
         <i class="fa fa-plus"></i> Add Profile
       </a>
@@ -59,6 +43,9 @@
 @endsection
 
 @section('footer')
+  
+  @parent
+
   <!-- Adding templates -->
   <script id="linkAddForm_HBT" type="text/x-handlebars-template">
     @include('dashboard.crud.link.addForm')

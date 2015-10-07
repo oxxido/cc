@@ -6,89 +6,37 @@
     <ul class="sidebar-menu">
       <li class="header">MAIN NAVIGATION</li>
 
-      @if (isset($business->id)  )
-        <li class="treeview">
-          <div class="user-panel info-cnt">
-            <p>{{$business->name}}</p>
-          </div>
-          <a href="#">
-            <i class="fa fa-user"></i> <span>Business Settings</span>
-            <i class="fa fa-angle-left pull-right"></i>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="/dashbiz/link">Online Review Links</a></li>
-            <li><a href="/dashbiz/email">Email Templates</a></li>
-            <li><a href="/dashbiz/feedback">Feedback Settings</a></li>
-            <li><a href="/dashbiz/testimonial">Testimonials Widget</a></li>
-            <li><a href="/dashbiz/notification">Notification Settings</a></li>
-            <li><a href="/business/{{ $business->uuid }}/customers">Manage Customers</a></li>
-            <!--<li><a href="/dashbiz/kiosk">Kiosk Mode</a></li>-->
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-user"></i> <span>Account</span>
-            <i class="fa fa-angle-left pull-right"></i>
-          </a>
-          <ul class="treeview-menu">
-           <!-- <li><a href="#">Manage Customers</a></li>-->
-           <li><a href="/dashboard/account">Account Owner Details</a></li>
-          <!-- <li><a href="#">Payment Information</a></li>-->
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-briefcase"></i> <span>Businesses</span>
-            <i class="fa fa-angle-left pull-right"></i>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="/dashowner/business">Manage Businesses</a></li>
-          </ul>
-        </li>
-        <li  class="treeview">
-          <a href="#">
-            <i class="fa fa-bar-chart"></i> <span>Reports</span>
-            <i class="fa fa-angle-left pull-right"></i>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="/reports">Basic Reports</a></li>
-            <!--<li><a href="#">Performance Report</a></li> -->
-            <!--<li><a href="#">Online Review Monitor</a></li>-->
-            <!--<li><a href="#">Customer Level Reporting</a></li>-->
-          </ul>
-        </li>
-      @else
-        <li class="treeview">
-          <a href="/dashboard/account">
-            <i class="fa fa-user"></i> <span>Account</span>
-            <i class="fa fa-angle-left pull-right"></i>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="/dashowner/admins">Manage Users</a></li>
-            <!-- <li><a href="#">Default Configuration</a></li> -->
-            <!-- <li><a href="#">Manage Customers</a></li> -->
-            <li><a href="/dashboard/account">Account Owner Details</a></li>
-            <!-- <li><a href="#">Payment Information</a></li> -->
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-briefcase"></i> <span>Businesses</span>
-            <i class="fa fa-angle-left pull-right"></i>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="/dashowner/business">Manage Businesses</a></li>
-          </ul>
-        <li  class="treeview">
-          <a href="#">
-            <i class="fa fa-bar-chart"></i> <span>Reports</span>
-            <i class="fa fa-angle-left pull-right"></i>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="/reports">Basic Reports</a></li>
-          </ul>
-        </li>
-      @endif
+      <li class="treeview">
+        <a href="/dashboard/account">
+          <i class="fa fa-user"></i> <span>Account</span>
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="/dashowner/admins">Manage Users</a></li>
+          <!-- <li><a href="#">Default Configuration</a></li> -->
+          <!-- <li><a href="#">Manage Customers</a></li> -->
+          <li><a href="/dashboard/account">Account Owner Details</a></li>
+          <!-- <li><a href="#">Payment Information</a></li> -->
+        </ul>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-briefcase"></i> <span>Businesses</span>
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="/dashowner/business">Manage Businesses</a></li>
+        </ul>
+      <li  class="treeview">
+        <a href="#">
+          <i class="fa fa-bar-chart"></i> <span>Reports</span>
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="/reports">Basic Reports</a></li>
+        </ul>
+      </li>
+
       <!-- <li  class="treeview">
         <a href="/dashboard/help">
           <i class="fa fa-question-circle"></i> <span>Help</span>
@@ -100,6 +48,7 @@
           <li><a href="#">Getting Started Videos</a></li>
         </ul>
       </li> -->
+
       <li>
         <a href="/auth/logout">
           <i class="fa fa-sign-out"></i> <span>Logout</span>

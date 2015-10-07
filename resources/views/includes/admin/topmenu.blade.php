@@ -5,9 +5,6 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          @if (isset($business->id)  )
-          <div class="biz-name">{{$business->name}} </div>
-          @endif
           <!--
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">

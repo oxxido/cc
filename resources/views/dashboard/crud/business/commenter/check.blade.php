@@ -1,4 +1,4 @@
-@extends('dashboard.crud.layout')
+@extends('dashboard.layout')
 
 @section('title')
     <section class="content-header">

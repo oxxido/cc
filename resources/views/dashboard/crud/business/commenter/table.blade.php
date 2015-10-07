@@ -1,5 +1,5 @@
 @if ($commenters_page->isEmpty())
-    <h3 class="box-title">There are no customers set for this business</h3>
+    <i>There are no customers set for this business</i>
 @else
     <table id="businessesTable" class="table table-bordered table-hover">
         <thead>

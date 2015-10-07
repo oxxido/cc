@@ -1,29 +1,16 @@
-@extends('dashboard.crud.layout')
+@extends('dashboard.business.layout')
 
-@section('title')
-  <section class="content-header">
-    <h1>
-      Business <b>{{ $business->name }}</b>
-      <small>Customers list</small>
-    </h1>
-    <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="#">Dashboard</a></li>
-      <li><a href="#">Business</a></li>
-      <li class="active">Customers</li>
-    </ol>
-  </section>
-@endsection
+@section('form')
 
-@section('content')
-  <div class="box box-primary collapse in" id="commenters_table">
-    <div class="box-header with-border">
-      <p>
-        <a href="{{ URL::route('business.commenter.create', $business) }}" class="btn btn-app">
-          <i class="fa fa-plus"></i> Add Customer
-        </a>
-      </p>
-      <p>This is the list of available customers for this business</p>
+  <h3>Customers list</h3>
+  <p>This is the list of available customers for this business</p>
+  <br>
+
+  <div class="box box-success box-solid collapse in" id="commenters_table">
+    <div class="box-header">
+      <a href="{{ URL::route('business.commenter.create', $business) }}" class="btn btn-app">
+        <i class="fa fa-plus"></i> Add Customer
+      </a>
     </div>
     <div class="box-body">
       @include('dashboard.crud.business.commenter.table', [$business, 'commenters_page' => $business->commenters()->paginate()])
@@ -32,6 +19,9 @@
 @endsection
 
 @section('footer')
+  
+  @parent
+
   <script type="text/javascript" src="/js/cc.crud.business.commenter.js"></script>
 
   <script type="text/javascript">

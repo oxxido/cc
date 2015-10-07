@@ -6,7 +6,7 @@
       </li>
     </ul>
   </div>
-  <div class="panel panel-default">
+  <div class="panel panel-default pilled">
     <div class="panel-body">
       <div class="form-group">
         <label for="name">Business Name</label>
@@ -61,7 +61,7 @@
     <!-- Tab panes -->
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="admin_tab_not">
-        <div class="panel panel-default">
+        <div class="panel panel-default pilled">
           <div class="panel-body">
             <div class="form-group">
               <label for="admin_first_name">You are the business admin</label>
@@ -70,7 +70,7 @@
         </div>
       </div>
       <div role="tabpanel" class="tab-pane" id="admin_tab_new">
-        <div class="panel panel-default">
+        <div class="panel panel-default pilled">
           <div class="panel-body">
             <div class="form-group">
               <label for="admin_first_name">First Name</label>
@@ -88,7 +88,7 @@
         </div>
       </div>
       <div role="tabpanel" class="tab-pane" id="admin_tab_search">
-        <div class="panel panel-default">
+        <div class="panel panel-default pilled">
           <div class="panel-body">
             <div class="form-group">
               <label for="admin_first_name">Business Admin Name or Email</label>
@@ -124,7 +124,7 @@
       </li>
     </ul>
   </div>
-  <div class="panel panel-default">
+  <div class="panel panel-default pilled">
     <div class="panel-body">
       <div class="form-group">
         <label for="country_code">Country</label>

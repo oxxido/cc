@@ -10,7 +10,7 @@
   <tbody>
     @{{#each links}}
       <tr>
-        <td><img src="@{{social_network.logo}}" width="50"></td>
+        <td width="70" align="center"><img src="@{{social_network.logo}}" width="50"></td>
         <td>@{{social_network.name}}</td>
         <td><a href="@{{profile}}" target="_blank">@{{profile}}</td>
         <td class="action">

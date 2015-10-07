@@ -1,11 +1,3 @@
-<div id="footer">
-  <div class="wrapper">
-    &copy; 2014 CertifiedComments.com. Unlawful duplication prohibited by Law.
-  </div>
-</div>
-        
-<!-- scripts  -->
-
 <!-- jQuery 2.1.4 -->
 <script type="text/javascript" src="{{ asset('/vendor/jquery/dist/jquery.min.js') }}"></script>
 <!-- jQuery-UI 1.11.4 -->

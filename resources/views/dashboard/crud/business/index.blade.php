@@ -1,4 +1,4 @@
-@extends('dashboard.crud.layout')
+@extends('dashboard.layout')
 
 @section('head')
   <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
