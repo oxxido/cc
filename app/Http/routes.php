@@ -81,7 +81,7 @@ Route::post('user/update', [
     'uses' => 'UserController@update'
 ]);
 Route::get('reports', 'ReportController@index');
-Route::group(['middleware' => ['business.rights']], function () {
+Route::group(['middleware' => ['auth','business.rights']], function () {
     Route::get('business/{biz}/customers', ['as' => 'business.commenters', 'uses' => 'CommenterController@index']);
     Route::get('business/{biz}/customers/assign', ['as' => 'business.check', 'uses' => 'CommenterController@check']);
     Route::put('business/{biz}/customers/assign', ['as' => 'business.assign', 'uses' => 'CommenterController@assign']);
