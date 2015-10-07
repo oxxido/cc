@@ -9,7 +9,10 @@ var tools = {
         $(wrapper).html(hb_html);
     },
     fail : function(x, status, error) {
-        tools.messages("There was an error in our system:, please try again (Error " + x.status + ": " + error +")");   
+        if(x.status == "401")
+            location.href = cc.baseUrl + "auth/login";
+        else
+            tools.messages("There was an error in our system:, please try again (Error " + x.status + ": " + error +")", "error");   
     },
     messagesHide: function() {
         $("#errorMessage").removeClass("in");
