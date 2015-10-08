@@ -12,9 +12,9 @@
         <td>@{{name}}</td>
         <td>@{{email}}</td>
         <td class="action">
-          <a onclick="cc.crud.admin.edit.edit(@{{id}})">
+          <?php /*<a onclick="cc.crud.admin.edit.edit(@{{id}})">
             <span class="glyphicon glyphicon-pencil link" aria-hidden="true"></span>
-          </a>
+          </a> */?>
           <a onclick="cc.crud.admin.destroy(@{{id}})">
             <span class="glyphicon glyphicon-remove link" aria-hidden="true"></span>
           </a>
