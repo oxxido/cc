@@ -71,8 +71,19 @@ Free 15 Day Trial (Button)
 <div class="testimonialtxt"><i><img src="images/quoteleft.png" width="20" height="16"> I am so grateful I found your service. I have been in gridlock over this matter for far too long as I do not know how to begin navigating the court systems/processes. THANK YOU!</i> <img src="images/quoteright.png" width="19" height="16" vspace="5" hspace="5" align="absmiddle"><br>
 
 <span>Erin - Buena Park, California</span><br>
-<a href="#" onClick="MM_openBrWindow('popup.htm','Customer Information','scrollbars=yes,width=600,height=800')"><img src="images/seal.png" width="124" height="32" vspace="5"></a>
-
+<a role="button" tabindex="0" data-toggle="popover" data-placement="bottom" data-html="true" data-content="
+            <div class=&quot;bg-text&quot;>We validated the testimonial from data collected from the customer including but not limited to:</div>
+            <table class=&quot;certification-table&quot;>
+              <tbody><tr class=&quot;first-row&quot;>
+                <td class=&quot;first-col&quot;>IP: 255.255.255.255</td>
+                <td>Phone: 0123456789</td>
+              </tr>
+              <tr>
+                <td class=&quot;first-col&quot;>State: California</td>
+                <td>Email: erin@gmail.com</td>
+              </tr>
+            </tbody></table>
+          " data-trigger="click" title="" data-original-title="<img src='/images/certification.png' alt='certification'>"><img src="images/seal.png" width="124" height="32" vspace="5"></a>
 </div>
 <div class="clear"></div>
 
@@ -100,9 +111,14 @@ Free 15 Day Trial (Button)
 <a href="{{ url('invite') }}"><img src="images/btn_req_green.png" width="242" height="63"></a> </div>
 </div>
 
+@endsection
 
+@section('footer')
 
 <script>
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
 /*
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
