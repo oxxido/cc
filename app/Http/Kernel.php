@@ -28,6 +28,7 @@ class Kernel extends HttpKernel
         'auth'            => 'App\Http\Middleware\Authenticate',
         'auth.basic'      => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
         'guest'           => 'App\Http\Middleware\RedirectIfAuthenticated',
+        'inactive'        => 'App\Http\Middleware\UserInactive',
         'owner'           => 'App\Http\Middleware\RoleOwner',
         'admin'           => 'App\Http\Middleware\RoleAdmin',
         'business.rights' => BusinessRights::class,

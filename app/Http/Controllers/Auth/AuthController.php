@@ -38,7 +38,7 @@ class AuthController extends Controller {
     public function __construct()
     {
         $this->middleware('guest', ['except' => ['getLogout','getInactive','getResend','getActivate']]);
-        $this->middleware('auth', ['only' => ['getLogout','getInactive','getResend','getActivate']]);
+        $this->middleware('inactive', ['only' => ['getInactive','getResend','getActivate']]);
     }
 
     /**
@@ -111,7 +111,7 @@ class AuthController extends Controller {
             }
             elseif($user->isAdmin())
             {
-                return redirect('/dashbiz');
+                return redirect('/dashadmin');
             }
         }
     
