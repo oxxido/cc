@@ -167,6 +167,9 @@ textarea.noresize{
 .login .dropdown-menu>li>a {
     color: #FFF;
 }
+.login .dropdown-menu>li:first-child>a{
+    border-radius: 0;
+}
 #homebanner {
   background:url(/images/homebanner.png) left top repeat-x;
   height:320px;
