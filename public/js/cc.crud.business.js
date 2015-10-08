@@ -191,7 +191,7 @@ cc.crud.business = {
                     }
                     else
                     {
-                        $("#city_zip_code, #city_location, #zip_code").val("");
+                        $("#city_zip_code, #city_location").val("");
                     }
                     if(data.business.owner.id == data.business.admin.user.id)
                     {
