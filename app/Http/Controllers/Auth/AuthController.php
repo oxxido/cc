@@ -28,7 +28,9 @@ class AuthController extends Controller {
     |
     */
 
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+    use AuthenticatesAndRegistersUsers {
+      AuthenticatesAndRegistersUsers::getLogout as traitGetLogout;
+    }
 
     /**
      * Create a new authentication controller instance.
@@ -125,5 +127,11 @@ class AuthController extends Controller {
         return view('auth.guestActivate')
             ->with('email', $user->email)
             ->with('date', Auth::user()->updated_at->format('Y-m-d'));
+    }
+
+    public function getLogout()
+    {
+        Session::forget('business_id');
+        return $this->traitGetLogout();
     }
 }
