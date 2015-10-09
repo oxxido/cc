@@ -22,7 +22,7 @@ cc.suscription = {
                  return obj; // or return obj.name, whatever.
         });
         
-        $("#suscribe_biz").prop('checked', found[0].mail_suscribe == 1 ? true : false);
+        $("#unsuscribe_biz").prop('checked', found[0].mail_unsuscribe == 1 ? true : false);
 
         //find the business mail types and check anyone mail type if necesary
         var foundMail = $.map(mailBizSuscribes, function(obj) {
@@ -31,7 +31,7 @@ cc.suscription = {
         });
 
         for (var i = 0; i < foundMail.length; i++) {
-            check = foundMail[i].suscribe == 1 ? true : false;
+            check = foundMail[i].unsuscribe == 1 ? true : false;
 
             $("#mail"+foundMail[i].mail_type).prop('checked', check);
         }

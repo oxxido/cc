@@ -37,6 +37,7 @@ class SendEmails
             if ($notification->send_to_admin && null !== $business->admin) {
                 EmailService::instance()->positiveFeedback($business->admin->user, $comment);
             }
+            EmailService::instance()->positiveFeedback($comment->businessCommenter->commenter->user, $comment);
         } else {
             if ($notification->send_to_owner) {
                 EmailService::instance()->negativeFeedback($business->owner->user, $comment);
@@ -44,6 +45,7 @@ class SendEmails
             if ($notification->send_to_admin && null !== $business->admin) {
                 EmailService::instance()->negativeFeedback($business->admin->user, $comment);
             }
+            EmailService::instance()->positiveFeedback($comment->businessCommenter->commenter->user, $comment);
         }
     }
 }

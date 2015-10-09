@@ -14,13 +14,13 @@ class CreateMailSuscribeTable extends Migration
     {
         DB::transaction(function () {
             Schema::create('mail_suscribe', function (Blueprint $table) {
-                $table->integer('id')->unsigned()->primary();
+                $table->increments('id');
                 $table->integer('business_id')->unsigned();
                 $table->foreign('business_id')->references('id')->on('businesses')->onUpdate('cascade');
                 $table->integer('commenter_id')->unsigned();
                 $table->foreign('commenter_id')->references('id')->on('commenters')->onUpdate('cascade');
                 $table->tinyInteger('mail_type')->unsigned();
-                $table->boolean('suscribe')->default(true);
+                $table->boolean('unsuscribe')->default(false);
                 $table->timestamps();
             });
         });

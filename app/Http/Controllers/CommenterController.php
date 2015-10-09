@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Commenter;
 use App\Models\Business;
 use App\Models\User;
+use App\Models\MailSuscribe;
 
 class CommenterController extends Controller {
     public function index(Business $business)
@@ -36,11 +37,21 @@ class CommenterController extends Controller {
                 'commenter_id' => $commenter->id,
                 'adder_id' => \Auth::id()
             ]);
+
+            for ($i = 1; $i <= MailSuscribe::MAIL_TYPE_QT ; $i++) { 
+                $mail_suscribe = MailSuscribe::create([
+                    'business_id' => $business->id,
+                    'commenter_id' => $commenter->id,
+                    'mail_type' => $i
+                ]);
+            }
         }
 
-        if ($request->get('send_feedback_request')) {
-            EmailService::instance()->requestFeedback($business_commenter);
-        }
+        //if ($commenter->mail_suscribe && $business_commenter->mail_suscribe) {
+            if ($request->get('send_feedback_request')) {
+                EmailService::instance()->requestFeedback($business_commenter);
+            }
+        //}
 
         return \Redirect::route('business.commenters', $business)->with('message', 'Customer successfully saved');
     }
@@ -102,9 +113,8 @@ class CommenterController extends Controller {
 
     private function findCommenter($hash)
     {
-        //$id = intval(str_replace("commenter_id=", "", base64_decode($hash)));
-        $id = intval($hash);
-        return Commenter::find($id);
+        $user = User::where('uuid','=',$hash)->first();
+        return $user->commenter;
     }
 
     private function setBasicData($commenter, $request)
@@ -119,15 +129,15 @@ class CommenterController extends Controller {
     public function postSuscription(Request $request)
     {
         $commenter = Commenter::find($request->input('commenter_id'));
-        $commenter->mail_suscribe = is_null($request->input('suscribe_all')) ? false : true;
+        $commenter->mail_unsuscribe = is_null($request->input('unsuscribe_all')) ? false : true;
 
         if ($request->input('businesses')) {
             $business_commenter = $commenter->businessCommenters()->where('business_id','=',$request->input('businesses'))->first();
-            $business_commenter->mail_suscribe = is_null($request->input('suscribe_biz')) ? false : true;
+            $business_commenter->mail_unsuscribe = is_null($request->input('unsuscribe_biz')) ? false : true;
             $mail_suscribe = $commenter->mailSuscribe()->where('business_id','=',$request->input('businesses'))->get();
             
             foreach ($mail_suscribe as $mail) {
-                $mail->suscribe = is_null($request->input('mail'.$mail->mail_type)) ? false : true;
+                $mail->unsuscribe = is_null($request->input('mail'.$mail->mail_type)) ? false : true;
                 $mail->save();
             }
 

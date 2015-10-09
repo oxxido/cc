@@ -78,4 +78,9 @@ class Commenter extends Model
     {
         return $this->hasMany(MailSuscribe::class);
     }
+
+    public function suscriptionUrl()
+    {
+        return \URL::to("commenter/suscription/$this->uuid");
+    }
 }

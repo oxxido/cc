@@ -18,7 +18,7 @@
       <div class="row logo-title-cnt">
         <div class="col-xs-6">
           <div class="title-cnt">
-            Mail suscriptions
+            Mail Unsuscriptions
           </div>
         </div>
       </div>

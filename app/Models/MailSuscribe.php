@@ -2,9 +2,9 @@
 
 class MailSuscribe extends Model
 {
+    const MAIL_TYPE_QT      = 2;
     const FEEDBACK_MAIL     = 1;
-    const THANK_YOU_MAIL    = 2;
-    const CALIFICATION_MAIL = 3;
+    const THANK_YOU_MAIL    = 2; //for positive and negative feedback
     /**
      * The database table used by the model.
      *
@@ -17,7 +17,7 @@ class MailSuscribe extends Model
      *
      * @var array
      */
-    protected $fillable = ['mail_type', 'suscribe'];
+    protected $fillable = ['business_id', 'commenter_id', 'mail_type'];
 
     public $timestamps = true;
 
