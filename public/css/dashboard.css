@@ -72,7 +72,7 @@
     background-color: #dff0d8;
     text-align: right;
 }
-.box.box-solid.box-success > .box-header a, .box.box-solid.box-success > .box-header .btn {
+.box.box-solid.box-success > .box-header .btn {
     color: #fff;
     background-image: -webkit-linear-gradient(top,#5cb85c 0,#419641 100%);
     background-image: -o-linear-gradient(top,#5cb85c 0,#419641 100%);
@@ -131,10 +131,10 @@ label small{
     -webkit-animation: fa-spin 0.5s infinite linear !important;
     animation: fa-spin 0.5s infinite linear !important;
 }
-#businessCvsNotifications{
+#businessCvsNotifications, #cvsNotifications{
     display: none;
 }
-#businessCvsNotifications .table-log{
+#businessCvsNotifications .table-log, #cvsNotifications .table-log{
     max-height: 300px;
     overflow-y: auto;
 }
@@ -150,4 +150,7 @@ label small{
     left: 15px;
     background-color: #f4f4f4;
     border-color: #ddd;
+}
+.btn-app-group .dropdown-menu li a{
+    color: #333 !important;
 }

@@ -93,4 +93,6 @@ Route::group(['middleware' => ['auth','business.rights']], function () {
         ['as' => 'business.commenter.create', 'uses' => 'CommenterController@create']);
     Route::delete('business/{biz}/customer/{commenter}/destroy',
         ['as' => 'business.commenter.destroy', 'uses' => 'CommenterController@destroy']);
+    Route::post('business/{biz}/customers/import',
+        ['as' => 'business.commenters.import', 'uses' => 'CommenterController@import']);
 });

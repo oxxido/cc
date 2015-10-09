@@ -14,9 +14,98 @@ class CommenterController extends Controller {
         return \View::make('dashboard.crud.business.commenter.index', compact('business'));
     }
 
+    public function import(Business $business, Request $request)
+    {
+        $upload    = $request->file('csv');
+        $validator = \Validator::make(['csv' => $upload], [
+            'csv' => 'required|max:3072'
+        ], [
+            'csv.required' => trans('logs.validation.required'),
+            'csv.max'      => trans('logs.validation.max_size')
+        ]);
+
+        if ($validator->fails()) {
+            $this->data->errors = $validator->getMessageBag()->toArray();
+        } elseif (!$upload->isValid()) {
+            $this->data->errors = trans('logs.validation.invalid');
+        } elseif (!in_array($upload->getClientMimeType(),
+            explode(",", "csv,txt,text/csv,xls,application/vnd.ms-excel"))
+        ) {
+            $this->data->errors = trans('logs.validation.mime_type', ['mimetype' => $upload->getClientMimeType()]);
+        } else {
+            $tmp  = \Webpatser\Uuid\Uuid::generate() . '.' . $upload->getClientOriginalExtension();
+            $path = storage_path("app/");
+            $upload->move($path, $tmp);
+            $tmp_path = $path . $tmp;
+
+            $csv   = \Excel::load($tmp_path);
+            $lines = $csv->get();
+
+            $heading = "first_name,last_name,email,phone,note";
+            if(!$csv->first() || array_keys($csv->first()->toArray()) !== explode(",", $heading))
+            {
+                $this->data->errors = trans('logs.validation.format');
+            } else {
+                notification_csv(trans('logs.parse.initializing'), "info", false, true);
+
+                $results = [];
+
+                foreach ($lines as $i => $line) {
+                    $index = $i + 1;
+                    set_time_limit(30);
+                    notification_csv(trans('logs.parse.line', ['line' => $index]), "warning", $index);
+                    $result         = new \stdClass;
+                    $result->line   = $line;
+                    $result->errors = [];
+
+                    $validator = \Validator::make($line->toArray(), [
+                        'first_name'    => 'required',
+                        'last_name'    => 'required',
+                        'email'    => 'required|email',
+                        'phone'    => 'required',
+                    ]);
+
+                    if ($errors = $validator->getMessageBag()->toArray()) {
+                        $errors         = array_merge([trans('logs.parse.line_error')], $errors);
+                        $result->errors = $errors;
+                        notification_csv($errors, "danger");
+                        notification_csv(trans('logs.parse.line_not_saved', ['line' => $index]), "danger");
+                    } else {
+                        $commenter = Commenter::make([
+                            'first_name' => $line->first_name,
+                            'last_name'  => $line->last_name,
+                            'email'      => $line->email,
+                            'phone'      => $line->phone,
+                            'note'       => $line->note,
+                        ]);
+
+                        if (null === ($business_commenter = BusinessCommenter::whereBusinessId($business->id)->whereCommenterId($commenter->id)->first())) {
+                            $business_commenter = BusinessCommenter::create([
+                                'business_id' => $business->id,
+                                'commenter_id' => $commenter->id,
+                                'adder_id' => \Auth::id()
+                            ]);
+                        }
+
+                        //EmailService::instance()->requestFeedback($business_commenter);
+                        notification_csv(trans('logs.parse.line_saved', ['line' => $index]), "success");
+
+                        $result->commenter = $commenter;
+                        $result->errors = $errors;
+                    }
+                    $results[] = $result;
+                }
+                $this->data->results = $results;
+            }
+
+            \Storage::delete($tmp);
+        }
+
+        return $this->json();
+    }
+
     public function show(Business $business, Commenter $commenter)
     {
-
     }
 
     public function create(Business $business)

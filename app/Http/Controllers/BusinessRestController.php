@@ -235,7 +235,7 @@ class BusinessRestController extends Controller
         ) {
             $this->data->errors = trans('logs.validation.mime_type', ['mimetype' => $upload->getClientMimeType()]);
         } else {
-            $tmp  = (microtime(true) * 1000) . '.' . $upload->getClientOriginalExtension();
+            $tmp  = \Webpatser\Uuid\Uuid::generate() . '.' . $upload->getClientOriginalExtension();
             $path = storage_path("app/");
             $upload->move($path, $tmp);
             $tmp_path = $path . $tmp;
@@ -259,13 +259,10 @@ class BusinessRestController extends Controller
                     $result         = new \stdClass;
                     $result->line   = $line;
                     $result->errors = [];
-                    $logs_admin     = [];
-                    $logs_city      = [];
-                    $logs_business  = [];
 
                     $validator = \Validator::make($line->toArray(), [
                         'name'    => 'required',
-                        'url'     => 'required|url|unique:businesses,url',
+                        'url'     => "required|url|unique:businesses,url,NULL,id,owner_id,{$this->user->id}",
                         'address' => 'required'
                     ]);
                     $validator->sometimes('city', 'required', function ($input) use ($line) {

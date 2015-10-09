@@ -14,11 +14,13 @@ cc.crud.business.commenter = {
             data: {
                 _token: cc._token
             }
-        }).success(function(data) {
+        })
+        .done(function(data) {
             if (data.success) {
                 window.location.replace(data.redirect);
             }
-        });
+        })
+        .fail(tools.fail);
     },
 
     init: function () {
@@ -28,5 +30,114 @@ cc.crud.business.commenter = {
                 cc.crud.business.commenter.remove($that.data('uuid'));
             });
         });
+        cc.crud.business.commenter.cvs.upload();
+    },
+
+    cvs: {
+        upload : function()
+        {
+            var context = this;
+            'use strict';
+
+            $('#csv-upload').fileupload({
+                url:  $('#csv-upload').data('url'),
+                dataType: 'json',
+                type : 'POST',
+                formData : {
+                    _token : cc._token
+                },
+                submit : function(e, data) {
+                    cc.pusher.connect();
+                    cc.pusher.subscribe('user.' + cc.id, 'App\\Events\\EventCsvImporterLog', function(notification){
+                        context.notification(notification.log, notification.type, notification.datetime, notification.line);
+                    });
+
+                    tools.messagesHide();
+                    $("#cvsNotifications table").html("");
+                    $("#cvsNotifications").show();
+                    $("#commenters_table").collapse("hide");
+                    context.notification("Uploading file", "info");
+                    $('#csv-progress').show();
+                    return true;
+                },
+                done: function (e, data) {
+                    cc.pusher.disconnect();
+                    if(data.result.errors)
+                    {
+                        if(typeof data.result.errors == "string")
+                        {
+                            context.notification(data.result.errors, "danger", false);
+                        }
+                        else
+                        {
+                            for(var i in data.result.errors)
+                            {
+                                context.notification(data.result.errors[i], "danger", false);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if(!cc.pusher.logged)
+                        {
+                            for(var i in data.result.results)
+                            {
+                                if(data.result.results[i].errors)
+                                    context.notification(data.result.results[i].errors, "danger", false);
+                            }
+                        }
+                    }
+                    $('#csv-progress').hide();
+                    $('#cvsNotifications .box-footer').show();
+                    context.notification("File uploaded", "info");
+                },
+                progressall: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#csv-progress .progress-bar').css('width', progress + '%');
+                }
+            }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
+        },
+        notification : function(log, type, datetime)
+        {
+            var line = arguments[3] ? arguments[3] : false;
+            if(typeof log == "string")
+            {
+                var html = log;
+            }
+            else
+            {
+                var html = "<b>" + log[0] + "</b>";
+                html += "<ul>";
+                for (var i in log)
+                {
+                    if(i == 0)
+                        continue;
+
+                    if(typeof log[i] == "array")
+                    {
+                        for(var j in log[i])
+                        {
+                            html += "<li>" + i + ":</b> " + log[i][j] + "</li>";
+                        }
+                    }
+                    else
+                    {
+                        html += "<li>" + i + ":</b> " + log[i] + "</li>";
+                    }
+                }
+                html += "</ul>";
+            }
+            var d = new Date();
+            var dhtml = datetime ? datetime : moment().format('HH:mm:ss');
+            if(line)
+            {
+                var tr = '<tr class="' + type + '"><td width="70">' + dhtml + '</td><td width="50">Line ' + line + '</td><td>' + html + '</td></tr>';
+            }
+            else
+            {
+                var tr = '<tr class="' + type + '"><td width="70">' + dhtml + '</td><td colspan="2">' + html + '</td></tr>';
+            }
+            $("#cvsNotifications table").prepend(tr);
+        }
     }
 }

@@ -46,7 +46,7 @@
     <!-- <li role="presentation"><a href="{{ url('dashbiz/edit') }}">Business Data</a></li> -->
     <li role="presentation"><a href="{{ url('dashbiz/link') }}">Online Review Links</a></li>
     <li role="presentation">
-      <a href="{{ url("business/{$business->uuid}/customers") }}" data-href-create="{{ url("business/{$business->uuid}/customer/create") }}">Manage Custommers</a></li>
+      <a href="{{ url("business/{$business->uuid}/customers") }}" data-href-create="{{ url("business/{$business->uuid}/customer/create") }}">Manage Customers</a></li>
     <li role="presentation" class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
         Settings <span class="caret"></span>
