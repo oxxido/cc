@@ -2,7 +2,7 @@
 {!! Form::open(array('role' => 'form', 'name' => 'linkAddForm', 'id' => 'linkAddForm')) !!}
 
   <div class="box-body">
-  	@include('dashboard.crud.link.form')
+  	@include('dashboard.crud.business.link.form')
   </div>
 
   <div class="box-footer">

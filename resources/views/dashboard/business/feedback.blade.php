@@ -11,7 +11,7 @@
     <p>Change your feedback widget from here</p>
     <br>
 
-    {!! Form::open(array('url'=>url('dashbiz/feedback'), 'method'=> 'POST', 'role' => 'form', 'name' => 'feedbackForm', 'id' => 'feedbackForm')) !!}
+    {!! Form::open(array('url'=>route('business.dashboard.feedback', $business), 'method'=> 'POST', 'role' => 'form', 'name' => 'feedbackForm', 'id' => 'feedbackForm')) !!}
       <ul class="nav nav-pills" role="tablist">
         <li class="active">
           <a href="#tab_option" aria-controls="tab_option" role="tab" data-toggle="tab">Feedback Widget Options</a>
@@ -186,4 +186,9 @@
   </script>
 
   <script  type="text/javascript" src="{{ asset('/js/cc.bizfeed.js') }}"></script>
+  <script>
+    $(function () {
+        cc.bizfeed.init('{{ $business->uuid }}');
+    });
+  </script>
 @endsection

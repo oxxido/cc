@@ -291,9 +291,9 @@ cc.crud.business = {
             });
         });
     },
-    show : function(id)
+    show : function(uuid)
     {
-        location.href = cc.baseUrl + 'dashbiz/load/' + id;
+        location.href = cc.baseUrl + 'dashbiz/' + uuid;
     },
     table : function()
     {
@@ -317,7 +317,7 @@ cc.crud.business = {
                 tools.handlebars("#businessesTable_HBT", "#businessesTable_HBW", data);
                 tools.paging("#paging", data.paging, function(page){
                     cc.crud.business.table(page);
-                })
+                });
             }
             else
             {

@@ -48,21 +48,13 @@
 
   <!-- Adding templates -->
   <script id="linkAddForm_HBT" type="text/x-handlebars-template">
-    @include('dashboard.crud.link.addForm')
+    @include('dashboard.crud.business.link.addForm')
   </script>
   <script id="linkEditForm_HBT" type="text/x-handlebars-template">
-    @include('dashboard.crud.link.editForm')
+    @include('dashboard.crud.business.link.editForm')
   </script>
   <script id="linkTable_HBT" type="text/x-handlebars-template">
-    @include('dashboard.crud.link.table')
-  </script>
-
-  <script id="modalAdmins_HBT" type="text/x-handlebars-template">
-    <div class="list-group">
-      @{{#each admins}}
-        <a href="javascript:;" onclick="cc.crud.link.admin.result('@{{id}}','@{{name}}','@{{email}}');cc.dashboard.modal.hide()" class="list-group-item">@{{name}} - @{{email}}</a>
-      @{{/each}}
-    </div>
+    @include('dashboard.crud.business.link.table')
   </script>
 
 <!-- Users dashboard script  -->
@@ -70,10 +62,9 @@
 
   <script type="text/javascript">
   var socialNetworks = {!! json_encode($social_networks) !!};
-    $(function () {
-      cc.crud.link.init();
-
-    });
+  $(function () {
+    cc.crud.link.init('{{ $business->uuid }}');
+  });
   </script>
 @endsection
 

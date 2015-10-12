@@ -1,19 +1,14 @@
-@extends('dashboard.layout')
+@extends('dashboard.business.layout')
 
-@section('title')
-  <section class="content-header">
-    <h1>
-      Business Dashboard
-      <small>This is the landing page to business dashboard</small>
-    </h1>
-    <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="#">Dashboard</a></li>
-      <li class="active">Business Dashboard</li>
-    </ol>
-  </section>
-@endsection
+@section('form')
 
-@section('content')
-  <pre>{{ print_r($business) }}</pre>
+    <h3>Business Data</h3>
+    <p>Change your business settings from here</p>
+    <br>
+    <p><b>Name</b>: {{ $business->name }}</p>
+    <p><b>Admin</b>: {{ $business->admin->name }}</p>
+    <p><b>Address</b>: {{ $business->address }}</p>
+    <p><b>Location</b>: {{ $business->city->location }}</p>
+    <p><b>Website</b>: {{ $business->url }}</p>
+
 @endsection

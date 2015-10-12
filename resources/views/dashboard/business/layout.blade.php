@@ -43,19 +43,19 @@
   @endif
 
   <ul class="nav nav-tabs">
-    <!-- <li role="presentation"><a href="{{ url('dashbiz/edit') }}">Business Data</a></li> -->
-    <li role="presentation"><a href="{{ url('dashbiz/link') }}">Online Review Links</a></li>
+    <li role="presentation"><a href="{{ route('business.dashboard', $business) }}">Business Data</a></li>
+    <li role="presentation"><a href="{{ route('business.dashboard.links', $business) }}">Online Review Links</a></li>
     <li role="presentation">
-      <a href="{{ url("business/{$business->uuid}/customers") }}" data-href-create="{{ url("business/{$business->uuid}/customer/create") }}">Manage Customers</a></li>
+      <a href="{{ url('business/'.$business->uuid.'/customers') }}" data-href-create="{{ url('business/'.$business->uuid.'/customer/create') }}">Manage Customers</a></li>
     <li role="presentation" class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
         Settings <span class="caret"></span>
       </a>
       <ul class="dropdown-menu">
-        <li><a href="{{ url('dashbiz/email') }}">Email Settings</a></li>
-        <li><a href="{{ url('dashbiz/feedback') }}">Feedback Settings</a></li>
-        <li><a href="{{ url('dashbiz/testimonial') }}">Testimonials Settings</a></li>
-        <li><a href="{{ url('dashbiz/notification') }}">Notification Settings</a></li>
+        <li><a href="{{ route('business.dashboard.email', $business) }}">Email Settings</a></li>
+        <li><a href="{{ route('business.dashboard.feedback', $business) }}">Feedback Settings</a></li>
+        <li><a href="{{ route('business.dashboard.testimonial', $business) }}">Testimonials Settings</a></li>
+        <li><a href="{{ route('business.dashboard.notification', $business) }}">Notification Settings</a></li>
       </ul>
     </li>
   </ul>

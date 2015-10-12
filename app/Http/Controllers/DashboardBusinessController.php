@@ -2,6 +2,7 @@
 
 use Auth;
 use Validator;
+use Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\NotificationUpdateRequest;
@@ -21,23 +22,11 @@ class DashboardBusinessController extends Controller {
      */
     public function __construct()
     {
-        //\Debugbar::disable();
+        \Debugbar::disable();
         $this->middleware('auth');
         $this->middleware('admin');
 
-        $this->user       = Auth::user();
-        $this->data->user = $this->user;
-
-        if ($this->user) {
-            $this->setBusiness();
-        }
-        $this->data->business_id = \Session::get('business_id');
-        $this->data->business = $this->business;
-        
-        if($this->business == false)
-        {
-            return new RedirectResponse(url('/dashboard'));
-        }
+        $this->user = Auth::user();
     }
 
     /**
@@ -45,114 +34,23 @@ class DashboardBusinessController extends Controller {
      *
      * @return Response
      */
-    public function getIndex()
+    public function getIndex(Business $business)
     {
-        return redirect('/dashbiz/link');
+        //return redirect('/dashbiz/link');
+        //print_r($business->toArray());
+        $this->data->business = $business;
         return $this->view('dashboard.business.index');
     }
 
     /**
-     * Show the application dashboard to the business admin.
-     *
-     * @return Response
-     */
-    public function getTest()
-    {
-        print_r($this->business->products->first()->hash);
-    }
-
-    /**
-     * Link page in dashboard business.
-     *
-     * @return Response
-     */
-    public function getLink()
-    {
-        $this->data->social_networks = SocialNetwork::all();
-
-        return $this->view('dashboard.crud.link.index');
-    }
-
-    /**
      *
      *
      * @return Response
      */
-    public function getTestimonial(Request $request)
+    public function getEmail(Business $business, Request $request)
     {
-        $this->data->business = $this->business;
-        $this->data->config   = $this->defaultConfig('testimonial', $request);
-        $this->data->product  = $this->business->products->first();
-
-        return $this->view('dashboard.business.testimonial');
-    }
-
-    /**
-     *
-     *
-     * @return Response
-     */
-    public function postTestimonial(Request $request)
-    {
-        $validator = Validator::make($request->all(), []);
-
-        if ($validator->fails()) {
-            return redirect('dashbiz/testimonial')->withErrors($validator)->withInput();
-        }
-
-        $setting = $this->defaultConfig('testimonial', $request);
-        // Only input type radio
-        $setting->include_feedback = is_null($request->input('include_feedback')) ? false : true;
-        $setting->include_likes = is_null($request->input('include_likes')) ? false : true;
-
-        $this->business->config->testimonial = $setting;
-        $this->business->save();
-
-        $this->data->saved    = true;
-        $this->data->business = $this->business;
-        $this->data->config   = $this->business->config->testimonial;
-        $this->data->product  = $this->business->products->first();
-
-        return $this->view('dashboard.business.testimonial');
-    }
-
-    /**
-     *
-     *
-     * @return Response
-     */
-    public function getNotification(Request $request)
-    {
-        $this->data->business = $this->business;
-        $this->data->config   = $this->defaultConfig('notification', $request);
-
-        return $this->view('dashboard.business.notification');
-    }
-
-    /**
-     *
-     *
-     * @return Response
-     */
-    public function postNotification(NotificationUpdateRequest $request)
-    {
-        $notifications = $request->all();
-        unset($notifications['_token']);
-        $notification = BusinessService::getConfig('notification', $request);
-        $this->business->config->notification = $notification;
-        $this->business->save();
-        return \Redirect::back();
-    }
-
-    /**
-     *
-     *
-     * @return Response
-     */
-    public function getEmail(Request $request)
-    {
-        $this->data->business = $this->business;
-        $this->data->config   = $this->defaultConfig('email', $request);
+        $this->data->business = $business;
+        $this->data->config = $this->defaultConfig('email', $business, $request);
 
         return $this->view('dashboard.business.email');
     }
@@ -162,25 +60,21 @@ class DashboardBusinessController extends Controller {
      *
      * @return Response
      */
-    public function postEmail(Request $request)
+    public function postEmail(Business $business, Request $request)
     {
-        $validator = Validator::make($request->all(), array());
+        $validator = Validator::make($request->all(), []);
         if ($validator->fails())
         {
-            return redirect('dashbiz/email')
+            return Redirect::route('business.dashboard.email', $business)
                 ->withErrors($validator)
                 ->withInput();
         }
 
-        $setting = $this->defaultConfig('email', $request);
-        $this->business->config->email = $setting;
-        $this->business->save();
+        $setting = $this->defaultConfig('email', $business, $request);
+        $business->config->email = $setting;
+        $business->save();
 
-        $this->data->saved = true;
-        $this->data->business = $this->business;
-        $this->data->config = $this->business->config->email;
-        $this->data->product = $this->business->products->first();
-        return $this->view('dashboard.business.email');
+        return Redirect::back()->with('message', 'Email settings successfully saved');
     }
 
     /**
@@ -188,35 +82,11 @@ class DashboardBusinessController extends Controller {
      *
      * @return Response
      */
-    public function getKiosk(Request $request)
+    public function getFeedback(Business $business, Request $request)
     {
-        $this->data->business = $this->business;
-        $this->data->config   = $this->defaultConfig('kiosk', $request);
-
-        return $this->view('dashboard.business.kiosk');
-    }
-
-    /**
-     *
-     *
-     * @return Response
-     */
-    public function postKiosk(Request $request)
-    {
-        return $this->view('dashboard.business.kiosk');
-    }
-
-    /**
-     *
-     *
-     * @return Response
-     */
-    public function getFeedback(Request $request)
-    {
-        $this->data->business = $this->business;
-        $this->data->config   = $this->defaultConfig('feedback', $request);
-        //echo "<pre>";print_r($this->data->config); exit();
-        $this->data->product = $this->business->products->first();
+        $this->data->business = $business;
+        $this->data->config = $this->defaultConfig('feedback', $business, $request);
+        $this->data->product = $business->products->first();
 
         return $this->view('dashboard.business.feedback');
     }
@@ -226,46 +96,42 @@ class DashboardBusinessController extends Controller {
      *
      * @return Response
      */
-    public function postFeedback(Request $request)
+    public function postFeedback(Business $business, Request $request)
     {
         $validator = Validator::make($request->all(), []);
-
         if ($validator->fails()) {
-            return redirect('dashbiz/feedback')->withErrors($validator)->withInput();
+            return Redirect::route('business.dashboard.email', $business)
+                ->withErrors($validator)
+                ->withInput();
         }
 
-        $feedback = $this->defaultConfig('feedback', $request);
+        $feedback = $this->defaultConfig('feedback', $business, $request);
         // Only input type radio
         $feedback->include_social_links   = is_null($request->input('include_social_links')) ? false : true;
         $feedback->include_phone          = is_null($request->input('include_phone')) ? false : true;
-        $this->business->config->feedback = $feedback;
-        $this->business->save();
+        $business->config->feedback = $feedback;
+        $business->save();
 
-        $this->data->saved    = true;
-        $this->data->business = $this->business;
-        $this->data->config   = $this->business->config->feedback;
-        $this->data->product  = $this->business->products->first();
-
-        return $this->view("dashboard.business.feedback");
+        return Redirect::back()->with('message', 'Feedback settings successfully saved');
     }
 
-    public function getGallery(Request $request)
+    public function getGallery(Business $business, Request $request)
     {
         $this->data->target = $request->input('target');
-        $this->business->config->feedback = $this->defaultConfig('feedback', $request);
-        $this->data->images = $this->business->config->feedback->{$this->data->target . '_gallery'};
+        $business->config->feedback = $this->defaultConfig('feedback', $business, $request);
+        $this->data->images = $business->config->feedback->{$this->data->target . '_gallery'};
         return $this->json();
     }
 
-    public function postImage(Request $request)
+    public function postImage(Business $business, Request $request)
     {
         $this->data->image = $request->input('image');
         $this->data->target = $request->input('target');
-        $this->setImage($this->data->target, $this->data->image, $request);
+        $this->setImage($business, $this->data->target, $this->data->image, $request);
         return $this->json();
     }
 
-    public function postUpload(Request $request)
+    public function postUpload(Business $business, Request $request)
     {
         $success = false;
         $target = $request->input('target');
@@ -276,11 +142,11 @@ class DashboardBusinessController extends Controller {
         } elseif ($image->isValid()) {
             $destination_path = public_path() . '/uploads';
             $extension = $image->getClientOriginalExtension();
-            $file_name = microtime(true).'.'.$extension;
+            $file_name = \Uuid::generate().'.'.$extension;
             $image->move($destination_path, $file_name);
 
             $file_url = url('uploads/' . $file_name);
-            $this->setImage($target, $file_url, $request);
+            $this->setImage($business, $target, $file_url, $request);
             $this->data->image = $file_url;
             $success = true;
         } else {
@@ -291,59 +157,110 @@ class DashboardBusinessController extends Controller {
         return $this->json();
     }
 
+    private function setImage($business, $target, $image, $request)
+    {
+        $business->config->feedback = $this->defaultConfig('feedback', $business, $request);
+        $business->config->feedback->{"{$target}_url"} = $image;
+        if(!(strpos($image, url('uploads/')) === false))
+        {
+            $gallery = $business->config->feedback->{$target . '_gallery'};
+            if(!in_array($image, $gallery))
+            {
+                $business->config->feedback->{$target . '_gallery'}[] = $image;
+            }
+        }
+        $business->save();
+    }
+
     /**
-     * Show the application dashboard to the business admin.
+     *
      *
      * @return Response
      */
-    public function getLoad($id = false)
+    public function getTestimonial(Business $business, Request $request)
     {
-        $this->setBusiness($id);
+        $this->data->business = $business;
+        $this->data->config   = $this->defaultConfig('testimonial', $business, $request);
+        $this->data->product  = $business->products->first();
 
-        return redirect("dashbiz");
+        return $this->view('dashboard.business.testimonial');
     }
 
-    private function setBusiness($id = false)
+    /**
+     *
+     *
+     * @return Response
+     */
+    public function postTestimonial(Business $business, Request $request)
     {
-        $id_session = \Session::get('business_id');
-        $id_default = false;
+        $validator = Validator::make($request->all(), []);
 
-        if ($this->user->isOwner()) {
-            if ($business = $this->user->owner->businesses->first()) {
-                $id_default = $business->id;
-            }
-        } else {
-            if (($admin = $this->user->admin()->first()) && ($business = $admin->businesses->first())) {
-                $id_default = $business->id;
-            }
+        if ($validator->fails()) {
+            return Redirect::route('business.dashboard.testimonial', $business)
+                ->withErrors($validator)
+                ->withInput();
         }
 
-        $id = $id ? $id : ($id_session ? $id_session : ($id_default ? $id_default : false));
+        $setting = $this->defaultConfig('testimonial', $business, $request);
+        // Only input type radio
+        $setting->include_feedback = is_null($request->input('include_feedback')) ? false : true;
+        $setting->include_likes = is_null($request->input('include_likes')) ? false : true;
 
-        if ($id && $business = Business::find($id)) {
-            $this->business = $business;
-            \Session::set('business_id', $id);
-        }
+        $business->config->testimonial = $setting;
+        $business->save();
+
+        return Redirect::back()->with('message', 'Testimonials settings successfully saved');
     }
 
-    private function defaultConfig($type, $request)
+    /**
+     *
+     *
+     * @return Response
+     */
+    public function getNotification(Business $business, Request $request)
     {
-        return BusinessService::defaultConfig($type, $this->business, $request);
+        $this->data->business = $business;
+        $this->data->config   = $this->defaultConfig('notification', $business, $request);
+
+        return $this->view('dashboard.business.notification');
     }
 
-    private function setImage($target, $image, $request)
+    /**
+     *
+     *
+     * @return Response
+     */
+    public function postNotification(Business $business, NotificationUpdateRequest $request)
     {
-        $this->business->config->feedback = $this->defaultConfig('feedback', $request);
-        $this->business->config->feedback->{"{$target}_url"} = $image;
-        if(!(strpos($image, url('uploads/')) === false))
-        {
-            $gallery = $this->business->config->feedback->{$target . '_gallery'};
-            if(!in_array($image, $gallery))
-            {
-                $this->business->config->feedback->{$target . '_gallery'}[] = $image;
-            }
-        }
-        $this->business->save();
+        $setting = $this->defaultConfig('notification', $business, $request);
+        // Only input type radio
+        $setting->send_to_owner = is_null($request->input('send_to_owner')) ? false : true;
+        $setting->send_to_admin = is_null($request->input('send_to_admin')) ? false : true;
+        $setting->alert_positive = is_null($request->input('alert_positive')) ? false : true;
+        $setting->alert_negative = is_null($request->input('alert_negative')) ? false : true;
+        $setting->send_alerts = is_null($request->input('send_alerts')) ? false : true;
+
+        $business->config->notification = $setting;
+        $business->save();
+
+        return Redirect::back()->with('message', 'Notification settings successfully saved');
+    }
+
+    /**
+     * Links page in dashboard business.
+     *
+     * @return Response
+     */
+    public function getLinks(Business $business)
+    {
+        $this->data->business = $business;
+        $this->data->social_networks = SocialNetwork::all();
+        return $this->view('dashboard.crud.business.link.index');
+    }
+
+    private function defaultConfig($type, $business, $request)
+    {
+        return BusinessService::defaultConfig($type, $business, $request);
     }
 
 }

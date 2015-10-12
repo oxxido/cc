@@ -14,7 +14,7 @@ class Link extends Model {
      *
      * @var array
      */
-    protected $fillable = ['url', 'order', 'active'];
+    protected $fillable = ['business_id', 'social_network_id', 'url', 'order', 'active', 'uuid'];
 
     /**
      * The accessors to append to the model's array form.

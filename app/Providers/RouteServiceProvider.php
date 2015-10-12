@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\State;
 use App\Models\City;
 use App\Models\User;
+use App\Models\Link;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -74,6 +75,11 @@ class RouteServiceProvider extends ServiceProvider
         $router->pattern('commenter', $uuid_pattern);
         $router->bind('commenter', function ($uuid) {
             return User::whereUuid($uuid)->firstOrFail()->commenter()->firstOrFail();
+        });
+
+        $router->pattern('link', $uuid_pattern);
+        $router->bind('link', function ($uuid) {
+            return Link::whereUuid($uuid)->firstOrFail();
         });
     }
 }

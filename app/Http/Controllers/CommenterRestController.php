@@ -8,7 +8,8 @@ use App\Models\Commenter;
 use App\Models\Business;
 use App\Models\User;
 
-class CommenterController extends Controller {
+class CommenterRestController extends Controller {
+
     public function index(Business $business)
     {
         return \View::make('dashboard.crud.business.commenter.index', compact('business'));
@@ -102,10 +103,6 @@ class CommenterController extends Controller {
         }
 
         return $this->json();
-    }
-
-    public function show(Business $business, Commenter $commenter)
-    {
     }
 
     public function create(Business $business)

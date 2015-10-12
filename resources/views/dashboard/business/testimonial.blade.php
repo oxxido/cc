@@ -6,7 +6,7 @@
   <p>Change your testimonial widget from here</p>
   <br>
 
-  {!! Form::open(array('url'=>url('dashbiz/testimonial'), 'method'=> 'POST', 'role' => 'form', 'name' => 'testimonialForm', 'id' => 'testimonialForm')) !!}
+  {!! Form::open(array('url'=>route('business.dashboard.testimonial', $business), 'method'=> 'POST', 'role' => 'form', 'name' => 'testimonialForm', 'id' => 'testimonialForm')) !!}
     <ul class="nav nav-pills" role="tablist">
       <li class="active">
         <a href="#tab_config" aria-controls="tab_config" role="tab" data-toggle="tab">Testimonial Widget Options</a>

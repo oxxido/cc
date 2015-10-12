@@ -1,9 +1,8 @@
 <!-- form start -->
 {!! Form::open(array('role' => 'form', 'name' => 'linkEditForm', 'id' => 'linkEditForm')) !!}
 
-  <input type="hidden" name="id" id="id" value="@{{id}}">
   <div class="box-body">
-    @include('dashboard.crud.link.form')
+    @include('dashboard.crud.business.link.form')
   </div>
 
   <div class="box-footer">

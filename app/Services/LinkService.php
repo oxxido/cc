@@ -20,24 +20,5 @@ class LinkService {
             'url'                  => 'required'
         ));
     }
-
-    public static function getSocialNetwork(array $data)
-    {
-        //if(!($social = SocialNetwork::find($data['social_network_id'])->first()))
-        if(!($social = SocialNetwork::where('id', '=', $data['social_network_id'])->first()))
-        {
-            //social network not found
-        }
-        return $social;
-    }
-
-    public static function getBusiness(array $data)
-    {
-        if(!($business = Business::where('id', '=', $data['business_id'])->first()))
-        {
-            //social network not found
-        }
-        return $business;
-    }
     
 }

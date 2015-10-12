@@ -83,7 +83,19 @@ cc.crud.business.commenter = {
                             for(var i in data.result.results)
                             {
                                 if(data.result.results[i].errors)
-                                    context.notification(data.result.results[i].errors, "danger", false);
+                                {
+                                    if(typeof data.result.results[i].errors == "string")
+                                    {
+                                        context.notification(data.result.results[i].errors, "danger", false);
+                                    }
+                                    else
+                                    {
+                                        for(var j in data.result.results[i].errors)
+                                        {
+                                            context.notification(data.result.results[i].errors[j], "danger", false);
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

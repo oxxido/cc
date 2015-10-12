@@ -6,7 +6,7 @@
     <p>Change your email settings from here</p>
     <br>
 
-    {!! Form::open(array('url'=>url('dashbiz/email'), 'method'=> 'POST', 'role' => 'form', 'name' => 'emailForm', 'id' => 'emailForm')) !!}
+    {!! Form::open(array('url'=>route('business.dashboard.email', $business), 'method'=> 'POST', 'role' => 'form', 'name' => 'emailForm', 'id' => 'emailForm')) !!}
       <ul class="nav nav-pills" role="tablist">
         <li class="active">
           <a href="#tab_request" aria-controls="tab_request" role="tab" data-toggle="tab">Feedback Request Email</a>

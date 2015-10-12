@@ -39,11 +39,9 @@ class LinkRestController extends Controller {
      *
      * @return Response
      */
-    public function index()
+    public function index(Business $business)
     {
-        $business_id = \Session::get('business_id');
-        //$query = Business::find($business_id)->socialNetworks();
-        $query = Link::where("business_id", "=", $business_id);
+        $query = Link::where("business_id", "=", $business->id);
 
         $paginate = new PaginateService($query);
 
@@ -55,82 +53,35 @@ class LinkRestController extends Controller {
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @return Response
      */
-    public function store(Request $request)
+    public function store(Business $business, Request $request)
     {
         $success = false;
 
-        $validation = LinkService::validator(\Request::all());
-
+        $validation = LinkService::validator($request->all());
         if ($validation->fails())
         {
             $this->data->errors = $validation->getMessageBag()->toArray();
         }
         else
         {
-            $social = LinkService::getSocialNetwork([
-                'social_network_id'    => $request->input('social_network_id'),
-                //'name'                 => $request->input('social_network_id').text,
-                'logo'                 => $request->input('logo')
+            $link = Link::create([
+                'business_id' => $business->id,
+                'social_network_id' => $request->input('social_network_id'),
+                'uuid' => Uuid::generate(),
+                'url'    => $request->input('url'),
+                'order'  => 1,
+                'active' => 1
             ]);
 
-            $business = LinkService::getBusiness([
-                'business_id'          => \Session::get('business_id')
-            ]);
-
-            $business->socialNetworks()->attach($social->id,
-                                                [
-                                                    'uuid' => Uuid::generate(),
-                                                    'url'    => $request->input('url'),
-                                                    'order'  => 1,
-                                                    'active' => 1
-                                                ]);
-
-            $this->data->link = Link::where("business_id", "=", \Session::get('business_id'))
-                ->where("social_network_id", "=", $request->input('social_network_id'))
-                ->get()->first();
+            $this->data->link = $link;
             $success = true;
         }
 
         $this->data->success = $success;
-        return $this->json();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($social_id)
-    {
-        $business_id = \Session::get('business_id');
-
-        if($links = Business::find($business_id)->socialNetworks()->where("links.social_network_id", "=", $social_id))
-        {
-            $success = true;
-        }
-        else
-        {
-            $this->data->error = "Profile not found";
-            $success = false;
-        }
-
-        $this->data->success = $success;
-        $this->data->link = $links->first();
-
         return $this->json();
     }
 
@@ -140,9 +91,11 @@ class LinkRestController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function edit($id)
+    public function edit(Business $business, Link $link)
     {
-        return $this->show($id);
+        $this->data->success = true;
+        $this->data->link = $link;
+        return $this->json();
     }
 
     /**
@@ -151,11 +104,11 @@ class LinkRestController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $social_id)
+    public function update(Business $business, Link $link, Request $request)
     {
         $success = false;
 
-        $validation = LinkService::validator(\Request::all());
+        $validation = LinkService::validator($request->all());
 
         if ($validation->fails())
         {
@@ -163,30 +116,10 @@ class LinkRestController extends Controller {
         }
         else
         {
-            $business_id = \Session::get('business_id');
-
-            $social = LinkService::getSocialNetwork([
-                'social_network_id'    => $request->input('social_network_id'),
-                //'name'                 => $request->input('social_network_id').text,
-                'logo'                 => $request->input('logo')
-            ]);
-
-            $business = LinkService::getBusiness([
-                'business_id'          => $business_id
-            ]);
-
-
-            $links = Business::find($business_id)->socialNetworks()->where("links.social_network_id", "=", $social_id);
-            $links->sync([
-                $social_id => [
-                    'social_network_id'  => $social->id,
-                    'url'                => $request->input('url'),
-                    'order'              => 1,
-                    'active'             => 1]
-            ],false);
-
-            $success = true;
-            $this->data->link = Link::find($links->get()->first()->pivot->id);
+            $link->social_network_id = $request->input('social_network_id');
+            $link->url = $request->input('url');
+            $success = $link->save();
+            $this->data->link = $link;
         }
 
         $this->data->success = $success;
@@ -200,25 +133,10 @@ class LinkRestController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function destroy($social_id)
+    public function destroy(Business $business, Link $link)
     {
-        $business_id = \Session::get('business_id');
-
-        if($links = Business::find($business_id)->socialNetworks()->where("links.social_network_id", "=", $social_id))
-        {
-            $this->data->name = $links->first()->name;
-            $links = Business::find($business_id);
-            $links->socialNetworks()->detach($social_id);
-            $success = true;
-        }
-        else
-        {
-            $this->data->error = "Profile not found";
-            $success = false;
-        }
-
-        $this->data->success = $success;
-
+        $this->data->name = $link->profile;
+        $this->data->success = $link->delete();
         return $this->json();
     }
 

@@ -1,6 +1,8 @@
 cc.bizfeed = {
-    init : function()
+    uuid : false,
+    init : function(uuid)
     {
+        this.uuid = uuid;
         this.tinymce();
         this.uploader.init();
     },
@@ -37,7 +39,7 @@ cc.bizfeed = {
         set : function(target)
         {
             $('#'+target+'-upload').fileupload({
-                url: cc.baseUrl + 'dashbiz/upload',
+                url: cc.baseUrl + 'dashbiz/' + cc.bizfeed.uuid + '/upload',
                 dataType: 'json',
                 formData : {
                     _token : cc._token,
@@ -61,7 +63,7 @@ cc.bizfeed = {
     gallery : function(target)
     {
         $.ajax({
-            url : cc.baseUrl + 'dashbiz/gallery',
+            url : cc.baseUrl + 'dashbiz/' + cc.bizfeed.uuid + '/gallery',
             dataType : 'json',
             data : {
                 target : target
@@ -90,7 +92,7 @@ cc.bizfeed = {
     save : function(target, image)
     {
         $.ajax({
-            url : cc.baseUrl + 'dashbiz/image',
+            url : cc.baseUrl + 'dashbiz/' + cc.bizfeed.uuid + '/image',
             dataType : 'json',
             type : "POST",
             data : {

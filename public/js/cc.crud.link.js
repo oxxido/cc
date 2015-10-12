@@ -3,7 +3,49 @@ if (!cc) var cc = {};
 if (!cc.crud) cc.crud = {};
 
 cc.crud.link = {
-    add : {
+    business_uuid : false,
+    init : function(business_uuid)
+    {
+        this.business_uuid = business_uuid;
+        cc.crud.link.table();
+    },
+    table : function()
+    {
+        var page = arguments.length ? arguments[0] : 1;
+        var perpage = 10;
+
+        cc.dashboard.panel.loading("#linkTableLoading","show");
+        $("#linkTable_HBW").html("");
+        cc.dashboard.panel.only("#linkTable");
+        $.ajax({
+            url : cc.baseUrl + 'business/' + cc.crud.link.business_uuid + '/links',
+            dataType : 'json',
+            data : {
+                page : page,
+                perpage : perpage
+            }
+        })
+        .done(function(data) {
+            if (data.success)
+            {
+                tools.handlebars("#linkTable_HBT", "#linkTable_HBW", data);
+
+                tools.paging("#paging", data.paging, function(page){
+                    cc.crud.link.table(page);
+                });
+            }
+            else
+            {
+                tools.messages(data.errors, "error");
+            }
+        })
+        .fail(tools.fail)
+        .always(function(){
+            cc.dashboard.panel.loading("#linkTableLoading","hide");
+        });
+    },
+    add :
+    {
         create : function()
         {
             tools.handlebars("#linkAddForm_HBT", "#linkAddForm_HBW", {});
@@ -16,7 +58,6 @@ cc.crud.link = {
             $('#name').on('input', function() {
                 cc.crud.link.setInput(this);
             });
-            cc.crud.link.admin.init();
             cc.crud.link.setLogo();
             
         },
@@ -30,7 +71,7 @@ cc.crud.link = {
 
             var data = form.serialize();
             $.ajax({
-                url : cc.baseUrl + 'crud/link',
+                url : cc.baseUrl + 'business/' + cc.crud.link.business_uuid + '/link',
                 dataType : 'json',
                 type: "POST",
                 processData : false,
@@ -68,24 +109,24 @@ cc.crud.link = {
     },
     edit : 
     {
-        edit : function(id)
+        edit : function(uuid)
         {
             cc.dashboard.panel.only("#linkEdit");
             cc.dashboard.panel.loading("#linkEditLoading","show");
 
             $.ajax({
-                url : cc.baseUrl + 'crud/link/' + id + '/edit',
+                url : cc.baseUrl + 'business/' + cc.crud.link.business_uuid + '/link/' + uuid + '/edit',
                 dataType : 'json'
             })
             .done(function(data) {
                 if (data.success)
                 {
-                    tools.handlebars("#linkEditForm_HBT", "#linkEditForm_HBW", data.business);
-                    $("#id").val(data.link.pivot.social_network_id);
-                    $("#social_network_id").val(data.link.id);                    
-                    $("#name").val(data.link.pivot.url);
-                    $("#logo").prop('src',data.link.logo);
-                    $("#social_result").html("http://"+data.link.url.replace("%",data.link.pivot.url));
+                    tools.handlebars("#linkEditForm_HBT", "#linkEditForm_HBW");
+                    $("#id").val(data.link.social_network_id);
+                    $("#social_network_id").val(data.link.social_network.id);                    
+                    $("#name").val(data.link.url);
+                    $("#logo").prop('src',data.link.social_network.logo);
+                    $("#social_result").html(data.link.profile);
                     //$("#active").val(active);
                     
                     $("#social_network_id").change(function(){
@@ -95,8 +136,10 @@ cc.crud.link = {
                         cc.crud.link.setInput(this);
                     });
                     
-                    $("#linkEditForm").bind('submit', cc.crud.link.edit.update);
-                    cc.crud.link.admin.init();
+                    $("#linkEditForm").bind('submit', function(){
+                        cc.crud.link.edit.update(uuid);
+                        return false;
+                    });
                 }
                 else
                 {
@@ -108,17 +151,16 @@ cc.crud.link = {
                 cc.dashboard.panel.loading("#linkEditLoading","hide");
             });
         },
-        update : function(x)
+        update : function(uuid)
         {
             cc.dashboard.panel.loading("#linkEditLoading","show");
             var form = $("#linkEditForm");
             var data = form.serialize();
-            var id = $("#id").val();
 
             form.find("button[type='submit']").attr('disabled', true);
 
             $.ajax({
-                url : cc.baseUrl + 'crud/link/' + id,
+                url : cc.baseUrl + 'business/' + cc.crud.link.business_uuid + '/link/' + uuid,
                 dataType : 'json',
                 type: "PUT",
                 processData : false,
@@ -142,7 +184,6 @@ cc.crud.link = {
                 form.find("button[type='submit']").attr('disabled', false);
                 cc.dashboard.panel.loading("#linkEditLoading","hide");
             });
-            return false;
         },
         cancel : function()
         {
@@ -154,13 +195,13 @@ cc.crud.link = {
             $("#linkEditForm_HBW").html("");
         }
     },
-    destroy : function(id)
+    destroy : function(uuid)
     {
         cc.dashboard.modal.confirm("Delete Profile", "Confirm delete profile?", function(){
             cc.dashboard.panel.loading("#linkTableLoading","show");
             var _token = $("meta[name=_token]").attr("content");
             $.ajax({
-                url : cc.baseUrl + 'crud/link/' + id,
+                url : cc.baseUrl + 'business/' + cc.crud.link.business_uuid + '/link/' + uuid,
                 dataType : 'json',
                 type : "DELETE",
                 processData : false,
@@ -187,110 +228,6 @@ cc.crud.link = {
     {
         location.href = cc.baseUrl + 'dashbiz/load/' + id;
     },
-    table : function()
-    {
-        var page = arguments.length ? arguments[0] : 1;
-        var perpage = 10;
-
-        cc.dashboard.panel.loading("#linkTableLoading","show");
-        $("#linkTable_HBW").html("");
-        cc.dashboard.panel.only("#linkTable");
-        $.ajax({
-            url : cc.baseUrl + 'crud/link',
-            dataType : 'json',
-            data : {
-                page : page,
-                perpage : perpage
-            }
-        })
-        .done(function(data) {
-            if (data.success)
-            {
-                tools.handlebars("#linkTable_HBT", "#linkTable_HBW", data);
-                if(data.paging.total > 1)
-                {
-                    $("#paging").easyPaging({
-                        total: data.paging.total,
-                        perpage : perpage,
-                        page : data.paging.page,
-                        onSelect: function(page)
-                        {
-                            if(data.paging.page != page)
-                                cc.crud.link.table(page);
-                        }
-                    });
-                }
-                else
-                {
-                    $("#paging").remove();
-                }
-            }
-            else
-            {
-                tools.messages(data.errors, "error");
-            }
-        })
-        .fail(tools.fail)
-        .always(function(){
-            cc.dashboard.panel.loading("#linkTableLoading","hide");
-        });
-    },
-    admin : {
-        init : function(){
-            $('.admin-nav-tabs a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                $("#new_admin").val($(e.target).attr('isnew'));
-            })
-        },
-        search : function() {
-            var search = $("#admin_search");
-            var keyword = search.val();
-
-            search.attr('disabled', true);
-            cc.crud.link.admin.clear();
-            $("#admin_tab_search .alert").hide();
-
-            $.ajax({
-                url : cc.baseUrl + 'dashowner/searchadmin',
-                dataType : 'json',
-                data : {
-                    keyword : keyword
-                }
-            })
-            .done(function(data) {
-                if(data.count == 0)
-                {
-                    cc.crud.link.admin.noresult();
-                }
-                else if(data.count == 1)
-                {
-                    cc.crud.link.admin.result(data.admin.id, data.admin.name, data.admin.email);
-                }
-                else
-                {
-                    cc.dashboard.modal.handlebars("Select Business Admin", "#modalAdmins_HBT", {admins : data.admins});
-                }
-            })
-            .always(function () {
-                search.attr('disabled', false);
-            });
-        },
-        result : function(user_id, name, email)
-        {
-            $("#admin_id").val(user_id);
-            $("#admin_search_name").val(name);
-            $("#admin_search_email").val(email);
-            $('#boSearchModal').modal("hide");
-        },
-        noresult : function()
-        {
-            cc.crud.link.admin.clear();
-            $("#admin_tab_search .alert").show();
-        },
-        clear : function()
-        {
-            $("#admin_user_id, #admin_search_name, #admin_search_email").val("");
-        }
-    },
     setLogo: function()
     {
         var found = $.map(socialNetworks, function(obj) {
@@ -314,10 +251,5 @@ cc.crud.link = {
         });
         $("#social_result").html("http://"+found[0].url.replace("%",$(diz).val()));
 
-    },
-    init: function()
-    {
-        cc.crud.link.table();
-        
     }
 }
