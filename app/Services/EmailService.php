@@ -21,6 +21,11 @@ class EmailService
 
     protected $disabled = false;
 
+    public static function instance()
+    {
+        return new self();
+    }
+
     private function send($options)
     {
         if ($this->disabled) {
@@ -123,15 +128,6 @@ class EmailService
         ]);
     }
 
-    public static function instance()
-    {
-        return new self();
-    }
-
-    /**
-     * @param User    $user
-     * @param Comment $comment
-     */
     public function positiveFeedback(User $user, Comment $comment)
     {
         $business = $comment->product->business;
@@ -157,10 +153,6 @@ class EmailService
         ]);
     }
 
-    /**
-     * @param User    $user
-     * @param Comment $comment
-     */
     public function negativeFeedback(User $user, Comment $comment) {
         $business = $comment->product->business;
         $this->subject  = $business->config->email->negative_feedback_subject;

@@ -24,7 +24,7 @@
         <table class="twelve columns">
           <tr>
             <td class="panel">
-              <p><a href="{{ url('auth/activate/'.$code) }}">Click here</a> to verify your account</p>
+              <p class="link"><a href="{{ url('auth/activate/'.$code) }}">Click here</a> to verify your account</p>
             </td>
             <td class="expander"></td>
           </tr>

@@ -12,7 +12,7 @@
           <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          @if(\Auth::user()->isOwner())
+          @if(Auth::user()->isOwner())
             <li><a href="/dashowner/admins">Manage Users</a></li>
           @endif
           <!-- <li><a href="#">Default Configuration</a></li> -->
@@ -27,9 +27,9 @@
           <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          @if(\Auth::user()->isOwner())
+          @if(Auth::user()->isOwner())
             <li><a href="/dashowner/business">Manage Businesses</a></li>
-          @elseif(\Auth::user()->isAdmin())
+          @elseif(Auth::user()->isAdmin())
             <li><a href="/dashadmin/business">Manage Businesses</a></li>
           @endif
         </ul>

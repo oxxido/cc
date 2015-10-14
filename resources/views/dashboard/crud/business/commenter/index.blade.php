@@ -3,6 +3,12 @@
 @section('head')
   <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
   <link rel="stylesheet" href="{{ asset('/vendor/blueimp-file-upload/css/jquery.fileupload.css') }}">
+  <link href="{{ asset('vendor/bootstrap-star-rating/css/star-rating.min.css') }}" rel="stylesheet" type="text/css" >
+  <style type="text/css">
+  .rating-xxs {
+    font-size: 1.3em;
+  }
+  </style>
 @endsection
 
 @section('form')
@@ -55,7 +61,7 @@
 @endsection
 
 @section('footer')
-  
+
   @parent
 
   <script type="text/javascript" src="{{ asset('/vendor/pusher/dist/pusher.min.js') }}"></script>
@@ -67,6 +73,8 @@
   <script  type="text/javascript" src="{{ asset('/vendor/blueimp-file-upload/js/jquery.fileupload.js') }}"></script>
 
   <script type="text/javascript" src="/js/cc.crud.business.commenter.js"></script>
+
+  <script type="text/javascript" src="{{ asset('/vendor/bootstrap-star-rating/js/star-rating.min.js') }}"></script>
 
   <script type="text/javascript">
     $(function () {

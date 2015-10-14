@@ -87,18 +87,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         if($owner_id)
             return $this->admin($owner_id) ? true : false;
         else
-            return $this->admins ? true : false;
-    }    
+            return $this->admins->first() ? true : false;
+    }
 
     public function isOwner()
     {
         return $this->owner ? true : false;
-    }    
+    }
 
     public function isCommenter()
     {
         return $this->commenter ? true : false;
-    }    
+    }
 
     public function admin($owner_id = false)
     {
@@ -106,6 +106,5 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             return Admin::where('owner_id', $owner_id)->where('admin_id', $this->id)->get()->first();
         else
             return $this->admins;
-    } 
-
+    }
 }

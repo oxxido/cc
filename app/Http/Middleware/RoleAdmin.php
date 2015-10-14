@@ -33,7 +33,7 @@ class RoleAdmin {
 	 */
 	public function handle($request, Closure $next)
 	{
-		if (!$this->auth->user()->isAdmin() && $this->auth->user()->isOwner())
+		if (!$this->auth->user()->isAdmin())
 		{
 			return new RedirectResponse(url('/dashboard'));
 		}

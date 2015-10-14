@@ -8,9 +8,9 @@
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      @if(\Auth::user()->isOwner())
+      @if(Auth::user()->isOwner())
         <li><a href="{{ url('dashowner') }}">Dashboard</a></li>
-      @elseif(\Auth::user()->isAdmin())
+      @elseif(Auth::user()->isAdmin())
         <li><a href="{{ url('dasadmin') }}">Dashboard</a></li>
       @endif
       <li class="active">Reports</li>
@@ -200,7 +200,7 @@
       <canvas id="pieChart" style="height: 252px; width: 504px;" width="504" height="252"></canvas>
     </div>
   </div>
-  <!-- bar chart --> 
+  <!-- bar chart -->
   <div class="box box-success">
     <div class="box-header with-border">
       <h3 class="box-title">Positive and Negative Feedbacks</h3>

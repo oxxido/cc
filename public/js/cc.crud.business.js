@@ -162,7 +162,7 @@ cc.crud.business = {
             $("#businessAddForm_HBW").html("");
         }
     },
-    edit : 
+    edit :
     {
         edit : function(id)
         {
@@ -264,7 +264,7 @@ cc.crud.business = {
     },
     destroy : function(id)
     {
-        cc.dashboard.modal.confirm("Delete Business", "Confirm delete busines?", function(){
+        cc.dashboard.modal.confirm("Delete Business", "Confirm delete this bussines?", function(){
             cc.dashboard.panel.loading("#businessTableLoading","show");
             var _token = $("meta[name=_token]").attr("content");
             $.ajax({
@@ -290,10 +290,6 @@ cc.crud.business = {
                 cc.dashboard.panel.loading("#businessTableLoading","hide");
             });
         });
-    },
-    show : function(uuid)
-    {
-        location.href = cc.baseUrl + 'dashbiz/' + uuid;
     },
     table : function()
     {

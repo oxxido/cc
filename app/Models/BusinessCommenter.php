@@ -49,4 +49,15 @@ class BusinessCommenter extends Model {
 
         return $status;
     }
+
+    public function getReviewAttribute()
+    {
+        $review = null;
+
+        if (null !== ($comment = $this->comments()->orderBy('created_at', 'desc')->first())) {
+            $review = $comment->rating;
+        }
+
+        return $review;
+    }
 }

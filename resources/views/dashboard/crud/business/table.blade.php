@@ -11,12 +11,12 @@
   <tbody>
     @{{#each businesses}}
       <tr>
-        <td><a href="javascript:;" onclick="cc.crud.business.show('@{{uuid}}')">@{{name}}</a></td>
+        <td><a href="<?=url('dashbiz/{{uuid}}')?>">@{{name}}</a></td>
         <td>@{{admin.name}}</td>
         <td>@{{location}}</td>
         <td><a href="@{{url}}" target="_blank">@{{url}}</td>
         <td class="action">
-          <a onclick="cc.crud.business.show('@{{uuid}}')">
+          <a href="<?=url('dashbiz/{{uuid}}')?>">
             <span class="glyphicon glyphicon-search link" aria-hidden="true"></span>
           </a>
           <a onclick="cc.crud.business.edit.edit(@{{id}})">

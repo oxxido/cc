@@ -21,6 +21,7 @@ class DashboardController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('backender');
 
         $this->user = Auth::user();
         $this->data->user = $this->user;
@@ -44,7 +45,7 @@ class DashboardController extends Controller {
     }
 
     /**
-     * 
+     *
      *
      * @return Response
      */
@@ -54,7 +55,7 @@ class DashboardController extends Controller {
     }
 
     /**
-     * 
+     *
      *
      * @return Response
      */
@@ -64,7 +65,7 @@ class DashboardController extends Controller {
     }
 
     /**
-     * 
+     *
      *
      * @return Response
      */
@@ -74,7 +75,7 @@ class DashboardController extends Controller {
     }
 
     /**
-     * 
+     *
      *
      * @return Response
      */

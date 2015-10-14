@@ -1,9 +1,11 @@
 <?php namespace App\Http\Controllers;
-
+use Auth;
 use Illuminate\Http\Request;
 use App\Services\BusinessService;
+use App\Services\CommenterService;
 use App\Services\FeedbackService;
 use App\Services\PaginateService;
+use App\Models\User;
 use App\Models\Product;
 use App\Models\Comment;
 use App\Models\Link;
@@ -11,9 +13,22 @@ use App\Models\Link;
 class WidgetController extends Controller
 {
 
-    public function getFeedback($hash, Request $request)
+    public function getFeedback(Request $request, $product_uuid, $user_uuid = false)
     {
-        $product = $this->findProduct($hash);
+        if($user_uuid)
+        {
+            $user = User::whereUuid($user_uuid)->firstOrFail();
+            if(!$user->active)
+            {
+                $user->active = 1;
+                $user->activation_code = '';
+                $user->save();
+            }
+            Auth::login($user);
+            return redirect('widget/feedback/' . $product_uuid);
+        }
+
+        $product = Product::whereUuid($product_uuid)->firstOrFail();
         $this->setBasicData($product, $request);
         return $this->view("widget.feedback");
     }
@@ -21,7 +36,7 @@ class WidgetController extends Controller
     public function postFeedback(Request $request)
     {
         $validator = FeedbackService::validator($request->all());
-        $product = Product::find($request->input('product_id'));
+        $product = Product::findOrFail($request->input('product_id'));
 
         if ($validator->fails())
         {
@@ -29,14 +44,21 @@ class WidgetController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $commenter = FeedbackService::getCommenter([
-            'email'      => $request->input('email'),
-            'first_name' => $request->input('first_name'),
-            'last_name'  => $request->input('last_name'),
-            'phone'      => $request->input('phone')
-        ]);
+        if($user = Auth::user())
+        {
+            $commenter = $user->commenter;
+        }
+        else
+        {
+            $commenter = CommenterService::getCommenter([
+                'email'      => $request->input('email'),
+                'first_name' => $request->input('first_name'),
+                'last_name'  => $request->input('last_name'),
+                'phone'      => $request->input('phone')
+            ]);
+        }
 
-        $business_commenter = FeedbackService::getBusinessCommenter([
+        $business_commenter = CommenterService::getBusinessCommenter([
             'commenter_id' => $commenter->id,
             'business_id'  => $product->business->id
         ]);
@@ -113,16 +135,21 @@ class WidgetController extends Controller
         return $this->json();
     }
 
-    private function findProduct($hash)
+    private function findProduct($uuid)
     {
-        $id = intval(str_replace("product_id=", "", base64_decode($hash)));
-        return Product::find($id);
+        return Product::whereUuid($uuid)->firstOrFail();
     }
+
     private function setBasicData($product, $request)
     {
         $this->data->product = $product;
         $this->data->business = $product->business;
         $this->data->config = BusinessService::defaultConfig("all", $product->business, $request);
         $this->data->user = \Auth::user();
+        if($user = \Auth::User())
+        {
+            $this->data->commenter = $user->commenter($product);
+        }
+
     }
 }

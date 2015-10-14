@@ -7,9 +7,9 @@
       <small></small>
     </h1>
       <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      @if(\Auth::user()->isOwner())
+      @if(Auth::user()->isOwner())
         <li><a href="{{ url('dashowner') }}">Dashboard</a></li>
-      @elseif(\Auth::user()->isAdmin())
+      @elseif(Auth::user()->isAdmin())
         <li><a href="{{ url('dasadmin') }}">Dashboard</a></li>
       @endif
       <li class="active">Help</li>

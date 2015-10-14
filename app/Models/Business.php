@@ -225,10 +225,18 @@ class Business extends Model
         return $this->isOwner($user) || $this->isAdmin($user);
     }
 
+    public function getHashAttribute()
+    {
+        return $this->product->hash;
+    }
+
+    public function getProductAttribute()
+    {
+        return $this->products()->first();
+    }
+
     public function feedbackUrl()
     {
-        $product = $this->products()->first();
-
-        return \URL::to("widget/feedback/$product->hash");
+        return \URL::to("widget/feedback/{$this->product->hash}");
     }
 }

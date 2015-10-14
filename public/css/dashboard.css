@@ -154,3 +154,12 @@ label small{
 .btn-app-group .dropdown-menu li a{
     color: #333 !important;
 }
+.disabled{
+    opacity: 0.5;
+}
+.fa.fa-color-info{
+    color: #3c8dbc !important;
+}
+.fa.fa-color-danger{
+    color: #dd4b39 !important;
+}

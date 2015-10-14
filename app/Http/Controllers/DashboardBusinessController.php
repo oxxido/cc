@@ -24,7 +24,7 @@ class DashboardBusinessController extends Controller {
     {
         \Debugbar::disable();
         $this->middleware('auth');
-        $this->middleware('admin');
+        $this->middleware('business.rights');
 
         $this->user = Auth::user();
     }

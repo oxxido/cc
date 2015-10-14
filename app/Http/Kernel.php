@@ -31,6 +31,7 @@ class Kernel extends HttpKernel
         'inactive'        => 'App\Http\Middleware\UserInactive',
         'owner'           => 'App\Http\Middleware\RoleOwner',
         'admin'           => 'App\Http\Middleware\RoleAdmin',
+        'backender'       => 'App\Http\Middleware\RoleBackender',
         'business.rights' => BusinessRights::class,
     ];
 }

@@ -3,6 +3,7 @@
 use App\Http\Requests\CommenterCreateRequest;
 use App\Models\BusinessCommenter;
 use App\Services\EmailService;
+use App\Services\CommenterService;
 use Illuminate\Http\Request;
 use App\Models\Commenter;
 use App\Models\Business;
@@ -72,21 +73,19 @@ class CommenterRestController extends Controller {
                         notification_csv($errors, "danger");
                         notification_csv(trans('logs.parse.line_not_saved', ['line' => $index]), "danger");
                     } else {
-                        $commenter = Commenter::make([
+                        $commenter = CommenterService::getCommenter([
+                            'email'      => $line->email,
                             'first_name' => $line->first_name,
                             'last_name'  => $line->last_name,
-                            'email'      => $line->email,
                             'phone'      => $line->phone,
-                            'note'       => $line->note,
+                            'note'       => $line->note
                         ]);
 
-                        if (null === ($business_commenter = BusinessCommenter::whereBusinessId($business->id)->whereCommenterId($commenter->id)->first())) {
-                            $business_commenter = BusinessCommenter::create([
-                                'business_id' => $business->id,
-                                'commenter_id' => $commenter->id,
-                                'adder_id' => \Auth::id()
-                            ]);
-                        }
+                        $business_commenter = CommenterService::getBusinessCommenter([
+                            'commenter_id' => $commenter->id,
+                            'business_id'  => $business->id,
+                            'adder_id' => \Auth::id()
+                        ]);
 
                         //EmailService::instance()->requestFeedback($business_commenter);
                         notification_csv(trans('logs.parse.line_saved', ['line' => $index]), "success");
@@ -105,6 +104,14 @@ class CommenterRestController extends Controller {
         return $this->json();
     }
 
+    public function sendrequest(Business $business, Commenter $commenter)
+    {
+        $this->success = true;
+        $this->message = "Request Feedback successfully sent";
+        EmailService::instance()->requestFeedback($commenter->businessCommenter($business->id));
+        return $this->json();
+    }
+
     public function create(Business $business)
     {
         $commenter = Commenter::stub();
@@ -114,15 +121,20 @@ class CommenterRestController extends Controller {
 
     public function store(CommenterCreateRequest $request, Business $business)
     {
-        $commenter = Commenter::make($request->all());
 
-        if (null === ($business_commenter = BusinessCommenter::whereBusinessId($business->id)->whereCommenterId($commenter->id)->first())) {
-            $business_commenter = BusinessCommenter::create([
-                'business_id' => $business->id,
-                'commenter_id' => $commenter->id,
-                'adder_id' => \Auth::id()
-            ]);
-        }
+        $commenter = CommenterService::getCommenter([
+            'email'      => $request->input('email'),
+            'first_name' => $request->input('first_name'),
+            'last_name'  => $request->input('last_name'),
+            'phone'      => $request->input('phone'),
+            'note'       => $request->input('note')
+        ]);
+
+        $business_commenter = CommenterService::getBusinessCommenter([
+            'commenter_id' => $commenter->id,
+            'business_id'  => $business->id,
+            'adder_id' => \Auth::id()
+        ]);
 
         if ($request->get('send_feedback_request')) {
             EmailService::instance()->requestFeedback($business_commenter);

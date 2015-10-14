@@ -7,9 +7,9 @@
     </h1>
     <ol class="breadcrumb">
       <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-      @if(\Auth::user()->isOwner())
+      @if(Auth::user()->isOwner())
         <li><a href="{{ url('dashowner') }}">Dashboard</a></li>
-      @elseif(\Auth::user()->isAdmin())
+      @elseif(Auth::user()->isAdmin())
         <li><a href="{{ url('dasadmin') }}">Dashboard</a></li>
       @endif
       <li class="active">Account</li>
@@ -22,7 +22,7 @@
     <div class="box-body">
       <div id="accountdiv">
         {!! Form::model($user, array('route' => array('user.update'))) !!}
-        
+
           {!! Form::token() !!}
           {!! Form::hidden('user_id',$user->id) !!}
 
@@ -50,7 +50,7 @@
           </div><!-- /.box-body -->
 
           <div class="box-footer">
-            <button class="btn btn-primary" type="submit" id="userAddSubmit" >Update Account</button> 
+            <button class="btn btn-primary" type="submit" id="userAddSubmit" >Update Account</button>
           </div>
         {!! Form::close() !!}
       </div>
@@ -62,7 +62,7 @@
   <script type="text/javascript" src="{{ asset('/vendor/pwstrength-bootstrap/dist/pwstrength-bootstrap-1.2.7.min.js') }}"></script>
   <script type="text/javascript">
     $(function () {
-      
+
       $('#password').pwstrength({ui: {
           showVerdictsInsideProgressBar: true
       } });

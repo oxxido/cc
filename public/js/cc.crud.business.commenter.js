@@ -23,11 +23,37 @@ cc.crud.business.commenter = {
         .fail(tools.fail);
     },
 
+    sendrequest: function (uuid) {
+        var url = cc.baseUrl + 'business/' + cc.crud.business.commenter.business_uuid + '/customer/' + uuid + '/sendrequest';
+        $.ajax({
+            url: url,
+            dataType: 'json'
+        })
+        .done(function(data) {
+            if (data.success) {
+                tools.messages(data.message, "info");
+            }
+        })
+        .fail(tools.fail);
+    },
+
     init: function () {
         $('.commenter-remove').each(function() {
             var $that = $(this);
-            $that.bind('click', function() {
-                cc.crud.business.commenter.remove($that.data('uuid'));
+            $that.bind('click', function(event) {
+                event.preventDefault();
+                cc.dashboard.modal.confirm("Delete Customer", "Confirm delete the customer " + $that.data('name') + "?", function(){
+                    cc.crud.business.commenter.remove($that.data('uuid'));
+                });
+            });
+        });
+        $('.commenter-request').each(function() {
+            var $that = $(this);
+            $that.bind('click', function(event) {
+                event.preventDefault();
+                cc.dashboard.modal.confirm("Send Feedback Request", "Confirm to send a feedback request now to " + $that.data('name') + "?", function(){
+                    cc.crud.business.commenter.sendrequest($that.data('uuid'));
+                });
             });
         });
         cc.crud.business.commenter.cvs.upload();

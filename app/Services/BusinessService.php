@@ -81,10 +81,10 @@ class BusinessService
      */
     public static function create(array $data)
     {
-        $business         = Business::create($data);
+        $business = Business::create($data);
         $business->config = self::defaultConfig("default", $business);
         $business->save();
-        $product              = new Product();
+        $product = new Product();
         $product->business_id = $business->id;
         $product->save();
         return $business;
@@ -92,84 +92,9 @@ class BusinessService
 
     public static function defaultConfig($type, $business, $request = false)
     {
-        $default = [
-            'feedback'     => [
-                'include_social_links' => true,
-                'include_phone'        => false,
-                'positive_threshold'   => 3,
-                'page_title'           => '',
-                'logo_url'             => asset('images/logo-example.png'),
-                'logo_gallery'         => [],
-                'banner_url'           => asset('images/landscape.jpg'),
-                'banner_gallery'       => [],
-                'stars_style'          => 'default',
-                'positive_text'        => 'Thanks you for your feedback. It is very important to us to hear your feedback and it allow us to serve you better.
-
-[REVIEW_LINKS]
-
-Have a great day!
-
-[OWNER_NAME]',
-                'negative_text'        => 'Thanks you for your feedback
-
-Whenever we see feedback that is not outstanding, we like to follow up to see what we could have done better.
-
-We will contact you to address the situation in any way we can.
-                ',
-            ],
-            'testimonial'  => [
-                'include_feedback' => true,
-                'include_likes'    => true
-            ],
-            'notification' => [
-                'send_to_owner'  => true,
-                'send_to_admin'  => true,
-                'alert_positive' => true,
-                'alert_negative' => true,
-                'send_alerts'    => true,
-                'send_reports'   => true,
-                'frequency'      => Business::CONFIG_NOTIFICATIONS_FREQUENCY_DAILY
-            ],
-            'email'        => [
-                'feedback_request_from'     => $business->owner->email,
-                'feedback_request_subject'  => 'Thank you for visiting us. Would you leave us your feedback?',
-                'feedback_request_body'     => 'Dear [CUSTOMER_FIRST_NAME],
-Thank you for visiting us at [BUSINESS_NAME]. We appreciate your business and value you as a customer. To help us continue our high quality of service, we invite you to leave us your feedback.
-
-[FEEDBACK_URL]
-
-We look forward to seeing you again soon.
-
-Sincerely,
-
-[OWNER_NAME]
-[BUSINESS_NAME]
-[BUSINESS_URL]',
-                'positive_feedback_subject' => 'Thank you for your feedback.',
-                'positive_feedback_body'    => 'Thank you for your feedback - we appreciate having you as a customer and your feedback helps us serve you better.
-
-Online reviews are becoming very important for our business. If you would leave us a review on one of these review sites it would really help us a lot:
-
-[REVIEW_LINKS]
-
-Thanks for your support, and have a great day!
-
-[OWNER_NAME]',
-                'negative_feedback_subject' => 'Thank you for your feedback.',
-                'negative_feedback_body'    => 'Thank you for your feedback.
-
-Whenever we see feedback that is not outstanding, we like to follow up to see what we could have done better.
-
-We will contact you to address the situation in any way we can.
-
-Once again, thank you for taking the time to let us know how you feel, and I hope we can address this for you.
-
-Sincerely,
-
-[OWNER_NAME]'
-            ],
-            'kiosk'        => []
-        ];
+        $default = trans("business.config");
+        $default['email']['feedback_request_from'] = $business->owner->email;
+        $default['notification']['frequency'] = Business::CONFIG_NOTIFICATIONS_FREQUENCY_DAILY;
 
         if ($type == "default") {
             return json_decode(json_encode($default));
@@ -218,8 +143,10 @@ Sincerely,
 
         $business  = $options['business'];
         $comment   = isset($options['comment']) ? $options['comment'] : null;
-        $commenter = isset($options['commenter']) ? $options['commenter'] : null;
-        $commenter = (!$commenter && $comment) ? $comment->commenter : null;
+        $commenter = isset($options['commenter']) ? $options['commenter'] : ($comment ? $comment->commenter : null);
+
+        $feedback_url = $commenter ? $business->feedbackUrl() . "/" . $commenter->user->uuid : $business->feedbackUrl();
+        $feedback_link = trans("business.feedback_link", ['feedback_url' => $feedback_url]);
 
         $tags = [
             "BUSINESS_NAME"       => $business->name,
@@ -234,7 +161,8 @@ Sincerely,
             "CUSTOMER_FIRST_NAME" => $commenter ? $commenter->first_name : "",
             "CUSTOMER_LAST_NAME"  => $commenter ? $commenter->last_name : "",
             "PROVIDE_FEEDBACK"    => $comment ? $comment->rating : "",
-            "FEEDBACK_URL"        => $business->feedbackUrl()
+            "FEEDBACK_URL"        => $feedback_link,
+            "REQUEST_FEEDBACK"    => $feedback_link,
         ];
 
         foreach ($tags as $tag => $value) {

@@ -111,6 +111,7 @@ Route::group(['middleware' => ['auth','business.rights']], function () {
     Route::get('business/{biz}/customers/assign', ['as' => 'business.commenters.check', 'uses' => 'CommenterRestController@check']);
     Route::put('business/{biz}/customers/assign', ['as' => 'business.commenters.assign', 'uses' => 'CommenterRestController@assign']);
     Route::get('business/{biz}/customer/{commenter}/pause', ['as' => 'business.commenter.pause', 'uses' => 'CommenterRestController@pause']);
+    Route::get('business/{biz}/customer/{commenter}/sendrequest', ['as' => 'business.commenter.sendrequest', 'uses' => 'CommenterRestController@sendrequest']);
     Route::post('business/{biz}/customer', ['as' => 'business.commenter.store', 'uses' => 'CommenterRestController@store']);
     Route::get('business/{biz}/customer/create', ['as' => 'business.commenter.create', 'uses' => 'CommenterRestController@create']);
     Route::delete('business/{biz}/customer/{commenter}/destroy', ['as' => 'business.commenter.destroy', 'uses' => 'CommenterRestController@destroy']);

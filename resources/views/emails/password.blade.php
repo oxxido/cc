@@ -23,7 +23,7 @@
         <table class="twelve columns">
           <tr>
             <td class="panel">
-              <p><a href="{{ url('password/reset/'.$token) }}">Click here</a> to reset your password</p>
+              <p class="link"><a href="{{ url('password/reset/'.$token) }}">Click here</a> to reset your password</p>
             </td>
             <td class="expander"></td>
           </tr>

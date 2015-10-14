@@ -6,6 +6,9 @@ class Commenter extends Model
 {
     use UserModelTrait;
 
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -64,7 +67,7 @@ class Commenter extends Model
                 }
 
                 $attributes['id'] = $user->id;
-                $self = $user->commenter?: self::create($attributes);
+                $self = $user->commenter ? : self::create($attributes);
                 $self->user()->associate($user);
 
                 return $self;

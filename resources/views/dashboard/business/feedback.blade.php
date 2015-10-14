@@ -128,7 +128,7 @@
 
             <div role="tabpanel" class="tab-pane" id="tab_code">
               <div class="form-group">
-                <label>Widget Code <small>Use this code to add the testimonial widget on your site</small></label>
+                <label>Widget Code <small>Use this code to add the feedback widget on your site</small></label>
                 <pre>{{ htmlentities('<iframe src="' . url("widget/feedback/$product->hash") . '"></iframe>') }}</pre>
               </div>
               <div class="row">

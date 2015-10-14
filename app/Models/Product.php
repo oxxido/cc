@@ -47,7 +47,7 @@ class Product extends Model {
     */
     public function getHashAttribute()
     {
-        return base64_encode("product_id=$this->id");
+        return $this->uuid;
     }
 
     public function toArray()
