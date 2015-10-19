@@ -67,6 +67,7 @@ Route::controllers([
     'dashowner' => 'DashboardOwnerController',
     'dashadmin' => 'DashboardAdminController',
     'widget'    => 'WidgetController'
+    'commenter' => 'CommenterController'
 ]);
 
 //REST Resourse

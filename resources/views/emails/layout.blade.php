@@ -833,7 +833,8 @@ body.outlook p {
                           <td align="center">
                             <center>
                               <p style="text-align:center;">
-                              <a href="{{ url('terms') }}" target="_blank">Terms</a> |
+                              @yield('foot')
+                              <a href="{{ url('terms') }}" target="_blank">Terms</a> | 
                               <a href="{{ url('privacy') }}" target="_blank">Privacy</a> </p>
                             </center>
                           </td>

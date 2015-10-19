@@ -3,6 +3,8 @@
 use App\Models\BusinessCommenter;
 use App\Models\Business;
 use App\Models\Comment;
+use App\Models\Commenter;
+use App\Models\MailSuscribe;
 use App\Models\User;
 use Mail;
 use Lang;
@@ -120,12 +122,15 @@ class EmailService
     {
         $this->subject  = "Welcome New Commenter";
         $this->template = "commenterWelcome";
-        $this->send([
-            'to'   => $user->email,
-            'data' => [
-                'name' => $user->name
-            ]
-        ]);
+        if (!$user->commenter->mail_unsuscribe) {
+            $this->send([
+                'to'   => $user->email,
+                'data' => [
+                    'name' => $user->name,
+                    'suscription'  => $user->commenter->suscriptionUrl()
+                ]
+            ]);
+        }            
     }
 
     public function positiveFeedback(User $user, Comment $comment)
@@ -133,7 +138,8 @@ class EmailService
         $business = $comment->product->business;
         $this->subject  = $business->config->email->positive_feedback_subject;
         $this->template = "positiveFeedback";
-        $this->send([
+
+        $options = [
             "to"   => $user->email,
             "data" => [
                 "header"  => BusinessService::tagsReplace([
@@ -150,14 +156,29 @@ class EmailService
                 ]),
                 "links" => $business->links
             ]
-        ]);
+        ];
+
+        if ($user->isCommenter()) {
+            $commenter = $user->commenter;
+            $business_commenter = $commenter->businessCommenter($business->id);
+            $mail_type = $commenter->mailSuscribe()->where('mail_type','=',MailSuscribe::THANK_YOU_MAIL)->first();
+
+            if (!$commenter->mail_unsuscribe && !$business_commenter->mail_unsuscribe && !$mail_type->unsuscribe) {
+                $options['data']['suscription'] = $commenter->suscriptionUrl();
+                $this->send($options);
+            }
+        } else {
+            $this->send($options);
+        }
+        
     }
 
     public function negativeFeedback(User $user, Comment $comment) {
         $business = $comment->product->business;
         $this->subject  = $business->config->email->negative_feedback_subject;
         $this->template = "negativeFeedback";
-        $this->send([
+
+        $options = [
             "to"   => $user->email,
             "data" => [
                 "body"  => BusinessService::tagsReplace([
@@ -166,7 +187,20 @@ class EmailService
                     "business" => $business
                 ])
             ]
-        ]);
+        ];
+
+        if ($user->isCommenter()) {
+            $commenter = $user->commenter;
+            $business_commenter = $commenter->businessCommenter($business->id);
+            $mail_type = $commenter->mailSuscribe()->where('mail_type','=',MailSuscribe::THANK_YOU_MAIL)->first();
+
+            if (!$commenter->mail_unsuscribe && !$business_commenter->mail_unsuscribe && !$mail_type->unsuscribe) {
+                $options['data']['suscription'] = $commenter->suscriptionUrl();
+                $this->send($options);
+            }
+        } else {
+            $this->send($options);
+        }
     }
 
     public function performanceReport(Business $business)
@@ -197,13 +231,17 @@ class EmailService
             'commenter' => $commenter
         ]);
 
-        $this->send([
-            'to'   => $commenter->email,
-            'data' => [
-                'name' => $commenter->name,
-                'body' => $body
-            ]
-        ]);
+        $mail_type = $commenter->mailSuscribe()->where('mail_type','=',MailSuscribe::FEEDBACK_MAIL)->first();
+        if (!$commenter->mail_unsuscribe && !$business_commenter->mail_unsuscribe && !$mail_type->unsuscribe) {
+            $this->send([
+                'to'   => $commenter->email,
+                'data' => [
+                    'name' => $commenter->name,
+                    'body' => $body,
+                    'suscription'  => $commenter->suscriptionUrl()
+                ]
+            ]);
+        }            
     }
 
     public function businessCreated(Business $business)
