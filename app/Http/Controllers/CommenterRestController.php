@@ -27,13 +27,37 @@ class CommenterRestController extends Controller {
             'csv.max'      => trans('logs.validation.max_size')
         ]);
 
+        $mines = [
+            'csv',
+            'txt',
+            'xls',
+            'application/vnd.ms-excel',
+            'application/msexcel',
+            'application/x-msexcel',
+            'application/x-ms-excel',
+            'application/x-excel',
+            'application/x-dos_ms_excel',
+            'application/xls',
+            'application/x-xls',
+            'application/excel',
+            'application/download',
+            'application/vnd.ms-office',
+            'application/msword'
+            'text/x-comma-separated-values',
+            'text/comma-separated-values',
+            'application/octet-stream',
+            'application/x-csv',
+            'text/x-csv',
+            'text/csv',
+            'application/csv',
+            'application/vnd.msexcel',
+            'text/plain');
+
         if ($validator->fails()) {
             $this->data->errors = $validator->getMessageBag()->toArray();
         } elseif (!$upload->isValid()) {
             $this->data->errors = trans('logs.validation.invalid');
-        } elseif (!in_array($upload->getClientMimeType(),
-            explode(",", "csv,txt,text/csv,xls,application/vnd.ms-excel"))
-        ) {
+        } elseif (!in_array($upload->getClientMimeType(), $mines) {
             $this->data->errors = trans('logs.validation.mime_type', ['mimetype' => $upload->getClientMimeType()]);
         } else {
             $tmp  = \Webpatser\Uuid\Uuid::generate() . '.' . $upload->getClientOriginalExtension();

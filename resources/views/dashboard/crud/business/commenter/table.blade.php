@@ -32,7 +32,7 @@
         <td class="text-right">
           {{ $commenter->pivot->feedback_requests_sent }}
         </td>
-        <td>
+        <td style="width: 110px;">
           @if($business_commenter->review !== NULL)
             <input type="text" class="rating" data-size="xxs" data-show-clear="false" data-show-caption="false" value="{{ $business_commenter->review }}">
           @endif
