@@ -59,6 +59,9 @@ Route::get('invite', function () {
 });
 Route::post('invite', 'HomeController@send');
 
+Route::get('suscription', 'HomeController@getSuscription');
+Route::post('suscription', 'HomeController@postSuscription');
+
 Route::controllers([
     'auth'      => 'Auth\AuthController',
     'password'  => 'Auth\PasswordController',
@@ -67,7 +70,6 @@ Route::controllers([
     'dashowner' => 'DashboardOwnerController',
     'dashadmin' => 'DashboardAdminController',
     'widget'    => 'WidgetController'
-    'commenter' => 'CommenterController'
 ]);
 
 //REST Resourse

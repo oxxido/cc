@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Commenter;
 use App\Models\Business;
 use App\Models\User;
+use App\Models\MailSuscribe;
 
 class CommenterRestController extends Controller {
 
@@ -135,6 +136,14 @@ class CommenterRestController extends Controller {
             'business_id'  => $business->id,
             'adder_id' => \Auth::id()
         ]);
+
+        for ($i = 1; $i <= MailSuscribe::MAIL_TYPE_QT ; $i++) {
+            $mail_suscribe = MailSuscribe::create([
+                'business_id' => $business->id,
+                'commenter_id' => $commenter->id,
+                'mail_type' => $i
+            ]);
+        }
 
         if ($request->get('send_feedback_request')) {
             EmailService::instance()->requestFeedback($business_commenter);
