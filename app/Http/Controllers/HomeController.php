@@ -42,19 +42,24 @@ class HomeController extends Controller
         return view('home.send');
     }
 
-    public function getSuscription($uuid, Request $request)
+    public function getUnsuscribe(Commenter $commenter, Request $request)
     {
-        $user = User::where('uuid','=',$uuid)->first();
-        $commenter = $user->commenter;
+        $request->session()->flash('commenter_id', $commenter->id);
+        return redirect('suscription');
+    }
+
+    public function getSuscription(Request $request)
+    {
+        $commenter = Commenter::findOrFail(session('commenter_id'));
         $this->data->commenter = $commenter;
         $this->data->business_commenter = $commenter->businessCommenters;
         $this->data->mail_suscribe = $commenter->mailSuscribe;
-        return $this->view("commenter.suscription");
+        return $this->view("home.suscription");
     }
 
     public function postSuscription(Request $request)
     {
-        $commenter = Commenter::find($request->input('commenter_id'));
+        $commenter = Commenter::findOrFail($request->input('commenter_id'));
         $commenter->mail_unsuscribe = is_null($request->input('unsuscribe_all')) ? false : true;
         if ($request->input('businesses')) {
             $business_commenter = $commenter->businessCommenters()->where('business_id','=',$request->input('businesses'))->first();
@@ -68,10 +73,8 @@ class HomeController extends Controller
             $business_commenter->save();
         }
         $commenter->save();
-        $this->data->saved = true;
-        $this->data->commenter = $commenter;
-        $this->data->business_commenter = $commenter->businessCommenters;
-        $this->data->mail_suscribe = $commenter->mailSuscribe;
-        return $this->view("commenter.suscription");
+
+        $request->session()->flash('commenter_id', $commenter->id);
+        return redirect('suscription');
     }
 }

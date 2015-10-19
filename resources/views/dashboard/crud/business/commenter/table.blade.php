@@ -1,5 +1,5 @@
 @if($commenters_page->isEmpty())
-  <i>There are no customers set for this business</i>
+  <p class="text-center"><i>There are no customers set for this business</i></p>
 @else
   <table id="businessesTable" class="table table-bordered table-hover">
     <thead>
@@ -34,7 +34,7 @@
         </td>
         <td style="width: 110px;">
           @if($business_commenter->review !== NULL)
-            <input type="text" class="rating" data-size="xxs" data-show-clear="false" data-show-caption="false" value="{{ $business_commenter->review }}">
+            <input type="text" class="rating" data-size="xxs" data-show-clear="false" data-readonly="true" data-show-caption="false" value="{{ $business_commenter->review }}">
           @endif
         </td>
         <td class="action">

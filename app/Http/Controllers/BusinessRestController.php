@@ -241,7 +241,7 @@ class BusinessRestController extends Controller
             'application/excel',
             'application/download',
             'application/vnd.ms-office',
-            'application/msword'
+            'application/msword',
             'text/x-comma-separated-values',
             'text/comma-separated-values',
             'application/octet-stream',
@@ -250,13 +250,14 @@ class BusinessRestController extends Controller
             'text/csv',
             'application/csv',
             'application/vnd.msexcel',
-            'text/plain');
+            'text/plain',
+        ];
 
         if ($validator->fails()) {
             $this->data->errors = $validator->getMessageBag()->toArray();
         } elseif (!$upload->isValid()) {
             $this->data->errors = trans('logs.validation.invalid');
-        } elseif (!in_array($upload->getClientMimeType(),$mines) {
+        } elseif (!in_array($upload->getClientMimeType(),$mines)) {
             $this->data->errors = trans('logs.validation.mime_type', ['mimetype' => $upload->getClientMimeType()]);
         } else {
             $tmp  = \Webpatser\Uuid\Uuid::generate() . '.' . $upload->getClientOriginalExtension();

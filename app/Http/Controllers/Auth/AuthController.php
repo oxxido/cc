@@ -17,6 +17,8 @@ use App\Events\UserEmailEvent;
 
 class AuthController extends Controller {
 
+    protected $redirectPath = '/dashboard';
+
     /*
     |--------------------------------------------------------------------------
     | Registration & Login Controller
@@ -53,7 +55,7 @@ class AuthController extends Controller {
     {
 
         $validator = UserService::validator($request->all());
-    
+
         if ($validator->fails())
         {
             $this->throwValidationException(
@@ -65,6 +67,7 @@ class AuthController extends Controller {
         {
         	Auth::login($user);
             UserService::createOwner($user);
+            AdminService::create(['user_id' => $user->id, "owner_id" => $owner->id]);
 
             return view('auth.activateAccount')
                 ->with('email', $request->input('email'));
@@ -75,7 +78,7 @@ class AuthController extends Controller {
             return redirect()->back()->withInput();
         }
     }
-    
+
     public function getResend()
     {
         $user = Auth::user();
@@ -95,7 +98,7 @@ class AuthController extends Controller {
             return redirect('auth/inactive');
         }
     }
-    
+
     public function getActivate($code = false)
     {
         if($user = User::where('activation_code', '=', $code)->first())
@@ -116,11 +119,11 @@ class AuthController extends Controller {
                 return redirect('/dashadmin');
             }
         }
-    
+
         Session::flash('message', Lang::get('auth.unsuccessful') );
         return redirect('home');
     }
-    
+
     public function getInactive()
     {
         $user = Auth::user();

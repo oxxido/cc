@@ -20,7 +20,7 @@
           <a href="#tab_config" aria-controls="tab_config" role="tab" data-toggle="tab">Widget Configuration</a>
         </li>
         <li>
-          <a href="#tab_code" aria-controls="tab_code" role="tab" data-toggle="tab">Integration</a>
+          <a href="#tab_code" aria-controls="tab_code" role="tab" data-toggle="tab">Code</a>
         </li>
       </ul>
       <div class="panel panel-success pilled">

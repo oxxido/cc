@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Models\Owner;
 use App\Models\User;
+use App\Models\Admin;
 
 class UsersTableSeeder extends Seeder
 {
@@ -21,6 +22,10 @@ class UsersTableSeeder extends Seeder
             $user->password = Hash::make(env('TEST_OWNER_PASSWORD', 'secret'));
             $user->save();
             $user->owner()->save(new Owner());
+            $admin = new Admin();
+            $admin->admin_id = $user->id;
+            $admin->owner_id = $user->id;
+            $admin->save();
 
             for ($i = 0; $i < self::SEEDED - 1; $i++) {
                 $user = factory(User::class)->make();
