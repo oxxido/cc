@@ -44,79 +44,7 @@
       </div>
     </div>
   </div>
-  <div class="admin-nav-tabs">
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active">
-        <a href="#admin_tab_not" aria-controls="admin_tab_not" role="tab" data-toggle="tab" isnew="2">No Admin</a>
-      </li>
-      <li role="presentation">
-        <a href="#admin_tab_new" aria-controls="admin_tab_new" role="tab" data-toggle="tab" isnew="1">New Business Admin</a>
-      </li>
-      <li role="presentation">
-        <a href="#admin_tab_search" aria-controls="admin_tab_search" role="tab" data-toggle="tab" isnew="0">Search Business Admin</a>
-      </li>
-    </ul>
-    <input type="hidden" name="new_admin" id="new_admin" value="2">
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <div role="tabpanel" class="tab-pane active" id="admin_tab_not">
-        <div class="panel panel-default pilled">
-          <div class="panel-body">
-            <div class="form-group">
-              <label for="admin_first_name">You are the business admin</label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="admin_tab_new">
-        <div class="panel panel-default pilled">
-          <div class="panel-body">
-            <div class="form-group">
-              <label for="admin_first_name">First Name</label>
-              <input type="text" name="admin_first_name" placeholder="Enter Business Admin First Name" id="admin_first_name" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="admin_last_name">Last Name</label>
-              <input type="text" name="admin_last_name" placeholder="Enter Business Admin Last Name" id="admin_last_name" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="admin_email">Email</label>
-              <input type="text" name="admin_email" placeholder="Enter Business Admin Email" id="admin_email" class="form-control">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="admin_tab_search">
-        <div class="panel panel-default pilled">
-          <div class="panel-body">
-            <div class="form-group">
-              <label for="admin_first_name">Business Admin Name or Email</label>
-              <div class="input-group">
-                <input type="text" class="form-control" name="admin_search" id="admin_search" placeholder="Enter Business Admin Name or Email">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button" onclick="cc.crud.business.admin.search()">Search</button>
-                </span>
-              </div>
-              <input type="hidden" id="admin_id" name="admin_id" value="@{{admin.id}}">
-            </div>
-            <div class="alert alert-warning" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              Business Admin not matching or not found
-            </div>
-            <div class="form-group">
-              <label>Name</label>
-              <input type="text" name="admin_search_name" placeholder="Business Admin Name" id="admin_search_name" value="@{{admin.name}}" class="form-control" disabled="disabled">
-            </div>
-            <div class="form-group">
-              <label>Email</label>
-              <input type="text" name="admin_search_email" placeholder="Business Admin Email" id="admin_search_email" value="@{{admin.email}}" class="form-control"  disabled="disabled">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
   <div>
     <ul class="nav nav-tabs">
       <li class="active">
@@ -180,4 +108,91 @@
       </div>
     </div>
   </div>
+
+  <div class="admin-nav-tabs">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active">
+        <a href="#admin_tab_search" aria-controls="admin_tab_search" role="tab" data-toggle="tab" isnew="0">Select an Admin</a>
+      </li>
+      <li role="presentation">
+        <a href="#admin_tab_new" aria-controls="admin_tab_new" role="tab" data-toggle="tab" isnew="1">Add New Admin</a>
+      </li>
+    </ul>
+    <input type="hidden" name="new_admin" id="new_admin" value="2">
+    <!-- Tab panes -->
+    <div class="tab-content">
+      
+      <div role="tabpanel" class="tab-pane active" id="admin_tab_search">
+        <div class="panel panel-default pilled">
+          <div class="panel-body">
+            <div class="form-group">
+              <label for="admin_first_name">Business Admin Name or Email</label>
+              <!--div class="input-group">
+                <input type="text" class="form-control" name="admin_search" id="admin_search" placeholder="Enter Business Admin Name or Email">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" onclick="cc.crud.business.admin.search()">Search</button>
+                </span>
+              </div-->
+              <div class="form-group">
+                <select class="form-control" id="admin_search" onchange="cc.crud.business.admin.search()">
+                  <option>Select a Name</option>
+                  @foreach ($admins as $admin)
+                    <option value="{{$admin->id}}">{{ $admin->name }} </option>
+                  @endforeach
+                </select>
+              </div>
+              <input type="hidden" id="admin_id" name="admin_id" value="@{{admin.id}}">
+            </div>
+            <!--div class="alert alert-warning" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              Business Admin not matching or not found
+            </div-->
+            @foreach ($admins as $admin)
+              <div id="ats-biz-data-{{$admin->id}}" class="ats-biz-data">
+                <p><b>Name:</b> {{$admin->name}}</p> 
+                <p><b>Email:</b> {{$admin->email}}</p>
+              </div>
+            @endforeach
+            <!--div class="form-group">
+              <label>Name</label>
+              <input type="text" name="admin_search_name" placeholder="Business Admin Name" id="admin_search_name" value="@{{admin.name}}" class="form-control" disabled="disabled">
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="text" name="admin_search_email" placeholder="Business Admin Email" id="admin_search_email" value="@{{admin.email}}" class="form-control"  disabled="disabled">
+            </div-->
+          </div>
+        </div>
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="admin_tab_new">
+        <div class="panel panel-default pilled">
+          <div class="panel-body">
+            <div class="form-group">
+              <label for="admin_first_name">First Name</label>
+              <input type="text" name="admin_first_name" placeholder="Enter Business Admin First Name" id="admin_first_name" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="admin_last_name">Last Name</label>
+              <input type="text" name="admin_last_name" placeholder="Enter Business Admin Last Name" id="admin_last_name" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="admin_email">Email</label>
+              <input type="text" name="admin_email" placeholder="Enter Business Admin Email" id="admin_email" class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GER VARS: >
+      @foreach ($admins as $admin)
+            {{ $admin }} <br>
+          @endforeach
+-->
+    </div>
+  </div>
+
+  <p class="btn-admin-nt"><button type="button" class="btn btn-success" onclick="$('.admin-nav-tabs').show();$('.btn-admin-nt').hide();">Set an Admin</button></p>
+
 </div><!-- /.box-body -->

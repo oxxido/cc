@@ -337,6 +337,13 @@ cc.crud.business = {
         search : function() {
             var search = $("#admin_search");
             var keyword = search.val();
+            //alert('change to: '+keyword);
+            $('.ats-biz-data').hide();
+            $('#ats-biz-data-'+keyword).show();
+        },
+        /*search : function() {
+            var search = $("#admin_search");
+            var keyword = search.val();
 
             search.attr('disabled', true);
             cc.crud.business.admin.clear();
@@ -366,7 +373,7 @@ cc.crud.business = {
             .always(function () {
                 search.attr('disabled', false);
             });
-        },
+        },*/
         result : function(user_id, name, email)
         {
             $("#admin_id").val(user_id);

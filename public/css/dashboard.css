@@ -167,9 +167,6 @@ label small{
     color: #dd4b39 !important;
 }
 
-.wc-img-cnt{
-
-}
 .wc-img-cnt .wc-img-responsive{
     max-width: 400px;
     max-height: 250px;
@@ -180,4 +177,14 @@ label small{
 }
 .wc-select{
     max-width: 400px;
+}
+.admin-nav-tabs{
+    display: none;
+}
+.btn-admin-nt{
+    margin-left: 10px;
+}
+.tab-pane .ats-biz-data{
+    display: none;
+    padding-left: 5px;
 }

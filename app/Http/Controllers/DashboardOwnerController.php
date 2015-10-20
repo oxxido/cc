@@ -47,6 +47,12 @@ class DashboardOwnerController extends Controller {
         $this->data->organization_types = Models\OrganizationType::all();
         $this->data->business_types = Models\BusinessType::all();
         $this->data->countries = Models\Country::all();
+        $resultset = DB::table('admins')
+            ->join('users', 'admins.admin_id', '=', 'users.id')
+            ->where('admins.owner_id', '=', $this->user->id)
+            ->select('admins.*')
+            ->get();
+        $this->data->admins =  Models\Admin::collectionFromArray($resultset);
 
         return $this->view('dashboard.crud.business.index');
     }
