@@ -59,6 +59,9 @@ cc.crud.business = {
                     $('#csv-progress').hide();
                     cc.crud.business.cvs.notification("File uploaded", "info");
                 },
+                fail : function (e, data){
+                    tools.fail(data.jqXHR, data.errorThrown, data.textStatus);
+                },
                 progressall: function (e, data) {
                     var progress = parseInt(data.loaded / data.total * 100, 10);
                     $('#csv-progress .progress-bar').css('width', progress + '%');

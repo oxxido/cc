@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Commenter;
 use App\Models\Business;
 use App\Models\User;
+use App\Models\MailSuscribe;
 
 class CommenterRestController extends Controller {
 
@@ -26,13 +27,38 @@ class CommenterRestController extends Controller {
             'csv.max'      => trans('logs.validation.max_size')
         ]);
 
+        $mines = [
+            'csv',
+            'txt',
+            'xls',
+            'application/vnd.ms-excel',
+            'application/msexcel',
+            'application/x-msexcel',
+            'application/x-ms-excel',
+            'application/x-excel',
+            'application/x-dos_ms_excel',
+            'application/xls',
+            'application/x-xls',
+            'application/excel',
+            'application/download',
+            'application/vnd.ms-office',
+            'application/msword',
+            'text/x-comma-separated-values',
+            'text/comma-separated-values',
+            'application/octet-stream',
+            'application/x-csv',
+            'text/x-csv',
+            'text/csv',
+            'application/csv',
+            'application/vnd.msexcel',
+            'text/plain',
+        ];
+
         if ($validator->fails()) {
             $this->data->errors = $validator->getMessageBag()->toArray();
         } elseif (!$upload->isValid()) {
             $this->data->errors = trans('logs.validation.invalid');
-        } elseif (!in_array($upload->getClientMimeType(),
-            explode(",", "csv,txt,text/csv,xls,application/vnd.ms-excel"))
-        ) {
+        } elseif (!in_array($upload->getClientMimeType(), $mines)) {
             $this->data->errors = trans('logs.validation.mime_type', ['mimetype' => $upload->getClientMimeType()]);
         } else {
             $tmp  = \Webpatser\Uuid\Uuid::generate() . '.' . $upload->getClientOriginalExtension();
@@ -87,6 +113,14 @@ class CommenterRestController extends Controller {
                             'adder_id' => \Auth::id()
                         ]);
 
+                        for ($i = 1; $i <= MailSuscribe::MAIL_TYPE_QT ; $i++) {
+                            $mail_suscribe = MailSuscribe::create([
+                                'business_id' => $business->id,
+                                'commenter_id' => $commenter->id,
+                                'mail_type' => $i
+                            ]);
+                        }
+
                         //EmailService::instance()->requestFeedback($business_commenter);
                         notification_csv(trans('logs.parse.line_saved', ['line' => $index]), "success");
 
@@ -106,8 +140,8 @@ class CommenterRestController extends Controller {
 
     public function sendrequest(Business $business, Commenter $commenter)
     {
-        $this->success = true;
-        $this->message = "Request Feedback successfully sent";
+        $this->data->success = true;
+        $this->data->message = "Request Feedback successfully sent";
         EmailService::instance()->requestFeedback($commenter->businessCommenter($business->id));
         return $this->json();
     }
@@ -135,6 +169,14 @@ class CommenterRestController extends Controller {
             'business_id'  => $business->id,
             'adder_id' => \Auth::id()
         ]);
+
+        for ($i = 1; $i <= MailSuscribe::MAIL_TYPE_QT ; $i++) {
+            $mail_suscribe = MailSuscribe::create([
+                'business_id' => $business->id,
+                'commenter_id' => $commenter->id,
+                'mail_type' => $i
+            ]);
+        }
 
         if ($request->get('send_feedback_request')) {
             EmailService::instance()->requestFeedback($business_commenter);

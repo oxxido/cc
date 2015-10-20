@@ -84,6 +84,6 @@ class Commenter extends Model
 
     public function suscriptionUrl()
     {
-        return \URL::to("commenter/suscription/$this->uuid");
+        return \URL::to("unsuscribe/$this->uuid");
     }
 }
