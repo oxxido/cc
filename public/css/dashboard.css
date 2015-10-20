@@ -46,6 +46,9 @@
     border-color: #d6e9c6;
     text-align: right;
 }
+.panel-success .panel-body .tab-pane .form-group label{
+    margin-left: 5px;
+}
 .nav > li > a:hover, .nav > li > a:active, .nav > li > a:focus, .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
@@ -162,4 +165,19 @@ label small{
 }
 .fa.fa-color-danger{
     color: #dd4b39 !important;
+}
+
+.wc-img-cnt{
+
+}
+.wc-img-cnt .wc-img-responsive{
+    max-width: 400px;
+    max-height: 250px;
+    margin-bottom: 10px;
+}
+.wc-img-cnt .wc-img-options{
+    display: none;
+}
+.wc-select{
+    max-width: 400px;
 }

@@ -30,7 +30,7 @@
             <div role="tabpanel" class="tab-pane active" id="tab_option">
               <div class="form-group">
                 <input type="checkbox" name="include_social_links" id="include_social_links" value="1" @if($config->include_social_links) checked="checked" @endif>
-                <label for="include_social_links" >Include social review links</label>
+                <label for="include_social_links" > Include social review links</label>
               </div>
               <div class="form-group">
                 <input type="checkbox" name="include_phone" id="include_phone" value="1" @if($config->include_phone) checked="checked" @endif>
@@ -74,15 +74,26 @@
                 <textarea class="form-control editable" rows="6" name="negative_text" id="negative_text">{{ $config->negative_text }}</textarea>
               </div>
 
-              <div class="form-group">
+              <div class="form-group wc-img-cnt">
                 <label for="logo_url">Logo Image</label>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <img src="{{ $config->logo_url }}" class="img-responsive" id="logo">
+                <!--div class="row">
+                  <div class="col-sm-6"-->
+                    <p><img src="{{ $config->logo_url }}" class="wc-img-responsive" id="logo"></p>
                     <div id="logo-progress" class="progress" style="display:none">
                         <div class="progress-bar progress-bar-success"></div>
                     </div>
-                  </div>
+                    <div id="logo-ch-btn">
+                      <span class="btn btn-success" onclick="$('#logo-ch-btn').hide();$('#logo-ch-options').show();">Change Logo...</span>
+                    </div>
+                    <div id="logo-ch-options" class="wc-img-options">
+                      <p><span class="btn btn-success fileinput-button">
+                        <span>Upload New Logo</span>
+                        <input id="logo-upload" type="file" name="logo">
+                      </span></p>
+                      <p><span class="btn btn-success" onclick="cc.bizfeed.gallery('logo')">Use Already Uploaded Logo</span></p>
+                      <p><span class="btn btn-success" onclick="cc.bizfeed.external('logo')">Use External Logo Link</span></p>
+                    </div>
+                  <!--/div>
                   <div class="col-sm-6">
                     <div class="btn-group" role="group">
                       <span class="btn btn-success fileinput-button">
@@ -93,18 +104,29 @@
                       <span class="btn btn-success" onclick="cc.bizfeed.external('logo')">Link</span>
                     </div>
                   </div>
-                </div>
+                </div-->
               </div>
 
-              <div class="form-group">
+              <div class="form-group wc-img-cnt">
                 <label for="banner_url">Banner Page Image</label>
-                <div class="row">
-                  <div class="col-sm-6">
-                    <img src="{{ $config->banner_url }}" class="img-responsive" id="banner">
+                <!--div class="row">
+                  <div class="col-sm-6"-->
+                    <p><img src="{{ $config->banner_url }}" class="wc-img-responsive" id="banner"></p>
                     <div id="banner-progress" class="progress" style="display:none">
                         <div class="progress-bar progress-bar-success"></div>
                     </div>
-                  </div>
+                    <div id="banner-ch-btn">
+                      <span class="btn btn-success" onclick="$('#banner-ch-btn').hide();$('#banner-ch-options').show();">Change Main Image...</span>
+                    </div>
+                    <div id="banner-ch-options" class="wc-img-options">
+                      <p><span class="btn btn-success fileinput-button">
+                        <span>Upload New Image</span>
+                        <input id="banner-upload" type="file" name="banner">
+                      </span></p>
+                      <p><span class="btn btn-success" onclick="cc.bizfeed.gallery('banner')">Use Already Uploaded Image</span></p>
+                      <p><span class="btn btn-success" onclick="cc.bizfeed.external('banner')">Use External Image Link</span></p>
+                    </div>
+                  <!--/div>
                   <div class="col-sm-6">
                     <div class="btn-group" role="group">
                       <span class="btn btn-success fileinput-button">
@@ -115,12 +137,12 @@
                       <span class="btn btn-success" onclick="cc.bizfeed.external('banner')">Link</span>
                     </div>
                   </div>
-                </div>
+                </div-->
               </div>
 
               <div class="form-group">
                 <label for="stars_style">Stars Style</label>
-                <select name="stars_style" class="form-control">
+                <select name="stars_style" class="form-control wc-select">
                   <option @if($config->stars_style == 'default') selected="selected" @endif>Default</option>
                 </select>
               </div>
