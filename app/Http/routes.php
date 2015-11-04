@@ -22,6 +22,18 @@ Route::get('/test', function () {
     print_r($msg);
 });
 
+Route::get('bizop', function () {
+    \Debugbar::disable();
+    $name = request()->input('name');
+    $email = request()->input('email');
+
+    \Mail::raw("name: {$name} - email: {$email}", function ($message) {
+        $message->from('no-reply@xeedlabs.com', 'XeedLabs');
+        $message->to('alfrecuellar@hotmail.com')->cc('oxxido@gmail.com');
+        $message->subject("Bizop Testing Email");
+    });
+});
+
 Route::get('/', function () {
     return redirect('/home');
 });
