@@ -23,6 +23,7 @@ cc.bizfeed = {
           $("textarea.editable").each(function(i, textarea){
             var body = $(textarea).val();
             tinymce.editors[0].destroy();
+            body = body.replace("&nbsp;","");
             $(textarea).val(body);
           });
           $("input[type=file]").remove();
@@ -103,7 +104,7 @@ cc.bizfeed = {
         })
         .done(function(data) {
             cc.dashboard.modal.hide();
-            $('#'+target).attr("src", image);  
+            $('#'+target).attr("src", image);
         })
         .fail(tools.fail);
     }
@@ -111,4 +112,4 @@ cc.bizfeed = {
 
 $(function () {
     cc.bizfeed.init();
-});  
+});

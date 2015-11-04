@@ -1,4 +1,4 @@
-@extends('widget.layout')
+@extends('widget.landing.layout')
 
 @section('content')
   <div class="top-section">
@@ -6,7 +6,7 @@
   </div>
   <div class="bottom-section">
 
-    @include('widget.feedbackForm')
+    @include('widget.landing.feedbackForm')
 
   </div>
 @endsection

@@ -31,12 +31,13 @@
           </div>
           <div role="tabpanel" class="tab-pane" id="tab_code">
             <div class="form-group">
-              <label for="codeForSite">Widget Code <small>Use this code to add the testimonial widget on your site</small></label>
-              <pre>{{ htmlentities('<iframe src="' . url("widget/testimonial/$product->hash") . '"></iframe>') }}</pre>
+              <label for="codeForSite">Widget Code</label>
+              <p>Use this code to add the testimonial widget on your site</p>
+              <pre>{{ htmlentities('<script type="text/javascript" id="cc-widget-testimonial-'.$product->hash.'" src="'.url("widget/script.js?type=testimonial&uuid=$product->hash").'"></script>') }}</pre>
             </div>
             <div class="row">
-              <div class="col-sm-12 text-right">
-                <a class="btn btn-default btn-sm" target="_blank" href="{{ url("widget/testimonial/$product->hash") }}">Test Link</a>
+              <div class="col-sm-12">
+                <a href="{{ url("widget/testimonial/landing/$product->hash") }}" target="_blank">Testimonial Landing Page</a>
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-@extends('widget.layout')
+@extends('widget.landing.layout')
 
 @section('content')
     @section('content')

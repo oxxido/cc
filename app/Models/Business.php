@@ -241,6 +241,6 @@ class Business extends Model
 
     public function feedbackUrl()
     {
-        return \URL::to("widget/feedback/{$this->product->hash}");
+        return \URL::to("widget/feedback/landing/{$this->product->hash}");
     }
 }

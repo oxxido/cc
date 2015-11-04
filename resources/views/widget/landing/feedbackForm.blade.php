@@ -1,4 +1,4 @@
-{!! Form::open(array('url'=>url('widget/feedback'),'role' => 'form', 'name' => 'feedbackForm', 'id' => 'feedbackForm')) !!}
+{!! Form::open(array('url'=>url('widget/feedback/landing'),'role' => 'form', 'name' => 'feedbackForm', 'id' => 'feedbackForm')) !!}
 
   <input type="hidden" name="product_id" value="{{ $product->id }}">
 

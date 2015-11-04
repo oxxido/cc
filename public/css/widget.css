@@ -1,0 +1,7 @@
+body{
+    padding: 5px;
+}
+div.star-rating.rating-xxs {
+    font-size: 1.3em;
+    display: inline;
+}

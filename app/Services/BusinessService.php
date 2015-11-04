@@ -140,6 +140,8 @@ class BusinessService
     {
         $parsed = str_replace("\r\n", "<br>", $options['text']);
         $parsed = str_replace("\n", "<br>", $parsed);
+        $parsed = str_replace("<p>&nbsp;</p>", "", $parsed);
+        $parsed = str_replace("</p><br><br><p>", "</p><p>", $parsed);
 
         $business  = $options['business'];
         $comment   = isset($options['comment']) ? $options['comment'] : null;
