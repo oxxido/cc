@@ -75,6 +75,7 @@ Route::get('unsuscribe/{commenter}', 'HomeController@getUnsuscribe');
 Route::get('suscription', 'HomeController@getSuscription');
 Route::post('suscription', 'HomeController@postSuscription');
 
+Route::get('widget/script.js', 'WidgetController@getScript');
 Route::controllers([
     'auth'      => 'Auth\AuthController',
     'password'  => 'Auth\PasswordController',

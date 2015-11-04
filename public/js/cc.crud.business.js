@@ -199,12 +199,16 @@ cc.crud.business = {
                     if(data.business.owner.id == data.business.admin.user.id)
                     {
                         $("#new_admin").val(2);
-                        $('#myTabs a[href="#admin_tab_not"]').tab('show');
+                        $('.admin-nav-tabs').hide();
+                        $('.btn-admin-nt').show();
                     }
                     else
                     {
+                        $('.admin-nav-tabs').show();
+                        $('.btn-admin-nt').hide();
+                        $('#admin_tabs a:first').tab('show');
                         $("#new_admin").val(0);
-                        $('.admin-nav-tabs a[href="#admin_tab_search"]').tab('show');
+                        $("#admin_search").val(data.business.admin.id);
                     }
                     $("#businessEditForm").bind('submit', cc.crud.business.edit.update);
                     cc.crud.business.admin.init();

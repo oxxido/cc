@@ -69,23 +69,22 @@
         <div class="form-group">
           <label for="codeForSite">Widget Testimonial Code</label>
           <p>Use this code to add the testimonial widget on your site</p>
-          <pre>{{ htmlentities('<iframe src="' . url("widget/testimonial/$business->hash") . '"></iframe>') }}</pre>
-        </div>
-        <div class="row">
-          <div class="col-sm-12 text-right">
-            <a class="btn btn-default btn-sm" target="_blank" href="{{ url("widget/testimonial/$business->hash") }}">Test Link</a>
-          </div>
+          <pre>{{ htmlentities('<script type="text/javascript" id="cc-widget-testimonial-'.$business->hash.'" src="'.url("widget/script.js?type=testimonial&uuid={$business->hash}").'"></script>') }}</pre>
         </div>
         <hr>
         <div class="form-group">
           <label for="codeForSite">Widget Feedback Code</label>
-          <p>Use this code to add the feedback widget on your site</p>
-          <pre>{{ htmlentities('<iframe src="' . url("widget/feedback/$business->hash") . '"></iframe>') }}</pre>
+          <p>Use this code to add the feedback widget on your site
+          <pre>{{ htmlentities('<script type="text/javascript" id="cc-widget-testimonial-'.$business->hash.'" src="'.url("widget/script.js?type=feedback&uuid={$business->hash}").'"></script>') }}</pre>
         </div>
-        <div class="row">
-          <div class="col-sm-12 text-right">
-            <a class="btn btn-default btn-sm" href="{{ url("widget/feedback/$business->hash") }}" target="_blank">Test Link</a>
-          </div>
+        <hr>
+        <div class="form-group">
+          <label for="codeForSite">Links</label>
+          <ul>
+            <li><a href="{{ url('widget/testimonial/landing/'.$business->hash) }}" target="_blank">Testimonials Langing Page</a></li>
+            <li><a href="{{ url('widget/feedback/landing/'.$business->hash) }}" target="_blank">Feedback Langing Page</a></li>
+            <li><a href="{{ url('widget/test/'.$business->hash) }}" target="_blank">Widgets Live Preview</a></li>
+          </ul>
         </div>
       </div>
     </div>

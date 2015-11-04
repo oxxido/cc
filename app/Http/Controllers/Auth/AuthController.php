@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades;
 use App\Services\UserService;
+use App\Services\AdminService;
 use Event;
 use App\Events\UserEmailEvent;
 

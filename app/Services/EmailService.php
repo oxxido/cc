@@ -130,7 +130,7 @@ class EmailService
                     'suscription'  => $user->commenter->suscriptionUrl()
                 ]
             ]);
-        }            
+        }
     }
 
     public function positiveFeedback(User $user, Comment $comment)
@@ -163,14 +163,14 @@ class EmailService
             $business_commenter = $commenter->businessCommenter($business->id);
             $mail_type = $commenter->mailSuscribe()->where('mail_type','=',MailSuscribe::THANK_YOU_MAIL)->first();
 
-            if (!$commenter->mail_unsuscribe && !$business_commenter->mail_unsuscribe && !$mail_type->unsuscribe) {
+            if (!$commenter->mail_unsuscribe && !$business_commenter->mail_unsuscribe && (isset($mail_type->unsuscribe) && !$mail_type->unsuscribe)) {
                 $options['data']['suscription'] = $commenter->suscriptionUrl();
                 $this->send($options);
             }
         } else {
             $this->send($options);
         }
-        
+
     }
 
     public function negativeFeedback(User $user, Comment $comment) {
@@ -194,7 +194,7 @@ class EmailService
             $business_commenter = $commenter->businessCommenter($business->id);
             $mail_type = $commenter->mailSuscribe()->where('mail_type','=',MailSuscribe::THANK_YOU_MAIL)->first();
 
-            if (!$commenter->mail_unsuscribe && !$business_commenter->mail_unsuscribe && !$mail_type->unsuscribe) {
+            if (!$commenter->mail_unsuscribe && !$business_commenter->mail_unsuscribe && (isset($mail_type->unsuscribe) && !$mail_type->unsuscribe)) {
                 $options['data']['suscription'] = $commenter->suscriptionUrl();
                 $this->send($options);
             }
@@ -241,7 +241,7 @@ class EmailService
                     'suscription'  => $commenter->suscriptionUrl()
                 ]
             ]);
-        }            
+        }
     }
 
     public function businessCreated(Business $business)

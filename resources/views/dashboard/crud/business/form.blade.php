@@ -101,7 +101,7 @@
           <label for="zip_code">Zip Code</label>
           <input type="text" name="zip_code" placeholder="Enter Business Zip Code" id="zip_code" class="form-control" value="@{{city.zip_code}}">
         </div>
-      </div>                        
+      </div>
       <div class="form-group">
         <label for="address">Street Address</label>
         <input type="text" name="address" placeholder="Enter Business Street Address" id="address" class="form-control" value="@{{address}}">
@@ -111,7 +111,7 @@
 
   <div class="admin-nav-tabs">
     <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
+    <ul class="nav nav-tabs" role="tablist" id="admin_tabs">
       <li role="presentation" class="active">
         <a href="#admin_tab_search" aria-controls="admin_tab_search" role="tab" data-toggle="tab" isnew="0">Select an Admin</a>
       </li>
@@ -122,7 +122,7 @@
     <input type="hidden" name="new_admin" id="new_admin" value="2">
     <!-- Tab panes -->
     <div class="tab-content">
-      
+
       <div role="tabpanel" class="tab-pane active" id="admin_tab_search">
         <div class="panel panel-default pilled">
           <div class="panel-body">
@@ -150,7 +150,7 @@
             </div-->
             @foreach ($admins as $admin)
               <div id="ats-biz-data-{{$admin->id}}" class="ats-biz-data">
-                <p><b>Name:</b> {{$admin->name}}</p> 
+                <p><b>Name:</b> {{$admin->name}}</p>
                 <p><b>Email:</b> {{$admin->email}}</p>
               </div>
             @endforeach
@@ -162,6 +162,7 @@
               <label>Email</label>
               <input type="text" name="admin_search_email" placeholder="Business Admin Email" id="admin_search_email" value="@{{admin.email}}" class="form-control"  disabled="disabled">
             </div-->
+            <p><button type="button" class="btn btn-success" onclick="$('.admin-nav-tabs').hide();$('.btn-admin-nt').show();$('#new_admin').val(2);">Cancel</button></p>
           </div>
         </div>
       </div>
@@ -181,6 +182,7 @@
               <label for="admin_email">Email</label>
               <input type="text" name="admin_email" placeholder="Enter Business Admin Email" id="admin_email" class="form-control">
             </div>
+            <p><button type="button" class="btn btn-success" onclick="$('.admin-nav-tabs').hide();$('.btn-admin-nt').show();$('#new_admin').val(2);">Cancel</button></p>
           </div>
         </div>
       </div>
@@ -193,6 +195,6 @@
     </div>
   </div>
 
-  <p class="btn-admin-nt"><button type="button" class="btn btn-success" onclick="$('.admin-nav-tabs').show();$('.btn-admin-nt').hide();">Set an Admin</button></p>
+  <p class="btn-admin-nt"><button type="button" class="btn btn-success" onclick="$('.admin-nav-tabs').show();$('.btn-admin-nt').hide();$('#admin_tabs a:first').tab('show');$('#new_admin').val(0);">Set an Admin</button></p>
 
 </div><!-- /.box-body -->

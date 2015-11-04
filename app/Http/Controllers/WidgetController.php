@@ -12,8 +12,12 @@ use App\Models\Link;
 
 class WidgetController extends Controller
 {
+    public function __construct()
+    {
+        \Debugbar::disable();
+    }
 
-    public function getFeedback(Request $request, $product_uuid, $user_uuid = false)
+    public function getFeedback(Request $request, $context, $product_uuid, $user_uuid = false)
     {
         if($user_uuid)
         {
@@ -25,15 +29,15 @@ class WidgetController extends Controller
                 $user->save();
             }
             Auth::login($user);
-            return redirect('widget/feedback/' . $product_uuid);
+            return redirect('widget/feedback/landing/' . $product_uuid);
         }
 
         $product = Product::whereUuid($product_uuid)->firstOrFail();
         $this->setBasicData($product, $request);
-        return $this->view("widget.feedback");
+        return $this->view("widget.$context.feedback");
     }
 
-    public function postFeedback(Request $request)
+    public function postFeedback(Request $request, $context)
     {
         $validator = FeedbackService::validator($request->all());
         $product = Product::findOrFail($request->input('product_id'));
@@ -46,7 +50,14 @@ class WidgetController extends Controller
         }
         if($user = Auth::user())
         {
-            $commenter = $user->commenter;
+            if(!($commenter = $user->commenter))
+            {
+                $commenter = CommenterService::createCommenter([
+                    'id'    => $user->id,
+                    'phone' => $request->input('phone'),
+                    'note'  => $request->input('note')
+                ]);
+            }
         }
         else
         {
@@ -92,7 +103,7 @@ class WidgetController extends Controller
 
             $this->data->links = $product->business->links;
 
-            return $this->view("widget.feedbackPositive");
+            return $this->view("widget.$context.feedbackPositive");
         }
         else
         {
@@ -102,23 +113,23 @@ class WidgetController extends Controller
                 "comment" => $comment
             ]);
 
-            return $this->view("widget.feedbackNegative");
+            return $this->view("widget.$context.feedbackNegative");
         }
     }
 
-    public function postRefeedback(Request $request)
+    public function postRefeedback(Request $request, $context)
     {
         $comment = Comment::find($request->input('comment_id'));
         $this->setBasicData($comment->product, $request);
         $this->data->noform = true;
-        return $this->view("widget.feedbackNegative");
+        return $this->view("widget.$context.feedbackNegative");
     }
 
-    public function getTestimonial($hash, Request $request)
+    public function getTestimonial(Request $request, $context, $product_uuid)
     {
-        $product = $this->findProduct($hash);
+        $product = Product::whereUuid($product_uuid)->firstOrFail();
         $this->setBasicData($product, $request);
-        return $this->view("widget.testimonial");
+        return $this->view("widget.$context.testimonial");
     }
 
     public function getReviews(Request $request)
@@ -135,9 +146,11 @@ class WidgetController extends Controller
         return $this->json();
     }
 
-    private function findProduct($uuid)
+    public function getTest($product_uuid)
     {
-        return Product::whereUuid($uuid)->firstOrFail();
+        $product = Product::whereUuid($product_uuid)->firstOrFail();
+        $this->data->product_uuid = $product_uuid;
+        return $this->view("widget.test");
     }
 
     private function setBasicData($product, $request)
@@ -150,6 +163,18 @@ class WidgetController extends Controller
         {
             $this->data->commenter = $user->commenter($product);
         }
+    }
 
+    public function getScript(Request $request)
+    {
+        $product_uuid = $request->input('uuid');
+        $type = $request->input('type');
+
+        $product = Product::whereUuid($product_uuid)->firstOrFail();
+
+        $contents = \View::make('widget.script')->with(['product_uuid'=>$product_uuid, 'type'=>$type]);
+        $response = \Response::make($contents);
+        $response->header('Content-Type', 'application/javascript');
+        return $response;
     }
 }

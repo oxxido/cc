@@ -1,4 +1,4 @@
-@extends('widget.layout')
+@extends('widget.landing.layout')
 
 @section('content')
 
@@ -15,7 +15,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">Your experience</div>
         <div class="panel-body">
-          @include('widget.negativeFeedbackForm')
+          @include('widget.landing.negativeFeedbackForm')
         </div>
       </div>
     @endif

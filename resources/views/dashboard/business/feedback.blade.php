@@ -150,12 +150,13 @@
 
             <div role="tabpanel" class="tab-pane" id="tab_code">
               <div class="form-group">
-                <label>Widget Code <small>Use this code to add the feedback widget on your site</small></label>
-                <pre>{{ htmlentities('<iframe src="' . url("widget/feedback/$product->hash") . '"></iframe>') }}</pre>
+                <label>Widget Code</label>
+                <p>Use this code to add the feedback widget on your site</p>
+                <pre>{{ htmlentities('<script type="text/javascript" id="cc-widget-feedback-'.$product->hash.'" src="'.url("widget/script.js?type=feedback&uuid=$product->hash").'"></script>') }}</pre>
               </div>
               <div class="row">
-                <div class="col-sm-12 text-right">
-                  <a class="btn btn-default btn-sm" href="{{ url("widget/feedback/$product->hash") }}" target="_blank">Test Link</a>
+                <div class="col-sm-12">
+                  <a href="{{ url("widget/feedback/landing/$product->hash") }}" target="_blank">Feedback Landing Page</a>
                 </div>
               </div>
             </div>
