@@ -67,8 +67,8 @@ class AuthController extends Controller {
         if ($user = UserService::create($request->all()))
         {
         	Auth::login($user);
-            UserService::createOwner($user);
-            AdminService::create(['user_id' => $user->id, "owner_id" => $owner->id]);
+            $owner = UserService::createOwner($user);
+            AdminService::create(['admin_id' => $user->id, "owner_id" => $owner->id]);
 
             return view('auth.activateAccount')
                 ->with('email', $request->input('email'));
