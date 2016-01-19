@@ -160,12 +160,13 @@ class EmailService
 
         if ($user->isCommenter()) {
             $commenter = $user->commenter;
-            $business_commenter = $commenter->businessCommenter($business->id);
-            $mail_type = $commenter->mailSuscribe()->where('mail_type','=',MailSuscribe::THANK_YOU_MAIL)->first();
+            if (null !== ($business_commenter = $commenter->businessCommenter($business->id))) {
+                $mail_type = $commenter->mailSuscribe()->where('mail_type','=',MailSuscribe::THANK_YOU_MAIL)->first();
 
-            if (!$commenter->mail_unsuscribe && !$business_commenter->mail_unsuscribe && (isset($mail_type->unsuscribe) && !$mail_type->unsuscribe)) {
-                $options['data']['suscription'] = $commenter->suscriptionUrl();
-                $this->send($options);
+                if (!$commenter->mail_unsuscribe && !$business_commenter->mail_unsuscribe && (isset($mail_type->unsuscribe) && !$mail_type->unsuscribe)) {
+                    $options['data']['suscription'] = $commenter->suscriptionUrl();
+                    $this->send($options);
+                }
             }
         } else {
             $this->send($options);
@@ -191,12 +192,13 @@ class EmailService
 
         if ($user->isCommenter()) {
             $commenter = $user->commenter;
-            $business_commenter = $commenter->businessCommenter($business->id);
-            $mail_type = $commenter->mailSuscribe()->where('mail_type','=',MailSuscribe::THANK_YOU_MAIL)->first();
+            if (null !== ($business_commenter = $commenter->businessCommenter($business->id))) {
+                $mail_type = $commenter->mailSuscribe()->where('mail_type','=',MailSuscribe::THANK_YOU_MAIL)->first();
 
-            if (!$commenter->mail_unsuscribe && !$business_commenter->mail_unsuscribe && (isset($mail_type->unsuscribe) && !$mail_type->unsuscribe)) {
-                $options['data']['suscription'] = $commenter->suscriptionUrl();
-                $this->send($options);
+                if (!$commenter->mail_unsuscribe && !$business_commenter->mail_unsuscribe && (isset($mail_type->unsuscribe) && !$mail_type->unsuscribe)) {
+                    $options['data']['suscription'] = $commenter->suscriptionUrl();
+                    $this->send($options);
+                }
             }
         } else {
             $this->send($options);
